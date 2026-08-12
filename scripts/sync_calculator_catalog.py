@@ -4,19 +4,13 @@ from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 from sync_technical import (
-    SESSION, fetch_page, extract_coverage, extract_liter_variants,
-    extract_price_by_size, first_price, size_from_text, og_image,
-    fmt_num
+    fetch_page, extract_coverage, extract_liter_variants,
+    first_price, size_from_text, og_image, fmt_num
 )
 
 ROOT = Path(__file__).resolve().parents[1]
 FILE = ROOT / 'synced-products.js'
 BASE = 'https://sontienbao.com/'
-
-
-def parse_var(text, name):
-    m = re.search(r'window\.%s\s*=\s*(\[.*?\]);\s*(?:\n|$)' % re.escape(name), text, re.S)
-    return json.loads(m.group(1)) if m else []
 
 
 def parse_meta(text):
@@ -52,7 +46,6 @@ def find_primer_category():
                 candidates.append(href)
     if not candidates:
         raise RuntimeError('Không tìm thấy danh mục sơn lót Jotun từ trang chủ iTop')
-    # Prefer the current GTC category when multiple legacy links exist.
     candidates.sort(key=lambda u: (0 if 'gtc' in u.lower() else 1, len(u)))
     return candidates[0]
 
@@ -75,7 +68,7 @@ def card_for_anchor(a):
     return None, '', 0
 
 
-def discover_primer_urls(category_url, limit=14):
+def discover_primer_urls(category_url, limit=16):
     final, soup, _, _ = fetch_page(category_url)
     found, seen = [], set()
     for a in soup.find_all('a', href=True):
@@ -84,14 +77,10 @@ def discover_primer_urls(category_url, limit=14):
             continue
         href = urljoin(final, a.get('href'))
         p = urlparse(href)
-        if p.netloc not in ('sontienbao.com', 'www.sontienbao.com'):
-            continue
-        if not p.path.lower().endswith('.html'):
+        if p.netloc not in ('sontienbao.com', 'www.sontienbao.com') or not p.path.lower().endswith('.html'):
             continue
         href = href.split('#', 1)[0].split('?', 1)[0]
-        if href in seen:
-            continue
-        if not is_primer_text(name):
+        if href in seen or not is_primer_text(name):
             continue
         seen.add(href)
         found.append((href, name, price))
@@ -100,62 +89,116 @@ def discover_primer_urls(category_url, limit=14):
     return found
 
 
-def slug_id(url):
-    slug = urlparse(url).path.rstrip('/').split('/')[-1]
-    slug = re.sub(r'\.html?$', '', slug, flags=re.I)
-    slug = re.sub(r'[^a-zA-Z0-9]+', '-', slug).strip('-').lower()
+def family_name(title):
+    # iTop exposes 5L and 17L as separate pages. Remove pack size and trailing
+    # descriptive parentheses so both pages collapse into one calculator product.
+    x = re.sub(r'\b\d+(?:[\.,]\d+)?\s*L\b', ' ', title or '', flags=re.I)
+    x = re.sub(r'\([^)]*\)', ' ', x)
+    x = re.sub(r'\s+', ' ', x).strip(' -')
+    return x or (title or 'Sơn lót Jotun')
+
+
+def family_key(title):
+    return norm(family_name(title))
+
+
+def slug_id(name):
+    slug = re.sub(r'[^a-z0-9]+', '-', norm(name)).strip('-')
     return 'primer-itop-' + (slug[:72] or 'product')
 
 
-def build_item(url, card_name, card_price):
+def build_page(url, card_name, card_price):
     final, soup, title, text = fetch_page(url)
     title = title or card_name
     coverage, label = extract_coverage(text)
-    variants = extract_liter_variants(text)
     title_size = size_from_text(title)
+    variants = extract_liter_variants(text)
     if title_size and title_size not in variants:
         variants.append(title_size)
-        variants = sorted(set(variants))
-    price_map, reference = extract_price_by_size(soup, text, title, card_price, variants)
-    if not reference and title_size:
-        reference = title_size
-    if reference and str(int(reference) if float(reference).is_integer() else reference) not in price_map and card_price:
-        key = str(int(reference)) if float(reference).is_integer() else str(reference)
-        price_map[key] = card_price
-    unit = (fmt_num(reference) + 'L') if reference else ''
+    variants = sorted(set(v for v in variants if v))
     return {
-        'id': slug_id(final),
-        'brand': 'JOTUN',
-        'name': title,
-        'category': 'Sơn lót chống kiềm Jotun',
-        'description': 'Sản phẩm sơn lót được V7 tự phát hiện từ danh mục iTop hiện hành.',
-        'image': og_image(soup, final),
+        'title': title,
+        'family': family_name(title),
+        'familyKey': family_key(title),
         'url': final,
-        'price': int(card_price or 0),
-        'oldPrice': 0,
-        'pricePrefix': '',
-        'unit': unit,
-        'badge': 'Sơn lót',
-        'featured': False,
-        'calculatorOnly': True,
-        'calculatorRole': 'primer',
+        'image': og_image(soup, final),
         'coverage': coverage,
         'coverageLabel': label,
         'variants': variants,
-        'massOnly': False,
-        'calcEligible': bool(coverage > 0 and variants),
-        'technicalSource': 'iTop',
-        'priceBySize': price_map,
-        'priceReferenceSize': reference or 0,
-        'enabled': True,
+        'referenceSize': title_size or 0,
+        # Only bind the listing price to the size named by this exact product page.
+        # Do not copy cross-size prices found elsewhere on the page/recommendations.
+        'referencePrice': int(card_price or 0),
     }
+
+
+def consolidate(pages):
+    grouped = {}
+    order = []
+    for page in pages:
+        key = page['familyKey']
+        if key not in grouped:
+            grouped[key] = []
+            order.append(key)
+        grouped[key].append(page)
+
+    out = []
+    for key in order:
+        rows = grouped[key]
+        coverage_rows = [r for r in rows if r.get('coverage', 0) > 0]
+        if not coverage_rows:
+            continue
+        coverage = coverage_rows[0]['coverage']
+        label = coverage_rows[0]['coverageLabel']
+        variants = sorted(set(v for r in rows for v in (r.get('variants') or []) if v))
+        price_map = {}
+        for r in rows:
+            size = r.get('referenceSize') or 0
+            price = r.get('referencePrice') or 0
+            if size and price:
+                sk = fmt_num(size)
+                price_map[sk] = price
+        # Only advertise sizes for which the family has an exact current page price.
+        priced_sizes = sorted(float(k) for k in price_map.keys())
+        variants = [int(x) if float(x).is_integer() else x for x in priced_sizes]
+        if not variants:
+            continue
+        preferred = next((r for r in rows if r.get('referenceSize') == max(variants)), rows[0])
+        name = rows[0]['family']
+        out.append({
+            'id': slug_id(name),
+            'brand': 'JOTUN',
+            'name': name,
+            'category': 'Sơn lót chống kiềm Jotun',
+            'description': 'Dòng sơn lót được V7 tự gộp từ các trang dung tích hiện hành của iTop.',
+            'image': preferred.get('image') or rows[0].get('image') or '',
+            'url': preferred.get('url') or rows[0].get('url') or '',
+            'price': int(price_map.get(fmt_num(max(variants)), 0)),
+            'oldPrice': 0,
+            'pricePrefix': '',
+            'unit': '',
+            'badge': 'Sơn lót',
+            'featured': False,
+            'calculatorOnly': True,
+            'calculatorRole': 'primer',
+            'coverage': coverage,
+            'coverageLabel': label,
+            'variants': variants,
+            'massOnly': False,
+            'calcEligible': True,
+            'technicalSource': 'iTop',
+            'priceBySize': price_map,
+            'priceReferenceSize': max(variants),
+            'enabled': True,
+        })
+    return out
 
 
 def main():
     text = FILE.read_text(encoding='utf-8')
     meta = parse_meta(text)
-    errors = [e for e in (meta.get('errors') or []) if not str(e).startswith('calculator primer-')]
-    catalog = []
+    errors = [e for e in (meta.get('errors') or []) if not str(e).startswith(('calculator primer-', 'primer detail ', 'primer discovery:'))]
+    pages = []
 
     try:
         category = find_primer_category()
@@ -164,9 +207,9 @@ def main():
         print('PRIMER CANDIDATES', len(candidates))
         for url, name, price in candidates:
             try:
-                item = build_item(url, name, price)
-                catalog.append(item)
-                print('PRIMER', item['name'], item['coverage'], item['variants'], item['priceBySize'], item['calcEligible'])
+                page = build_page(url, name, price)
+                pages.append(page)
+                print('PRIMER PAGE', page['family'], page['referenceSize'], page['referencePrice'], page['coverage'])
             except Exception as e:
                 errors.append(f'primer detail {url}: {e}')
                 print('PRIMER WARN', url, e)
@@ -174,12 +217,14 @@ def main():
         errors.append(f'primer discovery: {e}')
         print('PRIMER DISCOVERY WARN', e)
 
-    # Keep only useful wall-primer products in the calculator catalog. Products that
-    # are discovered but lack coverage stay in metadata errors rather than being
-    # offered as if the calculator knew how to use them.
-    usable = [x for x in catalog if x.get('calcEligible')]
+    usable = consolidate(pages)
+    for item in usable:
+        print('PRIMER FAMILY', item['name'], item['coverage'], item['variants'], item['priceBySize'])
+
+    # Base calculatorEligible/pricedVariants values from sync_technical include only
+    # synced + homepage products. Add the consolidated primer families once.
     meta['calculatorCatalog'] = len(usable)
-    meta['calculatorPrimerDiscovered'] = len(catalog)
+    meta['calculatorPrimerDiscovered'] = len(pages)
     meta['calculatorEligible'] = int(meta.get('calculatorEligible') or 0) + len(usable)
     meta['pricedVariants'] = int(meta.get('pricedVariants') or 0) + sum(len(x.get('priceBySize') or {}) for x in usable)
     meta['errors'] = errors
@@ -197,7 +242,7 @@ def main():
         text += '\n' + meta_line + '\n'
 
     FILE.write_text(text, encoding='utf-8')
-    print('Calculator primer catalog:', len(usable), 'usable of', len(catalog), 'discovered')
+    print('Calculator primer catalog:', len(usable), 'families from', len(pages), 'pages')
 
 
 if __name__ == '__main__':
