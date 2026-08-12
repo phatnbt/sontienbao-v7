@@ -11,12 +11,44 @@ replacements = [
         "var products=(p.data.products||[]).filter(function(x){return x.enabled!==false&&x.calcEligible!==false});"
     ),
     (
-        "var products=this.props.data.products||[];\n      var p=products.find(x=>x.id===this.state.productId)||products[0]||{};\n      var cov=Number(p.coverage)||Number(this.props.data.calculator.fallbackCoverage)||10;\n      var lit=(Number(this.state.area)||0)*(Number(this.state.coats)||1)/cov*(1+(Number(this.state.waste)||0)/100);\n      return {p:p,cov:cov,lit:lit};",
-        "var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false&&x.calcEligible!==false});\n      var p=products.find(x=>x.id===this.state.productId)||products[0]||{};\n      var configured=Number(p.coverage)||0;\n      var cov=configured||Number(this.props.data.calculator.fallbackCoverage)||10;\n      var lit=(Number(this.state.area)||0)*(Number(this.state.coats)||1)/cov*(1+(Number(this.state.waste)||0)/100);\n      return {p:p,cov:cov,lit:lit,isFallback:!configured};"
+        """var products=this.props.data.products||[];
+      var p=products.find(x=>x.id===this.state.productId)||products[0]||{};
+      var cov=Number(p.coverage)||Number(this.props.data.calculator.fallbackCoverage)||10;
+      var lit=(Number(this.state.area)||0)*(Number(this.state.coats)||1)/cov*(1+(Number(this.state.waste)||0)/100);
+      return {p:p,cov:cov,lit:lit};""",
+        """var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false&&x.calcEligible!==false});
+      var p=products.find(x=>x.id===this.state.productId)||products[0]||{};
+      var configured=Number(p.coverage)||0;
+      var cov=configured||Number(this.props.data.calculator.fallbackCoverage)||10;
+      var lit=(Number(this.state.area)||0)*(Number(this.state.coats)||1)/cov*(1+(Number(this.state.waste)||0)/100);
+      return {p:p,cov:cov,lit:lit,isFallback:!configured};"""
     ),
     (
-        "pack(lit,vars){\n      var sizes=(vars||[]).map(Number).filter(x=>x>0).sort(function(a,b){return b-a});\n      if(!sizes.length)return [];\n      var rem=lit,out=[];\n      sizes.forEach(function(s,i){var q=i===sizes.length-1?Math.ceil(rem/s):Math.floor(rem/s);if(q>0){out.push([s,q]);rem-=q*s;}});\n      if(rem>0&&sizes.length)out.push([sizes[sizes.length-1],1]);\n      return out;\n    }",
-        "pack(lit,vars){\n      var sizes=(vars||[]).map(Number).filter(function(x){return x>0&&isFinite(x);}).filter(function(x,i,a){return a.indexOf(x)===i;}).sort(function(a,b){return b-a});\n      if(!sizes.length||!(lit>0))return [];\n      var target=Number(lit),best=null,minSize=sizes[sizes.length-1],maxCans=Math.min(80,Math.ceil(target/minSize)+2);\n      function score(total,cans){return (total-target)*1000+cans;}\n      function walk(i,total,counts,cans){\n        if(cans>maxCans)return;\n        if(total>=target){var sc=score(total,cans);if(!best||sc<best.score)best={score:sc,total:total,counts:counts.slice()};return;}\n        if(i>=sizes.length)return;\n        var s=sizes[i],need=Math.ceil((target-total)/s)+1;\n        for(var q=0;q<=need&&cans+q<=maxCans;q++){counts[i]=q;walk(i+1,total+q*s,counts,cans+q);}\n        counts[i]=0;\n      }\n      walk(0,0,new Array(sizes.length).fill(0),0);\n      if(!best)return [];\n      return sizes.map(function(s,i){return [s,best.counts[i]||0];}).filter(function(x){return x[1]>0;});\n    }"
+        """pack(lit,vars){
+      var sizes=(vars||[]).map(Number).filter(x=>x>0).sort(function(a,b){return b-a});
+      if(!sizes.length)return [];
+      var rem=lit,out=[];
+      sizes.forEach(function(s,i){var q=i===sizes.length-1?Math.ceil(rem/s):Math.floor(rem/s);if(q>0){out.push([s,q]);rem-=q*s;}});
+      if(rem>0&&sizes.length)out.push([sizes[sizes.length-1],1]);
+      return out;
+    }""",
+        """pack(lit,vars){
+      var sizes=(vars||[]).map(Number).filter(function(x){return x>0&&isFinite(x);}).filter(function(x,i,a){return a.indexOf(x)===i;}).sort(function(a,b){return b-a});
+      if(!sizes.length||!(lit>0))return [];
+      var target=Number(lit),best=null,minSize=sizes[sizes.length-1],maxCans=Math.min(80,Math.ceil(target/minSize)+2);
+      function score(total,cans){return (total-target)*1000+cans;}
+      function walk(i,total,counts,cans){
+        if(cans>maxCans)return;
+        if(total>=target){var sc=score(total,cans);if(!best||sc<best.score)best={score:sc,total:total,counts:counts.slice()};return;}
+        if(i>=sizes.length)return;
+        var s=sizes[i],need=Math.ceil((target-total)/s)+1;
+        for(var q=0;q<=need&&cans+q<=maxCans;q++){counts[i]=q;walk(i+1,total+q*s,counts,cans+q);}
+        counts[i]=0;
+      }
+      walk(0,0,new Array(sizes.length).fill(0),0);
+      if(!best)return [];
+      return sizes.map(function(s,i){return [s,best.counts[i]||0];}).filter(function(x){return x[1]>0;});
+    }"""
     ),
     (
         "var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false});",
