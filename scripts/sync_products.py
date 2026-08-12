@@ -36,6 +36,41 @@ def norm(s):
     return re.sub(r'\s+', ' ', s).strip()
 
 
+def slug_id(url):
+    path = urlparse(url).path.rstrip('/').split('/')[-1]
+    path = re.sub(r'\.html?$', '', path, flags=re.I)
+    path = re.sub(r'[^a-zA-Z0-9]+', '-', path).strip('-').lower()
+    return 'itop-' + (path[:72] or 'product')
+
+
+def infer_brand(name, url):
+    text = (name + ' ' + url).lower()
+    if 'terraco' in text or 'flexipave' in text:
+        return 'TERRACO'
+    if 'nippon' in text:
+        return 'NIPPON'
+    if 'ruby' in text:
+        return 'RUBY PAINT'
+    if 'jotun' in text or 'jotashield' in text or 'tough shield' in text or 'waterguard' in text:
+        return 'JOTUN'
+    return 'SƠN TIẾN BẢO'
+
+
+def infer_category(name, url):
+    text = (name + ' ' + url).lower()
+    if 'san-the-thao' in text or 'flexipave' in text or 'tennis' in text or 'pickleball' in text:
+        return 'Sơn sân thể thao'
+    if 'chong-tham' in text or 'waterguard' in text:
+        return 'Chống thấm'
+    if 'son-lot' in text or 'primer' in text:
+        return 'Sơn lót'
+    if 'noi-that' in text or 'interior' in text or 'majestic' in text:
+        return 'Sơn nội thất'
+    if 'ngoai-that' in text or 'exterior' in text or 'jotashield' in text or 'tough-shield' in text:
+        return 'Sơn ngoại thất'
+    return 'Sản phẩm nổi bật'
+
+
 def to_price(text):
     if not text:
         return 0
@@ -65,7 +100,6 @@ def clean_image_url(value, base_url):
     if not value:
         return ''
     value = str(value).strip()
-    # srcset/data-srcset: prefer the largest candidate (last item in most responsive sets)
     if ',' in value:
         parts = [x.strip().split()[0] for x in value.split(',') if x.strip()]
         if parts:
@@ -110,6 +144,26 @@ def card_from_anchor(a):
             fallback_img = imgs[0]
         node = parent
     return a, [], fallback_img
+
+
+def compact_product_card(a):
+    node = a
+    best_img = a.find('img')
+    for _ in range(7):
+        parent = getattr(node, 'parent', None)
+        if not parent:
+            break
+        text = parent.get_text(' ', strip=True)
+        if len(text) > 1400:
+            break
+        imgs = parent.find_all('img')
+        if imgs and not best_img:
+            best_img = imgs[0]
+        prices = price_list(text)
+        if prices and (imgs or best_img):
+            return parent, prices, (imgs[0] if imgs else best_img)
+        node = parent
+    return None, [], best_img
 
 
 def same_href_image(soup, href):
@@ -189,8 +243,6 @@ def find_home_product(product, soup):
 
     current = prices[0] if prices else 0
     old = prices[1] if len(prices) > 1 else 0
-
-    # Detail page is authoritative for image/title if homepage uses background/lazy markup.
     detail_title = ''
     try:
         final_url, detail_title, detail_img, detail_soup = detail_image_and_title(href, text or product.get('name', ''))
@@ -236,15 +288,77 @@ def scrape_detail(product):
     }
 
 
+def discover_home_catalog(soup, limit=18):
+    found = []
+    seen = set()
+    blocked = ('/lien-he', '/gio-hang', '/tin-tuc', '/bang-gia', '/bang-mau', '/admin')
+
+    for a in soup.find_all('a', href=True):
+        href = urljoin(BASE, a.get('href'))
+        parsed = urlparse(href)
+        if parsed.netloc not in ('sontienbao.com', 'www.sontienbao.com'):
+            continue
+        path = parsed.path.lower()
+        if not path.endswith('.html') or any(x in path for x in blocked):
+            continue
+        canonical = href.split('#', 1)[0].split('?', 1)[0]
+        if canonical in seen:
+            continue
+
+        card, prices, img = compact_product_card(a)
+        if not card or not prices:
+            continue
+
+        name = re.sub(r'\s+', ' ', a.get_text(' ', strip=True)).strip()
+        if len(name) < 5 or name.lower() in ('xem chi tiết', 'xem sản phẩm', 'mua ngay', 'chi tiết'):
+            heading = card.find(['h2', 'h3', 'h4', 'h5'])
+            name = re.sub(r'\s+', ' ', heading.get_text(' ', strip=True)).strip() if heading else ''
+        if len(name) < 5 and img:
+            name = (img.get('alt') or img.get('title') or '').strip()
+        if len(name) < 5:
+            continue
+
+        image = image_from_tag(img, BASE) or same_href_image(soup, canonical)
+        if not image:
+            image = image_by_alt(card, name, BASE)
+
+        current = prices[0]
+        old = prices[1] if len(prices) > 1 and prices[1] > current else 0
+        item = {
+            'id': slug_id(canonical),
+            'brand': infer_brand(name, canonical),
+            'name': name,
+            'category': infer_category(name, canonical),
+            'image': image,
+            'url': canonical,
+            'price': current,
+            'oldPrice': old,
+            'pricePrefix': '',
+            'unit': '',
+            'featured': True,
+            'enabled': True,
+            'storefrontOnly': True
+        }
+        found.append(item)
+        seen.add(canonical)
+        if len(found) >= limit:
+            break
+
+    return found
+
+
 def main():
     data = load_defaults()
     products = data.get('products') or []
     out, errors = [], []
+    homepage_products = []
 
     home_soup = None
     try:
         _, home_soup = fetch_soup(BASE)
         print('HOME OK')
+        homepage_products = discover_home_catalog(home_soup)
+        print('HOME FEATURED', len(homepage_products))
     except Exception as e:
         errors.append(f'homepage: {e}')
         print('HOME ERR', e, file=sys.stderr)
@@ -268,7 +382,7 @@ def main():
             errors.append(f"{product.get('id')}: {e}")
             print('ERR', product.get('id'), e, file=sys.stderr)
 
-    if not out:
+    if not out and not homepage_products:
         print('No product could be synced; keeping previous synced-products.js untouched.', file=sys.stderr)
         sys.exit(0)
 
@@ -278,12 +392,14 @@ def main():
         'status': 'ok',
         'synced': len(out),
         'withImages': sum(1 for x in out if x.get('image')),
+        'homepageProducts': len(homepage_products),
         'errors': errors
     }
     content = 'window.STB_SYNCED_PRODUCTS = ' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n'
+    content += 'window.STB_HOMEPAGE_PRODUCTS = ' + json.dumps(homepage_products, ensure_ascii=False, separators=(',', ':')) + ';\n'
     content += 'window.STB_SYNC_META = ' + json.dumps(meta, ensure_ascii=False, separators=(',', ':')) + ';\n'
     OUTPUT_FILE.write_text(content, encoding='utf-8')
-    print(f'Wrote {len(out)} products to {OUTPUT_FILE.name}')
+    print(f'Wrote {len(out)} synced products and {len(homepage_products)} homepage products')
 
 
 if __name__ == '__main__':
