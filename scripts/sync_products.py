@@ -333,7 +333,7 @@ def discover_home_catalog(soup, limit=18):
             'url': canonical,
             'price': current,
             'oldPrice': old,
-            'pricePrefix': '',
+            'pricePrefix': 'Từ',
             'unit': '',
             'featured': True,
             'enabled': True,
