@@ -1,6 +1,7 @@
 (function(){
   var synced=Array.isArray(window.STB_SYNCED_PRODUCTS)?window.STB_SYNCED_PRODUCTS:[];
   var homepage=Array.isArray(window.STB_HOMEPAGE_PRODUCTS)?window.STB_HOMEPAGE_PRODUCTS:[];
+  var calculator=Array.isArray(window.STB_CALCULATOR_PRODUCTS)?window.STB_CALCULATOR_PRODUCTS:[];
   if(!window.STB_DEFAULT_DATA||!Array.isArray(window.STB_DEFAULT_DATA.products))return;
 
   var base=window.STB_DEFAULT_DATA.products;
@@ -38,6 +39,10 @@
     }
 
     if(s.unit)out.unit=s.unit;
+    if(s.priceBySize&&typeof s.priceBySize==='object')out.priceBySize=Object.assign({},p.priceBySize||{},s.priceBySize);
+    if(Number(s.priceReferenceSize||0)>0)out.priceReferenceSize=Number(s.priceReferenceSize);
+    if(s.calculatorRole)out.calculatorRole=s.calculatorRole;
+    if(s.calculatorOnly===true)out.calculatorOnly=true;
     return out;
   }
 
@@ -96,11 +101,53 @@
       coverage:Number(p.coverage||0),
       coverageLabel:p.coverageLabel||'',
       variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
+      priceBySize:p.priceBySize&&typeof p.priceBySize==='object'?Object.assign({},p.priceBySize):{},
+      priceReferenceSize:Number(p.priceReferenceSize||0),
       calcEligible:p.calcEligible===true,
       massOnly:p.massOnly===true,
       technicalSource:p.technicalSource||'',
       enabled:p.enabled!==false
     });
+  });
+
+  // Products used only by the calculator are merged after storefront discovery so
+  // they never occupy a homepage featured slot. They still retain live iTop URLs,
+  // technical data and exact per-size prices where the source exposes them.
+  calculator.forEach(function(p){
+    if(!p)return;
+    var idx=base.findIndex(function(x){
+      if(!x)return false;
+      if(p.id&&x.id===p.id)return true;
+      return p.url&&x.url&&String(x.url).replace(/\/$/,'')===String(p.url).replace(/\/$/,'');
+    });
+    var item={
+      id:p.id||('calc-'+Math.random().toString(36).slice(2,9)),
+      brand:p.brand||'JOTUN',
+      name:p.name||'Sơn lót',
+      category:p.category||'Sơn lót',
+      description:p.description||'',
+      image:p.image||'',
+      price:Number(p.price||0),
+      oldPrice:Number(p.oldPrice||0),
+      pricePrefix:p.pricePrefix||'',
+      unit:p.unit||'',
+      badge:p.badge||'Sơn lót',
+      featured:false,
+      calculatorOnly:true,
+      calculatorRole:p.calculatorRole||'primer',
+      url:p.url||'',
+      coverage:Number(p.coverage||0),
+      coverageLabel:p.coverageLabel||'',
+      variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
+      priceBySize:p.priceBySize&&typeof p.priceBySize==='object'?Object.assign({},p.priceBySize):{},
+      priceReferenceSize:Number(p.priceReferenceSize||0),
+      calcEligible:p.calcEligible===true,
+      massOnly:p.massOnly===true,
+      technicalSource:p.technicalSource||'iTop',
+      enabled:p.enabled!==false
+    };
+    if(idx>=0)base[idx]=Object.assign({},base[idx],item,{featured:base[idx].featured===true});
+    else base.push(item);
   });
 
   if(homepage.length){
