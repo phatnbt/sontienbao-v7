@@ -18,8 +18,14 @@
       out.variants=s.variants.map(Number).filter(function(x){return x>0;});
       out.technicalSource=s.technicalSource||'iTop';
     }
-    if(s.calcEligible===false && s.technicalSource==='iTop')out.calcEligible=false;
-    else if(s.calcEligible===true)out.calcEligible=true;
+    if(s.massOnly===true){
+      out.calcEligible=false;
+      out.massOnly=true;
+    }else if(s.calcEligible===true){
+      out.calcEligible=true;
+    }else if(Number(p.coverage||0)>0 && Array.isArray(p.variants) && p.variants.length){
+      out.calcEligible=true;
+    }
     if(s.unit)out.unit=s.unit;
     return out;
   }
@@ -80,6 +86,7 @@
       coverageLabel:p.coverageLabel||'',
       variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
       calcEligible:p.calcEligible===true,
+      massOnly:p.massOnly===true,
       technicalSource:p.technicalSource||'',
       enabled:p.enabled!==false
     });
