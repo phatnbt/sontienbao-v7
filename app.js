@@ -195,19 +195,23 @@
     );
   }
 
-  // CALCULATOR_V3_SYSTEM
+  // CALCULATOR_V4_SURFACE_PAIRING
   class Calculator extends React.Component{
     constructor(p){
       super(p);
-      var groups=this.groups(p.data);
+      var surface=this.firstSurface(p.data);
+      var groups=this.groups(p.data,surface);
+      var finish=groups.finishes[0]||{};
+      var primer=this.bestPrimer(groups.primers,finish,surface)||groups.primers[0]||{};
       this.state={
+        surface:surface,
         mode:'system',
         area:125,
         primerCoats:1,
         finishCoats:Number(p.data.calculator.defaultCoats||2),
         waste:Number(p.data.calculator.defaultWaste||10),
-        primerId:groups.primers[0]&&groups.primers[0].id,
-        productId:groups.finishes[0]&&groups.finishes[0].id,
+        primerId:primer.id,
+        productId:finish.id,
         color:SWATCHES[0][0]
       };
     }
@@ -225,21 +229,92 @@
     isPrimer(p){
       if(!p)return false;
       if(p.calculatorRole==='primer')return true;
+      if(p.calculatorRole==='finish')return false;
       var text=((p.name||'')+' '+(p.category||'')).toLowerCase();
       return text.indexOf('primer')>=0||text.indexOf('sơn lót')>=0||text.indexOf('son lot')>=0;
+    }
+    inferSurface(p){
+      if(!p)return 'both';
+      if(p.calculatorSurface==='interior'||p.calculatorSurface==='exterior'||p.calculatorSurface==='both')return p.calculatorSurface;
+      var text=((p.name||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase();
+      var interior=text.indexOf('nội thất')>=0||text.indexOf('noi that')>=0;
+      var exterior=text.indexOf('ngoại thất')>=0||text.indexOf('ngoai that')>=0;
+      if(interior&&exterior)return 'both';
+      if(exterior)return 'exterior';
+      if(interior)return 'interior';
+      if(text.indexOf('jotashield')>=0||text.indexOf('tough shield')>=0)return 'exterior';
+      if(text.indexOf('majestic')>=0||text.indexOf('essence')>=0)return 'interior';
+      return 'both';
+    }
+    pairKey(p){
+      if(!p)return 'jotun';
+      if(p.pairKey)return p.pairKey;
+      var text=((p.name||'')+' '+(p.category||'')).toLowerCase();
+      if(text.indexOf('jotashield')>=0)return 'jotashield';
+      if(text.indexOf('tough shield')>=0)return 'tough-shield';
+      if(text.indexOf('majestic')>=0)return 'majestic';
+      if(text.indexOf('essence')>=0)return 'essence';
+      if(text.indexOf('ultra')>=0)return 'ultra';
+      return 'jotun';
     }
     eligible(p){
       return !!(p&&p.enabled!==false&&p.massOnly!==true&&Number(p.coverage||0)>0&&Array.isArray(p.variants)&&p.variants.some(function(x){return Number(x)>0;}));
     }
-    groups(data){
-      var self=this,all=this.catalog(data).filter(function(p){return self.eligible(p);});
+    surfaceMatch(p,surface){
+      var s=this.inferSurface(p);
+      return s==='both'||s===surface;
+    }
+    groups(data,surface){
+      var self=this,all=this.catalog(data).filter(function(p){return self.eligible(p)&&self.surfaceMatch(p,surface);});
       return {
         all:all,
         primers:all.filter(function(p){return self.isPrimer(p);}),
-        finishes:all.filter(function(p){return !self.isPrimer(p)&&p.calculatorOnly!==true;})
+        finishes:all.filter(function(p){return !self.isPrimer(p);})
       };
     }
+    firstSurface(data){
+      var interior=this.groups(data,'interior');
+      if(interior.finishes.length&&interior.primers.length)return 'interior';
+      return 'exterior';
+    }
     find(items,id){return items.find(function(x){return x.id===id;})||items[0]||{};}
+    bestPrimer(primers,finish,surface){
+      if(!primers||!primers.length)return null;
+      var self=this,fk=this.pairKey(finish);
+      var fallback={
+        'jotashield':['jotashield','ultra','tough-shield'],
+        'tough-shield':['tough-shield','jotashield','ultra'],
+        'majestic':['majestic','ultra','essence'],
+        'essence':['essence','ultra','majestic'],
+        'ultra':['ultra','essence','jotashield']
+      };
+      var order=fallback[fk]||[fk,'ultra','essence','jotashield','tough-shield'];
+      return primers.slice().sort(function(a,b){
+        function score(p){
+          var pk=self.pairKey(p),ps=self.inferSurface(p),s=0,idx=order.indexOf(pk);
+          if(pk===fk)s+=120;
+          if(idx>=0)s+=70-idx*12;
+          if(ps===surface)s+=25;
+          if(ps==='both')s+=15;
+          if((p.brand||'').toLowerCase()===(finish.brand||'').toLowerCase())s+=5;
+          if(p.technicalSource==='iTop')s+=3;
+          return s;
+        }
+        return score(b)-score(a);
+      })[0];
+    }
+    changeSurface(surface){
+      var groups=this.groups(this.props.data,surface);
+      var finish=groups.finishes[0]||{};
+      var primer=this.bestPrimer(groups.primers,finish,surface)||groups.primers[0]||{};
+      this.setState({surface:surface,productId:finish.id,primerId:primer.id});
+    }
+    changeFinish(id){
+      var groups=this.groups(this.props.data,this.state.surface);
+      var finish=this.find(groups.finishes,id);
+      var primer=this.bestPrimer(groups.primers,finish,this.state.surface)||groups.primers[0]||{};
+      this.setState({productId:finish.id,primerId:primer.id});
+    }
     layer(p,coats){
       var cov=Number(p&&p.coverage||0);
       var area=Math.max(0,Number(this.state.area)||0);
@@ -295,11 +370,12 @@
       if(p.technicalSource==='iTop-variants')return 'Dung tích iTop';
       return 'Cấu hình kỹ thuật V7';
     }
+    surfaceLabel(){return this.state.surface==='interior'?'Nội thất':'Ngoại thất';}
     resultCard(label,r){
-      var self=this,p=r.p||{};
+      var p=r.p||{};
       return h('div',{className:'calc-layer-card'},
         h('div',{className:'calc-layer-head'},
-          h('span',null,label),
+          h('span',null,label+' • '+this.surfaceLabel()),
           h('b',null,r.lit.toFixed(1)+' L')
         ),
         h('h3',null,p.name||'Chưa có sản phẩm phù hợp'),
@@ -319,9 +395,11 @@
       );
     }
     render(){
-      var groups=this.groups(this.props.data),mode=this.state.mode;
+      var surface=this.state.surface,groups=this.groups(this.props.data,surface),mode=this.state.mode;
       var finish=this.find(groups.finishes,this.state.productId);
       var primer=this.find(groups.primers,this.state.primerId);
+      var recommended=this.bestPrimer(groups.primers,finish,surface)||{};
+      var isAutoPair=!!(primer.id&&recommended.id&&primer.id===recommended.id);
       var finishR=this.layer(finish,this.state.finishCoats);
       var primerR=this.layer(primer,this.state.primerCoats);
       var showFinish=mode!=='primer',showPrimer=mode!=='finish';
@@ -329,29 +407,45 @@
       var totalKnown=(showFinish?finishR.pricing.known:true)&&(showPrimer?primerR.pricing.known:true);
       var totalCost=(showFinish?finishR.pricing.total:0)+(showPrimer?primerR.pricing.total:0);
 
+      var surfacePicker=h('div',{className:'calc-surface-block'},
+        h('div',{className:'calc-surface-copy'},h('span',null,'BƯỚC 1'),h('div',null,h('b',null,'Bạn đang sơn khu vực nào?'),h('small',null,'Chỉ hiển thị hệ sơn phù hợp với bề mặt đã chọn.'))),
+        h('div',{className:'calc-surface-selector'},
+          h('button',{type:'button','aria-pressed':surface==='interior',className:surface==='interior'?'active':'',onClick:()=>this.changeSurface('interior')},h('span',null,'⌂'),h('div',null,h('b',null,'Nội thất'),h('small',null,'Phòng khách, phòng ngủ, căn hộ'))),
+          h('button',{type:'button','aria-pressed':surface==='exterior',className:surface==='exterior'?'active':'',onClick:()=>this.changeSurface('exterior')},h('span',null,'▰'),h('div',null,h('b',null,'Ngoại thất'),h('small',null,'Mặt tiền, tường ngoài trời')))
+        )
+      );
+
       var tabs=h('div',{className:'calc-mode-tabs'},
         [['finish','Sơn phủ','Tính lớp hoàn thiện'],['primer','Sơn lót','Tính lớp nền'],['system','Toàn bộ hệ sơn','Lót + phủ + chi phí']].map(x=>h('button',{type:'button',key:x[0],className:mode===x[0]?'active':'',onClick:()=>this.setState({mode:x[0]})},h('b',null,x[1]),h('small',null,x[2])))
       );
 
-      var form=h('div',{className:'calc-form calc-form-v3'},
+      var pairBanner=mode==='system'&&primer.id&&finish.id?h('div',{className:'calc-auto-pair '+(isAutoPair?'is-auto':'is-custom')},
+        h('div',{className:'calc-auto-icon'},isAutoPair?'✓':'↻'),
+        h('div',{className:'calc-auto-copy'},h('small',null,isAutoPair?'HỆ ĐƯỢC GHÉP TỰ ĐỘNG':'HỆ ĐÃ TÙY CHỈNH'),h('b',null,(primer.name||'Sơn lót')+'  +  '+(finish.name||'Sơn phủ')),h('span',null,isAutoPair?'Ưu tiên cùng dòng sản phẩm và đúng khu vực '+this.surfaceLabel().toLowerCase()+'.':'Bạn đã đổi primer thủ công; kết quả vẫn tính theo thông số của lựa chọn hiện tại.')),
+        !isAutoPair&&h('button',{type:'button',onClick:()=>this.setState({primerId:recommended.id})},'Dùng gợi ý')
+      ):null;
+
+      var form=h('div',{className:'calc-form calc-form-v3 calc-form-v4'},
+        surfacePicker,
         tabs,
         h('div',{className:'two'},
           h('label',null,'Diện tích cần sơn',h('div',{className:'input-suffix'},h('input',{type:'number',min:1,value:this.state.area,onChange:e=>this.setState({area:e.target.value})}),h('span',null,'m²'))),
           h('label',null,'Hao hụt dự kiến',h('div',{className:'input-suffix'},h('input',{type:'number',min:0,max:50,value:this.state.waste,onChange:e=>this.setState({waste:e.target.value})}),h('span',null,'%')))
         ),
+        pairBanner,
         showPrimer&&h('div',{className:'calc-product-panel primer-panel'},
-          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót'),h('small',null,'Lớp nền chống kiềm / tăng bám dính'))),
+          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót '+this.surfaceLabel().toLowerCase()),h('small',null,'Hệ thống tự ưu tiên primer tương thích với sơn phủ'))),
           groups.primers.length?h('div',{className:'two'},
-            h('label',null,'Sản phẩm lót',h('select',{value:primer.id||'',onChange:e=>this.setState({primerId:e.target.value})},groups.primers.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.unit||((p.variants||[])[0]+'L')))))),
+            h('label',null,'Sản phẩm lót',h('select',{value:primer.id||'',onChange:e=>this.setState({primerId:e.target.value})},groups.primers.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp lót',h('select',{value:this.state.primerCoats,onChange:e=>this.setState({primerCoats:e.target.value})},[1,2].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa đồng bộ được sản phẩm sơn lót có đủ độ phủ và dung tích từ iTop.')
+          ):h('div',{className:'calc-data-warning'},'Chưa đồng bộ được sơn lót '+this.surfaceLabel().toLowerCase()+' có đủ độ phủ, dung tích và giá từ iTop.')
         ),
         showFinish&&h('div',{className:'calc-product-panel finish-panel'},
-          h('div',{className:'calc-product-title'},h('span',null,showPrimer?'02':'01'),h('div',null,h('b',null,'Sơn phủ hoàn thiện'),h('small',null,'Chọn dòng sơn và số lớp phủ'))),
+          h('div',{className:'calc-product-title'},h('span',null,showPrimer?'02':'01'),h('div',null,h('b',null,'Sơn phủ '+this.surfaceLabel().toLowerCase()),h('small',null,'Danh sách đã được lọc theo khu vực thi công'))),
           groups.finishes.length?h('div',{className:'two'},
-            h('label',null,'Sản phẩm phủ',h('select',{value:finish.id||'',onChange:e=>this.setState({productId:e.target.value})},groups.finishes.map(p=>h('option',{value:p.id,key:p.id},p.name)))),
+            h('label',null,'Sản phẩm phủ',h('select',{value:finish.id||'',onChange:e=>this.changeFinish(e.target.value)},groups.finishes.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp phủ',h('select',{value:this.state.finishCoats,onChange:e=>this.setState({finishCoats:e.target.value})},[1,2,3].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa có sản phẩm sơn phủ đủ dữ liệu kỹ thuật để tính.'),
+          ):h('div',{className:'calc-data-warning'},'Chưa có sản phẩm sơn phủ '+this.surfaceLabel().toLowerCase()+' đủ dữ liệu kỹ thuật để tính. iTop cần có độ phủ và quy cách dung tích rõ ràng.'),
           h('label',{className:'calc-color-label'},'Màu tham khảo',h('div',{className:'swatch-line'},SWATCHES.map(s=>h('button',{type:'button',title:s[0],key:s[0],className:this.state.color===s[0]?'chosen':'',style:{background:s[1]},onClick:()=>this.setState({color:s[0]})}))))
         )
       );
@@ -361,7 +455,7 @@
       if(showFinish&&groups.finishes.length)results.push(this.resultCard('SƠN PHỦ',finishR));
 
       var result=h('aside',{className:'calc-result calc-result-v3'},
-        h('span',{className:'calc-kicker'},mode==='system'?'KẾT QUẢ TOÀN BỘ HỆ SƠN':'KẾT QUẢ DỰ KIẾN'),
+        h('div',{className:'calc-result-topline'},h('span',{className:'calc-kicker'},mode==='system'?'KẾT QUẢ TOÀN BỘ HỆ SƠN':'KẾT QUẢ DỰ KIẾN'),h('span',{className:'surface-result-chip'},this.surfaceLabel())),
         h('div',{className:'liters liters-v3'},h('b',null,totalLit.toFixed(1)),h('small',null,mode==='system'?'LÍT / TOÀN HỆ':'LÍT SƠN')),
         h('div',{className:'calc-result-stack'},results),
         mode==='system'&&h('div',{className:'system-total'},
@@ -369,13 +463,13 @@
           h('strong',{className:totalKnown?'cost-known':'cost-pending'},totalKnown?money(totalCost):'Chưa đủ giá theo quy cách')
         ),
         h(Btn,{kind:'red',className:'full',onClick:this.props.onQuote},'Nhận báo giá chính xác →'),
-        h('small',{className:'estimate-note'},'Kết quả là ước tính theo diện tích, số lớp, hao hụt, độ phủ và quy cách đã đồng bộ/cấu hình. Giá có thể thay đổi theo màu, base, dung tích, chương trình và thời điểm đặt hàng; báo giá iTop là bước xác nhận cuối cùng.')
+        h('small',{className:'estimate-note'},'Ghép hệ sơn là gợi ý hỗ trợ mua hàng dựa trên tên dòng, khu vực sử dụng và dữ liệu iTop; không được xem là khuyến nghị kỹ thuật chính thức của Jotun. Báo giá và tư vấn Tiến Bảo là bước xác nhận cuối cùng.')
       );
 
       return h('section',{className:'calculator-section',id:'calculator'},
         h('div',{className:'container'},
-          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Tính cả hệ sơn — từ lớp lót đến lớp phủ',desc:'Chọn Sơn phủ, Sơn lót hoặc Toàn bộ hệ sơn. Hệ thống gợi ý số lít, số thùng ít dư và chi phí khi iTop có giá đúng theo dung tích.'}),
-          h('div',{className:'calculator-shell calculator-shell-v3'},form,result)
+          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Chọn đúng khu vực → tự ghép đúng hệ sơn',desc:'Chọn Nội thất hoặc Ngoại thất trước. V7 lọc sản phẩm phù hợp, tự ghép primer với sơn phủ cùng dòng khi có thể, rồi tính lượng sơn, số thùng và chi phí theo dữ liệu iTop.'}),
+          h('div',{className:'calculator-shell calculator-shell-v3 calculator-shell-v4'},form,result)
         )
       );
     }
