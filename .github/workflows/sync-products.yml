@@ -43,12 +43,12 @@ jobs:
       - name: Commit synced data
         shell: bash
         run: |
-          if git diff --quiet -- synced-products.js app.js; then
+          if git diff --quiet -- synced-products.js app.js styles.css; then
             echo "No product or calculator changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add synced-products.js app.js
-          git commit -m "Sync products and calculator data from iTop"
+          git add synced-products.js app.js styles.css
+          git commit -m "Sync products and Calculator V3 data from iTop"
           git push
