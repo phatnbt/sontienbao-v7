@@ -5,7 +5,8 @@ from urllib.parse import urljoin, urlparse
 
 from sync_technical import (
     fetch_page, extract_coverage, extract_liter_variants,
-    first_price, size_from_text, og_image, fmt_num
+    extract_price_by_size, first_price, size_from_text,
+    og_image, fmt_num
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,12 +47,17 @@ def pair_key(text):
 def infer_surface(text, fallback='both'):
     n = norm(text)
     interior = 'noi that' in n
-    exterior = 'ngoai that' in n or 'ngoai that' in n
+    exterior = 'ngoai that' in n
     if interior and exterior:
         return 'both'
     if exterior:
         return 'exterior'
     if interior:
+        return 'interior'
+    # Product-family fallback only when the page title itself does not state a surface.
+    if 'jotashield' in n or 'tough shield' in n:
+        return 'exterior'
+    if 'majestic' in n or 'essence' in n:
         return 'interior'
     return fallback
 
@@ -67,7 +73,7 @@ def is_finish_text(text):
     n = norm(text)
     if any(x in n for x in ('primer', 'son lot', 'bot tret', 'san the thao', 'flexipave', 'chong ri', 'go kim loai')):
         return False
-    return ('son phu' in n or any(x in n for x in ('jotashield', 'tough shield', 'majestic', 'essence')))
+    return ('son phu' in n or any(x in n for x in ('jotashield', 'tough shield', 'majestic', 'essence', 'jotaplast')))
 
 
 def find_categories():
@@ -146,13 +152,22 @@ def family_name(title):
     return x or (title or 'Sơn Jotun')
 
 
-def family_key(title, role, surface):
-    return role + '|' + surface + '|' + norm(family_name(title))
-
-
 def slug_id(name, role, surface):
     slug = re.sub(r'[^a-z0-9]+', '-', norm(name)).strip('-')
     return 'calc-' + role + '-' + surface + '-' + (slug[:64] or 'product')
+
+
+def normalize_price_map(price_map):
+    out = {}
+    for key, value in (price_map or {}).items():
+        try:
+            size = float(str(key).replace(',', '.'))
+            price = int(value or 0)
+        except Exception:
+            continue
+        if size > 0 and price > 0:
+            out[fmt_num(size)] = price
+    return out
 
 
 def build_page(url, card_name, card_price, role, surface):
@@ -164,11 +179,19 @@ def build_page(url, card_name, card_price, role, surface):
     if title_size and title_size not in variants:
         variants.append(title_size)
     variants = sorted(set(v for v in variants if v))
-    detected = infer_surface(title + ' ' + text[:1800], surface)
+
+    # Product pages that omit pack size from <h1> can still expose exact prices in
+    # option nodes, embedded variant JSON or visible size/price pairs.
+    price_map, reference = extract_price_by_size(soup, text, title, card_price, variants)
+    price_map = normalize_price_map(price_map)
+    if title_size and card_price:
+        price_map[fmt_num(title_size)] = int(card_price)
+        reference = title_size
+
+    detected = infer_surface(title, surface)
     return {
         'title': title,
         'family': family_name(title),
-        'familyKey': family_key(title, role, detected),
         'role': role,
         'surface': detected,
         'pairKey': pair_key(title),
@@ -177,8 +200,9 @@ def build_page(url, card_name, card_price, role, surface):
         'coverage': coverage,
         'coverageLabel': label,
         'variants': variants,
-        'referenceSize': title_size or 0,
+        'referenceSize': reference or title_size or 0,
         'referencePrice': int(card_price or 0),
+        'priceBySize': price_map,
     }
 
 
@@ -196,8 +220,6 @@ def merge_surface(values):
 def consolidate(pages):
     grouped, order = {}, []
     for page in pages:
-        # Group by role + family, not by surface, so an interior/exterior product
-        # discovered twice can become one "both" family instead of duplicates.
         key = page['role'] + '|' + norm(page['family'])
         if key not in grouped:
             grouped[key] = []
@@ -214,10 +236,11 @@ def consolidate(pages):
         label = coverage_rows[0]['coverageLabel']
         price_map = {}
         for r in rows:
+            price_map.update(normalize_price_map(r.get('priceBySize')))
             size = r.get('referenceSize') or 0
             price = r.get('referencePrice') or 0
-            if size and price:
-                price_map[fmt_num(size)] = price
+            if size and price and fmt_num(size) not in price_map:
+                price_map[fmt_num(size)] = int(price)
         priced_sizes = sorted(float(k) for k in price_map.keys())
         variants = [int(x) if float(x).is_integer() else x for x in priced_sizes]
         if not variants:
@@ -231,7 +254,7 @@ def consolidate(pages):
             'brand': 'JOTUN',
             'name': name,
             'category': ('Sơn lót' if role == 'primer' else 'Sơn phủ') + (' nội thất' if surface == 'interior' else (' ngoại thất' if surface == 'exterior' else ' nội & ngoại thất')),
-            'description': 'Dòng sản phẩm được V7 tự phát hiện và gộp từ các trang dung tích hiện hành của iTop.',
+            'description': 'Dòng sản phẩm được V7 tự phát hiện và gộp từ dữ liệu iTop hiện hành.',
             'image': preferred.get('image') or rows[0].get('image') or '',
             'url': preferred.get('url') or rows[0].get('url') or '',
             'price': int(price_map.get(fmt_num(max(variants)), 0)),
@@ -265,7 +288,7 @@ def crawl_category(category_url, role, surface, pages, errors):
             try:
                 page = build_page(url, name, price, role, surface)
                 pages.append(page)
-                print('CALC PAGE', role, page['surface'], page['family'], page['referenceSize'], page['referencePrice'], page['coverage'])
+                print('CALC PAGE', role, page['surface'], page['family'], page['referenceSize'], page['priceBySize'], page['coverage'])
             except Exception as e:
                 errors.append(f'calculator detail {url}: {e}')
                 print('CALC DETAIL WARN', url, e)
@@ -277,7 +300,7 @@ def crawl_category(category_url, role, surface, pages, errors):
 def main():
     text = FILE.read_text(encoding='utf-8')
     meta = parse_meta(text)
-    errors = [e for e in (meta.get('errors') or []) if not str(e).startswith(('calculator detail ', 'calculator category ', 'primer detail ', 'primer discovery:'))]
+    errors = [e for e in (meta.get('errors') or []) if not str(e).startswith(('calculator detail ', 'calculator category ', 'calculator discovery:', 'primer detail ', 'primer discovery:'))]
     pages = []
 
     try:
