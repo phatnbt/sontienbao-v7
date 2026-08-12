@@ -2,6 +2,11 @@ name: Sync iTop products
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/sync_products.py'
+      - 'default-data.js'
+      - '.github/workflows/sync-products.yml'
   schedule:
     - cron: '17 */6 * * *'
 
