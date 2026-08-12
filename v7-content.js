@@ -139,7 +139,7 @@ window.STB_V7_CONTENT = {
     }
   ],
   "meta": {
-    "updatedAt": "2026-08-12T12:06:02.634Z",
+    "updatedAt": "2026-08-12T12:06:06.623Z",
     "source": "v7-admin"
   }
 };
