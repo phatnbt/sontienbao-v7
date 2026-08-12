@@ -228,7 +228,7 @@
     }
     render(){
       var r=this.calc();
-      var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false});
+      var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false&&x.calcEligible!==false});
       var packs=this.pack(r.lit,r.p.variants);
       var form=h('div',{className:'calc-form'},
         h('label',null,'Diện tích cần sơn',h('div',{className:'input-suffix'},h('input',{type:'number',value:this.state.area,onChange:e=>this.setState({area:e.target.value})}),h('span',null,'m²'))),
@@ -244,11 +244,11 @@
         h('div',{className:'liters'},h('b',null,r.lit.toFixed(1)),h('small',null,'LÍT SƠN PHỦ')),
         h('div',{className:'result-row'},h('span',null,'Sản phẩm'),h('strong',null,r.p.name||'—')),
         h('div',{className:'result-row'},h('span',null,'Độ phủ dùng'),h('strong',null,r.p.coverageLabel||((r.isFallback?'Ước tính ': '')+r.cov+' m²/L/lớp'))),
-        h('div',{className:'result-row'},h('span',null,'Nguồn thông số'),h('strong',null,r.p.technicalSource==='iTop'?'iTop đồng bộ':(r.isFallback?'Ước tính mặc định':'Cấu hình kỹ thuật V7'))),
+        h('div',{className:'result-row'},h('span',null,'Nguồn thông số'),h('strong',null,r.p.technicalSource==='iTop'?'iTop đồng bộ':(r.p.technicalSource==='hybrid'?'Dung tích iTop • độ phủ V7':(r.isFallback?'Ước tính mặc định':'Cấu hình kỹ thuật V7')))),
         h('div',{className:'result-row'},h('span',null,'Màu'),h('strong',null,this.state.color)),
         h('div',{className:'pack-box'},h('span',null,'Quy cách gợi ý'),packs.length?packs.map(x=>h('b',{key:x[0]},x[1]+' × '+x[0]+'L')):h('small',null,'Chưa cấu hình dung tích')),
         h(Btn,{kind:'red',onClick:this.props.onQuote},'Nhận báo giá chính xác →'),
-        h('small',{className:'estimate-note'},r.p.technicalSource==='iTop'?'Độ phủ và quy cách được đồng bộ từ dữ liệu đang hiển thị trên iTop; vẫn cần xác nhận theo bề mặt, màu và phiên bản sản phẩm thực tế.':(r.isFallback?'Sản phẩm chưa có đủ độ phủ kỹ thuật trên iTop; hệ thống đang dùng mức ước tính mặc định và cần xác nhận khi báo giá.':'Kết quả dựa trên thông số đã cấu hình và vẫn cần xác nhận theo bề mặt thi công thực tế.'))
+        h('small',{className:'estimate-note'},r.p.technicalSource==='iTop'?'Độ phủ và quy cách được đồng bộ từ dữ liệu đang hiển thị trên iTop; vẫn cần xác nhận theo bề mặt, màu và phiên bản sản phẩm thực tế.':(r.p.technicalSource==='hybrid'?'Dung tích được đồng bộ từ iTop; độ phủ đang dùng cấu hình kỹ thuật V7 và vẫn cần xác nhận trước khi đặt hàng.':(r.isFallback?'Sản phẩm chưa có đủ độ phủ kỹ thuật trên iTop; hệ thống đang dùng mức ước tính mặc định và cần xác nhận khi báo giá.':'Kết quả dựa trên thông số đã cấu hình và vẫn cần xác nhận theo bề mặt thi công thực tế.')))
       );
       return h('section',{className:'calculator-section',id:'calculator'},
         h('div',{className:'container'},
