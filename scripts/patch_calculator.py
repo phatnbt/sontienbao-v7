@@ -55,9 +55,9 @@ replacements = [
         "var products=(this.props.data.products||[]).filter(function(x){return x.enabled!==false&&x.calcEligible!==false});"
     ),
     (
-        "h('div',{className:'result-row'},h('span',null,'Độ phủ dùng'),h('strong',null,r.cov+' m²/L/lớp')),
-",
-        "h('div',{className:'result-row'},h('span',null,'Độ phủ dùng'),h('strong',null,r.p.coverageLabel||((r.isFallback?'Ước tính ': '')+r.cov+' m²/L/lớp'))),\n        h('div',{className:'result-row'},h('span',null,'Nguồn thông số'),h('strong',null,r.p.technicalSource==='iTop'?'iTop đồng bộ':(r.isFallback?'Ước tính mặc định':'Cấu hình kỹ thuật V7'))),\n"
+        """h('div',{className:'result-row'},h('span',null,'Độ phủ dùng'),h('strong',null,r.cov+' m²/L/lớp')),""",
+        """h('div',{className:'result-row'},h('span',null,'Độ phủ dùng'),h('strong',null,r.p.coverageLabel||((r.isFallback?'Ước tính ': '')+r.cov+' m²/L/lớp'))),
+        h('div',{className:'result-row'},h('span',null,'Nguồn thông số'),h('strong',null,r.p.technicalSource==='iTop'?'iTop đồng bộ':(r.isFallback?'Ước tính mặc định':'Cấu hình kỹ thuật V7'))),"""
     ),
     (
         "h('small',{className:'estimate-note'},'Kết quả mang tính ước tính và cần xác nhận theo bề mặt thi công thực tế.')",
