@@ -9,23 +9,34 @@
 
   function mergeTechnical(p,s){
     var out={};
-    if(Number(s.coverage||0)>0){
+    var gotCoverage=Number(s.coverage||0)>0;
+    var gotVariants=Array.isArray(s.variants)&&s.variants.length>0;
+    var configuredCoverage=Number(p.coverage||0)>0;
+    var configuredVariants=Array.isArray(p.variants)&&p.variants.length>0;
+
+    if(gotCoverage){
       out.coverage=Number(s.coverage);
       out.coverageLabel=s.coverageLabel||p.coverageLabel||'';
-      out.technicalSource=s.technicalSource||'iTop';
+      out.technicalSource='iTop';
     }
-    if(Array.isArray(s.variants)&&s.variants.length){
+    if(gotVariants){
       out.variants=s.variants.map(Number).filter(function(x){return x>0;});
-      out.technicalSource=s.technicalSource||'iTop';
+      if(gotCoverage)out.technicalSource='iTop';
+      else if(configuredCoverage)out.technicalSource='hybrid';
+      else out.technicalSource='iTop-variants';
     }
+
     if(s.massOnly===true){
       out.calcEligible=false;
       out.massOnly=true;
+    }else if(gotCoverage&&gotVariants){
+      out.calcEligible=true;
+    }else if(configuredCoverage&&(gotVariants||configuredVariants)){
+      out.calcEligible=true;
     }else if(s.calcEligible===true){
       out.calcEligible=true;
-    }else if(Number(p.coverage||0)>0 && Array.isArray(p.variants) && p.variants.length){
-      out.calcEligible=true;
     }
+
     if(s.unit)out.unit=s.unit;
     return out;
   }
