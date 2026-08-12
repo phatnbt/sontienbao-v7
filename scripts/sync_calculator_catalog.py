@@ -6,7 +6,7 @@ from urllib.parse import urljoin, urlparse
 from sync_technical import (
     fetch_page, extract_coverage, extract_liter_variants,
     extract_price_by_size, first_price, size_from_text,
-    og_image, fmt_num
+    og_image, fmt_num, to_price
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +46,10 @@ def pair_key(text):
 
 def infer_surface(text, fallback='both'):
     n = norm(text)
+    # iTop currently contains both "nội ngoại thất" and typo variants such as
+    # "nội ngọai thất". After accent normalization they share "noi ngoai".
+    if 'noi ngoai' in n:
+        return 'both'
     interior = 'noi that' in n
     exterior = 'ngoai that' in n
     if interior and exterior:
@@ -54,7 +58,6 @@ def infer_surface(text, fallback='both'):
         return 'exterior'
     if interior:
         return 'interior'
-    # Product-family fallback only when the page title itself does not state a surface.
     if 'jotashield' in n or 'tough shield' in n:
         return 'exterior'
     if 'majestic' in n or 'essence' in n:
@@ -170,6 +173,47 @@ def normalize_price_map(price_map):
     return out
 
 
+def selected_variant_prices(soup, current_price):
+    """Prefer the <select> that contains the currently selected pack size.
+
+    This avoids collecting sizes/prices from recommendation cards elsewhere on the
+    same product page. If the selected option has no embedded price, the current
+    storefront/card price is bound only to that selected size.
+    """
+    candidates = []
+    for select in soup.find_all('select'):
+        price_map = {}
+        selected = 0
+        sizes = []
+        for opt in select.find_all('option'):
+            blob = ' '.join([opt.get_text(' ', strip=True)] + [str(v) for v in opt.attrs.values()])
+            size = size_from_text(blob)
+            if not size:
+                continue
+            sizes.append(size)
+            price = 0
+            for k, v in opt.attrs.items():
+                if 'price' in str(k).lower() or 'gia' in str(k).lower():
+                    price = to_price(v)
+                    if price:
+                        break
+            if not price:
+                price = first_price(blob)
+            if price:
+                price_map[fmt_num(size)] = price
+            if opt.has_attr('selected'):
+                selected = size
+        if selected:
+            if current_price:
+                price_map[fmt_num(selected)] = int(current_price)
+            score = 100 + len(set(sizes)) * 10 + len(price_map)
+            candidates.append((score, price_map, selected))
+    if not candidates:
+        return {}, 0
+    candidates.sort(key=lambda x: x[0], reverse=True)
+    return normalize_price_map(candidates[0][1]), candidates[0][2]
+
+
 def build_page(url, card_name, card_price, role, surface):
     final, soup, title, text = fetch_page(url)
     title = title or card_name
@@ -180,10 +224,14 @@ def build_page(url, card_name, card_price, role, surface):
         variants.append(title_size)
     variants = sorted(set(v for v in variants if v))
 
-    # Product pages that omit pack size from <h1> can still expose exact prices in
-    # option nodes, embedded variant JSON or visible size/price pairs.
-    price_map, reference = extract_price_by_size(soup, text, title, card_price, variants)
-    price_map = normalize_price_map(price_map)
+    selected_map, selected_size = selected_variant_prices(soup, card_price)
+    if selected_map or selected_size:
+        price_map, reference = selected_map, selected_size
+    else:
+        price_map, reference = extract_price_by_size(soup, text, title, card_price, variants)
+        price_map = normalize_price_map(price_map)
+
+    # A page whose title explicitly names 5L/17L is authoritative for that size.
     if title_size and card_price:
         price_map[fmt_num(title_size)] = int(card_price)
         reference = title_size
@@ -202,7 +250,7 @@ def build_page(url, card_name, card_price, role, surface):
         'variants': variants,
         'referenceSize': reference or title_size or 0,
         'referencePrice': int(card_price or 0),
-        'priceBySize': price_map,
+        'priceBySize': normalize_price_map(price_map),
     }
 
 
@@ -237,10 +285,13 @@ def consolidate(pages):
         price_map = {}
         for r in rows:
             price_map.update(normalize_price_map(r.get('priceBySize')))
+        # Exact page/reference prices win over any cross-size values found in page HTML.
+        for r in rows:
             size = r.get('referenceSize') or 0
             price = r.get('referencePrice') or 0
-            if size and price and fmt_num(size) not in price_map:
+            if size and price:
                 price_map[fmt_num(size)] = int(price)
+
         priced_sizes = sorted(float(k) for k in price_map.keys())
         variants = [int(x) if float(x).is_integer() else x for x in priced_sizes]
         if not variants:
