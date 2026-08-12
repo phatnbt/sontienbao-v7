@@ -1,0 +1,2 @@
+/* GitHub Pages preview: iTop remains the source of truth for price and checkout. */
+.product-card .price > *{display:none!important}.product-card .price::after{content:'Xem giá tại Sơn Tiến Bảo';font-weight:800;color:var(--primary);font-size:15px}.product-card:hover .price::after{text-decoration:underline}.product-card .discount{display:none!important}
