@@ -42,6 +42,8 @@
     if(s.priceBySize&&typeof s.priceBySize==='object')out.priceBySize=Object.assign({},p.priceBySize||{},s.priceBySize);
     if(Number(s.priceReferenceSize||0)>0)out.priceReferenceSize=Number(s.priceReferenceSize);
     if(s.calculatorRole)out.calculatorRole=s.calculatorRole;
+    if(s.calculatorSurface)out.calculatorSurface=s.calculatorSurface;
+    if(s.pairKey)out.pairKey=s.pairKey;
     if(s.calculatorOnly===true)out.calculatorOnly=true;
     return out;
   }
@@ -106,13 +108,12 @@
       calcEligible:p.calcEligible===true,
       massOnly:p.massOnly===true,
       technicalSource:p.technicalSource||'',
+      calculatorSurface:p.calculatorSurface||'',
+      pairKey:p.pairKey||'',
       enabled:p.enabled!==false
     });
   });
 
-  // Products used only by the calculator are merged after storefront discovery so
-  // they never occupy a homepage featured slot. They still retain live iTop URLs,
-  // technical data and exact per-size prices where the source exposes them.
   calculator.forEach(function(p){
     if(!p)return;
     var idx=base.findIndex(function(x){
@@ -123,18 +124,20 @@
     var item={
       id:p.id||('calc-'+Math.random().toString(36).slice(2,9)),
       brand:p.brand||'JOTUN',
-      name:p.name||'Sơn lót',
-      category:p.category||'Sơn lót',
+      name:p.name||'Sản phẩm Jotun',
+      category:p.category||'Sản phẩm tính sơn',
       description:p.description||'',
       image:p.image||'',
       price:Number(p.price||0),
       oldPrice:Number(p.oldPrice||0),
       pricePrefix:p.pricePrefix||'',
       unit:p.unit||'',
-      badge:p.badge||'Sơn lót',
+      badge:p.badge||(p.calculatorRole==='primer'?'Sơn lót':'Sơn phủ'),
       featured:false,
       calculatorOnly:true,
-      calculatorRole:p.calculatorRole||'primer',
+      calculatorRole:p.calculatorRole||'finish',
+      calculatorSurface:p.calculatorSurface||'both',
+      pairKey:p.pairKey||'',
       url:p.url||'',
       coverage:Number(p.coverage||0),
       coverageLabel:p.coverageLabel||'',
