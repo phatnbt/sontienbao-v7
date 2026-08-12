@@ -18,9 +18,7 @@ SESSION.headers.update(HEADERS)
 
 def parse_var(text, name):
     m = re.search(r'window\.%s\s*=\s*(\[.*?\]);\s*(?:\n|$)' % re.escape(name), text, re.S)
-    if not m:
-        return []
-    return json.loads(m.group(1))
+    return json.loads(m.group(1)) if m else []
 
 
 def parse_meta(text):
@@ -48,10 +46,9 @@ def fmt_num(v):
 
 
 def extract_coverage(text):
-    # Examples supported: 10-12 m²/L/lớp, 11,1 m2/lít/lớp, 5.5 – 7.5 m²/l
     patterns = [
-        r'(\d+(?:[\.,]\d+)?)\s*(?:-|–|—|đến|to)\s*(\d+(?:[\.,]\d+)?)\s*m\s*[²2]\s*/\s*(?:l|lít|lit(?:er)?)',
-        r'(\d+(?:[\.,]\d+)?)\s*m\s*[²2]\s*/\s*(?:l|lít|lit(?:er)?)'
+        r'(\d+(?:[\.,]\d+)?)\s*(?:-|–|—|đến|to)\s*(\d+(?:[\.,]\d+)?)\s*m\s*[²2]\s*/\s*(?:lít|lit(?:er)?|L\b)',
+        r'(\d+(?:[\.,]\d+)?)\s*m\s*[²2]\s*/\s*(?:lít|lit(?:er)?|L\b)'
     ]
     m = re.search(patterns[0], text, re.I)
     if m:
@@ -68,8 +65,14 @@ def extract_coverage(text):
 
 def extract_liter_variants(text):
     vals = []
-    # Match only explicit litre units; do not convert kg to litres.
-    for raw in re.findall(r'(?<![\d])([0-9]+(?:[\.,][0-9]+)?)\s*(?:lít|lit(?:er)?s?|l)(?![a-zA-Z])', text, re.I):
+    patterns = [
+        r'(?<![\d])([0-9]+(?:[\.,][0-9]+)?)\s*(?:lít|lit(?:er)?s?)\b',
+        r'(?<![\d])([0-9]+(?:[\.,][0-9]+)?)\s*L\b'
+    ]
+    matches = []
+    matches.extend(re.findall(patterns[0], text, re.I))
+    matches.extend(re.findall(patterns[1], text))
+    for raw in matches:
         v = num(raw)
         if 0.1 <= v <= 50 and v not in vals:
             vals.append(v)
@@ -78,7 +81,7 @@ def extract_liter_variants(text):
 
 
 def detect_mass_unit(text, title=''):
-    sample = (title + ' ' + text[:2500]).lower()
+    sample = (title + ' ' + text[:3000]).lower()
     kg = re.search(r'(?<![\d])([0-9]+(?:[\.,][0-9]+)?)\s*kg\b', sample, re.I)
     if kg:
         return f'{fmt_num(num(kg.group(1)))}Kg'
@@ -93,28 +96,27 @@ def fetch_technical(item):
     r = SESSION.get(url, timeout=30, allow_redirects=True)
     r.raise_for_status()
     soup = BeautifulSoup(r.text, 'html.parser')
-    title = soup.find('h1').get_text(' ', strip=True) if soup.find('h1') else item.get('name', '')
+    h1 = soup.find('h1')
+    title = h1.get_text(' ', strip=True) if h1 else item.get('name', '')
     text = clean_text(soup)
     coverage, label = extract_coverage(text)
     variants = extract_liter_variants(text)
     mass_unit = detect_mass_unit(text, title)
-
-    # A kg-only material must never be fed into a litres-of-paint calculator.
-    kg_only = bool(mass_unit and not variants)
-    calc_eligible = bool(coverage > 0 and variants and not kg_only)
+    mass_only = bool(mass_unit and not variants)
+    calc_eligible = bool(coverage > 0 and variants and not mass_only)
     return {
         'coverage': coverage,
         'coverageLabel': label,
         'variants': variants,
         'unit': mass_unit or item.get('unit', ''),
+        'massOnly': mass_only,
         'calcEligible': calc_eligible,
         'technicalSource': 'iTop' if (coverage or variants or mass_unit) else '',
     }
 
 
 def enrich(items, errors):
-    out = []
-    cache = {}
+    out, cache = [], {}
     for item in items:
         x = dict(item)
         url = x.get('url') or ''
@@ -124,7 +126,7 @@ def enrich(items, errors):
                 tech = fetch_technical(x)
                 cache[url] = tech
             x.update(tech)
-            print('TECH', x.get('id'), x.get('coverage'), x.get('variants'), x.get('unit'), x.get('calcEligible'))
+            print('TECH', x.get('id'), x.get('coverage'), x.get('variants'), x.get('unit'), x.get('massOnly'), x.get('calcEligible'))
         except Exception as e:
             errors.append(f"technical {x.get('id')}: {e}")
             print('TECH WARN', x.get('id'), e)
@@ -138,13 +140,11 @@ def main():
     homepage = parse_var(text, 'STB_HOMEPAGE_PRODUCTS')
     meta = parse_meta(text)
     errors = list(meta.get('errors') or [])
-
     synced = enrich(synced, errors)
     homepage = enrich(homepage, errors)
     meta['technicalSynced'] = sum(1 for x in synced + homepage if x.get('technicalSource') == 'iTop')
     meta['calculatorEligible'] = sum(1 for x in synced + homepage if x.get('calcEligible'))
     meta['errors'] = errors
-
     content = 'window.STB_SYNCED_PRODUCTS = ' + json.dumps(synced, ensure_ascii=False, separators=(',', ':')) + ';\n'
     content += 'window.STB_HOMEPAGE_PRODUCTS = ' + json.dumps(homepage, ensure_ascii=False, separators=(',', ':')) + ';\n'
     content += 'window.STB_SYNC_META = ' + json.dumps(meta, ensure_ascii=False, separators=(',', ':')) + ';\n'
