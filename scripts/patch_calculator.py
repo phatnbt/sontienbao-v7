@@ -11,21 +11,25 @@ css = CSS.read_text(encoding='utf-8')
 changed_app = False
 changed_css = False
 
-MARKER = 'CALCULATOR_V3_SYSTEM'
+MARKER = 'CALCULATOR_V4_SURFACE_PAIRING'
 
-CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
+CALCULATOR = r'''  // CALCULATOR_V4_SURFACE_PAIRING
   class Calculator extends React.Component{
     constructor(p){
       super(p);
-      var groups=this.groups(p.data);
+      var surface=this.firstSurface(p.data);
+      var groups=this.groups(p.data,surface);
+      var finish=groups.finishes[0]||{};
+      var primer=this.bestPrimer(groups.primers,finish,surface)||groups.primers[0]||{};
       this.state={
+        surface:surface,
         mode:'system',
         area:125,
         primerCoats:1,
         finishCoats:Number(p.data.calculator.defaultCoats||2),
         waste:Number(p.data.calculator.defaultWaste||10),
-        primerId:groups.primers[0]&&groups.primers[0].id,
-        productId:groups.finishes[0]&&groups.finishes[0].id,
+        primerId:primer.id,
+        productId:finish.id,
         color:SWATCHES[0][0]
       };
     }
@@ -43,21 +47,92 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
     isPrimer(p){
       if(!p)return false;
       if(p.calculatorRole==='primer')return true;
+      if(p.calculatorRole==='finish')return false;
       var text=((p.name||'')+' '+(p.category||'')).toLowerCase();
       return text.indexOf('primer')>=0||text.indexOf('sơn lót')>=0||text.indexOf('son lot')>=0;
+    }
+    inferSurface(p){
+      if(!p)return 'both';
+      if(p.calculatorSurface==='interior'||p.calculatorSurface==='exterior'||p.calculatorSurface==='both')return p.calculatorSurface;
+      var text=((p.name||'')+' '+(p.category||'')+' '+(p.description||'')).toLowerCase();
+      var interior=text.indexOf('nội thất')>=0||text.indexOf('noi that')>=0;
+      var exterior=text.indexOf('ngoại thất')>=0||text.indexOf('ngoai that')>=0;
+      if(interior&&exterior)return 'both';
+      if(exterior)return 'exterior';
+      if(interior)return 'interior';
+      if(text.indexOf('jotashield')>=0||text.indexOf('tough shield')>=0)return 'exterior';
+      if(text.indexOf('majestic')>=0||text.indexOf('essence')>=0)return 'interior';
+      return 'both';
+    }
+    pairKey(p){
+      if(!p)return 'jotun';
+      if(p.pairKey)return p.pairKey;
+      var text=((p.name||'')+' '+(p.category||'')).toLowerCase();
+      if(text.indexOf('jotashield')>=0)return 'jotashield';
+      if(text.indexOf('tough shield')>=0)return 'tough-shield';
+      if(text.indexOf('majestic')>=0)return 'majestic';
+      if(text.indexOf('essence')>=0)return 'essence';
+      if(text.indexOf('ultra')>=0)return 'ultra';
+      return 'jotun';
     }
     eligible(p){
       return !!(p&&p.enabled!==false&&p.massOnly!==true&&Number(p.coverage||0)>0&&Array.isArray(p.variants)&&p.variants.some(function(x){return Number(x)>0;}));
     }
-    groups(data){
-      var self=this,all=this.catalog(data).filter(function(p){return self.eligible(p);});
+    surfaceMatch(p,surface){
+      var s=this.inferSurface(p);
+      return s==='both'||s===surface;
+    }
+    groups(data,surface){
+      var self=this,all=this.catalog(data).filter(function(p){return self.eligible(p)&&self.surfaceMatch(p,surface);});
       return {
         all:all,
         primers:all.filter(function(p){return self.isPrimer(p);}),
-        finishes:all.filter(function(p){return !self.isPrimer(p)&&p.calculatorOnly!==true;})
+        finishes:all.filter(function(p){return !self.isPrimer(p);})
       };
     }
+    firstSurface(data){
+      var interior=this.groups(data,'interior');
+      if(interior.finishes.length&&interior.primers.length)return 'interior';
+      return 'exterior';
+    }
     find(items,id){return items.find(function(x){return x.id===id;})||items[0]||{};}
+    bestPrimer(primers,finish,surface){
+      if(!primers||!primers.length)return null;
+      var self=this,fk=this.pairKey(finish);
+      var fallback={
+        'jotashield':['jotashield','ultra','tough-shield'],
+        'tough-shield':['tough-shield','jotashield','ultra'],
+        'majestic':['majestic','ultra','essence'],
+        'essence':['essence','ultra','majestic'],
+        'ultra':['ultra','essence','jotashield']
+      };
+      var order=fallback[fk]||[fk,'ultra','essence','jotashield','tough-shield'];
+      return primers.slice().sort(function(a,b){
+        function score(p){
+          var pk=self.pairKey(p),ps=self.inferSurface(p),s=0,idx=order.indexOf(pk);
+          if(pk===fk)s+=120;
+          if(idx>=0)s+=70-idx*12;
+          if(ps===surface)s+=25;
+          if(ps==='both')s+=15;
+          if((p.brand||'').toLowerCase()===(finish.brand||'').toLowerCase())s+=5;
+          if(p.technicalSource==='iTop')s+=3;
+          return s;
+        }
+        return score(b)-score(a);
+      })[0];
+    }
+    changeSurface(surface){
+      var groups=this.groups(this.props.data,surface);
+      var finish=groups.finishes[0]||{};
+      var primer=this.bestPrimer(groups.primers,finish,surface)||groups.primers[0]||{};
+      this.setState({surface:surface,productId:finish.id,primerId:primer.id});
+    }
+    changeFinish(id){
+      var groups=this.groups(this.props.data,this.state.surface);
+      var finish=this.find(groups.finishes,id);
+      var primer=this.bestPrimer(groups.primers,finish,this.state.surface)||groups.primers[0]||{};
+      this.setState({productId:finish.id,primerId:primer.id});
+    }
     layer(p,coats){
       var cov=Number(p&&p.coverage||0);
       var area=Math.max(0,Number(this.state.area)||0);
@@ -113,11 +188,12 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
       if(p.technicalSource==='iTop-variants')return 'Dung tích iTop';
       return 'Cấu hình kỹ thuật V7';
     }
+    surfaceLabel(){return this.state.surface==='interior'?'Nội thất':'Ngoại thất';}
     resultCard(label,r){
-      var self=this,p=r.p||{};
+      var p=r.p||{};
       return h('div',{className:'calc-layer-card'},
         h('div',{className:'calc-layer-head'},
-          h('span',null,label),
+          h('span',null,label+' • '+this.surfaceLabel()),
           h('b',null,r.lit.toFixed(1)+' L')
         ),
         h('h3',null,p.name||'Chưa có sản phẩm phù hợp'),
@@ -137,9 +213,11 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
       );
     }
     render(){
-      var groups=this.groups(this.props.data),mode=this.state.mode;
+      var surface=this.state.surface,groups=this.groups(this.props.data,surface),mode=this.state.mode;
       var finish=this.find(groups.finishes,this.state.productId);
       var primer=this.find(groups.primers,this.state.primerId);
+      var recommended=this.bestPrimer(groups.primers,finish,surface)||{};
+      var isAutoPair=!!(primer.id&&recommended.id&&primer.id===recommended.id);
       var finishR=this.layer(finish,this.state.finishCoats);
       var primerR=this.layer(primer,this.state.primerCoats);
       var showFinish=mode!=='primer',showPrimer=mode!=='finish';
@@ -147,29 +225,45 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
       var totalKnown=(showFinish?finishR.pricing.known:true)&&(showPrimer?primerR.pricing.known:true);
       var totalCost=(showFinish?finishR.pricing.total:0)+(showPrimer?primerR.pricing.total:0);
 
+      var surfacePicker=h('div',{className:'calc-surface-block'},
+        h('div',{className:'calc-surface-copy'},h('span',null,'BƯỚC 1'),h('div',null,h('b',null,'Bạn đang sơn khu vực nào?'),h('small',null,'Chỉ hiển thị hệ sơn phù hợp với bề mặt đã chọn.'))),
+        h('div',{className:'calc-surface-selector'},
+          h('button',{type:'button','aria-pressed':surface==='interior',className:surface==='interior'?'active':'',onClick:()=>this.changeSurface('interior')},h('span',null,'⌂'),h('div',null,h('b',null,'Nội thất'),h('small',null,'Phòng khách, phòng ngủ, căn hộ'))),
+          h('button',{type:'button','aria-pressed':surface==='exterior',className:surface==='exterior'?'active':'',onClick:()=>this.changeSurface('exterior')},h('span',null,'▰'),h('div',null,h('b',null,'Ngoại thất'),h('small',null,'Mặt tiền, tường ngoài trời')))
+        )
+      );
+
       var tabs=h('div',{className:'calc-mode-tabs'},
         [['finish','Sơn phủ','Tính lớp hoàn thiện'],['primer','Sơn lót','Tính lớp nền'],['system','Toàn bộ hệ sơn','Lót + phủ + chi phí']].map(x=>h('button',{type:'button',key:x[0],className:mode===x[0]?'active':'',onClick:()=>this.setState({mode:x[0]})},h('b',null,x[1]),h('small',null,x[2])))
       );
 
-      var form=h('div',{className:'calc-form calc-form-v3'},
+      var pairBanner=mode==='system'&&primer.id&&finish.id?h('div',{className:'calc-auto-pair '+(isAutoPair?'is-auto':'is-custom')},
+        h('div',{className:'calc-auto-icon'},isAutoPair?'✓':'↻'),
+        h('div',{className:'calc-auto-copy'},h('small',null,isAutoPair?'HỆ ĐƯỢC GHÉP TỰ ĐỘNG':'HỆ ĐÃ TÙY CHỈNH'),h('b',null,(primer.name||'Sơn lót')+'  +  '+(finish.name||'Sơn phủ')),h('span',null,isAutoPair?'Ưu tiên cùng dòng sản phẩm và đúng khu vực '+this.surfaceLabel().toLowerCase()+'.':'Bạn đã đổi primer thủ công; kết quả vẫn tính theo thông số của lựa chọn hiện tại.')),
+        !isAutoPair&&h('button',{type:'button',onClick:()=>this.setState({primerId:recommended.id})},'Dùng gợi ý')
+      ):null;
+
+      var form=h('div',{className:'calc-form calc-form-v3 calc-form-v4'},
+        surfacePicker,
         tabs,
         h('div',{className:'two'},
           h('label',null,'Diện tích cần sơn',h('div',{className:'input-suffix'},h('input',{type:'number',min:1,value:this.state.area,onChange:e=>this.setState({area:e.target.value})}),h('span',null,'m²'))),
           h('label',null,'Hao hụt dự kiến',h('div',{className:'input-suffix'},h('input',{type:'number',min:0,max:50,value:this.state.waste,onChange:e=>this.setState({waste:e.target.value})}),h('span',null,'%')))
         ),
+        pairBanner,
         showPrimer&&h('div',{className:'calc-product-panel primer-panel'},
-          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót'),h('small',null,'Lớp nền chống kiềm / tăng bám dính'))),
+          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót '+this.surfaceLabel().toLowerCase()),h('small',null,'Hệ thống tự ưu tiên primer tương thích với sơn phủ'))),
           groups.primers.length?h('div',{className:'two'},
-            h('label',null,'Sản phẩm lót',h('select',{value:primer.id||'',onChange:e=>this.setState({primerId:e.target.value})},groups.primers.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.unit||((p.variants||[])[0]+'L')))))),
+            h('label',null,'Sản phẩm lót',h('select',{value:primer.id||'',onChange:e=>this.setState({primerId:e.target.value})},groups.primers.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp lót',h('select',{value:this.state.primerCoats,onChange:e=>this.setState({primerCoats:e.target.value})},[1,2].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa đồng bộ được sản phẩm sơn lót có đủ độ phủ và dung tích từ iTop.')
+          ):h('div',{className:'calc-data-warning'},'Chưa đồng bộ được sơn lót '+this.surfaceLabel().toLowerCase()+' có đủ độ phủ, dung tích và giá từ iTop.')
         ),
         showFinish&&h('div',{className:'calc-product-panel finish-panel'},
-          h('div',{className:'calc-product-title'},h('span',null,showPrimer?'02':'01'),h('div',null,h('b',null,'Sơn phủ hoàn thiện'),h('small',null,'Chọn dòng sơn và số lớp phủ'))),
+          h('div',{className:'calc-product-title'},h('span',null,showPrimer?'02':'01'),h('div',null,h('b',null,'Sơn phủ '+this.surfaceLabel().toLowerCase()),h('small',null,'Danh sách đã được lọc theo khu vực thi công'))),
           groups.finishes.length?h('div',{className:'two'},
-            h('label',null,'Sản phẩm phủ',h('select',{value:finish.id||'',onChange:e=>this.setState({productId:e.target.value})},groups.finishes.map(p=>h('option',{value:p.id,key:p.id},p.name)))),
+            h('label',null,'Sản phẩm phủ',h('select',{value:finish.id||'',onChange:e=>this.changeFinish(e.target.value)},groups.finishes.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp phủ',h('select',{value:this.state.finishCoats,onChange:e=>this.setState({finishCoats:e.target.value})},[1,2,3].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa có sản phẩm sơn phủ đủ dữ liệu kỹ thuật để tính.'),
+          ):h('div',{className:'calc-data-warning'},'Chưa có sản phẩm sơn phủ '+this.surfaceLabel().toLowerCase()+' đủ dữ liệu kỹ thuật để tính. iTop cần có độ phủ và quy cách dung tích rõ ràng.'),
           h('label',{className:'calc-color-label'},'Màu tham khảo',h('div',{className:'swatch-line'},SWATCHES.map(s=>h('button',{type:'button',title:s[0],key:s[0],className:this.state.color===s[0]?'chosen':'',style:{background:s[1]},onClick:()=>this.setState({color:s[0]})}))))
         )
       );
@@ -179,7 +273,7 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
       if(showFinish&&groups.finishes.length)results.push(this.resultCard('SƠN PHỦ',finishR));
 
       var result=h('aside',{className:'calc-result calc-result-v3'},
-        h('span',{className:'calc-kicker'},mode==='system'?'KẾT QUẢ TOÀN BỘ HỆ SƠN':'KẾT QUẢ DỰ KIẾN'),
+        h('div',{className:'calc-result-topline'},h('span',{className:'calc-kicker'},mode==='system'?'KẾT QUẢ TOÀN BỘ HỆ SƠN':'KẾT QUẢ DỰ KIẾN'),h('span',{className:'surface-result-chip'},this.surfaceLabel())),
         h('div',{className:'liters liters-v3'},h('b',null,totalLit.toFixed(1)),h('small',null,mode==='system'?'LÍT / TOÀN HỆ':'LÍT SƠN')),
         h('div',{className:'calc-result-stack'},results),
         mode==='system'&&h('div',{className:'system-total'},
@@ -187,13 +281,13 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
           h('strong',{className:totalKnown?'cost-known':'cost-pending'},totalKnown?money(totalCost):'Chưa đủ giá theo quy cách')
         ),
         h(Btn,{kind:'red',className:'full',onClick:this.props.onQuote},'Nhận báo giá chính xác →'),
-        h('small',{className:'estimate-note'},'Kết quả là ước tính theo diện tích, số lớp, hao hụt, độ phủ và quy cách đã đồng bộ/cấu hình. Giá có thể thay đổi theo màu, base, dung tích, chương trình và thời điểm đặt hàng; báo giá iTop là bước xác nhận cuối cùng.')
+        h('small',{className:'estimate-note'},'Ghép hệ sơn là gợi ý hỗ trợ mua hàng dựa trên tên dòng, khu vực sử dụng và dữ liệu iTop; không được xem là khuyến nghị kỹ thuật chính thức của Jotun. Báo giá và tư vấn Tiến Bảo là bước xác nhận cuối cùng.')
       );
 
       return h('section',{className:'calculator-section',id:'calculator'},
         h('div',{className:'container'},
-          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Tính cả hệ sơn — từ lớp lót đến lớp phủ',desc:'Chọn Sơn phủ, Sơn lót hoặc Toàn bộ hệ sơn. Hệ thống gợi ý số lít, số thùng ít dư và chi phí khi iTop có giá đúng theo dung tích.'}),
-          h('div',{className:'calculator-shell calculator-shell-v3'},form,result)
+          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Chọn đúng khu vực → tự ghép đúng hệ sơn',desc:'Chọn Nội thất hoặc Ngoại thất trước. V7 lọc sản phẩm phù hợp, tự ghép primer với sơn phủ cùng dòng khi có thể, rồi tính lượng sơn, số thùng và chi phí theo dữ liệu iTop.'}),
+          h('div',{className:'calculator-shell calculator-shell-v3 calculator-shell-v4'},form,result)
         )
       );
     }
@@ -201,46 +295,39 @@ CALCULATOR = r'''  // CALCULATOR_V3_SYSTEM
 '''
 
 if MARKER not in app:
-    pattern = r"  class Calculator extends React\.Component\{.*?\n  class Colors extends React\.Component\{"
+    pattern = r"(?:  // CALCULATOR_V3_SYSTEM\n)?  class Calculator extends React\.Component\{.*?\n  class Colors extends React\.Component\{"
     replacement = CALCULATOR + "\n  class Colors extends React.Component{"
     app, count = re.subn(pattern, replacement, app, count=1, flags=re.S)
     if count != 1:
-        raise RuntimeError('Calculator section not found for V3 replacement')
+        raise RuntimeError('Calculator section not found for V4 replacement')
     changed_app = True
 
-CSS_MARKER = '/* CALCULATOR_V3_SYSTEM */'
+CSS_MARKER = '/* CALCULATOR_V4_SURFACE_PAIRING */'
 CSS_BLOCK = r'''
 
-/* CALCULATOR_V3_SYSTEM */
-.calculator-shell-v3{grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);align-items:start}
-.calc-form-v3{gap:18px}
-.calc-mode-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:5px;background:#08141e;border:1px solid #273844;border-radius:15px}
-.calc-mode-tabs button{border:1px solid transparent;background:transparent;color:#8ea2af;border-radius:11px;padding:12px 10px;text-align:left;transition:.22s}
-.calc-mode-tabs button b{display:block;color:#dce7ed;font-size:11px;margin-bottom:3px}
-.calc-mode-tabs button small{display:block;font-size:8px;line-height:1.35;color:#718792}
-.calc-mode-tabs button:hover{background:#ffffff08;transform:translateY(-1px)}
-.calc-mode-tabs button.active{background:linear-gradient(135deg,#d92b24,#a91614);border-color:#ff655c55;box-shadow:0 10px 25px #d7262026}
-.calc-mode-tabs button.active b,.calc-mode-tabs button.active small{color:#fff}
-.calc-product-panel{border:1px solid #2a3d49;background:linear-gradient(145deg,#0c1923,#10222e);border-radius:16px;padding:16px;position:relative;overflow:hidden}
-.calc-product-panel:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-100px;top:-110px;background:radial-gradient(circle,#ffffff0d,transparent 70%);pointer-events:none}
-.calc-product-title{display:flex;align-items:center;gap:10px;margin-bottom:13px}
-.calc-product-title>span{width:31px;height:31px;border-radius:9px;display:grid;place-items:center;background:#ffffff0c;border:1px solid #ffffff14;color:#ff746d;font-size:9px;font-weight:900}
-.calc-product-title b{display:block;color:#f1f6f8;font-size:12px}
-.calc-product-title small{display:block;color:#748b98;font-size:8px;margin-top:3px}
-.primer-panel{box-shadow:inset 3px 0 0 #f5c24b55}.finish-panel{box-shadow:inset 3px 0 0 #d7262055}
-.calc-color-label{display:block;margin-top:13px}.calc-data-warning{border:1px dashed #ce9d5355;background:#ce9d5310;color:#d9b982;border-radius:10px;padding:12px;font-size:9px;line-height:1.5}
-.calc-result-v3{position:sticky;top:98px}
-.liters-v3{padding-bottom:16px}.liters-v3 b{font-size:60px}.calc-result-stack{display:grid;gap:10px;margin:12px 0 16px}
-.calc-layer-card{border:1px solid #2b3e4a;background:#0c1923;border-radius:15px;padding:14px}
-.calc-layer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.calc-layer-head span{font-size:8px;letter-spacing:.14em;color:#8197a4;font-weight:900}.calc-layer-head b{font-size:17px;color:#fff}
-.calc-layer-card h3{font-size:11px;line-height:1.45;margin:0 0 12px;color:#e5edf2}
-.calc-mini-grid{display:grid;grid-template-columns:.65fr 1.1fr 1.1fr;gap:7px}
-.calc-mini-grid>div{background:#132531;border-radius:9px;padding:8px}.calc-mini-grid small{display:block;font-size:7px;color:#718895;margin-bottom:4px}.calc-mini-grid strong{display:block;font-size:8px;line-height:1.35;color:#dce7ed}
-.pack-box-v3{margin:12px 0 8px}.pack-chip-v3{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;background:#162a37;border:1px solid #293d49;border-radius:9px;padding:8px 9px}.pack-chip-v3 b{background:none;padding:0}.pack-chip-v3 small{font-size:8px;color:#8ea3af;text-align:right}
-.calc-cost-line{display:flex;justify-content:space-between;gap:15px;align-items:center;padding-top:10px;border-top:1px solid #243743}.calc-cost-line span{font-size:8px;color:#7e929f}.calc-cost-line strong{font-size:11px;text-align:right}.cost-known{color:#71d68a}.cost-pending{color:#e1b96c}
-.system-total{display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid #d7262040;background:linear-gradient(135deg,#d7262018,#09151f);border-radius:14px;padding:14px;margin:12px 0 16px}.system-total span{display:block;font-size:9px;color:#e5edf1;font-weight:800}.system-total small{display:block;color:#728895;font-size:7px;line-height:1.45;margin-top:4px;max-width:260px}.system-total strong{font-size:15px;text-align:right;white-space:nowrap}
-@media(max-width:980px){.calculator-shell-v3{grid-template-columns:1fr}.calc-result-v3{position:static}.calc-mode-tabs{grid-template-columns:1fr}.calc-mode-tabs button{text-align:center}.calc-mini-grid{grid-template-columns:1fr 1fr}.system-total{align-items:flex-start;flex-direction:column}.system-total strong{text-align:left}}
-@media(max-width:620px){.calc-form-v3 .two{grid-template-columns:1fr}.calc-mini-grid{grid-template-columns:1fr}.liters-v3 b{font-size:50px}.calc-product-panel{padding:13px}.calculator-shell-v3{padding:10px}.calc-form-v3,.calc-result-v3{padding:16px}.pack-chip-v3{align-items:flex-start;flex-direction:column}.pack-chip-v3 small{text-align:left}}
+/* CALCULATOR_V4_SURFACE_PAIRING */
+.calc-form-v4{align-content:start}
+.calc-surface-block{padding:16px;border:1px solid #2f4352;border-radius:16px;background:linear-gradient(145deg,#0b1721,#122536)}
+.calc-surface-copy{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.calc-surface-copy>span{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:#d72620;color:#fff;font-size:10px;font-weight:900;box-shadow:0 8px 18px rgba(215,38,32,.25)}
+.calc-surface-copy b{display:block;font-size:13px}.calc-surface-copy small{display:block;color:#88a0af;font-size:9px;margin-top:3px}
+.calc-surface-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calc-surface-selector button{border:1px solid #324958;background:#0b1721;color:#dbe7ed;border-radius:13px;padding:13px;display:flex;align-items:center;gap:11px;text-align:left;transition:.22s}
+.calc-surface-selector button>span{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:#172b3a;color:#9fb4c0;font-size:17px}
+.calc-surface-selector button b{display:block;font-size:12px}.calc-surface-selector button small{display:block;color:#78909e;font-size:8px;margin-top:3px}
+.calc-surface-selector button:hover{transform:translateY(-2px);border-color:#557083}
+.calc-surface-selector button.active{border-color:#ef4b43;background:linear-gradient(145deg,#182b3a,#261d20);box-shadow:inset 0 0 0 1px rgba(239,75,67,.2),0 12px 24px rgba(0,0,0,.16)}
+.calc-surface-selector button.active>span{background:#d72620;color:#fff}.calc-surface-selector button.active small{color:#aebfc8}
+.calc-auto-pair{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:14px;border-radius:14px;border:1px solid #315468;background:#0c1d29}
+.calc-auto-pair.is-auto{border-color:#2e6b59;background:linear-gradient(135deg,#0d251f,#102431)}
+.calc-auto-pair.is-custom{border-color:#6b5d35;background:linear-gradient(135deg,#29230f,#152431)}
+.calc-auto-icon{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:#17392e;color:#72e1b5;font-weight:900}
+.is-custom .calc-auto-icon{background:#433719;color:#ffd476}
+.calc-auto-copy small{display:block;color:#6ed8ac;font-size:8px;font-weight:900;letter-spacing:.13em}.is-custom .calc-auto-copy small{color:#f1c66b}
+.calc-auto-copy b{display:block;font-size:11px;margin:3px 0;color:#f4f8fa}.calc-auto-copy span{display:block;color:#829aa8;font-size:8px;line-height:1.45}
+.calc-auto-pair button{border:1px solid #4f6674;background:#142a38;color:#fff;border-radius:9px;padding:8px 10px;font-size:8px;font-weight:800}
+.calc-result-topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.surface-result-chip{font-size:9px;font-weight:900;padding:6px 9px;border-radius:999px;background:#173348;color:#b9d0dd;border:1px solid #294b60}
+@media(max-width:760px){.calc-surface-selector{grid-template-columns:1fr}.calc-auto-pair{grid-template-columns:38px 1fr}.calc-auto-pair button{grid-column:1/-1;width:100%}.calc-surface-copy>span{width:34px;height:34px}.calc-surface-selector button{min-height:62px}}
 '''
 
 if CSS_MARKER not in css:
@@ -253,6 +340,6 @@ if changed_css:
     CSS.write_text(css, encoding='utf-8')
 
 if changed_app or changed_css:
-    print('Calculator V3 system upgrade applied:', 'app' if changed_app else '', 'css' if changed_css else '')
+    print('Calculator V4 surface pairing applied:', 'app' if changed_app else '', 'css' if changed_css else '')
 else:
-    print('Calculator V3 system upgrade already applied')
+    print('Calculator V4 surface pairing already applied')
