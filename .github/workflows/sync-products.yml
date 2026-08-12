@@ -6,6 +6,7 @@ on:
     paths:
       - 'scripts/sync_products.py'
       - 'scripts/sync_technical.py'
+      - 'scripts/sync_calculator_catalog.py'
       - 'scripts/patch_calculator.py'
       - 'sync-products.js'
       - 'default-data.js'
@@ -37,8 +38,14 @@ jobs:
       - name: Sync technical calculator data
         run: python scripts/sync_technical.py
 
+      - name: Discover live iTop primer catalog
+        run: python scripts/sync_calculator_catalog.py
+
       - name: Apply safe Calculator upgrade
         run: python scripts/patch_calculator.py
+
+      - name: Validate app JavaScript
+        run: node --check app.js
 
       - name: Commit synced data
         shell: bash
