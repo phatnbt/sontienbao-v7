@@ -1,42 +1,21 @@
 #!/usr/bin/env python3
-import json, re, sys, urllib.request
-from html.parser import HTMLParser
-from urllib.parse import urljoin, urlparse
+import json, re, sys
 from pathlib import Path
 from datetime import datetime, timezone
+from urllib.parse import urljoin, urlparse
+from difflib import SequenceMatcher
+
+import requests
+from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_FILE = ROOT / 'default-data.js'
 OUTPUT_FILE = ROOT / 'synced-products.js'
-UA = 'Mozilla/5.0 (compatible; STBProductSync/1.0; +https://sontienbao.com/)'
-
-class ProductHTMLParser(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.meta = {}
-        self.in_jsonld = False
-        self.jsonld_buf = []
-        self.jsonld = []
-    def handle_starttag(self, tag, attrs):
-        a = dict(attrs)
-        if tag.lower() == 'meta':
-            key = a.get('property') or a.get('name')
-            val = a.get('content')
-            if key and val:
-                self.meta[key.lower()] = val.strip()
-        elif tag.lower() == 'script' and 'ld+json' in (a.get('type') or '').lower():
-            self.in_jsonld = True
-            self.jsonld_buf = []
-    def handle_data(self, data):
-        if self.in_jsonld:
-            self.jsonld_buf.append(data)
-    def handle_endtag(self, tag):
-        if tag.lower() == 'script' and self.in_jsonld:
-            self.in_jsonld = False
-            text = ''.join(self.jsonld_buf).strip()
-            if text:
-                self.jsonld.append(text)
-            self.jsonld_buf = []
+BASE = 'https://sontienbao.com/'
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/131 Safari/537.36',
+    'Accept-Language': 'vi-VN,vi;q=0.9,en;q=0.6'
+}
 
 def load_defaults():
     text = DEFAULT_FILE.read_text(encoding='utf-8')
@@ -45,121 +24,116 @@ def load_defaults():
         raise RuntimeError('Cannot parse default-data.js')
     return json.loads(m.group(1))
 
-def walk_products(obj):
-    if isinstance(obj, dict):
-        t = obj.get('@type')
-        types = t if isinstance(t, list) else [t]
-        if any(str(x).lower() == 'product' for x in types if x):
-            yield obj
-        for v in obj.values():
-            yield from walk_products(v)
-    elif isinstance(obj, list):
-        for x in obj:
-            yield from walk_products(x)
+def norm(s):
+    s = (s or '').lower()
+    s = re.sub(r'\([^)]*\)', ' ', s)
+    s = s.replace('jotun ', '').replace('sơn ', '')
+    s = re.sub(r'[^a-z0-9à-ỹ]+', ' ', s, flags=re.I)
+    return re.sub(r'\s+', ' ', s).strip()
 
-def first_offer(product):
-    offers = product.get('offers')
-    if isinstance(offers, list):
-        offers = offers[0] if offers else {}
-    return offers if isinstance(offers, dict) else {}
+def to_price(text):
+    if not text: return 0
+    s = re.sub(r'[^0-9]', '', str(text))
+    try: return int(s)
+    except: return 0
 
-def to_price(v):
-    if v is None:
-        return 0
-    s = str(v).strip().replace('\xa0',' ')
-    s = re.sub(r'[^0-9,\.]', '', s)
-    if not s:
-        return 0
-    if s.count('.') > 1 and ',' not in s:
-        s = s.replace('.', '')
-    elif s.count(',') > 1 and '.' not in s:
-        s = s.replace(',', '')
-    else:
-        # Vietnamese prices are normally integer VND; remove separators when 3-digit grouping is likely.
-        s = re.sub(r'[\.,](?=\d{3}(?:\D|$))', '', s)
-        s = s.replace(',', '.')
-    try:
-        return int(round(float(s)))
-    except Exception:
-        return 0
+def price_list(text):
+    vals = []
+    for m in re.findall(r'(\d{1,3}(?:[\.\s]\d{3})+)\s*đ', text or '', flags=re.I):
+        v = to_price(m)
+        if v and v not in vals: vals.append(v)
+    return vals
 
-def fetch(url):
-    req = urllib.request.Request(url, headers={'User-Agent': UA, 'Accept-Language': 'vi-VN,vi;q=0.9,en;q=0.6'})
-    with urllib.request.urlopen(req, timeout=25) as r:
-        final_url = r.geturl()
-        body = r.read().decode('utf-8', errors='replace')
-        return final_url, body
+def fetch_soup(url):
+    r = requests.get(url, headers=HEADERS, timeout=30)
+    r.raise_for_status()
+    return r.url, BeautifulSoup(r.text, 'html.parser')
 
-def scrape(product):
-    url = product.get('url') or ''
-    parsed = urlparse(url)
-    if parsed.netloc not in ('sontienbao.com','www.sontienbao.com'):
+def card_from_anchor(a):
+    node = a
+    for _ in range(6):
+        parent = getattr(node, 'parent', None)
+        if not parent: break
+        txt = parent.get_text(' ', strip=True)
+        prices = price_list(txt)
+        if prices:
+            img = parent.find('img')
+            return parent, prices, img
+        node = parent
+    return a, [], a.find('img')
+
+def find_home_product(product, soup):
+    target = norm(product.get('name'))
+    best = None
+    for a in soup.find_all('a', href=True):
+        text = a.get_text(' ', strip=True)
+        if not text: continue
+        score = SequenceMatcher(None, target, norm(text)).ratio()
+        if target and (target in norm(text) or norm(text) in target):
+            score += 0.25
+        if best is None or score > best[0]:
+            best = (score, a, text)
+    if not best or best[0] < 0.58:
         return None
-    if parsed.path in ('','/'):
-        return None
-    final_url, html = fetch(url)
-    p = ProductHTMLParser(); p.feed(html)
-    schema_product = None
-    for block in p.jsonld:
-        try:
-            obj = json.loads(block)
-        except Exception:
-            continue
-        found = list(walk_products(obj))
-        if found:
-            schema_product = found[0]
-            break
-    name = ''
+    _, a, text = best
+    card, prices, img = card_from_anchor(a)
+    href = urljoin(BASE, a.get('href'))
     image = ''
-    price = 0
-    old_price = 0
-    if schema_product:
-        name = str(schema_product.get('name') or '').strip()
-        img = schema_product.get('image')
-        if isinstance(img, list): img = img[0] if img else ''
-        if isinstance(img, dict): img = img.get('url') or img.get('contentUrl') or ''
-        image = str(img or '').strip()
-        offer = first_offer(schema_product)
-        price = to_price(offer.get('price') or offer.get('lowPrice'))
-    name = name or p.meta.get('og:title','') or product.get('name','')
-    image = image or p.meta.get('og:image','')
-    if not price:
-        for key in ('product:price:amount','og:price:amount'):
-            if p.meta.get(key):
-                price = to_price(p.meta[key]); break
-    if not price:
-        patterns = [
-            r'"price"\s*:\s*"?([0-9][0-9\.,]*)',
-            r'(?:Giá bán|Giá khuyến mãi|price)[^0-9]{0,80}([0-9][0-9\.]{3,})\s*đ',
-        ]
-        for pat in patterns:
-            mm = re.search(pat, html, re.I)
-            if mm:
-                price = to_price(mm.group(1))
-                if price: break
-    if image:
-        image = urljoin(final_url, image)
-    if not name and not image and not price:
-        return None
+    if img:
+        image = img.get('data-src') or img.get('data-original') or img.get('src') or ''
+        image = urljoin(BASE, image)
+    current = prices[0] if prices else 0
+    old = prices[1] if len(prices) > 1 else 0
     return {
         'id': product.get('id'),
-        'name': re.sub(r'\s+',' ',name).strip(),
-        'url': final_url,
+        'name': re.sub(r'\s+',' ', text).strip() or product.get('name',''),
+        'url': href,
         'image': image,
-        'price': price,
-        'oldPrice': old_price,
+        'price': current,
+        'oldPrice': old,
         'pricePrefix': product.get('pricePrefix',''),
         'unit': product.get('unit','')
+    }
+
+def scrape_detail(product):
+    url = product.get('url') or ''
+    p = urlparse(url)
+    if p.netloc not in ('sontienbao.com','www.sontienbao.com') or p.path in ('','/'):
+        return None
+    final, soup = fetch_soup(url)
+    title = (soup.find('h1').get_text(' ',strip=True) if soup.find('h1') else '') or product.get('name','')
+    text = soup.get_text(' ', strip=True)
+    prices = price_list(text)
+    og = soup.find('meta', attrs={'property':'og:image'})
+    image = urljoin(final, og.get('content')) if og and og.get('content') else ''
+    return {
+        'id': product.get('id'), 'name': title, 'url': final, 'image': image,
+        'price': prices[0] if prices else 0,
+        'oldPrice': prices[1] if len(prices)>1 else 0,
+        'pricePrefix': product.get('pricePrefix',''), 'unit': product.get('unit','')
     }
 
 def main():
     data = load_defaults()
     products = data.get('products') or []
-    out = []
-    errors = []
+    out, errors = [], []
+
+    home_soup = None
+    try:
+        _, home_soup = fetch_soup(BASE)
+        print('HOME OK')
+    except Exception as e:
+        errors.append(f'homepage: {e}')
+        print('HOME ERR', e, file=sys.stderr)
+
     for product in products:
+        item = None
         try:
-            item = scrape(product)
+            if home_soup is not None:
+                item = find_home_product(product, home_soup)
+            if item is None:
+                try: item = scrape_detail(product)
+                except Exception as e: errors.append(f"{product.get('id')}: {e}")
             if item:
                 out.append(item)
                 print('OK', item['id'], item['price'], item['url'])
@@ -168,12 +142,14 @@ def main():
         except Exception as e:
             errors.append(f"{product.get('id')}: {e}")
             print('ERR', product.get('id'), e, file=sys.stderr)
+
     if not out:
         print('No product could be synced; keeping previous synced-products.js untouched.', file=sys.stderr)
         sys.exit(0)
+
     meta = {
         'generatedAt': datetime.now(timezone.utc).isoformat(),
-        'source': 'https://sontienbao.com',
+        'source': BASE,
         'status': 'ok',
         'synced': len(out),
         'errors': errors
