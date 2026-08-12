@@ -7,6 +7,23 @@
   var byId={};
   synced.forEach(function(p){if(p&&p.id)byId[p.id]=p;});
 
+  function mergeTechnical(p,s){
+    var out={};
+    if(Number(s.coverage||0)>0){
+      out.coverage=Number(s.coverage);
+      out.coverageLabel=s.coverageLabel||p.coverageLabel||'';
+      out.technicalSource=s.technicalSource||'iTop';
+    }
+    if(Array.isArray(s.variants)&&s.variants.length){
+      out.variants=s.variants.map(Number).filter(function(x){return x>0;});
+      out.technicalSource=s.technicalSource||'iTop';
+    }
+    if(s.calcEligible===false && s.technicalSource==='iTop')out.calcEligible=false;
+    else if(s.calcEligible===true)out.calcEligible=true;
+    if(s.unit)out.unit=s.unit;
+    return out;
+  }
+
   base=base.map(function(p){
     var s=byId[p.id];
     if(!s)return p;
@@ -18,19 +35,15 @@
       oldPrice:Number(s.oldPrice||0),
       pricePrefix:s.pricePrefix||p.pricePrefix||'',
       unit:s.unit||p.unit||''
-    });
+    },mergeTechnical(p,s));
   });
 
-  // Add products currently promoted on the iTop storefront without overwriting
-  // Calculator technical data. Newly discovered items intentionally have no
-  // coverage/variants, so the Calculator uses its clearly-labelled estimate.
   var seenUrl={};
   base.forEach(function(p){if(p&&p.url)seenUrl[String(p.url).replace(/\/$/,'')]=true;});
   homepage.forEach(function(p){
     if(!p||!p.url)return;
     var key=String(p.url).replace(/\/$/,'');
     if(seenUrl[key]){
-      // Mark matching existing product as featured and refresh storefront fields.
       base=base.map(function(x){
         if(!x||!x.url||String(x.url).replace(/\/$/,'')!==key)return x;
         return Object.assign({},x,{
@@ -41,8 +54,9 @@
           image:p.image||x.image,
           price:Number(p.price||x.price||0),
           oldPrice:Number(p.oldPrice||0),
+          pricePrefix:p.pricePrefix||x.pricePrefix||'',
           url:p.url
-        });
+        },mergeTechnical(x,p));
       });
       return;
     }
@@ -62,15 +76,15 @@
       featured:true,
       storefrontOnly:true,
       url:p.url,
-      coverage:0,
-      coverageLabel:'',
-      variants:[],
+      coverage:Number(p.coverage||0),
+      coverageLabel:p.coverageLabel||'',
+      variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
+      calcEligible:p.calcEligible===true,
+      technicalSource:p.technicalSource||'',
       enabled:p.enabled!==false
     });
   });
 
-  // Homepage order controls featured priority. Existing featured products remain
-  // available as fallback when iTop does not expose enough cards.
   if(homepage.length){
     var order={};
     homepage.forEach(function(p,i){if(p&&p.url)order[String(p.url).replace(/\/$/,'')]=i;});
