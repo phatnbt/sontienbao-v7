@@ -2,6 +2,7 @@
   var cfg=window.STB_MANUAL_PRODUCTS||{};
   if(!window.STB_DEFAULT_DATA||!Array.isArray(window.STB_DEFAULT_DATA.products))return;
   var products=window.STB_DEFAULT_DATA.products.slice();
+  window.STB_PRODUCTS_BEFORE_MANUAL=products.map(function(p){return Object.assign({},p);});
   var overrides=cfg.overrides&&typeof cfg.overrides==='object'?cfg.overrides:{};
   var hidden=Array.isArray(cfg.hidden)?cfg.hidden:[];
   var hiddenSet={};hidden.forEach(function(k){hiddenSet[String(k)]=true;});
