@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Admin V2 • Sơn Tiến Bảo</title>
+  <link rel="stylesheet" href="admin-v2.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><img src="assets/logo-tien-bao.png" alt="Sơn Tiến Bảo"><div><b>Admin V2</b><small>Sơn Tiến Bảo</small></div></div>
+      <div class="nav-title">TỔNG QUAN</div>
+      <nav class="nav">
+        <button class="active" data-page="dashboard">▣ Dashboard</button>
+        <button data-page="products">▦ Sản phẩm</button>
+        <button data-page="content">✎ Nội dung</button>
+        <button data-page="settings">⚙ Kết nối</button>
+      </nav>
+      <div class="side-bottom nav">
+        <a href="./" target="_blank" rel="noopener">↗ Mở V7</a>
+        <a href="https://sontienbao.com/admin" target="_blank" rel="noopener">↗ iTop Admin</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="spacer"></div>
+        <span id="connBadge" class="tag hidden">Chưa kết nối</span>
+        <button id="themeBtn" class="btn" title="Đổi giao diện">◐</button>
+        <button id="saveBtn" class="btn primary">Lưu thay đổi</button>
+      </header>
+
+      <div class="content">
+        <section id="page-dashboard" class="page active">
+          <div class="hero"><h2>Quản trị Landing Page V7</h2><p>Giữ nguyên tự đồng bộ iTop, đồng thời cho phép chỉnh sửa thủ công có kiểm soát.</p></div>
+          <div class="cards">
+            <div class="card stat"><small>SẢN PHẨM ĐANG HIỂN THỊ</small><strong id="statTotal">0</strong><span>Sau khi áp dụng lớp thủ công</span></div>
+            <div class="card stat"><small>NGUỒN TỰ ĐỒNG BỘ</small><strong id="statSynced">0</strong><span>Từ iTop/storefront</span></div>
+            <div class="card stat"><small>ĐÃ SỬA THỦ CÔNG</small><strong id="statOverride">0</strong><span>Ưu tiên hơn dữ liệu sync</span></div>
+            <div class="card stat"><small>ĐANG ẨN</small><strong id="statHidden">0</strong><span>Không hiển thị trên V7</span></div>
+          </div>
+          <div class="card">
+            <div class="section-head"><h2>Nguyên tắc dữ liệu</h2></div>
+            <div class="notice"><b>Tự đồng bộ vẫn giữ nguyên.</b> Admin V2 chỉ ghi thay đổi vào một lớp riêng. Nếu bạn bấm “Trả về tự đồng bộ”, sản phẩm đó lại lấy tên, ảnh và giá mới nhất từ iTop.</div>
+          </div>
+          <div class="cms-links" style="margin-top:14px">
+            <a class="cms-link" href="#products" data-go="products"><div class="card"><b>Quản lý sản phẩm</b><p class="muted">Thêm, sửa, ẩn, xoá sản phẩm thủ công và upload ảnh.</p></div></a>
+            <a class="cms-link" href="admin.html"><div class="card"><b>Chỉnh nội dung Landing Page</b><p class="muted">Hero, danh mục, banner, popup, FAQ và SEO hiện có.</p></div></a>
+            <a class="cms-link" href="https://sontienbao.com/admin/product" target="_blank" rel="noopener"><div class="card"><b>Quản lý nguồn iTop</b><p class="muted">Sản phẩm gốc, giá, tồn kho và dữ liệu bán hàng.</p></div></a>
+          </div>
+        </section>
+
+        <section id="page-products" class="page">
+          <div class="section-head"><h2>Sản phẩm V7</h2><div class="spacer"></div><button id="addProductBtn" class="btn navy">+ Thêm sản phẩm</button></div>
+          <div class="toolbar">
+            <input id="productSearch" class="search" placeholder="Tìm theo tên, thương hiệu, danh mục...">
+            <select id="sourceFilter"><option value="all">Tất cả nguồn</option><option value="sync">Tự đồng bộ</option><option value="override">Đã sửa thủ công</option><option value="manual">Thêm thủ công</option><option value="hidden">Đang ẩn</option></select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Sản phẩm</th><th>Nguồn</th><th>Danh mục</th><th>Giá</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+              <tbody id="productRows"></tbody>
+            </table>
+            <div id="productEmpty" class="empty" style="display:none">Không có sản phẩm phù hợp.</div>
+          </div>
+        </section>
+
+        <section id="page-content" class="page">
+          <div class="hero"><h2>Nội dung Landing Page</h2><p>Admin nội dung hiện tại vẫn hoạt động ổn định và dùng cùng repository.</p></div>
+          <div class="cms-links">
+            <a class="cms-link" href="admin.html#site"><div class="card"><b>Thông tin chung & SEO</b><p class="muted">Hotline, email, địa chỉ, SEO title và description.</p></div></a>
+            <a class="cms-link" href="admin.html#hero"><div class="card"><b>Hero</b><p class="muted">Headline, mô tả, CTA và ảnh Hero.</p></div></a>
+            <a class="cms-link" href="admin.html#categories"><div class="card"><b>Danh mục</b><p class="muted">Tên, mô tả, liên kết và ảnh danh mục.</p></div></a>
+            <a class="cms-link" href="admin.html#banner"><div class="card"><b>Banner</b><p class="muted">Banner CTA và hình ảnh.</p></div></a>
+            <a class="cms-link" href="admin.html#popup"><div class="card"><b>Popup</b><p class="muted">Thông báo, ưu đãi và CTA.</p></div></a>
+            <a class="cms-link" href="admin.html#faq"><div class="card"><b>FAQ</b><p class="muted">Thêm, sửa, ẩn và xóa câu hỏi thường gặp.</p></div></a>
+          </div>
+        </section>
+
+        <section id="page-settings" class="page">
+          <div class="card">
+            <div class="section-head"><h2>Kết nối GitHub</h2></div>
+            <p class="muted">Không dùng Supabase. Admin lưu nội dung và lớp chỉnh sửa sản phẩm trực tiếp trong repository V7.</p>
+            <div class="connect-box"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."><button id="connectBtn" class="btn navy">Kết nối</button></div>
+            <div class="notice" style="margin-top:12px">Token cần chỉ cấp quyền <b>Contents: Read and write</b> cho repo <b>phatnbt/sontienbao-v7</b>. Token chỉ giữ trong phiên trình duyệt.</div>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button id="disconnectBtn" class="btn">Ngắt kết nối</button><button id="reloadBtn" class="btn">Tải lại dữ liệu</button></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="productModal" class="modal-backdrop">
+    <div class="modal">
+      <h3 id="modalTitle">Sửa sản phẩm</h3>
+      <form id="productForm">
+        <input type="hidden" id="editKey">
+        <input type="hidden" id="editMode">
+        <div class="grid">
+          <div class="field"><label>Tên sản phẩm</label><input id="fName" required></div>
+          <div class="field"><label>Thương hiệu</label><input id="fBrand"></div>
+          <div class="field"><label>Danh mục</label><input id="fCategory"></div>
+          <div class="field"><label>Badge</label><input id="fBadge"></div>
+          <div class="field full"><label>Mô tả</label><textarea id="fDescription"></textarea></div>
+          <div class="field"><label>Giá hiện tại</label><input id="fPrice" type="number" min="0"></div>
+          <div class="field"><label>Giá cũ</label><input id="fOldPrice" type="number" min="0"></div>
+          <div class="field"><label>Tiền tố giá</label><input id="fPricePrefix" placeholder="Ví dụ: Từ"></div>
+          <div class="field"><label>Đơn vị</label><input id="fUnit" placeholder="Ví dụ: /thùng"></div>
+          <div class="field full"><label>URL sản phẩm</label><input id="fUrl" type="url"></div>
+          <div class="field full"><label>Ảnh sản phẩm</label><div class="preview-row"><img id="imagePreview" src="assets/logo-tien-bao.png" alt="Preview"><div><input id="fImage"><div style="margin-top:8px"><button id="uploadImageBtn" class="btn" type="button">Tải ảnh lên GitHub</button></div></div></div></div>
+          <div class="field"><label class="check"><input id="fFeatured" type="checkbox"> Sản phẩm nổi bật</label></div>
+          <div class="field"><label class="check"><input id="fEnabled" type="checkbox" checked> Hiển thị</label></div>
+        </div>
+        <div class="modal-actions"><button id="cancelModal" type="button" class="btn">Hủy</button><button type="submit" class="btn primary">Áp dụng</button></div>
+      </form>
+    </div>
+  </div>
+  <input id="filePicker" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+  <div id="toast" class="toast"></div>
+
+  <script src="default-data.js"></script>
+  <script src="synced-products.js"></script>
+  <script src="sync-products.js"></script>
+  <script src="manual-products.js"></script>
+  <script src="manual-product-overrides.js"></script>
+  <script src="admin-v2.js"></script>
+</body>
+</html>
