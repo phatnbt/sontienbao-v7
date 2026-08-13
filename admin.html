@@ -4,73 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data: blob: https:; style-src 'unsafe-inline'; script-src 'self'; base-uri 'none'; form-action 'none'">
-  <title>V7 Admin • Sơn Tiến Bảo</title>
-  <style>
-    :root{--navy:#07131f;--red:#d72620;--paper:#f4f6f8;--ink:#13202b;--muted:#667481;--line:#dce3e8;--green:#12805c}
-    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}
-    .top{position:sticky;top:0;z-index:20;background:#0b1825;color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}.topin{max-width:1420px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:14px}.brand{display:flex;align-items:center;gap:10px;font-weight:800}.brand img{width:38px;height:38px;object-fit:contain;background:#fff;border-radius:10px;padding:4px}.brand small{display:block;font-weight:500;color:#9fb0be}.spacer{flex:1}.top a,.top button{border:1px solid rgba(255,255,255,.18);background:transparent;color:#fff;border-radius:10px;padding:9px 12px;text-decoration:none}.top .save{background:var(--red);border-color:var(--red);font-weight:800;min-width:120px}.top .save.dirty{box-shadow:0 0 0 3px rgba(215,38,32,.22)}.top button:disabled{opacity:.65;cursor:wait}
-    .layout{max-width:1420px;margin:0 auto;display:grid;grid-template-columns:250px minmax(0,1fr);gap:22px;padding:22px}.side{position:sticky;top:84px;align-self:start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}.side a{display:block;padding:10px 12px;color:#334655;text-decoration:none;border-radius:9px}.side a:hover{background:#f1f5f7}.side .itop{margin-top:10px;background:#f9eceb;color:#9f1e19;font-weight:800}.main{min-width:0}
-    .hero-admin{background:linear-gradient(135deg,var(--navy),#153b5b);color:#fff;border-radius:20px;padding:24px;margin-bottom:20px}.hero-admin h1{margin:3px 0 7px;font-size:30px}.hero-admin p{margin:0;color:#b9c8d3;max-width:850px}.statusbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.1);font-size:13px}.dot{width:8px;height:8px;border-radius:50%;background:#8b98a2}.dot.ok{background:#3ed19e}.dot.warn{background:#ffc857}
-    .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;scroll-margin-top:90px}.card h2{font-size:20px;margin:0 0 5px}.card>p{margin:0 0 18px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid.one{grid-template-columns:1fr}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:800;letter-spacing:.03em;color:#40515f;text-transform:uppercase}.field input,.field textarea,.field select{width:100%;border:1px solid #cdd7de;border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink);outline:none}.field textarea{min-height:92px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:#5f87a7;box-shadow:0 0 0 3px rgba(74,126,166,.1)}
-    .imgrow{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;align-items:center}.preview{width:130px;height:92px;border-radius:12px;border:1px dashed #bac7cf;background:#f8fafb;object-fit:cover}.uploadline{display:flex;gap:8px;margin-top:7px}.ghost,.danger,.mini{border:1px solid #cdd7de;background:#fff;border-radius:9px;padding:8px 10px}.danger{color:#a11b16;border-color:#efc3c0}.mini{padding:6px 9px;font-size:13px}.check{display:flex;align-items:center;gap:9px;padding:9px 0}.check input{width:18px;height:18px}.item{border:1px solid var(--line);border-radius:13px;padding:14px;margin-top:11px;background:#fbfcfd}.itemhead{display:flex;align-items:center;gap:10px;margin-bottom:11px}.itemhead b{flex:1}.muted{color:var(--muted);font-size:13px}
-    .connect{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}.connect input{border:1px solid #cdd7de;border-radius:10px;padding:11px 12px;min-width:0}.primary{border:0;background:var(--navy);color:#fff;border-radius:10px;padding:10px 14px;font-weight:800}.notice{border-left:4px solid #efaa25;background:#fff8e8;padding:12px 14px;border-radius:8px;color:#6e4a06;margin-top:12px}.success{border-left-color:var(--green)!important;background:#ecfbf5!important;color:#075e43!important}.error{border-left-color:var(--red)!important;background:#fff0ef!important;color:#8a1814!important}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.actions a{text-decoration:none}.hidden{display:none!important}.footer{color:#6e7a84;text-align:center;padding:15px 10px 35px;font-size:13px}
-    .toast{position:fixed;right:18px;bottom:18px;z-index:1000;max-width:min(520px,calc(100vw - 36px));padding:14px 16px;border-radius:12px;background:#0b1825;color:#fff;box-shadow:0 14px 40px rgba(0,0,0,.25);opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}.toast.success{background:#075e43!important;color:#fff!important}.toast.error{background:#8a1814!important;color:#fff!important}
-    @media(max-width:900px){.layout{grid-template-columns:1fr;padding:14px}.side{position:static;display:flex;overflow:auto}.side a{white-space:nowrap}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.topin{padding:10px 12px}.brand small{display:none}.top .hide-sm{display:none}.imgrow{grid-template-columns:90px minmax(0,1fr)}.preview{width:90px;height:75px}}
-  </style>
+  <meta http-equiv="refresh" content="0;url=admin-v2.html">
+  <title>Đang chuyển đến Admin V2…</title>
+  <script>location.replace('admin-v2.html'+location.hash);</script>
 </head>
-<body>
-  <header class="top"><div class="topin">
-    <div class="brand"><img src="assets/logo-tien-bao.png" alt="Sơn Tiến Bảo"><div>V7 Admin<small>Landing Page CMS</small></div></div>
-    <div class="spacer"></div>
-    <a class="hide-sm" href="https://phatnbt.github.io/sontienbao-v7/" target="_blank" rel="noopener">Mở V7 ↗</a>
-    <a class="hide-sm" href="https://sontienbao.com/admin" target="_blank" rel="noopener">iTop Admin ↗</a>
-    <button id="reloadBtn" type="button">Tải lại</button>
-    <button id="saveBtn" class="save" type="button">Lưu lên V7</button>
-  </div></header>
-
-  <div class="layout">
-    <nav class="side"><a href="#connect">Kết nối</a><a href="#site">Thông tin chung</a><a href="#hero">Hero</a><a href="#categories">Danh mục</a><a href="#banner">Banner</a><a href="#popup">Popup</a><a href="#faq">FAQ</a><a href="#products" class="itop">Sản phẩm & giá → iTop</a></nav>
-    <main class="main">
-      <section class="hero-admin"><span class="muted" style="color:#9fb2c0">SƠN TIẾN BẢO • V7</span><h1>Quản trị nội dung Landing Page</h1><p>Sửa nội dung, ảnh, banner và FAQ tại đây. Sản phẩm, giá, tồn kho và đơn hàng vẫn quản lý trong iTop.</p><div class="statusbar"><span class="pill"><i id="connDot" class="dot"></i><span id="connText">Chưa kết nối GitHub</span></span><span class="pill">Repo: phatnbt/sontienbao-v7</span><span class="pill" id="updatedText">Chưa tải dữ liệu</span></div></section>
-
-      <section class="card" id="connect"><h2>1. Kết nối quyền lưu</h2><p>Fine-grained token chỉ cần repo <b>sontienbao-v7</b> và quyền <b>Contents: Read and write</b>. Token chỉ giữ trong phiên tab này.</p><div class="connect"><input id="token" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."><button id="connectBtn" type="button" class="primary">Kết nối</button></div><div class="notice">Nếu đóng tab/trình duyệt, bạn có thể phải dán token lại. Không gửi token cho người khác.</div><div id="message" class="notice hidden"></div><div class="actions"><button id="disconnectBtn" type="button" class="ghost">Ngắt kết nối</button><button id="loadBtn" type="button" class="ghost">Tải dữ liệu từ GitHub</button></div></section>
-
-      <section class="card" id="site"><h2>2. Thông tin chung</h2><p>Nội dung chung của landing page.</p><div class="grid">
-        <div class="field full"><label>Thanh thông báo trên cùng</label><input data-path="site.topbar"></div>
-        <div class="field"><label>Hotline hiển thị</label><input data-path="site.hotlineDisplay"></div><div class="field"><label>Hotline gọi</label><input data-path="site.hotline"></div>
-        <div class="field"><label>Email</label><input data-path="site.email"></div><div class="field"><label>Địa chỉ</label><input data-path="site.address"></div>
-        <div class="field"><label>Phong cách giao diện</label><select data-path="theme.template"><option value="premium-navy">Premium Navy</option><option value="light-boutique">Light Boutique</option><option value="graphite-glass">Graphite Glass</option><option value="sandstone-studio">Sandstone Studio</option><option value="neo-commerce">Neo Commerce</option></select></div>
-        <div class="field"><label>SEO title</label><input data-path="seo.title"></div><div class="field full"><label>SEO description</label><textarea data-path="seo.description"></textarea></div>
-      </div></section>
-
-      <section class="card" id="hero"><h2>3. Hero đầu trang</h2><p>Sửa tiêu đề, mô tả, nút và ảnh lớn.</p><div class="grid">
-        <div class="field full"><label>Eyebrow</label><input data-path="hero.eyebrow"></div><div class="field"><label>Tiêu đề</label><input data-path="hero.title"></div><div class="field"><label>Dòng nhấn</label><input data-path="hero.titleAccent"></div>
-        <div class="field full"><label>Mô tả</label><textarea data-path="hero.lead"></textarea></div><div class="field"><label>Nút chính</label><input data-path="hero.primaryCta"></div><div class="field"><label>Nút phụ</label><input data-path="hero.secondaryCta"></div><div class="field"><label>Nút bảng màu</label><input data-path="hero.tertiaryCta"></div><div class="field"><label>Ghi chú nhỏ</label><input data-path="hero.microcopy"></div>
-        <div class="field full"><label>Ảnh Hero</label><div class="imgrow"><img class="preview" data-preview="hero.image" alt="Hero"><div><input data-path="hero.image"><div class="uploadline"><button type="button" class="ghost imageUpload" data-target="hero.image">Tải ảnh lên GitHub</button></div></div></div></div>
-      </div></section>
-
-      <section class="card" id="categories"><h2>4. Danh mục</h2><p>Bật/tắt, đổi tên, mô tả, link và ảnh danh mục.</p><div id="categoryList"></div></section>
-
-      <section class="card" id="banner"><h2>5. Banner CTA</h2><p>Banner điều hướng khách về Calculator hoặc trang phù hợp.</p><div class="grid">
-        <div class="field full"><label class="check"><input type="checkbox" data-path="banners.0.enabled"> Hiển thị banner</label></div><div class="field"><label>Tiêu đề</label><input data-path="banners.0.title"></div><div class="field"><label>Nút CTA</label><input data-path="banners.0.ctaLabel"></div><div class="field full"><label>Mô tả</label><textarea data-path="banners.0.subtitle"></textarea></div><div class="field full"><label>Link CTA</label><input data-path="banners.0.ctaUrl"></div>
-        <div class="field full"><label>Ảnh banner</label><div class="imgrow"><img class="preview" data-preview="banners.0.image" alt="Banner"><div><input data-path="banners.0.image"><div class="uploadline"><button type="button" class="ghost imageUpload" data-target="banners.0.image">Tải ảnh lên GitHub</button></div></div></div></div>
-      </div></section>
-
-      <section class="card" id="popup"><h2>6. Popup / ưu đãi</h2><p>Popup của V7; giá nên dẫn sang iTop để xác nhận.</p><div class="grid">
-        <div class="field full"><label class="check"><input type="checkbox" data-path="popups.0.enabled"> Bật popup</label></div><div class="field"><label>Eyebrow</label><input data-path="popups.0.eyebrow"></div><div class="field"><label>Tiêu đề</label><input data-path="popups.0.title"></div><div class="field full"><label>Nội dung</label><textarea data-path="popups.0.body"></textarea></div><div class="field full"><label>Dòng nhấn</label><input data-path="popups.0.highlight"></div><div class="field"><label>Nút chính</label><input data-path="popups.0.ctaLabel"></div><div class="field"><label>Link nút chính</label><input data-path="popups.0.ctaUrl"></div><div class="field"><label>Nút đóng</label><input data-path="popups.0.secondaryLabel"></div><div class="field"><label>Delay (ms)</label><input type="number" min="0" data-path="popups.0.delay"></div>
-        <div class="field full"><label>Ảnh popup</label><div class="imgrow"><img class="preview" data-preview="popups.0.image" alt="Popup"><div><input data-path="popups.0.image"><div class="uploadline"><button type="button" class="ghost imageUpload" data-target="popups.0.image">Tải ảnh lên GitHub</button></div></div></div></div>
-      </div></section>
-
-      <section class="card" id="faq"><h2>7. Câu hỏi thường gặp</h2><p>Thêm, sửa, ẩn hoặc xóa FAQ.</p><div id="faqList"></div><div class="actions"><button id="addFaq" type="button" class="ghost">+ Thêm FAQ</button></div></section>
-
-      <section class="card" id="products"><h2>Sản phẩm, giá, ảnh sản phẩm & đơn hàng</h2><p>Phần này quản lý trong iTop để tránh lệch dữ liệu.</p><div class="actions"><a class="primary" href="https://sontienbao.com/admin" target="_blank" rel="noopener">Mở iTop Admin ↗</a><a class="ghost" href="https://sontienbao.com/admin/product" target="_blank" rel="noopener">Quản lý sản phẩm ↗</a></div></section>
-      <div class="footer">V7 Admin • nội dung lưu trong v7-content.js • sản phẩm/giá lấy từ iTop</div>
-    </main>
-  </div>
-  <input id="filePicker" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
-  <div id="toast" class="toast" aria-live="polite"></div>
-  <script src="v7-content.js"></script>
-  <script src="admin.js"></script>
-</body>
+<body style="font-family:system-ui;padding:24px">Đang chuyển đến <a href="admin-v2.html">Admin V2</a>…</body>
 </html>
