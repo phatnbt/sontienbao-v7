@@ -1,67 +1,51 @@
-SON TIEN BAO V7 — ITOP NATIVE / KHONG CAN SUPABASE
-==================================================
+SON TIEN BAO V7 — SINGLE ADMIN CENTER
+====================================
 
 MUC TIEU
+- Chi co 1 giao dien Admin Center cho Landing Page V7.
 - Khong tao database thu hai.
 - Khong can Supabase.
-- Khong can VPS/backend moi chi de quan ly landing page.
-- Su dung backend + phien dang nhap iTop hien tai cua sontienbao.com.
+- GitHub luu cau hinh Landing Page; iTop van la nguon nghiep vu ben ngoai.
 
-1) LOCAL PREVIEW (VS CODE)
---------------------------
-- Click phai index.html -> Open with Live Server.
-- Website chay nhu binh thuong.
-- Admin: index.html#admin hoac admin.html.
-- Local Preview cho phep xem/sua cau hinh giao dien tren trinh duyet.
-- Local Preview KHONG ghi truc tiep vao iTop de tranh CORS/cookie/CSRF.
+1) ADMIN CENTER DUY NHAT
+-------------------------
+- File chinh: admin.html
+- GitHub Pages: https://phatnbt.github.io/sontienbao-v7/admin.html
+- index.html#admin tu dong chuyen ve admin.html.
+- admin-v2.html va admin-v3.html chi la redirect tuong thich link cu.
+- Khong tao them admin-v4, admin-v5...
 
-2) ITOP LIVE — PRODUCTION
---------------------------
-De Product / Bang mau / Media / Tai khoan quan ly truc tiep iTop:
-- Upload nguyen thu muc V7 vao hosting cung domain sontienbao.com.
-- Vi du: https://sontienbao.com/stb-v7/index.html
-- Dang nhap iTop tai https://sontienbao.com/admin
-- Sau do mo https://sontienbao.com/stb-v7/index.html#admin
-
-V7 se dung chinh cookie/session iTop hien tai.
-Khong co username/password thu hai trong source.
-
-3) MODULE ITOP LIVE DA NOI
----------------------------
-- Authentication / session: iTop native.
-- Product search: /admin/product/datatables
-- Product create: /admin/product/create
-- Product edit: /admin/product/{id}/edit
-- Product delete: /admin/product/{id}
-- Product duplicate: /admin/product/duplicate/{id}
-- Product move: /admin/product/{id}/move
-- Media list: /admin/media/action
-- Media upload: /admin/media/upload
-- Account / password: /admin/profile
-- Logout: /admin/logout
-- Color products: doc truc tiep tu danh muc iTop cau hinh trong itop-config.js.
-
-4) CAU HINH
-------------
-File: itop-config.js
-Mac dinh colorCategoryId = 151.
-Neu doi danh muc bang mau, chi sua ID o day.
-
-5) CAC PHAN LANDING CONFIG
----------------------------
-Hero / Template / Banner / Popup / FAQ / Design Tokens van la cau hinh frontend V7.
-Chung KHONG tao database thu hai. Backup/restore bang JSON khi can.
-Popup iTop goc co module rieng; V7 chua ghi truc tiep vao module do vi chua xac minh contract luu cua route.
-
-6) FORM BAO GIA
+2) BAO MAT ADMIN
 ----------------
-Local Preview co the luu lead local de test UX.
-Khi production, nen dung trang lien he iTop hien tai /lien-he.html cho luong lead chinh thuc cho toi khi xac minh endpoint submit cua form iTop.
+- Admin duoc khoa bang mat khau tren thiet bi.
+- Mat khau khong luu trong source code/GitHub.
+- GitHub token duoc xac minh roi ma hoa tren thiet bi bang Web Crypto.
+- Co gioi han thu sai, khoa Admin, doi mat khau va xoa bao mat tren thiet bi.
 
-7) CHI PHI
------------
-V7 khong bat buoc Supabase hay database/VPS moi.
-Chi su dung domain + hosting/iTop hien tai cua sontienbao.com.
+3) CHUC NANG ADMIN CENTER
+--------------------------
+- Dashboard.
+- Quan ly san pham V7: them, sua, an, hien lai, tra ve sync.
+- Sua noi dung Landing Page: thong tin chung, Hero, danh muc, banner, popup, FAQ.
+- SEO va giao dien.
+- Upload anh len GitHub.
+- Luu thay doi len GitHub.
+- Backup JSON va khoi phuc nhap cuc bo.
 
+4) BACKEND ITOP BEN NGOAI
+--------------------------
+- iTop: https://sontienbao.com/admin
+- iTop quan ly du lieu nguon: gia, ton kho, bien the, cong thuc, don hang va cac tac vu import nghiep vu.
+- Link iTop KHONG phai Admin Center V7.
 
-V7.0.1: Nút “Nhận báo giá” trên Header chuyển trực tiếp tới https://sontienbao.com/lien-he.html, không mở modal nội bộ.
+5) GITHUB PAGES
+----------------
+- Repo: phatnbt/sontienbao-v7
+- Branch: main
+- Folder: /(root)
+- Hien tai repo chua gan custom domain GitHub Pages.
+- Site: https://phatnbt.github.io/sontienbao-v7/
+
+6) NGUYEN TAC SUA DOI
+----------------------
+Tu bay gio moi thay doi giao dien/chuc nang admin chi cap nhat Admin Center chinh va cac file ho tro cua no. Khong tao them mot ban admin song song.
