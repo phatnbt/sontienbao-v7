@@ -1,0 +1,51 @@
+name: Install canonical route guard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/install-canonical-route-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Inject legacy-domain guard
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          tag = '<script src="canonical-route-guard.js"></script>'
+          for name in ['admin.html', 'index.html']:
+              p = Path(name)
+              s = p.read_text(encoding='utf-8')
+              if tag in s:
+                  continue
+              if '<head>' not in s:
+                  raise SystemExit(f'{name}: missing <head>')
+              s = s.replace('<head>', '<head>\n  ' + tag, 1)
+              p.write_text(s, encoding='utf-8')
+          PY
+      - name: Verify canonical routing
+        run: |
+          grep -q 'canonical-route-guard.js' admin.html
+          grep -q 'canonical-route-guard.js' index.html
+          grep -q "new.sontienbao.com" canonical-route-guard.js
+      - name: Commit guard installation
+        run: |
+          if git diff --quiet; then
+            echo 'No changes needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html index.html
+          git commit -m 'Force legacy new.sontienbao.com to canonical GitHub Pages URLs'
+          git push
