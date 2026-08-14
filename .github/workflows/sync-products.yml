@@ -6,7 +6,6 @@ on:
     paths:
       - 'scripts/sync_products.py'
       - 'scripts/sync_technical.py'
-      - 'scripts/sync_calculator_catalog.py'
       - 'scripts/sync_full_calculator_catalog.py'
       - 'scripts/sync_full_calculator_catalog_fast.py'
       - 'scripts/patch_calculator.py'
@@ -48,9 +47,6 @@ jobs:
 
       - name: Sync technical calculator data
         run: python scripts/sync_technical.py
-
-      - name: Discover core wall-paint catalog
-        run: python scripts/sync_calculator_catalog.py
 
       - name: Discover full multi-brand calculator catalog
         run: python scripts/sync_full_calculator_catalog_fast.py
