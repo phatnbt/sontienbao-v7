@@ -8,10 +8,12 @@ on:
       - 'scripts/sync_technical.py'
       - 'scripts/sync_full_calculator_catalog.py'
       - 'scripts/sync_full_calculator_catalog_fast.py'
+      - 'scripts/sync_full_calculator_catalog_resilient.py'
       - 'scripts/finalize_calculator_catalog.py'
       - 'scripts/patch_calculator.py'
       - 'scripts/patch_calculator_v5.py'
       - 'scripts/fix_calculator_v5_syntax.py'
+      - 'scripts/prefer_verified_calculator_catalog.py'
       - 'scripts/sanitize_public_copy.py'
       - 'sync-products.js'
       - 'default-data.js'
@@ -29,7 +31,7 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,8 +52,8 @@ jobs:
       - name: Sync technical calculator data
         run: python scripts/sync_technical.py
 
-      - name: Discover full multi-brand calculator catalog
-        run: python scripts/sync_full_calculator_catalog_fast.py
+      - name: Discover resilient multi-brand Calculator catalog
+        run: python scripts/sync_full_calculator_catalog_resilient.py
 
       - name: Finalize verified product families and package prices
         run: python scripts/finalize_calculator_catalog.py
@@ -64,6 +66,9 @@ jobs:
 
       - name: Normalize Calculator V5 rendering
         run: python scripts/fix_calculator_v5_syntax.py
+
+      - name: Prefer verified Calculator family catalog
+        run: python scripts/prefer_verified_calculator_catalog.py
 
       - name: Sanitize customer-facing calculator copy
         run: python scripts/sanitize_public_copy.py
@@ -82,5 +87,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin main
           git add synced-products.js app.js styles.css
-          git commit -m "Sync full product catalog and Calculator V5 data"
+          git commit -m "Sync resilient verified Calculator V5 catalog"
           git push origin HEAD:main
