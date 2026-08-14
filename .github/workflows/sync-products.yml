@@ -8,6 +8,7 @@ on:
       - 'scripts/sync_technical.py'
       - 'scripts/sync_calculator_catalog.py'
       - 'scripts/patch_calculator.py'
+      - 'scripts/sanitize_public_copy.py'
       - 'sync-products.js'
       - 'default-data.js'
       - '.github/workflows/sync-products.yml'
@@ -43,6 +44,9 @@ jobs:
 
       - name: Apply safe Calculator upgrade
         run: python scripts/patch_calculator.py
+
+      - name: Sanitize customer-facing calculator copy
+        run: python scripts/sanitize_public_copy.py
 
       - name: Validate app JavaScript
         run: node --check app.js
