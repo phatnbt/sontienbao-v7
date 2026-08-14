@@ -1,0 +1,87 @@
+name: Fix Admin canonical routing
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-admin-canonical-routing.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-routing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Replace legacy and relative Admin routes
+        shell: python
+        run: |
+          from pathlib import Path
+
+          PUBLIC = 'https://phatnbt.github.io/sontienbao-v7/'
+          ADMIN = PUBLIC + 'admin.html'
+
+          # Canonical Admin -> Landing Page links.
+          p = Path('admin.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('href="./" target="_blank" rel="noopener">↗ Xem Landing Page</a>', f'href="{PUBLIC}" target="_blank" rel="noopener">↗ Xem Landing Page</a>')
+          s = s.replace('<span id="deployBadge" class="tag">Pages</span>', '<span class="tag ok" title="Landing Page đang được phục vụ từ GitHub Pages">GitHub Pages</span>')
+          s = s.replace('<button id="previewBtn" class="btn hide-mobile">Xem trước ↗</button>', f'<a class="btn hide-mobile link-btn" href="{PUBLIC}" target="_blank" rel="noopener">Xem trước ↗</a>')
+          s = s.replace('href="./" target="_blank" rel="noopener">Mở website ↗</a>', f'href="{PUBLIC}" target="_blank" rel="noopener">Mở website ↗</a>')
+          s = s.replace('href="./" target="_blank" rel="noopener">Mở Landing Page ↗</a>', f'href="{PUBLIC}" target="_blank" rel="noopener">Mở Landing Page ↗</a>')
+          p.write_text(s, encoding='utf-8')
+
+          # Landing Page #admin always opens the one canonical Admin Center.
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("location.replace('admin.html');", f"location.replace('{ADMIN}');")
+          p.write_text(s, encoding='utf-8')
+
+          # Old Admin versions always leave the old host and redirect to canonical Admin.
+          for name in ('admin-v2.html', 'admin-v3.html'):
+              p = Path(name)
+              if not p.exists():
+                  continue
+              s = p.read_text(encoding='utf-8')
+              s = s.replace('content="0;url=admin.html"', f'content="0;url={ADMIN}"')
+              s = s.replace('href="admin.html"', f'href="{ADMIN}"')
+              s = s.replace("var target='admin.html'+(location.hash||'');", f"var target='{ADMIN}'+(location.hash||'');")
+              p.write_text(s, encoding='utf-8')
+
+          # Remove any explicit legacy new.sontienbao.com references left in public text/config.
+          exts = {'.html','.js','.css','.md','.json','.yml','.yaml','.py'}
+          for p in Path('.').rglob('*'):
+              if not p.is_file() or p.suffix.lower() not in exts or '.git' in p.parts:
+                  continue
+              try:
+                  s = p.read_text(encoding='utf-8')
+              except Exception:
+                  continue
+              n = s.replace('http://new.sontienbao.com/', PUBLIC).replace('https://new.sontienbao.com/', PUBLIC)
+              n = n.replace('http://new.sontienbao.com', PUBLIC.rstrip('/')).replace('https://new.sontienbao.com', PUBLIC.rstrip('/'))
+              if n != s:
+                  p.write_text(n, encoding='utf-8')
+
+      - name: Validate no legacy host remains
+        shell: bash
+        run: |
+          if grep -RIn --exclude-dir=.git --exclude='fix-admin-canonical-routing.yml' 'new\.sontienbao\.com' .; then
+            echo 'Legacy new.sontienbao.com reference still exists'
+            exit 1
+          fi
+          grep -n 'phatnbt.github.io/sontienbao-v7' admin.html index.html admin-v2.html admin-v3.html
+
+      - name: Commit routing fix
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo 'No routing changes needed'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add admin.html index.html admin-v2.html admin-v3.html
+          git commit -m 'Fix Admin links to canonical GitHub Pages URL'
+          git push
