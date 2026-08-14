@@ -1,4 +1,4 @@
-name: Sync iTop products
+name: Sync website products
 
 on:
   workflow_dispatch:
@@ -7,7 +7,9 @@ on:
       - 'scripts/sync_products.py'
       - 'scripts/sync_technical.py'
       - 'scripts/sync_calculator_catalog.py'
+      - 'scripts/sync_full_calculator_catalog.py'
       - 'scripts/patch_calculator.py'
+      - 'scripts/patch_calculator_v5.py'
       - 'scripts/sanitize_public_copy.py'
       - 'sync-products.js'
       - 'default-data.js'
@@ -21,6 +23,7 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,11 +42,17 @@ jobs:
       - name: Sync technical calculator data
         run: python scripts/sync_technical.py
 
-      - name: Discover live iTop primer catalog
+      - name: Discover core wall-paint catalog
         run: python scripts/sync_calculator_catalog.py
 
-      - name: Apply safe Calculator upgrade
+      - name: Discover full multi-brand calculator catalog
+        run: python scripts/sync_full_calculator_catalog.py
+
+      - name: Apply Calculator base upgrade
         run: python scripts/patch_calculator.py
+
+      - name: Apply Calculator V5 full catalog UI
+        run: python scripts/patch_calculator_v5.py
 
       - name: Sanitize customer-facing calculator copy
         run: python scripts/sanitize_public_copy.py
@@ -61,5 +70,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add synced-products.js app.js styles.css
-          git commit -m "Sync products and Calculator V3 data from iTop"
+          git commit -m "Sync full product catalog and Calculator V5 data"
           git push
