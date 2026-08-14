@@ -197,6 +197,7 @@
 
   // CALCULATOR_V5_FULL_CATALOG
   // CALCULATOR_V5_FULL_CATALOG
+  // CALCULATOR_V5_FULL_CATALOG
   class Calculator extends React.Component{
     constructor(p){
       super(p);
@@ -214,8 +215,13 @@
       ((data&&data.products)||[]).forEach(function(p){add(p,true);});
       return order.map(function(id){return map[id];});
     }
+    calcItems(data){
+      var all=this.catalog(data);
+      var verified=all.filter(function(p){return !!(p&&p.calculatorOnly===true&&String(p.id||'').indexOf('calc-family-')===0);});
+      return verified.length?verified:all;
+    }
     allItems(data){
-      return this.catalog(data).filter(function(p){return !!(p&&p.enabled!==false&&(p.calculatorOnly===true||p.calcEligible===true||(p.priceBySize&&Object.keys(p.priceBySize).length)));}).sort(function(a,b){return String(a.brand||'').localeCompare(String(b.brand||''),'vi')||String(a.name||'').localeCompare(String(b.name||''),'vi');});
+      return this.calcItems(data).filter(function(p){return !!(p&&p.enabled!==false&&(p.calculatorOnly===true||p.calcEligible===true||(p.priceBySize&&Object.keys(p.priceBySize).length)));}).sort(function(a,b){return String(a.brand||'').localeCompare(String(b.brand||''),'vi')||String(a.name||'').localeCompare(String(b.name||''),'vi');});
     }
     unitOf(p){if(!p)return 'L';if(p.measureUnit==='Kg'||p.measureUnit==='L')return p.measureUnit;var u=String(p.unit||'').toLowerCase();return u.indexOf('kg')>=0?'Kg':'L';}
     isPrimer(p){if(!p)return false;if(p.calculatorRole==='primer')return true;if(p.calculatorRole==='finish')return false;var text=((p.name||'')+' '+(p.category||'')).toLowerCase();return text.indexOf('primer')>=0||text.indexOf('sơn lót')>=0||text.indexOf('son lot')>=0;}
@@ -238,7 +244,7 @@
     }
     eligible(p){return !!(p&&p.enabled!==false&&this.unitOf(p)==='L'&&Number(p.coverage||0)>0&&Array.isArray(p.variants)&&p.variants.some(function(x){return Number(x)>0;}));}
     surfaceMatch(p,surface){var s=this.inferSurface(p);return s==='both'||s===surface;}
-    groups(data,surface){var self=this,all=this.catalog(data).filter(function(p){return self.eligible(p)&&self.surfaceMatch(p,surface);});return{all:all,primers:all.filter(function(p){return self.isPrimer(p);}),finishes:all.filter(function(p){return !self.isPrimer(p)&&(p.calculatorRole||'finish')!=='other';})};}
+    groups(data,surface){var self=this,all=this.calcItems(data).filter(function(p){return self.eligible(p)&&self.surfaceMatch(p,surface);});return{all:all,primers:all.filter(function(p){return self.isPrimer(p);}),finishes:all.filter(function(p){return !self.isPrimer(p)&&(p.calculatorRole||'finish')!=='other';})};}
     firstSurface(data){var interior=this.groups(data,'interior');if(interior.finishes.length&&interior.primers.length)return 'interior';return 'exterior';}
     find(items,id){return (items||[]).find(function(x){return x.id===id;})||(items||[])[0]||{};}
     bestPrimer(primers,finish,surface){
