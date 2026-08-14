@@ -5,24 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'none'; form-action 'none'">
-  <title>Admin Center • Sơn Tiến Bảo</title>
+  <title>Admin Center • Landing Page Sơn Tiến Bảo</title>
   <link rel="stylesheet" href="admin-v2.css">
 </head>
 <body>
 <div class="shell">
   <aside class="sidebar">
     <div class="brand"><img src="assets/logo-tien-bao.png" alt="Sơn Tiến Bảo"><div><b>Admin Center</b><small>Landing Page CMS</small></div></div>
-    <div class="nav-title">QUẢN TRỊ</div>
+    <div class="nav-title">LANDING PAGE</div>
     <nav class="nav">
       <button class="active" data-page="dashboard">▣ Dashboard</button>
-      <button data-page="products">▦ Sản phẩm</button>
       <button data-page="content">✎ Nội dung trang</button>
       <button data-page="seo">⌕ SEO & giao diện</button>
-      <button data-page="settings">⚙ Kết nối & dữ liệu</button>
+      <button data-page="settings">⚙ Kết nối & sao lưu</button>
     </nav>
     <div class="side-bottom nav">
       <a href="./" target="_blank" rel="noopener">↗ Xem Landing Page</a>
-      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener">↗ Backend iTop (bên ngoài)</a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener">↗ Backend iTop</a>
     </div>
   </aside>
 
@@ -39,46 +38,50 @@
 
     <div class="content">
       <section id="page-dashboard" class="page active">
-        <div class="hero"><div><span class="eyebrow">SƠN TIẾN BẢO • ADMIN CENTER</span><h2>Một bảng quản trị duy nhất</h2><p>Quản lý sản phẩm, nội dung, hình ảnh, SEO và dữ liệu Landing Page V7 trong một nơi. Dữ liệu nguồn từ iTop vẫn được tách an toàn.</p></div><a class="btn hero-btn" href="./" target="_blank" rel="noopener">Mở website ↗</a></div>
-        <div class="cards">
-          <div class="card stat"><small>SẢN PHẨM HIỂN THỊ</small><strong id="statTotal">0</strong><span>Sau lớp tùy chỉnh</span></div>
-          <div class="card stat"><small>TỰ ĐỒNG BỘ</small><strong id="statSynced">0</strong><span>Từ iTop/storefront</span></div>
-          <div class="card stat"><small>SỬA THỦ CÔNG</small><strong id="statOverride">0</strong><span>Đang ưu tiên hơn sync</span></div>
-          <div class="card stat"><small>ĐANG ẨN</small><strong id="statHidden">0</strong><span>Không hiển thị trên V7</span></div>
+        <div class="hero">
+          <div>
+            <span class="eyebrow">SƠN TIẾN BẢO • LANDING PAGE CMS</span>
+            <h2>Chỉ chỉnh nội dung Landing Page</h2>
+            <p>Admin này chỉ quản lý nội dung, hình ảnh, danh mục hiển thị, banner, popup, FAQ, SEO và giao diện. Sản phẩm, giá, biến thể và dữ liệu kỹ thuật tiếp tục tự đồng bộ từ iTop.</p>
+          </div>
+          <a class="btn hero-btn" href="./" target="_blank" rel="noopener">Mở website ↗</a>
         </div>
+
+        <div class="cards">
+          <div class="card stat"><small>DANH MỤC HIỂN THỊ</small><strong id="statCategories">0</strong><span>Khối điều hướng Landing Page</span></div>
+          <div class="card stat"><small>FAQ HIỂN THỊ</small><strong id="statFaq">0</strong><span>Nội dung hỗ trợ khách hàng</span></div>
+          <div class="card stat"><small>BANNER ĐANG BẬT</small><strong id="statBanner">0</strong><span>CTA trên Landing Page</span></div>
+          <div class="card stat"><small>CẬP NHẬT NỘI DUNG</small><strong id="statUpdated">—</strong><span>Lần lưu CMS gần nhất</span></div>
+        </div>
+
         <div class="dashboard-grid">
           <div class="card">
-            <div class="section-head"><div><h2>Thao tác nhanh</h2><p class="muted">Đi thẳng tới công việc cần làm, không mở admin khác.</p></div></div>
+            <div class="section-head"><div><h2>Thao tác nhanh</h2><p class="muted">Các khu vực được phép chỉnh trong Admin Center.</p></div></div>
             <div class="quick-grid">
-              <button class="quick" data-go="products"><b>+ Sản phẩm</b><span>Thêm, sửa, ẩn và hoàn tác</span></button>
-              <button class="quick" data-go="content" data-focus="heroEditor"><b>Hero & Media</b><span>Sửa phần đầu trang và hình ảnh</span></button>
-              <button class="quick" data-go="content" data-focus="bannerEditor"><b>Banner & CTA</b><span>Sửa banner và nội dung chuyển đổi</span></button>
-              <button class="quick" data-go="seo"><b>SEO</b><span>Title, description và giao diện</span></button>
+              <button class="quick" data-go="content" data-focus="heroEditor"><b>Hero & ảnh chính</b><span>Tiêu đề, mô tả, CTA, hình ảnh</span></button>
+              <button class="quick" data-go="content" data-focus="categoriesEditor"><b>Danh mục</b><span>Tên, mô tả, ảnh và liên kết</span></button>
+              <button class="quick" data-go="content" data-focus="bannerEditor"><b>Banner & Popup</b><span>Nội dung chuyển đổi và ưu đãi</span></button>
+              <button class="quick" data-go="seo"><b>SEO & giao diện</b><span>Title, description và template</span></button>
             </div>
           </div>
+
           <div class="card">
-            <div class="section-head"><div><h2>Luồng dữ liệu an toàn</h2><p class="muted">Một admin cho V7, iTop là nguồn nghiệp vụ bên ngoài.</p></div></div>
-            <div class="flow"><span>iTop sync</span><b>→</b><span>V7</span><b>→</b><span>Override thủ công</span></div>
-            <div class="notice"><b>Không ghi đè dữ liệu iTop.</b> Bản sửa thủ công nằm ở lớp riêng và có thể trả từng sản phẩm về tự đồng bộ bất kỳ lúc nào.</div>
+            <div class="section-head"><div><h2>Tự động cập nhật sản phẩm</h2><p class="muted">Giữ nguyên cơ chế tự đồng bộ của các phiên bản trước.</p></div><span class="tag ok">TỰ ĐỘNG</span></div>
+            <div class="flow"><span>iTop</span><b>→</b><span>GitHub Actions</span><b>→</b><span>synced-products.js</span><b>→</b><span>Landing Page</span></div>
+            <div class="notice" style="margin-top:12px">
+              <b>Admin không sửa dữ liệu sản phẩm.</b> Workflow đồng bộ iTop vẫn chạy theo lịch riêng và cập nhật sản phẩm/Calculator mà không chạm vào file nội dung CMS <code>v7-content.js</code>.
+            </div>
           </div>
         </div>
+
         <div class="card" style="margin-top:14px">
-          <div class="section-head"><div><h2>Khôi phục an toàn</h2><p class="muted">Admin tự lưu nháp trên thiết bị khi bạn đang chỉnh nhưng chưa bấm lưu lên GitHub.</p></div><button id="restoreDraftBtn" class="btn">Khôi phục nháp</button></div>
+          <div class="section-head"><div><h2>Khôi phục nháp nội dung</h2><p class="muted">Các thay đổi Landing Page chưa lưu được giữ cục bộ trên thiết bị.</p></div><button id="restoreDraftBtn" class="btn">Khôi phục nháp</button></div>
           <div id="draftInfo" class="muted">Chưa có nháp cục bộ.</div>
         </div>
       </section>
 
-      <section id="page-products" class="page">
-        <div class="section-head"><div><h2>Sản phẩm V7</h2><p class="muted">Tự sync + chỉnh sửa thủ công có thể hoàn tác.</p></div><div class="spacer"></div><button id="addProductBtn" class="btn navy">+ Thêm sản phẩm</button></div>
-        <div class="toolbar">
-          <input id="productSearch" class="search" placeholder="Tìm tên, thương hiệu, danh mục, URL...">
-          <select id="sourceFilter"><option value="all">Tất cả nguồn</option><option value="sync">Tự đồng bộ</option><option value="override">Đã sửa thủ công</option><option value="manual">Thêm thủ công</option><option value="hidden">Đang ẩn</option></select>
-        </div>
-        <div class="table-wrap"><table><thead><tr><th>Sản phẩm</th><th>Nguồn</th><th>Danh mục</th><th>Giá</th><th>Trạng thái</th><th>Thao tác</th></tr></thead><tbody id="productRows"></tbody></table><div id="productEmpty" class="empty" style="display:none">Không có sản phẩm phù hợp.</div></div>
-      </section>
-
       <section id="page-content" class="page">
-        <div class="hero compact"><div><span class="eyebrow">CONTENT EDITOR</span><h2>Nội dung Landing Page</h2><p>Sửa trực tiếp các section đang hiển thị trên V7.</p></div></div>
+        <div class="hero compact"><div><span class="eyebrow">CONTENT EDITOR</span><h2>Nội dung Landing Page</h2><p>Sửa trực tiếp các section hiển thị trên trang V7. Không chỉnh sản phẩm, giá hoặc tồn kho tại đây.</p></div></div>
 
         <div class="editor-grid">
           <section class="card editor-card" id="generalEditor">
@@ -108,24 +111,24 @@
           </section>
 
           <section class="card editor-card full-span" id="categoriesEditor">
-            <div class="section-head"><div><h2>Danh mục</h2><p class="muted">Bật/tắt, sửa và sắp xếp danh mục.</p></div><button id="addCategoryBtn" class="btn">+ Thêm danh mục</button></div>
+            <div class="section-head"><div><h2>Danh mục trên Landing Page</h2><p class="muted">Chỉ chỉnh thẻ điều hướng hiển thị trên Landing Page; không thay đổi danh mục sản phẩm trong iTop.</p></div><button id="addCategoryBtn" class="btn">+ Thêm danh mục hiển thị</button></div>
             <div id="categoryEditorList" class="stack"></div>
           </section>
 
           <section class="card editor-card" id="bannerEditor">
-            <div class="section-head"><div><h2>Banner CTA</h2><p class="muted">Banner điều hướng nổi bật.</p></div></div>
+            <div class="section-head"><div><h2>Banner CTA</h2><p class="muted">Banner điều hướng nổi bật.</p></div><button class="btn mini-btn" data-reset-section="banners">Hoàn tác</button></div>
             <div class="grid">
               <label class="check full"><input type="checkbox" data-content="banners.0.enabled"> Hiển thị banner</label>
               <div class="field"><label>Tiêu đề</label><input data-content="banners.0.title"></div>
               <div class="field"><label>Nhãn nút</label><input data-content="banners.0.ctaLabel"></div>
               <div class="field full"><label>Mô tả</label><textarea data-content="banners.0.subtitle"></textarea></div>
               <div class="field full"><label>URL nút</label><input data-content="banners.0.ctaUrl"></div>
-              <div class="field full"><label>Ảnh</label><div class="preview-row"><img data-preview-content="banners.0.image" alt="Banner"><div><input data-content="banners.0.image"><div class="inline-actions"><button type="button" class="btn" data-upload-content="banners.0.image">Tải ảnh lên</button></div></div></div></div>
+              <div class="field full"><label>Ảnh</label><div class="preview-row"><img data-preview-content="banners.0.image" alt="Banner"><div><input data-content="banners.0.image"><div class="inline-actions"><button type="button" class="btn" data-upload-content="banners.0.image">Tải ảnh lên</button><button type="button" class="btn" data-clear-content="banners.0.image">Xóa ảnh</button></div></div></div></div>
             </div>
           </section>
 
           <section class="card editor-card" id="popupEditor">
-            <div class="section-head"><div><h2>Popup / ưu đãi</h2><p class="muted">Thông báo theo phiên truy cập.</p></div></div>
+            <div class="section-head"><div><h2>Popup / ưu đãi</h2><p class="muted">Thông báo theo phiên truy cập.</p></div><button class="btn mini-btn" data-reset-section="popups">Hoàn tác</button></div>
             <div class="grid">
               <label class="check full"><input type="checkbox" data-content="popups.0.enabled"> Bật popup</label>
               <div class="field"><label>Eyebrow</label><input data-content="popups.0.eyebrow"></div>
@@ -136,19 +139,19 @@
               <div class="field"><label>URL</label><input data-content="popups.0.ctaUrl"></div>
               <div class="field"><label>Nút đóng</label><input data-content="popups.0.secondaryLabel"></div>
               <div class="field"><label>Delay (ms)</label><input type="number" min="0" data-content="popups.0.delay"></div>
-              <div class="field full"><label>Ảnh</label><div class="preview-row"><img data-preview-content="popups.0.image" alt="Popup"><div><input data-content="popups.0.image"><div class="inline-actions"><button type="button" class="btn" data-upload-content="popups.0.image">Tải ảnh lên</button></div></div></div></div>
+              <div class="field full"><label>Ảnh</label><div class="preview-row"><img data-preview-content="popups.0.image" alt="Popup"><div><input data-content="popups.0.image"><div class="inline-actions"><button type="button" class="btn" data-upload-content="popups.0.image">Tải ảnh lên</button><button type="button" class="btn" data-clear-content="popups.0.image">Xóa ảnh</button></div></div></div></div>
             </div>
           </section>
 
           <section class="card editor-card full-span" id="faqEditor">
-            <div class="section-head"><div><h2>FAQ</h2><p class="muted">Thêm, sửa, nhân bản, ẩn và xóa.</p></div><button id="addFaqBtn" class="btn">+ Thêm FAQ</button></div>
+            <div class="section-head"><div><h2>FAQ</h2><p class="muted">Thêm, sửa, sắp xếp, ẩn và xóa câu hỏi trên Landing Page.</p></div><button id="addFaqBtn" class="btn">+ Thêm FAQ</button></div>
             <div id="faqEditorList" class="stack"></div>
           </section>
         </div>
       </section>
 
       <section id="page-seo" class="page">
-        <div class="hero compact"><div><span class="eyebrow">SEO & THEME</span><h2>SEO & giao diện</h2><p>Thiết lập metadata và phong cách hiển thị V7.</p></div></div>
+        <div class="hero compact"><div><span class="eyebrow">SEO & THEME</span><h2>SEO & giao diện Landing Page</h2><p>Thiết lập metadata và preset giao diện, không ảnh hưởng dữ liệu sản phẩm tự đồng bộ.</p></div></div>
         <div class="editor-grid">
           <section class="card editor-card">
             <div class="section-head"><div><h2>SEO trang chủ</h2><p class="muted">Google title và description.</p></div></div>
@@ -161,27 +164,31 @@
           <section class="card editor-card">
             <div class="section-head"><div><h2>Giao diện</h2><p class="muted">Preset phong cách toàn trang.</p></div></div>
             <div class="field"><label>Template</label><select data-content="theme.template"><option value="premium-navy">Premium Navy</option><option value="light-boutique">Light Boutique</option><option value="graphite-glass">Graphite Glass</option><option value="sandstone-studio">Sandstone Studio</option><option value="neo-commerce">Neo Commerce</option></select></div>
-            <div class="notice" style="margin-top:12px">V7 vẫn đang để <b>noindex</b> trong giai đoạn preview. Không bật index cho đến khi chính thức chuyển website.</div>
+            <div class="notice" style="margin-top:12px">Phần này chỉ đổi nội dung/hiển thị Landing Page, không can thiệp dữ liệu sản phẩm.</div>
           </section>
         </div>
       </section>
 
       <section id="page-settings" class="page">
-        <div class="editor-grid">
+        <div class="editor-grid" id="settingsGrid">
           <section class="card editor-card">
-            <div class="section-head"><div><h2>Kết nối GitHub</h2><p class="muted">Repo đang dùng: phatnbt/sontienbao-v7.</p></div></div>
+            <div class="section-head"><div><h2>Kết nối GitHub</h2><p class="muted">Admin chỉ đọc/ghi file nội dung <b>v7-content.js</b>.</p></div></div>
             <div class="connect-box"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."><button id="connectBtn" class="btn navy">Kết nối</button></div>
-            <div class="notice" style="margin-top:12px">Token chỉ cần <b>Contents: Read and write</b> trên repo <b>phatnbt/sontienbao-v7</b>. Token được lớp bảo mật Admin mã hóa trên thiết bị.</div>
-            <div class="inline-actions"><button id="disconnectBtn" class="btn">Ngắt kết nối</button><button id="reloadBtn" class="btn">Tải lại từ GitHub</button></div>
+            <div class="notice" style="margin-top:12px">Token cần <b>Contents: Read and write</b> trên repo <b>phatnbt/sontienbao-v7</b>. Token được lớp bảo mật Admin mã hóa trên thiết bị.</div>
+            <div class="inline-actions"><button id="disconnectBtn" class="btn">Ngắt kết nối</button><button id="reloadBtn" class="btn">Tải nội dung mới nhất</button></div>
           </section>
+
           <section class="card editor-card">
-            <div class="section-head"><div><h2>Sao lưu & khôi phục</h2><p class="muted">Xuất dữ liệu CMS + lớp sản phẩm thủ công.</p></div></div>
+            <div class="section-head"><div><h2>Sao lưu nội dung</h2><p class="muted">Backup riêng cấu hình Landing Page.</p></div></div>
             <div class="inline-actions"><button id="exportBtn" class="btn">Tải bản sao JSON</button><button id="clearDraftBtn" class="btn danger">Xóa nháp thiết bị</button></div>
             <div id="lastUpdatedInfo" class="muted" style="margin-top:14px"></div>
           </section>
+
           <section class="card editor-card full-span">
-            <div class="section-head"><div><h2>Backend nguồn iTop</h2><p class="muted">iTop là hệ thống bên ngoài dùng cho giá, tồn kho, biến thể, công thức và đơn hàng. Link này không phải Admin Center V7.</p></div></div>
-            <div class="inline-actions"><a class="btn navy link-btn" href="https://sontienbao.com/admin" target="_blank" rel="noopener">Mở backend iTop ↗</a><a class="btn link-btn" href="./" target="_blank" rel="noopener">Mở Landing Page V7 ↗</a></div>
+            <div class="section-head"><div><h2>Tự động đồng bộ iTop</h2><p class="muted">Cơ chế cũ được giữ nguyên và chạy độc lập với CMS nội dung.</p></div><span class="tag ok">GIỮ NGUYÊN</span></div>
+            <div class="flow"><span>iTop sản phẩm</span><b>→</b><span>sync scripts</span><b>→</b><span>synced-products.js</span><b>→</b><span>Landing Page</span></div>
+            <div class="notice" style="margin-top:12px"><b>Không có nút sửa sản phẩm trong Admin Center.</b> Giá, tồn kho, biến thể, công thức và danh mục nguồn vẫn quản lý ở iTop. Workflow tự động tiếp tục chạy theo lịch hiện có.</div>
+            <div class="inline-actions"><a class="btn navy link-btn" href="https://sontienbao.com/admin" target="_blank" rel="noopener">Mở backend iTop ↗</a><a class="btn link-btn" href="./" target="_blank" rel="noopener">Mở Landing Page ↗</a></div>
           </section>
         </div>
       </section>
@@ -189,16 +196,10 @@
   </main>
 </div>
 
-<div id="productModal" class="modal-backdrop"><div class="modal"><div class="section-head"><h3 id="modalTitle">Sửa sản phẩm</h3><div class="spacer"></div><button id="closeModalX" class="icon-btn" type="button">×</button></div><form id="productForm"><input type="hidden" id="editKey"><input type="hidden" id="editMode"><div class="grid"><div class="field"><label>Tên sản phẩm</label><input id="fName" required></div><div class="field"><label>Thương hiệu</label><input id="fBrand"></div><div class="field"><label>Danh mục</label><input id="fCategory"></div><div class="field"><label>Badge</label><input id="fBadge"></div><div class="field full"><label>Mô tả</label><textarea id="fDescription"></textarea></div><div class="field"><label>Giá hiện tại</label><input id="fPrice" type="number" min="0"></div><div class="field"><label>Giá cũ</label><input id="fOldPrice" type="number" min="0"></div><div class="field"><label>Tiền tố giá</label><input id="fPricePrefix" placeholder="Ví dụ: Từ"></div><div class="field"><label>Đơn vị</label><input id="fUnit" placeholder="Ví dụ: /thùng"></div><div class="field full"><label>URL sản phẩm</label><input id="fUrl" type="url"></div><div class="field full"><label>Ảnh sản phẩm</label><div class="preview-row"><img id="imagePreview" src="assets/logo-tien-bao.png" alt="Preview"><div><input id="fImage"><div class="inline-actions"><button id="uploadImageBtn" class="btn" type="button">Tải ảnh lên</button><button id="clearProductImage" class="btn" type="button">Xóa ảnh</button></div></div></div></div><label class="check"><input id="fFeatured" type="checkbox"> Sản phẩm nổi bật</label><label class="check"><input id="fEnabled" type="checkbox" checked> Hiển thị</label></div><div class="modal-actions"><button id="cancelModal" type="button" class="btn">Hủy</button><button type="submit" class="btn primary">Áp dụng</button></div></form></div></div>
 <input id="filePicker" type="file" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
 <div id="toast" class="toast"></div>
 
-<script src="default-data.js"></script>
 <script src="v7-content.js"></script>
-<script src="synced-products.js"></script>
-<script src="sync-products.js"></script>
-<script src="manual-products.js"></script>
-<script src="manual-product-overrides.js"></script>
 <script src="admin-v2.js"></script>
 </body>
 </html>
