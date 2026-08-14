@@ -18,20 +18,18 @@
     if(gotCoverage){
       out.coverage=Number(s.coverage);
       out.coverageLabel=s.coverageLabel||p.coverageLabel||'';
-      out.technicalSource='iTop';
+      out.technicalSource=s.technicalSource||'website';
     }
     if(gotVariants){
       out.variants=s.variants.map(Number).filter(function(x){return x>0;});
-      if(gotCoverage)out.technicalSource='iTop';
-      else if(configuredCoverage)out.technicalSource='hybrid';
-      else out.technicalSource='iTop-variants';
+      if(!out.technicalSource)out.technicalSource=s.technicalSource||(gotCoverage?'website':(configuredCoverage?'hybrid':'website-variants'));
     }
 
     if(s.massOnly===true){
       out.calcEligible=false;
       out.massOnly=true;
     }else if(gotCoverage&&gotVariants){
-      out.calcEligible=true;
+      out.calcEligible=s.calcEligible!==false;
     }else if(configuredCoverage&&(gotVariants||configuredVariants)){
       out.calcEligible=true;
     }else if(s.calcEligible===true){
@@ -39,6 +37,8 @@
     }
 
     if(s.unit)out.unit=s.unit;
+    if(s.measureUnit)out.measureUnit=s.measureUnit;
+    if(s.coverageBasis)out.coverageBasis=s.coverageBasis;
     if(s.priceBySize&&typeof s.priceBySize==='object')out.priceBySize=Object.assign({},p.priceBySize||{},s.priceBySize);
     if(Number(s.priceReferenceSize||0)>0)out.priceReferenceSize=Number(s.priceReferenceSize);
     if(s.calculatorRole)out.calculatorRole=s.calculatorRole;
@@ -102,6 +102,8 @@
       url:p.url,
       coverage:Number(p.coverage||0),
       coverageLabel:p.coverageLabel||'',
+      measureUnit:p.measureUnit||'',
+      coverageBasis:p.coverageBasis||'',
       variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
       priceBySize:p.priceBySize&&typeof p.priceBySize==='object'?Object.assign({},p.priceBySize):{},
       priceReferenceSize:Number(p.priceReferenceSize||0),
@@ -109,6 +111,7 @@
       massOnly:p.massOnly===true,
       technicalSource:p.technicalSource||'',
       calculatorSurface:p.calculatorSurface||'',
+      calculatorRole:p.calculatorRole||'',
       pairKey:p.pairKey||'',
       enabled:p.enabled!==false
     });
@@ -123,8 +126,8 @@
     });
     var item={
       id:p.id||('calc-'+Math.random().toString(36).slice(2,9)),
-      brand:p.brand||'JOTUN',
-      name:p.name||'Sản phẩm Jotun',
+      brand:p.brand||'SƠN TIẾN BẢO',
+      name:p.name||'Sản phẩm sơn',
       category:p.category||'Sản phẩm tính sơn',
       description:p.description||'',
       image:p.image||'',
@@ -132,21 +135,23 @@
       oldPrice:Number(p.oldPrice||0),
       pricePrefix:p.pricePrefix||'',
       unit:p.unit||'',
-      badge:p.badge||(p.calculatorRole==='primer'?'Sơn lót':'Sơn phủ'),
+      badge:p.badge||(p.calculatorRole==='primer'?'Sơn lót':'Sản phẩm'),
       featured:false,
       calculatorOnly:true,
-      calculatorRole:p.calculatorRole||'finish',
+      calculatorRole:p.calculatorRole||'other',
       calculatorSurface:p.calculatorSurface||'both',
       pairKey:p.pairKey||'',
       url:p.url||'',
       coverage:Number(p.coverage||0),
       coverageLabel:p.coverageLabel||'',
+      measureUnit:p.measureUnit||'',
+      coverageBasis:p.coverageBasis||'',
       variants:Array.isArray(p.variants)?p.variants.map(Number).filter(function(x){return x>0;}):[],
       priceBySize:p.priceBySize&&typeof p.priceBySize==='object'?Object.assign({},p.priceBySize):{},
       priceReferenceSize:Number(p.priceReferenceSize||0),
       calcEligible:p.calcEligible===true,
       massOnly:p.massOnly===true,
-      technicalSource:p.technicalSource||'iTop',
+      technicalSource:p.technicalSource||'website',
       enabled:p.enabled!==false
     };
     if(idx>=0)base[idx]=Object.assign({},base[idx],item,{featured:base[idx].featured===true});
