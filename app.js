@@ -365,10 +365,10 @@
     }
     sourceLabel(p){
       if(!p)return '—';
-      if(p.technicalSource==='iTop')return 'iTop đồng bộ';
-      if(p.technicalSource==='hybrid')return 'Dung tích iTop • độ phủ V7';
-      if(p.technicalSource==='iTop-variants')return 'Dung tích iTop';
-      return 'Cấu hình kỹ thuật V7';
+      if(p.technicalSource==='iTop')return 'Dữ liệu sản phẩm';
+      if(p.technicalSource==='hybrid')return 'Quy cách & độ phủ';
+      if(p.technicalSource==='iTop-variants')return 'Quy cách sản phẩm';
+      return 'Thông số sản phẩm';
     }
     surfaceLabel(){return this.state.surface==='interior'?'Nội thất':'Ngoại thất';}
     resultCard(label,r){
@@ -421,7 +421,7 @@
 
       var pairBanner=mode==='system'&&primer.id&&finish.id?h('div',{className:'calc-auto-pair '+(isAutoPair?'is-auto':'is-custom')},
         h('div',{className:'calc-auto-icon'},isAutoPair?'✓':'↻'),
-        h('div',{className:'calc-auto-copy'},h('small',null,isAutoPair?'HỆ ĐƯỢC GHÉP TỰ ĐỘNG':'HỆ ĐÃ TÙY CHỈNH'),h('b',null,(primer.name||'Sơn lót')+'  +  '+(finish.name||'Sơn phủ')),h('span',null,isAutoPair?'Ưu tiên cùng dòng sản phẩm và đúng khu vực '+this.surfaceLabel().toLowerCase()+'.':'Bạn đã đổi primer thủ công; kết quả vẫn tính theo thông số của lựa chọn hiện tại.')),
+        h('div',{className:'calc-auto-copy'},h('small',null,isAutoPair?'HỆ ĐƯỢC GHÉP TỰ ĐỘNG':'HỆ ĐÃ TÙY CHỈNH'),h('b',null,(primer.name||'Sơn lót')+'  +  '+(finish.name||'Sơn phủ')),h('span',null,isAutoPair?'Ưu tiên cùng dòng sản phẩm và đúng khu vực '+this.surfaceLabel().toLowerCase()+'.':'Bạn đã đổi sơn lót; kết quả vẫn tính theo thông số của lựa chọn hiện tại.')),
         !isAutoPair&&h('button',{type:'button',onClick:()=>this.setState({primerId:recommended.id})},'Dùng gợi ý')
       ):null;
 
@@ -434,18 +434,18 @@
         ),
         pairBanner,
         showPrimer&&h('div',{className:'calc-product-panel primer-panel'},
-          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót '+this.surfaceLabel().toLowerCase()),h('small',null,'Hệ thống tự ưu tiên primer tương thích với sơn phủ'))),
+          h('div',{className:'calc-product-title'},h('span',null,'01'),h('div',null,h('b',null,'Sơn lót '+this.surfaceLabel().toLowerCase()),h('small',null,'Hệ thống tự ưu tiên sơn lót tương thích với sơn phủ'))),
           groups.primers.length?h('div',{className:'two'},
             h('label',null,'Sản phẩm lót',h('select',{value:primer.id||'',onChange:e=>this.setState({primerId:e.target.value})},groups.primers.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp lót',h('select',{value:this.state.primerCoats,onChange:e=>this.setState({primerCoats:e.target.value})},[1,2].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa đồng bộ được sơn lót '+this.surfaceLabel().toLowerCase()+' có đủ độ phủ, dung tích và giá từ iTop.')
+          ):h('div',{className:'calc-data-warning'},'Chưa có đủ thông tin về sơn lót '+this.surfaceLabel().toLowerCase()+' để tính chính xác.')
         ),
         showFinish&&h('div',{className:'calc-product-panel finish-panel'},
           h('div',{className:'calc-product-title'},h('span',null,showPrimer?'02':'01'),h('div',null,h('b',null,'Sơn phủ '+this.surfaceLabel().toLowerCase()),h('small',null,'Danh sách đã được lọc theo khu vực thi công'))),
           groups.finishes.length?h('div',{className:'two'},
             h('label',null,'Sản phẩm phủ',h('select',{value:finish.id||'',onChange:e=>this.changeFinish(e.target.value)},groups.finishes.map(p=>h('option',{value:p.id,key:p.id},p.name+' • '+(p.variants||[]).join('/')+'L')))),
             h('label',null,'Số lớp phủ',h('select',{value:this.state.finishCoats,onChange:e=>this.setState({finishCoats:e.target.value})},[1,2,3].map(x=>h('option',{value:x,key:x},x+' lớp'))))
-          ):h('div',{className:'calc-data-warning'},'Chưa có sản phẩm sơn phủ '+this.surfaceLabel().toLowerCase()+' đủ dữ liệu kỹ thuật để tính. iTop cần có độ phủ và quy cách dung tích rõ ràng.'),
+          ):h('div',{className:'calc-data-warning'},'Chưa có đủ thông tin kỹ thuật của sơn phủ '+this.surfaceLabel().toLowerCase()+' để tính chính xác.'),
           h('label',{className:'calc-color-label'},'Màu tham khảo',h('div',{className:'swatch-line'},SWATCHES.map(s=>h('button',{type:'button',title:s[0],key:s[0],className:this.state.color===s[0]?'chosen':'',style:{background:s[1]},onClick:()=>this.setState({color:s[0]})}))))
         )
       );
@@ -459,16 +459,16 @@
         h('div',{className:'liters liters-v3'},h('b',null,totalLit.toFixed(1)),h('small',null,mode==='system'?'LÍT / TOÀN HỆ':'LÍT SƠN')),
         h('div',{className:'calc-result-stack'},results),
         mode==='system'&&h('div',{className:'system-total'},
-          h('div',null,h('span',null,'Tổng chi phí vật tư dự kiến'),h('small',null,'Chỉ cộng các thùng có giá đúng dung tích từ dữ liệu iTop.')),
+          h('div',null,h('span',null,'Tổng chi phí vật tư dự kiến'),h('small',null,'Chi phí được ước tính theo giá và quy cách sản phẩm hiện có.')),
           h('strong',{className:totalKnown?'cost-known':'cost-pending'},totalKnown?money(totalCost):'Chưa đủ giá theo quy cách')
         ),
         h(Btn,{kind:'red',className:'full',onClick:this.props.onQuote},'Nhận báo giá chính xác →'),
-        h('small',{className:'estimate-note'},'Ghép hệ sơn là gợi ý hỗ trợ mua hàng dựa trên tên dòng, khu vực sử dụng và dữ liệu iTop; không được xem là khuyến nghị kỹ thuật chính thức của Jotun. Báo giá và tư vấn Tiến Bảo là bước xác nhận cuối cùng.')
+        h('small',{className:'estimate-note'},'Kết quả là ước tính hỗ trợ chọn mua dựa trên diện tích, khu vực sử dụng, quy cách và thông tin sản phẩm hiện có. Để chọn hệ sơn phù hợp nhất với bề mặt thực tế, vui lòng liên hệ Tiến Bảo để được tư vấn và xác nhận báo giá.')
       );
 
       return h('section',{className:'calculator-section',id:'calculator'},
         h('div',{className:'container'},
-          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Chọn đúng khu vực → tự ghép đúng hệ sơn',desc:'Chọn Nội thất hoặc Ngoại thất trước. V7 lọc sản phẩm phù hợp, tự ghép primer với sơn phủ cùng dòng khi có thể, rồi tính lượng sơn, số thùng và chi phí theo dữ liệu iTop.'}),
+          h(SectionHead,{eyebrow:'PAINT SYSTEM CALCULATOR',title:'Chọn đúng khu vực → tự ghép đúng hệ sơn',desc:'Chọn Nội thất hoặc Ngoại thất trước. Hệ thống sẽ lọc sản phẩm phù hợp, gợi ý sơn lót và sơn phủ tương thích, sau đó ước tính lượng sơn, số thùng và chi phí theo thông tin sản phẩm hiện có.'}),
           h('div',{className:'calculator-shell calculator-shell-v3 calculator-shell-v4'},form,result)
         )
       );
