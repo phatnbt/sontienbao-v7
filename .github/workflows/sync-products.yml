@@ -8,6 +8,7 @@ on:
       - 'scripts/sync_technical.py'
       - 'scripts/sync_full_calculator_catalog.py'
       - 'scripts/sync_full_calculator_catalog_fast.py'
+      - 'scripts/finalize_calculator_catalog.py'
       - 'scripts/patch_calculator.py'
       - 'scripts/patch_calculator_v5.py'
       - 'scripts/fix_calculator_v5_syntax.py'
@@ -51,6 +52,9 @@ jobs:
 
       - name: Discover full multi-brand calculator catalog
         run: python scripts/sync_full_calculator_catalog_fast.py
+
+      - name: Finalize verified product families and package prices
+        run: python scripts/finalize_calculator_catalog.py
 
       - name: Apply Calculator base upgrade
         run: python scripts/patch_calculator.py
