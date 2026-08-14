@@ -1,5 +1,10 @@
 # Sơn Tiến Bảo V7
 
-Landing page V7 test deployment for GitHub Pages.
+Landing Page V7 preview trên GitHub Pages.
 
-Production website: https://sontienbao.com
+- Website preview: `https://phatnbt.github.io/sontienbao-v7/`
+- Admin Center duy nhất: `https://phatnbt.github.io/sontienbao-v7/admin.html`
+- Backend iTop bên ngoài: `https://sontienbao.com/admin`
+- Production website: `https://sontienbao.com`
+
+`admin-v2.html`, `admin-v3.html` và `index.html#admin` chỉ dùng để chuyển hướng về `admin.html`.
