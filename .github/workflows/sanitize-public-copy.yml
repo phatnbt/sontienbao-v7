@@ -1,0 +1,42 @@
+name: Sanitize public calculator copy
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/sanitize_public_copy.py'
+      - '.github/workflows/sanitize-public-copy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sanitize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sanitize customer-facing copy
+        run: python scripts/sanitize_public_copy.py
+
+      - name: Validate app JavaScript
+        run: node --check app.js
+
+      - name: Commit public copy update
+        shell: bash
+        run: |
+          if git diff --quiet -- app.js; then
+            echo "No public copy changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app.js
+          git commit -m "Use customer-friendly calculator copy"
+          git push
