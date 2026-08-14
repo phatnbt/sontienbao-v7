@@ -9,7 +9,9 @@ on:
       - 'scripts/sync_full_calculator_catalog.py'
       - 'scripts/sync_full_calculator_catalog_fast.py'
       - 'scripts/sync_full_calculator_catalog_resilient.py'
+      - 'scripts/sync_full_calculator_catalog_safe.py'
       - 'scripts/finalize_calculator_catalog.py'
+      - 'scripts/finalize_calculator_catalog_safe.py'
       - 'scripts/patch_calculator.py'
       - 'scripts/patch_calculator_v5.py'
       - 'scripts/fix_calculator_v5_syntax.py'
@@ -53,10 +55,10 @@ jobs:
         run: python scripts/sync_technical.py
 
       - name: Discover resilient multi-brand Calculator catalog
-        run: python scripts/sync_full_calculator_catalog_resilient.py
+        run: python scripts/sync_full_calculator_catalog_safe.py
 
       - name: Finalize verified product families and package prices
-        run: python scripts/finalize_calculator_catalog.py
+        run: python scripts/finalize_calculator_catalog_safe.py
 
       - name: Apply Calculator base upgrade
         run: python scripts/patch_calculator.py
