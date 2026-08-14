@@ -10,6 +10,7 @@ on:
       - 'scripts/sync_full_calculator_catalog_fast.py'
       - 'scripts/patch_calculator.py'
       - 'scripts/patch_calculator_v5.py'
+      - 'scripts/fix_calculator_v5_syntax.py'
       - 'scripts/sanitize_public_copy.py'
       - 'sync-products.js'
       - 'default-data.js'
@@ -56,6 +57,9 @@ jobs:
 
       - name: Apply Calculator V5 full catalog UI
         run: python scripts/patch_calculator_v5.py
+
+      - name: Normalize Calculator V5 rendering
+        run: python scripts/fix_calculator_v5_syntax.py
 
       - name: Sanitize customer-facing calculator copy
         run: python scripts/sanitize_public_copy.py
