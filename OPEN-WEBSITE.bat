@@ -1,3 +1,2 @@
 @echo off
-cd /d "%~dp0"
-start "" "%~dp0index.html"
+start "" "https://phatnbt.github.io/sontienbao-v7/"
