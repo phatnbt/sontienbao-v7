@@ -1,93 +1,172 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Sơn Tiến Bảo Admin V3 - dashboard quản trị hiện đại, rõ ràng và tối ưu thao tác." />
-  <title>Sơn Tiến Bảo — Admin V3</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Sơn Tiến Bảo Admin Center V3">
+  <title>Sơn Tiến Bảo — Admin Center V3</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','ui-sans-serif','system-ui','sans-serif']},boxShadow:{soft:'0 8px 30px rgba(15,23,42,.06)',lift:'0 14px 40px rgba(15,23,42,.10)'}}}}
   </script>
   <style>
-    html{scroll-behavior:smooth}body{font-feature-settings:"cv02","cv03","cv04","cv11"}.sidebar-link[aria-current="page"]{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}.thin::-webkit-scrollbar{width:8px;height:8px}.thin::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+    html{scroll-behavior:smooth}body{font-feature-settings:"cv02","cv03","cv04","cv11"}.thin::-webkit-scrollbar{width:8px;height:8px}.thin::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}.nav-active{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}.action-card:hover .action-arrow{transform:translateX(2px)}
   </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
-  <div class="flex min-h-screen">
-    <aside class="sticky top-0 hidden h-screen w-[272px] shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col" aria-label="Điều hướng chính">
-      <div class="flex h-20 items-center gap-3 border-b border-slate-100 px-5">
-        <div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 font-bold text-white shadow-sm">STB</div>
-        <div><p class="text-sm font-semibold text-slate-950">Sơn Tiến Bảo</p><p class="text-xs text-slate-500">Admin Center V3</p></div>
-      </div>
-      <nav class="thin flex-1 overflow-y-auto px-3 py-4">
-        <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Tổng quan</p>
-        <a href="#" aria-current="page" class="sidebar-link mb-1 flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm font-medium"><i data-lucide="layout-dashboard" class="h-[18px] w-[18px]"></i>Dashboard</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"><i data-lucide="shopping-bag" class="h-[18px] w-[18px]"></i>Đơn hàng & Báo giá<span class="ml-auto rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-semibold text-rose-600">12</span></a>
-        <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Sản phẩm</p>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="package" class="h-[18px] w-[18px]"></i>Danh sách sản phẩm</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="palette" class="h-[18px] w-[18px]"></i>Thư viện màu</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="git-branch" class="h-[18px] w-[18px]"></i>Biến thể & Công thức</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="tags" class="h-[18px] w-[18px]"></i>Giá & Tồn kho</a>
-        <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Nội dung & dữ liệu</p>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="images" class="h-[18px] w-[18px]"></i>Media</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="file-up" class="h-[18px] w-[18px]"></i>Nhập dữ liệu hàng loạt</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="search-check" class="h-[18px] w-[18px]"></i>SEO & Nội dung</a>
-        <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Hệ thống</p>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="activity" class="h-[18px] w-[18px]"></i>Nhật ký & Lỗi</a>
-        <a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="settings" class="h-[18px] w-[18px]"></i>Cài đặt</a>
-      </nav>
-      <div class="border-t border-slate-100 p-3"><button class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-slate-50"><div class="grid h-9 w-9 place-items-center rounded-full bg-slate-900 text-xs font-semibold text-white">AD</div><div><p class="text-sm font-medium">Administrator</p><p class="text-xs text-slate-500">Quản trị viên</p></div><i data-lucide="chevrons-up-down" class="ml-auto h-4 w-4 text-slate-400"></i></button></div>
-    </aside>
-
-    <div id="backdrop" class="fixed inset-0 z-40 hidden bg-slate-950/30 backdrop-blur-[2px] lg:hidden"></div>
-    <aside id="mobileSidebar" class="fixed inset-y-0 left-0 z-50 flex w-[86%] max-w-[320px] -translate-x-full flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-200 lg:hidden">
-      <div class="flex h-16 items-center gap-3 border-b border-slate-100 px-4"><div class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-600 text-xs font-bold text-white">STB</div><div><p class="text-sm font-semibold">Sơn Tiến Bảo</p><p class="text-xs text-slate-500">Admin Center V3</p></div><button id="closeSidebar" class="ml-auto grid h-9 w-9 place-items-center rounded-lg hover:bg-slate-100" aria-label="Đóng menu"><i data-lucide="x" class="h-5 w-5"></i></button></div>
-      <nav class="flex-1 overflow-y-auto p-3"><a href="#" class="mb-1 flex items-center gap-3 rounded-xl bg-indigo-50 px-3 py-3 text-sm font-semibold text-indigo-700"><i data-lucide="layout-dashboard" class="h-[18px] w-[18px]"></i>Dashboard</a><a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="package" class="h-[18px] w-[18px]"></i>Sản phẩm</a><a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="palette" class="h-[18px] w-[18px]"></i>Thư viện màu</a><a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="file-up" class="h-[18px] w-[18px]"></i>Nhập hàng loạt</a><a href="#" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="activity" class="h-[18px] w-[18px]"></i>Nhật ký & Lỗi</a></nav>
-    </aside>
-
-    <div class="min-w-0 flex-1">
-      <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur">
-        <div class="flex h-16 items-center gap-3 px-4 sm:px-6 xl:px-8">
-          <button id="openSidebar" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50 lg:hidden" aria-label="Mở menu"><i data-lucide="menu" class="h-5 w-5"></i></button>
-          <div class="relative hidden w-full max-w-xl md:block"><i data-lucide="search" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i><input type="search" placeholder="Tìm sản phẩm, mã màu, đơn hàng, công thức..." class="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-16 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10" aria-label="Tìm kiếm toàn hệ thống"><kbd class="absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[11px] text-slate-400">⌘ K</kbd></div>
-          <div class="ml-auto flex items-center gap-2"><button class="relative grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50" aria-label="Thông báo"><i data-lucide="bell" class="h-5 w-5 text-slate-600"></i><span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white"></span></button><button class="hidden h-10 items-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:inline-flex"><i data-lucide="plus" class="h-4 w-4"></i>Thêm sản phẩm</button></div>
-        </div>
-      </header>
-
-      <main class="px-4 py-6 sm:px-6 xl:px-8 xl:py-8">
-        <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between"><div><div class="mb-2 flex items-center gap-2 text-xs font-medium text-slate-500"><span>Admin</span><span>/</span><span class="text-slate-900">Dashboard</span></div><h1 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Tổng quan vận hành</h1><p class="mt-1.5 max-w-2xl text-sm leading-6 text-slate-500">Các việc quan trọng, lỗi dữ liệu và tiến độ nhập sản phẩm được gom về một nơi để xử lý nhanh.</p></div><div class="flex flex-wrap gap-2"><button class="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"><i data-lucide="refresh-cw" class="h-4 w-4"></i>Đồng bộ dữ liệu</button><button class="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"><i data-lucide="download" class="h-4 w-4"></i>Xuất báo cáo</button></div></section>
-
-        <section class="mb-6 flex flex-col gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center"><div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-100 text-amber-700"><i data-lucide="triangle-alert" class="h-5 w-5"></i></div><div><p class="text-sm font-semibold text-amber-950">Có dữ liệu cần kiểm tra</p><p class="mt-0.5 text-sm text-amber-800">79 mã màu chưa tìm thấy công thức và 12 sản phẩm thiếu ảnh đại diện.</p></div><button class="inline-flex h-9 items-center justify-center rounded-lg bg-amber-900 px-3 text-sm font-semibold text-white hover:bg-amber-950 sm:ml-auto">Xem lỗi</button></section>
-
-        <section class="grid gap-4 sm:grid-cols-2 2xl:grid-cols-4">
-          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Tổng sản phẩm</p><p class="mt-2 text-3xl font-bold tracking-tight">1,214</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="package" class="h-5 w-5"></i></div></div><div class="mt-4 flex items-center gap-2 text-xs"><span class="rounded-full bg-emerald-50 px-2 py-1 font-semibold text-emerald-700">+26 tuần này</span><span class="text-slate-400">Đã xuất bản</span></div></article>
-          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Mã màu hoạt động</p><p class="mt-2 text-3xl font-bold tracking-tight">927</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-fuchsia-50 text-fuchsia-600"><i data-lucide="palette" class="h-5 w-5"></i></div></div><div class="mt-4 flex items-center gap-2 text-xs"><span class="rounded-full bg-amber-50 px-2 py-1 font-semibold text-amber-700">79 cần kiểm tra</span><span class="text-slate-400">Công thức màu</span></div></article>
-          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Yêu cầu báo giá</p><p class="mt-2 text-3xl font-bold tracking-tight">38</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="message-square-text" class="h-5 w-5"></i></div></div><div class="mt-4 flex items-center gap-2 text-xs"><span class="rounded-full bg-rose-50 px-2 py-1 font-semibold text-rose-700">12 chưa xử lý</span><span class="text-slate-400">Trong 24 giờ</span></div></article>
-          <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-lift"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Tình trạng hệ thống</p><p class="mt-2 text-3xl font-bold tracking-tight">98.7%</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-cyan-50 text-cyan-600"><i data-lucide="activity" class="h-5 w-5"></i></div></div><div class="mt-4 flex items-center gap-2 text-xs"><span class="rounded-full bg-emerald-50 px-2 py-1 font-semibold text-emerald-700">Ổn định</span><span class="text-slate-400">Đồng bộ 8 phút trước</span></div></article>
-        </section>
-
-        <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-soft"><div class="mb-4"><h2 class="text-base font-semibold">Thao tác nhanh</h2><p class="mt-1 text-sm text-slate-500">Các tác vụ dùng nhiều nhất trong ngày.</p></div><div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"><button class="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50/40"><span class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="file-up" class="h-5 w-5"></i></span><span><span class="block text-sm font-semibold">Nhập Excel/CSV</span><span class="mt-0.5 block text-xs text-slate-500">Sản phẩm & giá</span></span></button><button class="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50/40"><span class="grid h-10 w-10 place-items-center rounded-xl bg-fuchsia-50 text-fuchsia-600"><i data-lucide="image-up" class="h-5 w-5"></i></span><span><span class="block text-sm font-semibold">Upload ảnh hàng loạt</span><span class="mt-0.5 block text-xs text-slate-500">ZIP / kéo thả</span></span></button><button class="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50/40"><span class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="badge-dollar-sign" class="h-5 w-5"></i></span><span><span class="block text-sm font-semibold">Cập nhật giá</span><span class="mt-0.5 block text-xs text-slate-500">Theo dung tích/base</span></span></button><button class="flex items-center gap-3 rounded-xl border border-slate-200 p-4 text-left transition hover:border-indigo-200 hover:bg-indigo-50/40"><span class="grid h-10 w-10 place-items-center rounded-xl bg-amber-50 text-amber-600"><i data-lucide="scan-search" class="h-5 w-5"></i></span><span><span class="block text-sm font-semibold">Kiểm tra dữ liệu</span><span class="mt-0.5 block text-xs text-slate-500">Thiếu ảnh / công thức</span></span></button></div></section>
-
-        <section class="mt-6 grid gap-6 2xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,.65fr)]">
-          <article class="rounded-2xl border border-slate-200 bg-white shadow-soft"><div class="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div><h2 class="text-base font-semibold">Tiến trình nhập dữ liệu</h2><p class="mt-1 text-sm text-slate-500">Theo dõi job và lỗi theo từng bước.</p></div><button class="text-sm font-semibold text-indigo-600">Xem tất cả</button></div><div class="divide-y divide-slate-100"><div class="p-5"><div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="sheet" class="h-5 w-5"></i></div><div class="min-w-0 flex-1"><div class="flex items-center gap-2"><p class="truncate text-sm font-semibold">927-mau-jotun.xlsx</p><span class="rounded-full bg-indigo-50 px-2 py-0.5 text-[11px] font-semibold text-indigo-700">Đang chạy</span></div><p class="mt-1 text-xs text-slate-500">Mã màu → công thức → giá → biến thể</p></div><span class="text-sm font-semibold">74%</span></div><div class="mt-4 h-2 overflow-hidden rounded-full bg-slate-100"><div class="h-full w-[74%] rounded-full bg-indigo-600"></div></div><div class="mt-2 flex justify-between text-[11px] text-slate-400"><span>686 / 927 sản phẩm</span><span>Cập nhật 1 phút trước</span></div></div><div class="p-5"><div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="images" class="h-5 w-5"></i></div><div class="flex-1"><p class="text-sm font-semibold">Anh-mau-960.zip <span class="ml-2 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] text-emerald-700">Hoàn tất</span></p><p class="mt-1 text-xs text-slate-500">960 ảnh đã đối chiếu theo mã sản phẩm</p></div></div></div><div class="p-5"><div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-xl bg-rose-50 text-rose-600"><i data-lucide="circle-x" class="h-5 w-5"></i></div><div class="flex-1"><p class="text-sm font-semibold">Đối chiếu công thức màu <span class="ml-2 rounded-full bg-rose-50 px-2 py-0.5 text-[11px] text-rose-700">79 lỗi</span></p><p class="mt-1 text-xs text-slate-500">Không tìm thấy công thức phù hợp cho một số mã màu.</p></div><button class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold hover:bg-slate-50">Xử lý</button></div></div></div></article>
-
-          <article class="rounded-2xl border border-slate-200 bg-white shadow-soft"><div class="border-b border-slate-100 px-5 py-4"><h2 class="text-base font-semibold">Cần xử lý</h2><p class="mt-1 text-sm text-slate-500">Ưu tiên theo mức ảnh hưởng.</p></div><div class="space-y-3 p-5"><button class="flex w-full items-center gap-3 rounded-xl border border-rose-100 bg-rose-50/50 p-3.5 text-left hover:bg-rose-50"><span class="grid h-9 w-9 place-items-center rounded-lg bg-white text-rose-600 shadow-sm"><i data-lucide="flask-conical" class="h-4 w-4"></i></span><span class="flex-1"><span class="block text-sm font-semibold">79 mã thiếu công thức</span><span class="block text-xs text-slate-500">Ảnh hưởng giá và biến thể</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></button><button class="flex w-full items-center gap-3 rounded-xl border border-amber-100 bg-amber-50/50 p-3.5 text-left hover:bg-amber-50"><span class="grid h-9 w-9 place-items-center rounded-lg bg-white text-amber-600 shadow-sm"><i data-lucide="image-off" class="h-4 w-4"></i></span><span class="flex-1"><span class="block text-sm font-semibold">12 sản phẩm thiếu ảnh</span><span class="block text-xs text-slate-500">Nên xử lý trước khi xuất bản</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></button><button class="flex w-full items-center gap-3 rounded-xl border border-slate-200 p-3.5 text-left hover:bg-slate-50"><span class="grid h-9 w-9 place-items-center rounded-lg bg-slate-50 text-slate-600"><i data-lucide="tags" class="h-4 w-4"></i></span><span class="flex-1"><span class="block text-sm font-semibold">8 giá chưa đồng bộ</span><span class="block text-xs text-slate-500">Khác dữ liệu nguồn</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></button></div></article>
-        </section>
-
-        <section class="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft"><div class="flex flex-col gap-3 border-b border-slate-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"><div><h2 class="text-base font-semibold">Hoạt động gần đây</h2><p class="mt-1 text-sm text-slate-500">Lưu dấu mọi thay đổi quan trọng để dễ kiểm tra lại.</p></div><select class="h-9 rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-600"><option>Tất cả hoạt động</option><option>Sản phẩm</option><option>Giá</option><option>Ảnh</option><option>Lỗi</option></select></div><div class="overflow-x-auto"><table class="w-full min-w-[760px] text-left"><thead class="bg-slate-50/80 text-xs font-semibold uppercase tracking-wide text-slate-500"><tr><th class="px-5 py-3">Thời gian</th><th class="px-5 py-3">Hoạt động</th><th class="px-5 py-3">Đối tượng</th><th class="px-5 py-3">Trạng thái</th><th class="px-5 py-3 text-right">Chi tiết</th></tr></thead><tbody class="divide-y divide-slate-100 text-sm"><tr class="hover:bg-slate-50/70"><td class="px-5 py-4 text-slate-500">15:06</td><td class="px-5 py-4 font-medium">Cập nhật giá</td><td class="px-5 py-4 text-slate-600">S 1515-R40B</td><td class="px-5 py-4"><span class="rounded-full bg-emerald-50 px-2 py-1 text-xs font-semibold text-emerald-700">Thành công</span></td><td class="px-5 py-4 text-right"><button class="font-semibold text-indigo-600">Xem</button></td></tr><tr class="hover:bg-slate-50/70"><td class="px-5 py-4 text-slate-500">14:58</td><td class="px-5 py-4 font-medium">Liên kết hình ảnh</td><td class="px-5 py-4 text-slate-600">12 sản phẩm</td><td class="px-5 py-4"><span class="rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-700">Cần kiểm tra</span></td><td class="px-5 py-4 text-right"><button class="font-semibold text-indigo-600">Xem</button></td></tr><tr class="hover:bg-slate-50/70"><td class="px-5 py-4 text-slate-500">14:31</td><td class="px-5 py-4 font-medium">Nhập sản phẩm hàng loạt</td><td class="px-5 py-4 text-slate-600">927 mã màu</td><td class="px-5 py-4"><span class="rounded-full bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-700">Đang chạy</span></td><td class="px-5 py-4 text-right"><button class="font-semibold text-indigo-600">Xem</button></td></tr></tbody></table></div></section>
-
-        <div class="mt-6 rounded-2xl border border-indigo-100 bg-indigo-50/60 p-4 text-sm text-indigo-900"><strong>Admin V3 prototype:</strong> giao diện này đang tách riêng khỏi Admin V2 để thử UX/UI an toàn trước khi nối dữ liệu thật và thay thế hệ thống hiện tại.</div>
-      </main>
+<div class="flex min-h-screen">
+  <aside class="sticky top-0 hidden h-screen w-[278px] shrink-0 border-r border-slate-200 bg-white lg:flex lg:flex-col" aria-label="Điều hướng chính">
+    <div class="flex h-20 items-center gap-3 border-b border-slate-100 px-5">
+      <div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-600 font-bold text-white shadow-sm">STB</div>
+      <div><p class="text-sm font-semibold text-slate-950">Sơn Tiến Bảo</p><p class="text-xs text-slate-500">Admin Center V3</p></div>
     </div>
+    <nav class="thin flex-1 overflow-y-auto px-3 py-4">
+      <p class="px-3 pb-2 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Tổng quan</p>
+      <a href="admin-v3.html" class="nav-active mb-1 flex items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-semibold"><i data-lucide="layout-dashboard" class="h-[18px] w-[18px]"></i>Dashboard</a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mb-1 flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"><i data-lucide="shopping-bag" class="h-[18px] w-[18px]"></i>Đơn hàng & Báo giá<i data-lucide="external-link" class="ml-auto h-3.5 w-3.5 text-slate-400"></i></a>
+
+      <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Sản phẩm</p>
+      <a href="admin-v2.html#products" class="mb-1 flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"><i data-lucide="package" class="h-[18px] w-[18px]"></i>Danh sách sản phẩm</a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="palette" class="h-[18px] w-[18px]"></i>Thư viện màu<i data-lucide="external-link" class="ml-auto h-3.5 w-3.5 text-slate-400"></i></a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="git-branch" class="h-[18px] w-[18px]"></i>Biến thể & Công thức<i data-lucide="external-link" class="ml-auto h-3.5 w-3.5 text-slate-400"></i></a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="tags" class="h-[18px] w-[18px]"></i>Giá & Tồn kho<i data-lucide="external-link" class="ml-auto h-3.5 w-3.5 text-slate-400"></i></a>
+
+      <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Nội dung & dữ liệu</p>
+      <a href="admin-v2.html#content" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="images" class="h-[18px] w-[18px]"></i>Nội dung & Media</a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="file-up" class="h-[18px] w-[18px]"></i>Nhập dữ liệu iTop<i data-lucide="external-link" class="ml-auto h-3.5 w-3.5 text-slate-400"></i></a>
+      <a href="admin-v2.html#seo" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="search-check" class="h-[18px] w-[18px]"></i>SEO & Giao diện</a>
+
+      <p class="px-3 pb-2 pt-5 text-[11px] font-semibold uppercase tracking-[.16em] text-slate-400">Hệ thống</p>
+      <a href="admin-v2.html#settings" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="refresh-cw" class="h-[18px] w-[18px]"></i>Đồng bộ & Backup</a>
+      <a href="admin-v2.html#settings" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="settings" class="h-[18px] w-[18px]"></i>Cài đặt</a>
+    </nav>
+    <div class="border-t border-slate-100 p-3">
+      <a href="admin-v2.html" class="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-slate-50">
+        <div class="grid h-9 w-9 place-items-center rounded-full bg-slate-900 text-xs font-semibold text-white">AD</div>
+        <div><p class="text-sm font-medium">Administrator</p><p class="text-xs text-slate-500">Mở Admin V2 an toàn</p></div>
+        <i data-lucide="chevron-right" class="ml-auto h-4 w-4 text-slate-400"></i>
+      </a>
+    </div>
+  </aside>
+
+  <div id="backdrop" class="fixed inset-0 z-40 hidden bg-slate-950/30 backdrop-blur-[2px] lg:hidden"></div>
+  <aside id="mobileSidebar" class="fixed inset-y-0 left-0 z-50 flex w-[86%] max-w-[320px] -translate-x-full flex-col border-r border-slate-200 bg-white shadow-2xl transition-transform duration-200 lg:hidden" aria-label="Điều hướng di động">
+    <div class="flex h-16 items-center gap-3 border-b border-slate-100 px-4"><div class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-600 text-xs font-bold text-white">STB</div><div><p class="text-sm font-semibold">Sơn Tiến Bảo</p><p class="text-xs text-slate-500">Admin Center V3</p></div><button id="closeSidebar" class="ml-auto grid h-9 w-9 place-items-center rounded-lg hover:bg-slate-100" aria-label="Đóng menu"><i data-lucide="x" class="h-5 w-5"></i></button></div>
+    <nav class="flex-1 overflow-y-auto p-3">
+      <a href="admin-v3.html" class="mb-1 flex items-center gap-3 rounded-xl bg-indigo-50 px-3 py-3 text-sm font-semibold text-indigo-700"><i data-lucide="layout-dashboard" class="h-[18px] w-[18px]"></i>Dashboard</a>
+      <a href="admin-v2.html#products" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="package" class="h-[18px] w-[18px]"></i>Sản phẩm</a>
+      <a href="admin-v2.html#content" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="images" class="h-[18px] w-[18px]"></i>Nội dung & Media</a>
+      <a href="admin-v2.html#seo" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="search-check" class="h-[18px] w-[18px]"></i>SEO & Giao diện</a>
+      <a href="admin-v2.html#settings" class="mb-1 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50"><i data-lucide="settings" class="h-[18px] w-[18px]"></i>Đồng bộ & Cài đặt</a>
+      <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mt-2 flex items-center gap-3 rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700"><i data-lucide="external-link" class="h-[18px] w-[18px]"></i>Mở iTop Admin</a>
+    </nav>
+  </aside>
+
+  <div class="min-w-0 flex-1">
+    <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+      <div class="flex h-16 items-center gap-3 px-4 sm:px-6 xl:px-8">
+        <button id="openSidebar" class="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50 lg:hidden" aria-label="Mở menu"><i data-lucide="menu" class="h-5 w-5"></i></button>
+        <div class="relative hidden w-full max-w-xl md:block"><i data-lucide="search" class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i><input id="adminSearch" type="search" placeholder="Tìm chức năng: sản phẩm, SEO, nội dung, đồng bộ..." class="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-16 text-sm outline-none transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10" aria-label="Tìm chức năng quản trị"><kbd class="absolute right-3 top-1/2 -translate-y-1/2 rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[11px] text-slate-400">⌘ K</kbd></div>
+        <div class="ml-auto flex items-center gap-2">
+          <a href="./" target="_blank" rel="noopener" class="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:inline-flex"><i data-lucide="eye" class="h-4 w-4"></i>Xem website</a>
+          <a href="admin-v2.html#products" class="inline-flex h-10 items-center gap-2 rounded-xl bg-indigo-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/20"><i data-lucide="package-plus" class="h-4 w-4"></i><span class="hidden sm:inline">Quản lý sản phẩm</span><span class="sm:hidden">Sản phẩm</span></a>
+        </div>
+      </div>
+    </header>
+
+    <main class="px-4 py-6 sm:px-6 xl:px-8 xl:py-8">
+      <section class="mb-6 flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+        <div><div class="mb-2 flex items-center gap-2 text-xs font-medium text-slate-500"><span>Admin</span><span>/</span><span class="text-slate-900">Dashboard</span></div><h1 class="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">Tổng quan quản trị</h1><p class="mt-1.5 max-w-2xl text-sm leading-6 text-slate-500">Đi vào đúng nơi cần chỉnh trong 1–2 click. Dữ liệu V7 và iTop được tách rõ để giảm nhầm thao tác.</p></div>
+        <div class="flex flex-wrap gap-2"><a href="admin-v2.html#settings" class="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"><i data-lucide="refresh-cw" class="h-4 w-4"></i>Đồng bộ dữ liệu</a><a href="admin-v2.html#settings" class="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"><i data-lucide="download" class="h-4 w-4"></i>Backup / Xuất dữ liệu</a></div>
+      </section>
+
+      <section class="mb-6 flex flex-col gap-3 rounded-2xl border border-indigo-200 bg-indigo-50 p-4 sm:flex-row sm:items-center">
+        <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-indigo-600 shadow-sm"><i data-lucide="shield-check" class="h-5 w-5"></i></div>
+        <div><p class="text-sm font-semibold text-indigo-950">V3 là trung tâm điều hướng — thao tác chỉnh sửa vẫn được bảo vệ trong Admin V2</p><p class="mt-0.5 text-sm text-indigo-800">Sản phẩm, nội dung, SEO và backup mở đúng màn hình V2; dữ liệu công thức, giá và nhập hàng loạt mở iTop Admin.</p></div>
+        <a href="admin-v2.html" class="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-indigo-600 px-3 text-sm font-semibold text-white hover:bg-indigo-700 sm:ml-auto">Mở Admin V2</a>
+      </section>
+
+      <section class="grid gap-4 sm:grid-cols-2 2xl:grid-cols-4" aria-label="Chỉ số V7">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Sản phẩm V7</p><p id="statTotal" class="mt-2 text-3xl font-bold tracking-tight text-slate-950">—</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="package" class="h-5 w-5"></i></div></div><p class="mt-4 text-xs text-slate-400">Đang hiển thị sau lớp tùy chỉnh</p></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Nguồn tự đồng bộ</p><p id="statSynced" class="mt-2 text-3xl font-bold tracking-tight text-slate-950">—</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-cyan-50 text-cyan-600"><i data-lucide="refresh-cw" class="h-5 w-5"></i></div></div><p class="mt-4 text-xs text-slate-400">Dữ liệu trước lớp chỉnh thủ công</p></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Đã sửa thủ công</p><p id="statOverride" class="mt-2 text-3xl font-bold tracking-tight text-slate-950">—</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-amber-50 text-amber-600"><i data-lucide="pencil-line" class="h-5 w-5"></i></div></div><p class="mt-4 text-xs text-slate-400">Đang ưu tiên hơn dữ liệu sync</p></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft"><div class="flex items-start justify-between"><div><p class="text-sm font-medium text-slate-500">Sản phẩm đang ẩn</p><p id="statHidden" class="mt-2 text-3xl font-bold tracking-tight text-slate-950">—</p></div><div class="grid h-10 w-10 place-items-center rounded-xl bg-rose-50 text-rose-600"><i data-lucide="eye-off" class="h-5 w-5"></i></div></div><p class="mt-4 text-xs text-slate-400">Không hiển thị trên Landing Page V7</p></article>
+      </section>
+
+      <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div class="mb-4"><h2 class="text-base font-semibold text-slate-950">Thao tác nhanh</h2><p class="mt-1 text-sm text-slate-500">4 khu vực chỉnh sửa chính của Landing Page V7.</p></div>
+        <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <a data-search-item="sản phẩm product thêm sửa ẩn giá" href="admin-v2.html#products" class="action-card group flex items-center gap-3 rounded-xl border border-slate-200 p-4 transition hover:border-indigo-200 hover:bg-indigo-50/40"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="package" class="h-5 w-5"></i></span><span class="min-w-0 flex-1"><span class="block text-sm font-semibold text-slate-900">Quản lý sản phẩm</span><span class="mt-0.5 block text-xs text-slate-500">Thêm, sửa, ẩn, hoàn tác</span></span><i data-lucide="arrow-right" class="action-arrow h-4 w-4 text-slate-400 transition"></i></a>
+          <a data-search-item="nội dung media ảnh hero banner faq content" href="admin-v2.html#content" class="action-card group flex items-center gap-3 rounded-xl border border-slate-200 p-4 transition hover:border-fuchsia-200 hover:bg-fuchsia-50/40"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-fuchsia-50 text-fuchsia-600"><i data-lucide="images" class="h-5 w-5"></i></span><span class="min-w-0 flex-1"><span class="block text-sm font-semibold text-slate-900">Nội dung & Media</span><span class="mt-0.5 block text-xs text-slate-500">Hero, banner, FAQ, hình ảnh</span></span><i data-lucide="arrow-right" class="action-arrow h-4 w-4 text-slate-400 transition"></i></a>
+          <a data-search-item="seo giao diện title description theme" href="admin-v2.html#seo" class="action-card group flex items-center gap-3 rounded-xl border border-slate-200 p-4 transition hover:border-emerald-200 hover:bg-emerald-50/40"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="search-check" class="h-5 w-5"></i></span><span class="min-w-0 flex-1"><span class="block text-sm font-semibold text-slate-900">SEO & Giao diện</span><span class="mt-0.5 block text-xs text-slate-500">Metadata và theme V7</span></span><i data-lucide="arrow-right" class="action-arrow h-4 w-4 text-slate-400 transition"></i></a>
+          <a data-search-item="đồng bộ backup xuất dữ liệu github cài đặt" href="admin-v2.html#settings" class="action-card group flex items-center gap-3 rounded-xl border border-slate-200 p-4 transition hover:border-amber-200 hover:bg-amber-50/40"><span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-amber-50 text-amber-600"><i data-lucide="database-backup" class="h-5 w-5"></i></span><span class="min-w-0 flex-1"><span class="block text-sm font-semibold text-slate-900">Đồng bộ & Backup</span><span class="mt-0.5 block text-xs text-slate-500">GitHub, tải lại, xuất JSON</span></span><i data-lucide="arrow-right" class="action-arrow h-4 w-4 text-slate-400 transition"></i></a>
+        </div>
+        <p id="searchEmpty" class="mt-4 hidden rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-500">Không tìm thấy chức năng phù hợp. Thử “sản phẩm”, “SEO”, “nội dung” hoặc “đồng bộ”.</p>
+      </section>
+
+      <section class="mt-6 grid gap-6 xl:grid-cols-2">
+        <article class="rounded-2xl border border-slate-200 bg-white shadow-soft">
+          <div class="border-b border-slate-100 px-5 py-4"><h2 class="text-base font-semibold text-slate-950">Quản trị Landing Page V7</h2><p class="mt-1 text-sm text-slate-500">Các thao tác được lưu vào lớp dữ liệu riêng, không ghi đè iTop.</p></div>
+          <div class="divide-y divide-slate-100">
+            <a href="admin-v2.html#products" class="flex items-center gap-3 p-5 hover:bg-slate-50"><span class="grid h-10 w-10 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><i data-lucide="package-check" class="h-5 w-5"></i></span><span class="flex-1"><span class="block text-sm font-semibold">Sản phẩm Landing Page</span><span class="mt-0.5 block text-xs text-slate-500">Tự sync + override thủ công có thể hoàn tác</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></a>
+            <a href="admin-v2.html#content" class="flex items-center gap-3 p-5 hover:bg-slate-50"><span class="grid h-10 w-10 place-items-center rounded-xl bg-fuchsia-50 text-fuchsia-600"><i data-lucide="panel-top" class="h-5 w-5"></i></span><span class="flex-1"><span class="block text-sm font-semibold">Landing Page Content</span><span class="mt-0.5 block text-xs text-slate-500">Hero, danh mục, banner, popup và FAQ</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></a>
+            <a href="admin-v2.html#settings" class="flex items-center gap-3 p-5 hover:bg-slate-50"><span class="grid h-10 w-10 place-items-center rounded-xl bg-emerald-50 text-emerald-600"><i data-lucide="github" class="h-5 w-5"></i></span><span class="flex-1"><span class="block text-sm font-semibold">Lưu lên GitHub</span><span class="mt-0.5 block text-xs text-slate-500">Kết nối, tải dữ liệu mới nhất và xuất backup</span></span><i data-lucide="chevron-right" class="h-4 w-4 text-slate-400"></i></a>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white shadow-soft">
+          <div class="border-b border-slate-100 px-5 py-4"><h2 class="text-base font-semibold text-slate-950">Quản trị dữ liệu iTop</h2><p class="mt-1 text-sm text-slate-500">Dùng iTop cho dữ liệu nghiệp vụ và nhập hàng loạt.</p></div>
+          <div class="p-5">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <div class="flex items-start gap-4"><div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white text-slate-700 shadow-sm"><i data-lucide="database" class="h-5 w-5"></i></div><div><p class="text-sm font-semibold text-slate-950">iTop vẫn là nguồn chính</p><p class="mt-1 text-sm leading-6 text-slate-500">Công thức màu, biến thể, giá, tồn kho, đơn hàng và các tác vụ import dữ liệu tiếp tục xử lý tại iTop để tránh phân tán nguồn dữ liệu.</p></div></div>
+              <a href="https://sontienbao.com/admin" target="_blank" rel="noopener" class="mt-5 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 text-sm font-semibold text-white hover:bg-slate-800"><i data-lucide="external-link" class="h-4 w-4"></i>Mở iTop Admin</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-soft">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h2 class="text-base font-semibold text-slate-950">Trạng thái dữ liệu V7</h2><p id="dataStatus" class="mt-1 text-sm text-slate-500">Đang đọc dữ liệu hiện tại…</p></div><a href="admin-v2.html#settings" class="inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 text-sm font-semibold text-slate-700 hover:bg-slate-50"><i data-lucide="settings-2" class="h-4 w-4"></i>Kiểm tra kết nối</a></div>
+      </section>
+    </main>
   </div>
-  <script>
-    lucide.createIcons();
-    const s=document.getElementById('mobileSidebar'),b=document.getElementById('backdrop');
-    function openMenu(){s.classList.remove('-translate-x-full');b.classList.remove('hidden');document.body.classList.add('overflow-hidden')}
-    function closeMenu(){s.classList.add('-translate-x-full');b.classList.add('hidden');document.body.classList.remove('overflow-hidden')}
-    document.getElementById('openSidebar')?.addEventListener('click',openMenu);document.getElementById('closeSidebar')?.addEventListener('click',closeMenu);b?.addEventListener('click',closeMenu);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
-  </script>
+</div>
+
+<script src="default-data.js"></script>
+<script src="v7-content.js"></script>
+<script src="synced-products.js"></script>
+<script src="sync-products.js"></script>
+<script src="manual-products.js"></script>
+<script src="manual-product-overrides.js"></script>
+<script>
+(function(){
+  'use strict';
+  if(window.lucide)lucide.createIcons();
+  var mobile=document.getElementById('mobileSidebar'),backdrop=document.getElementById('backdrop');
+  function openMenu(){mobile.classList.remove('-translate-x-full');backdrop.classList.remove('hidden');document.body.classList.add('overflow-hidden')}
+  function closeMenu(){mobile.classList.add('-translate-x-full');backdrop.classList.add('hidden');document.body.classList.remove('overflow-hidden')}
+  document.getElementById('openSidebar').addEventListener('click',openMenu);document.getElementById('closeSidebar').addEventListener('click',closeMenu);backdrop.addEventListener('click',closeMenu);document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMenu()});
+
+  var cfg=window.STB_MANUAL_PRODUCTS||{};
+  var current=window.STB_DEFAULT_DATA&&Array.isArray(window.STB_DEFAULT_DATA.products)?window.STB_DEFAULT_DATA.products:[];
+  var before=Array.isArray(window.STB_PRODUCTS_BEFORE_MANUAL)?window.STB_PRODUCTS_BEFORE_MANUAL:[];
+  var overrides=cfg.overrides&&typeof cfg.overrides==='object'?Object.keys(cfg.overrides).length:0;
+  var hidden=Array.isArray(cfg.hidden)?cfg.hidden.length:0;
+  var visible=current.filter(function(p){return p&&p.enabled!==false;}).length;
+  document.getElementById('statTotal').textContent=visible.toLocaleString('vi-VN');
+  document.getElementById('statSynced').textContent=before.length.toLocaleString('vi-VN');
+  document.getElementById('statOverride').textContent=overrides.toLocaleString('vi-VN');
+  document.getElementById('statHidden').textContent=hidden.toLocaleString('vi-VN');
+  var updated=cfg.updatedAt?new Date(cfg.updatedAt).toLocaleString('vi-VN'):'chưa có thời gian cập nhật';
+  document.getElementById('dataStatus').textContent='Đã đọc '+visible.toLocaleString('vi-VN')+' sản phẩm đang hoạt động • '+overrides+' override • '+hidden+' đang ẩn • dữ liệu thủ công cập nhật: '+updated+'.';
+
+  var search=document.getElementById('adminSearch'),items=Array.prototype.slice.call(document.querySelectorAll('[data-search-item]')),empty=document.getElementById('searchEmpty');
+  function filter(){var q=(search.value||'').trim().toLowerCase();var shown=0;items.forEach(function(el){var ok=!q||(el.getAttribute('data-search-item')||'').toLowerCase().indexOf(q)>=0;el.classList.toggle('hidden',!ok);if(ok)shown++});empty.classList.toggle('hidden',shown>0)}
+  search.addEventListener('input',filter);search.addEventListener('keydown',function(e){if(e.key==='Enter'){var first=items.find(function(el){return !el.classList.contains('hidden')});if(first)location.href=first.getAttribute('href')}});
+  document.addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();search.focus();search.select()}});
+})();
+</script>
 </body>
 </html>
