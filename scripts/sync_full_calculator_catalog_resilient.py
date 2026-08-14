@@ -90,17 +90,19 @@ def discover_categories_resilient():
 
 
 def package_hint_precise(title, card_name, url, soup):
-    # Trust current page data before potentially stale URL slugs:
-    # H1/title -> selected variant -> listing-card label -> URL slug.
+    # Reliability order:
+    # 1) H1/title of the current product page
+    # 2) selected variant on that product page
+    # 3) package size encoded in the exact product URL
+    # 4) listing-card text only as a final fallback
+    #
+    # This prevents a listing card from donating e.g. 5Kg to a product URL that
+    # explicitly represents the 20Kg SKU.
     size, unit = base.size_unit_from_text(title or '')
     if size and unit:
         return size, unit
 
     size, unit = fast.selected_size(soup)
-    if size and unit:
-        return size, unit
-
-    size, unit = base.size_unit_from_text(card_name or '')
     if size and unit:
         return size, unit
 
@@ -110,6 +112,10 @@ def package_hint_precise(title, card_name, url, soup):
         value = base.num(m.group(1))
         if 0.05 <= value <= 100:
             return (int(value) if float(value).is_integer() else value), ('Kg' if m.group(2).lower() == 'kg' else 'L')
+
+    size, unit = base.size_unit_from_text(card_name or '')
+    if size and unit:
+        return size, unit
     return 0, ''
 
 
