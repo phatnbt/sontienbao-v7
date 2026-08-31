@@ -18,16 +18,23 @@
       var text = normalize(heading.textContent);
       if (text !== 'Những dòng sơn đang được quan tâm' && text !== COPY.title) continue;
 
-      heading.textContent = COPY.title;
+      // Keep this pass idempotent. The observer below watches characterData;
+      // writing the same text on every callback creates an endless mutation
+      // loop that eventually freezes the whole landing page.
+      if (text !== COPY.title) heading.textContent = COPY.title;
 
       var sectionHead = heading.closest('.section-head');
       if (!sectionHead) continue;
 
       var kicker = sectionHead.querySelector('.section-kicker');
-      if (kicker) kicker.textContent = COPY.kicker;
+      if (kicker && normalize(kicker.textContent) !== COPY.kicker) {
+        kicker.textContent = COPY.kicker;
+      }
 
       var paragraph = sectionHead.querySelector('p');
-      if (paragraph) paragraph.textContent = COPY.description;
+      if (paragraph && normalize(paragraph.textContent) !== COPY.description) {
+        paragraph.textContent = COPY.description;
+      }
     }
   }
 

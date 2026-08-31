@@ -33,21 +33,8 @@
   d.site.colorUrl = 'https://sontienbao.com/bang-mau-son/';
   d.site.priceUrl = 'https://sontienbao.com/bang-gia/';
 
-  // Every generic "Nhận báo giá" CTA on the GitHub landing page should use
-  // the real iTop quote/contact flow instead of opening the local demo modal.
-  // Capture phase makes this work for React-rendered buttons added later too.
-  document.addEventListener('click', function (event) {
-    var target = event.target && event.target.closest
-      ? event.target.closest('a,button,[role="button"]')
-      : null;
-    if (!target) return;
-    var text = (target.textContent || '').replace(/\s+/g, ' ').trim().toLocaleLowerCase('vi-VN');
-    if (text.indexOf('nhận báo giá') === -1) return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
-    window.location.href = QUOTE_URL;
-  }, true);
+  // Quote CTAs are handled by React so they can open the complete form first.
+  // QuoteModal redirects to the real iTop contact flow only after validation.
 
   d.meta = d.meta || {};
   d.meta.deployment = 'github-pages-preview';
