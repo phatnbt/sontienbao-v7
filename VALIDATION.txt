@@ -2,6 +2,7 @@ SON TIEN BAO V7 — VALIDATION
 ============================
 
 [OK] app.js syntax: node --check
+[OK] all JavaScript files pass node --check
 [OK] itop-adapter.js syntax: node --check
 [OK] default-data.js syntax: node --check
 [OK] index.html script order: React -> iTop config -> iTop adapter -> data -> app
@@ -14,8 +15,16 @@ SON TIEN BAO V7 — VALIDATION
 [OK] Color manager reads product category configured in itop-config.js
 [OK] Media manager uses existing iTop Media endpoints
 [OK] Password/account links to native iTop /admin/profile
-[OK] Production quote flow redirects to existing /lien-he.html instead of pretending to save locally
+[OK] Quote CTA opens the complete form; a validated production submission continues to /lien-he.html
+[OK] Production price guard recognizes the consolidated calculator catalog by ID and URL
+[OK] Fresh iTop export keeps all 163 synchronized product prices available
+[OK] SEO copy pass is idempotent and no longer creates a MutationObserver loop
+[OK] Product search opens and filters the synchronized catalog
+[OK] Calculator reacts to area changes and keeps eligible products available
+[OK] Color copy uses Clipboard API with a safe DOM fallback
+[OK] Quote and announcement dialogs close with Escape and cannot overlap
+[OK] Automated smoke suite: node tests/smoke.js
 
 Environment note:
-- Container Chromium headless could not complete due container DBus/Chromium runtime, so browser visual smoke test must be done on the user's browser/hosting.
-- JavaScript static syntax and asset validation passed.
+- Browser automation reproduced the original infinite DOM mutation freeze before the fix.
+- JavaScript syntax, data integrity, local asset references, Admin bindings and functional smoke tests pass after the fix.

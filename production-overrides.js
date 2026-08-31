@@ -2,14 +2,29 @@
   var d = window.STB_DEFAULT_DATA;
   if (!d) return;
 
-  // GitHub Pages is a presentation layer. If a product was not refreshed from
-  // the public iTop storefront, do not show a potentially stale hard-coded price.
-  var syncedIds = {};
-  (window.STB_SYNCED_PRODUCTS || []).forEach(function (p) {
-    if (p && p.id) syncedIds[p.id] = true;
+  // GitHub Pages is a presentation layer. Only show prices that belong to the
+  // latest healthy iTop export. The final catalog is consolidated into
+  // `calc-family-*` records, so checking STB_SYNCED_PRODUCTS IDs alone used to
+  // hide every valid storefront price after consolidation.
+  var syncedKeys = {};
+  function productKey(p) {
+    if (!p) return [];
+    var keys = [];
+    if (p.id) keys.push('id:' + p.id);
+    if (p.url) keys.push('url:' + String(p.url).replace(/\/$/, ''));
+    return keys;
+  }
+  [window.STB_SYNCED_PRODUCTS, window.STB_HOMEPAGE_PRODUCTS, window.STB_CALCULATOR_PRODUCTS].forEach(function (list) {
+    (Array.isArray(list) ? list : []).forEach(function (p) {
+      productKey(p).forEach(function (key) { syncedKeys[key] = true; });
+    });
   });
+  var meta = window.STB_SYNC_META || {};
+  var generatedAt = Date.parse(meta.generatedAt || '');
+  var exportIsFresh = meta.status === 'ok' && generatedAt > 0 && Math.abs(Date.now() - generatedAt) < 14 * 86400000;
   (d.products || []).forEach(function (p) {
-    if (!syncedIds[p.id]) {
+    var isSynced = productKey(p).some(function (key) { return syncedKeys[key]; });
+    if (!exportIsFresh || !isSynced) {
       p.price = 0;
       p.oldPrice = 0;
       p.pricePrefix = '';

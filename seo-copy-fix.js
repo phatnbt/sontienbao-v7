@@ -40,13 +40,6 @@
 
   function start() {
     applyFeaturedSeoCopy();
-    var root = document.getElementById('root') || document.body;
-    if (!root || !window.MutationObserver) return;
-    new MutationObserver(applyFeaturedSeoCopy).observe(root, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
   }
 
   if (document.readyState === 'loading') {
