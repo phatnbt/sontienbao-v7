@@ -147,7 +147,7 @@
     closeOnEscape(e){if(e.key==='Escape')this.setState({menu:false,search:false});}
     go(id){this.setState({menu:false});scrollToId(id);}
     quote(){this.setState({menu:false});this.props.onQuote();}
-    render(){var d=this.props.data,nav=[['Sản phẩm','products'],['Bảng màu','colors'],['Tính lượng sơn','calculator'],['FAQ','faq']];return h(React.Fragment,null,
+    render(){var d=this.props.data,nav=[['Sản phẩm','products'],['Bảng màu','colors'],['Tính lượng sơn','calculator'],['FAQ','faq']];return h('div',{className:'header-layer'},
       h('header',{className:'site-header'},h('div',{className:'header-inner'},
         h('a',{className:'brand-lockup',href:'#top','aria-label':'Sơn Tiến Bảo - Trang chủ'},h('img',{src:asset(d.site.logo),alt:'Logo Sơn Tiến Bảo'}),h('span',null,h('b',null,'SƠN TIẾN BẢO'),h('small',null,'Sơn chính hãng'))),
         h('nav',{className:'desktop-nav','aria-label':'Điều hướng chính'},nav.map(x=>h('button',{key:x[0],onClick:()=>this.go(x[1])},x[0])),h('a',{href:d.site.priceUrl},'Bảng giá')),

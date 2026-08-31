@@ -1,0 +1,8 @@
+# Third-party/minified runtime is not part of Sơn Tiến Bảo architecture
+vendor/
+
+# Generated graph outputs must never index themselves
+graphify-out/
+
+# Binary product imagery is outside the code architecture graph
+assets/
