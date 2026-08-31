@@ -101,8 +101,8 @@
   }
 
   class App extends React.Component{
-    constructor(p){super(p);this.state={data:loadData(),quote:false,menu:false,admin:location.hash.indexOf('#admin')===0,version:0,boot:true,announcement:null};this.onHash=this.onHash.bind(this);this.onScroll=this.onScroll.bind(this);this.onPointerMove=this.onPointerMove.bind(this);this.onPointerOut=this.onPointerOut.bind(this);}
-    componentDidMount(){if(this.state.admin&&!shouldUseITopAdmin()&&!isLocalPreview()){goRealAdmin();return;}setTheme(this.state.data);window.addEventListener('hashchange',this.onHash);window.addEventListener('scroll',this.onScroll,{passive:true});document.addEventListener('pointermove',this.onPointerMove,{passive:true});document.addEventListener('pointerout',this.onPointerOut,{passive:true});this.initReveal();this.onScroll();var self=this,api=itopApi();if(api&&api.syncPublicProducts&&!this.state.admin){api.syncPublicProducts(this.state.data.products||[]).then(function(products){if(!products||!products.length)return;var d=clone(self.state.data);d.products=products;self.setState({data:d,version:self.state.version+1});}).catch(function(){})}setTimeout(function(){self.setState({boot:false});self.scheduleAnnouncement();},900);}
+    constructor(p){super(p);this.state={data:loadData(),quote:false,menu:false,admin:location.hash.indexOf('#admin')===0,version:0,boot:false,announcement:null};this.onHash=this.onHash.bind(this);this.onScroll=this.onScroll.bind(this);this.onPointerMove=this.onPointerMove.bind(this);this.onPointerOut=this.onPointerOut.bind(this);}
+    componentDidMount(){if(this.state.admin&&!shouldUseITopAdmin()&&!isLocalPreview()){goRealAdmin();return;}setTheme(this.state.data);window.addEventListener('hashchange',this.onHash);window.addEventListener('scroll',this.onScroll,{passive:true});document.addEventListener('pointermove',this.onPointerMove,{passive:true});document.addEventListener('pointerout',this.onPointerOut,{passive:true});this.initReveal();this.onScroll();var self=this,api=itopApi();if(api&&api.syncPublicProducts&&!this.state.admin){api.syncPublicProducts(this.state.data.products||[]).then(function(products){if(!products||!products.length)return;var d=clone(self.state.data);d.products=products;self.setState({data:d,version:self.state.version+1});}).catch(function(){})}setTimeout(function(){self.scheduleAnnouncement();},900);}
     componentDidUpdate(){setTheme(this.state.data);this.initReveal();}
     componentWillUnmount(){window.removeEventListener('hashchange',this.onHash);window.removeEventListener('scroll',this.onScroll);document.removeEventListener('pointermove',this.onPointerMove);document.removeEventListener('pointerout',this.onPointerOut);}
     onScroll(){var y=window.scrollY||0;var max=Math.max(1,document.documentElement.scrollHeight-window.innerHeight);var prog=Math.max(0,Math.min(1,y/max));var bar=document.querySelector('.scroll-progress i');if(bar)bar.style.transform='scaleX('+prog+')';var header=document.querySelector('.site-header');if(header)header.classList.toggle('is-compact',y>60);var visual=document.querySelector('.hero-visual');if(visual&&y<innerHeight*1.15)visual.style.transform='translate3d(0,'+(y*0.025)+'px,0)';}
@@ -117,28 +117,80 @@
   }
 
   function Storefront(props){var d=props.data, products=(d.products||[]).filter(function(x){return x.enabled!==false}), featured=products.filter(function(x){return x.featured}).slice(0,6), cats=(d.categories||[]).filter(function(x){return x.enabled!==false}).slice(0,6), brands=(d.brands||[]).filter(function(x){return x.enabled!==false});return h('div',{className:'store'},
+    h('a',{className:'skip-link',href:'#main-content'},'Bỏ qua điều hướng'),
     h('div',{className:'scroll-progress'},h('i')),
-    h(Header,{data:d,onQuote:props.onQuote}),
+    h(Header,{data:d,products:products,onQuote:props.onQuote}),
+    h('main',{id:'main-content'},
     h(Hero,{data:d,onQuote:props.onQuote}),
     h(BrandStrip,{brands:brands}),
+    h(IntentNavigator,{onQuote:props.onQuote}),
     h(PromoBanners,{items:d.banners||[]}),
     h(KineticMarquee),
     h(Categories,{items:cats}),
     h(Products,{items:featured.length?featured:products.slice(0,6),url:d.site.catalogUrl}),
     h(Solutions,{data:d}),
+    h(BuyingJourney,{onQuote:props.onQuote}),
     h(Calculator,{data:d,onQuote:props.onQuote}),
     h(Colors,{data:d}),
     h(Faq,{items:(d.faqs||[]).filter(function(x){return x.enabled!==false})}),
-    h(FinalCta,{data:d,onQuote:props.onQuote}),
+    h(FinalCta,{data:d,onQuote:props.onQuote})),
     h(Footer,{data:d}),
+    h(ContactDock,{data:d,onQuote:props.onQuote}),
+    h(MobileActionBar,{data:d,onQuote:props.onQuote}),
     props.quote&&h(QuoteModal,{data:d,onClose:props.onCloseQuote})
   );}
 
-  function Header(p){var d=p.data;return h('header',{className:'site-header'},h('div',{className:'header-inner'},
-    h('a',{className:'brand-lockup',href:'#top'},h('img',{src:asset(d.site.logo),alt:'Tiến Bảo'}),h('span',null,h('b',null,'SƠN TIẾN BẢO'),h('small',null,'Sơn chính hãng'))),
-    h('nav',{className:'desktop-nav'},['Sản phẩm','Bảng màu','Bảng giá','Tính lượng sơn','FAQ'].map(function(label,i){var id=['products','colors',null,'calculator','faq'][i];if(label==='Bảng giá')return h('a',{key:label,href:d.site.priceUrl},label);return h('button',{key:label,onClick:function(){scrollToId(id)}},label)})),
-    h('div',{className:'header-actions'},h('a',{className:'round-btn',href:d.site.catalogUrl,title:'Sản phẩm'},'⌕'),h('a',{className:'btn magnetic btn-red header-quote',href:d.site.quoteUrl||'https://sontienbao.com/lien-he.html','aria-label':'Đi tới trang nhận báo giá Sơn Tiến Bảo'},'Nhận báo giá'))
-  ));}
+  class Header extends React.Component{
+    constructor(p){super(p);this.state={menu:false,search:false};this.closeOnEscape=this.closeOnEscape.bind(this);}
+    componentDidMount(){document.addEventListener('keydown',this.closeOnEscape);}
+    componentWillUnmount(){document.removeEventListener('keydown',this.closeOnEscape);}
+    closeOnEscape(e){if(e.key==='Escape')this.setState({menu:false,search:false});}
+    go(id){this.setState({menu:false});scrollToId(id);}
+    quote(){this.setState({menu:false});this.props.onQuote();}
+    render(){var d=this.props.data,nav=[['Sản phẩm','products'],['Bảng màu','colors'],['Tính lượng sơn','calculator'],['FAQ','faq']];return h(React.Fragment,null,
+      h('header',{className:'site-header'},h('div',{className:'header-inner'},
+        h('a',{className:'brand-lockup',href:'#top','aria-label':'Sơn Tiến Bảo - Trang chủ'},h('img',{src:asset(d.site.logo),alt:'Logo Sơn Tiến Bảo'}),h('span',null,h('b',null,'SƠN TIẾN BẢO'),h('small',null,'Sơn chính hãng'))),
+        h('nav',{className:'desktop-nav','aria-label':'Điều hướng chính'},nav.map(x=>h('button',{key:x[0],onClick:()=>this.go(x[1])},x[0])),h('a',{href:d.site.priceUrl},'Bảng giá')),
+        h('div',{className:'header-actions'},
+          h('button',{className:'round-btn search-trigger',onClick:()=>this.setState({search:true}),title:'Tìm sản phẩm','aria-label':'Tìm sản phẩm'},'⌕'),
+          h(Btn,{kind:'red',className:'header-quote',onClick:()=>this.quote()},'Nhận báo giá'),
+          h('button',{className:'menu-trigger',onClick:()=>this.setState({menu:!this.state.menu}),'aria-expanded':this.state.menu,'aria-label':this.state.menu?'Đóng menu':'Mở menu'},this.state.menu?'×':'☰')
+        )
+      )),
+      this.state.menu&&h('div',{className:'mobile-menu'},h('div',{className:'mobile-menu-panel'},h('span',{className:'section-kicker'},'ĐIỀU HƯỚNG'),nav.map(x=>h('button',{key:x[0],onClick:()=>this.go(x[1])},x[0],h('span',null,'→'))),h('a',{href:d.site.priceUrl},'Bảng giá',h('span',null,'↗')),h(Btn,{kind:'red',onClick:()=>this.quote()},'Nhận báo giá'))),
+      this.state.search&&h(ProductSearch,{items:this.props.products||[],catalogUrl:d.site.catalogUrl,onClose:()=>this.setState({search:false})})
+    );}
+  }
+
+  class ProductSearch extends React.Component{
+    constructor(p){super(p);this.state={query:''};}
+    render(){var q=this.state.query.trim().toLowerCase();var matches=(this.props.items||[]).filter(function(x){return ((x.name||'')+' '+(x.brand||'')+' '+(x.category||'')+' '+(x.description||'')).toLowerCase().indexOf(q)>=0;}).slice(0,8);return h('div',{className:'search-backdrop',onMouseDown:e=>{if(e.target===e.currentTarget)this.props.onClose();}},
+      h('section',{className:'product-search-dialog',role:'dialog','aria-modal':'true','aria-labelledby':'product-search-title'},
+        h('div',{className:'search-dialog-head'},h('div',null,h('span',{className:'section-kicker'},'TÌM NHANH'),h('h2',{id:'product-search-title'},'Bạn đang cần loại sơn nào?')),h('button',{className:'search-close',onClick:this.props.onClose,'aria-label':'Đóng tìm kiếm'},'×')),
+        h('label',{className:'search-input-wrap'},h('span',null,'⌕'),h('input',{autoFocus:true,value:this.state.query,placeholder:'Nhập tên, thương hiệu hoặc nhu cầu…','aria-label':'Từ khóa tìm sản phẩm',onChange:e=>this.setState({query:e.target.value})})),
+        h('div',{className:'search-results'},matches.length?matches.map(function(x){return h('a',{className:'search-product',key:x.id,href:x.url},h(SmartImage,{src:x.image,alt:x.name,width:88,height:88}),h('div',null,h('small',null,(x.brand||'Sơn Tiến Bảo')+' · '+(x.category||'Sản phẩm')),h('b',null,x.name),h('span',null,(x.pricePrefix?x.pricePrefix+' ':'')+money(x.price))),h('i',null,'→'));}):h('div',{className:'search-empty'},h('b',null,'Chưa tìm thấy sản phẩm phù hợp'),h('p',null,'Thử tên thương hiệu, loại bề mặt hoặc mở toàn bộ danh mục.'))),
+        h('a',{className:'search-all-link',href:this.props.catalogUrl},'Xem toàn bộ sản phẩm ',h('span',null,'↗'))
+      )
+    );}
+  }
+
+  function IntentNavigator(p){var cards=[
+    {icon:'⌂',title:'Sơn nhà mới',desc:'Chọn hệ sơn theo nội thất và ngoại thất.',action:function(){scrollToId('categories');}},
+    {icon:'↻',title:'Sơn sửa lại',desc:'Tìm giải pháp theo tình trạng bề mặt.',action:function(){scrollToId('products');}},
+    {icon:'◐',title:'Chọn màu',desc:'Tìm và lưu mã màu cho không gian.',action:function(){scrollToId('colors');}},
+    {icon:'≈',title:'Tính chi phí',desc:'Ước tính lượng sơn trước khi mua.',action:function(){scrollToId('calculator');}}
+  ];return h('section',{className:'intent-section','aria-label':'Chọn nhu cầu'},h('div',{className:'container intent-shell'},h('div',{className:'intent-intro'},h('span',{className:'section-kicker'},'BẮT ĐẦU NHANH'),h('h2',null,'Bạn đang cần làm gì?'),h('p',null,'Chọn đúng nhu cầu để đi thẳng tới phần hữu ích nhất.')),h('div',{className:'intent-grid'},cards.map(function(x){return h('button',{key:x.title,onClick:x.action},h('span',{className:'intent-icon'},x.icon),h('span',{className:'intent-copy'},h('b',null,x.title),h('small',null,x.desc)),h('i',null,'→'));})),h(Btn,{kind:'red',className:'intent-quote',onClick:p.onQuote},'Tư vấn riêng')));}
+
+  function BuyingJourney(p){var steps=[
+    ['01','Xác định nhu cầu','Chọn bề mặt, không gian và mức hoàn thiện mong muốn.'],
+    ['02','Tính lượng sơn','Ước tính theo diện tích, số lớp và độ phủ sản phẩm.'],
+    ['03','Nhận tư vấn','Đối chiếu hệ sơn, quy cách thùng và màu phù hợp.'],
+    ['04','Chốt báo giá','Xác nhận sản phẩm, số lượng và phương án giao nhận.']
+  ];return h('section',{className:'journey-section',id:'journey'},h('div',{className:'container'},h(SectionHead,{eyebrow:'QUY TRÌNH RÕ RÀNG',title:'Từ nhu cầu đến báo giá trong một luồng',desc:'Không cần tự ghép từng sản phẩm. Landing page dẫn bạn qua các bước cần thiết để chọn đúng và hạn chế mua dư.'}),h('div',{className:'journey-grid'},steps.map(function(x,i){return h(Reveal,{key:x[0],className:'journey-card'},h('span',{className:'journey-number'},x[0]),h('div',{className:'journey-line'},h('i')),h('h3',null,x[1]),h('p',null,x[2]),i===2&&h('button',{onClick:p.onQuote},'Mở form tư vấn →'));})),h('div',{className:'journey-cta'},h('p',null,h('b',null,'Đã có diện tích? '),'Dùng công cụ tính lượng sơn để có số liệu trước khi nhận báo giá.'),h(Btn,{kind:'dark',onClick:function(){scrollToId('calculator')}},'Tính lượng sơn ngay'))));}
+
+  function ContactDock(p){var d=p.data.site;return h('aside',{className:'contact-dock','aria-label':'Liên hệ nhanh'},h('a',{href:'tel:'+d.hotline,'aria-label':'Gọi '+d.hotlineDisplay},h('span',null,'☎'),h('b',null,'Gọi ngay')),h('a',{href:'https://zalo.me/'+d.zalo,target:'_blank',rel:'noopener','aria-label':'Chat Zalo'},h('span',null,'Z'),h('b',null,'Zalo')),h('button',{onClick:p.onQuote,'aria-label':'Nhận báo giá'},h('span',null,'✦'),h('b',null,'Báo giá')));}
+
+  function MobileActionBar(p){var d=p.data.site;return h('nav',{className:'mobile-action-bar','aria-label':'Liên hệ nhanh trên điện thoại'},h('a',{href:'tel:'+d.hotline},h('span',null,'☎'),h('b',null,'Gọi tư vấn')),h('button',{onClick:p.onQuote},h('span',null,'✦'),h('b',null,'Nhận báo giá')));}
 
   function Hero(p){
     var d=p.data,trust=d.hero.trust||[];
@@ -153,7 +205,7 @@
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},i%2?'◇':'✓'),h('b',null,x.value),h('small',null,x.label));})),
           h('button',{className:'scroll-cue',onClick:function(){scrollToId('categories')}},h('span',null,'Cuộn để khám phá'),h('i',null,'↓'))
         ),
-        h('div',{className:'hero-visual hero-sequence-stage mouse-spotlight'},h(SmartImage,{src:d.hero.image,alt:'Không gian kiến trúc và sản phẩm sơn',width:1600,height:900,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-visual-shine'}),h('div',{className:'hero-lab'},h('b',null,'COLOR LAB'),h('small',null,'Chọn màu · Tính lượng · Báo giá')))
+        h('div',{className:'hero-visual hero-sequence-stage mouse-spotlight'},h(SmartImage,{src:d.hero.image,alt:'Không gian kiến trúc và sản phẩm sơn',width:1600,height:900,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-visual-shine'}),h('div',{className:'hero-lab'},h('b',null,'COLOR LAB'),h('small',null,'Chọn màu · Tính lượng · Báo giá')),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},'✓'),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
       )
     );
   }
@@ -418,9 +470,9 @@
       h('div',{className:'container footer-grid'},
         h('div',{className:'foot-brand'},h('img',{src:asset(d.logo)}),h('b',null,d.name),h('p',null,d.company)),
         h('div',null,h('h4',null,'Khám phá'),h('a',{href:d.catalogUrl},'Sản phẩm'),h('a',{href:d.colorUrl},'Bảng màu'),h('a',{href:d.priceUrl},'Bảng giá')),
-        h('div',null,h('h4',null,'Liên hệ'),h('a',{href:'tel:'+d.hotline},d.hotlineDisplay),h('a',{href:'mailto:'+d.email},d.email),h('p',null,d.address))
+        h('div',null,h('h4',null,'Liên hệ'),h('a',{href:'tel:'+d.hotline},'Hotline: '+d.hotlineDisplay),h('a',{href:'https://zalo.me/'+d.zalo,target:'_blank',rel:'noopener'},'Zalo tư vấn'),h('a',{href:'mailto:'+d.email},d.email),h('p',null,d.address))
       ),
-      h('div',{className:'copyright'},'© 2026 Sơn Tiến Bảo • Local-first React preview')
+      h('div',{className:'copyright'},'© 2026 Sơn Tiến Bảo • Tư vấn lựa chọn sơn cho nhà ở và công trình')
     );
   }
 
@@ -434,14 +486,14 @@
       } else {
         content=h('form',{onSubmit:this.submit.bind(this)},
           h('span',{className:'section-kicker'},'BÁO GIÁ'),h('h2',null,'Nhận báo giá nhanh'),h('p',null,'Chỉ cần thông tin liên hệ. Bạn không phải nhập lại toàn bộ calculator.'),
-          h('label',null,'Họ tên *',h('input',{value:this.state.name,onChange:e=>this.setState({name:e.target.value})})),
-          h('label',null,'Số điện thoại *',h('input',{value:this.state.phone,onChange:e=>this.setState({phone:e.target.value})})),
-          h('label',null,'Tỉnh / Thành phố',h('input',{value:this.state.location,onChange:e=>this.setState({location:e.target.value})})),
+          h('label',null,'Họ tên *',h('input',{name:'name',autoComplete:'name',required:true,value:this.state.name,onChange:e=>this.setState({name:e.target.value})})),
+          h('label',null,'Số điện thoại *',h('input',{name:'phone',type:'tel',inputMode:'tel',autoComplete:'tel',required:true,value:this.state.phone,onChange:e=>this.setState({phone:e.target.value})})),
+          h('label',null,'Tỉnh / Thành phố',h('input',{name:'location',autoComplete:'address-level1',value:this.state.location,onChange:e=>this.setState({location:e.target.value})})),
           h('label',null,'Ghi chú',h('textarea',{rows:3,value:this.state.note,onChange:e=>this.setState({note:e.target.value})})),
           h(Btn,{kind:'red',className:'full',type:'submit'},'Gửi yêu cầu báo giá')
         );
       }
-      return h('div',{className:'modal-backdrop',onMouseDown:e=>{if(e.target===e.currentTarget)this.props.onClose();}},h('div',{className:'quote-modal'},h('button',{className:'modal-x',onClick:this.props.onClose},'×'),content));
+      return h('div',{className:'modal-backdrop',onMouseDown:e=>{if(e.target===e.currentTarget)this.props.onClose();}},h('div',{className:'quote-modal',role:'dialog','aria-modal':'true','aria-label':'Nhận báo giá Sơn Tiến Bảo'},h('button',{className:'modal-x',onClick:this.props.onClose,'aria-label':'Đóng form báo giá'},'×'),content));
     }
   }
 
