@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789620185.3881154,
-    "seen": 1789620210.3893468,
-    "ast_hash": "6b19da4630bbc053e4f8a395ba1fdecd",
+    "mtime": 1789621131.4378874,
+    "seen": 1789621498.4854872,
+    "ast_hash": "1941ac6f582ad13032de19590a759f66",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
