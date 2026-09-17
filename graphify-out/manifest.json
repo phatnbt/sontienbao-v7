@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1789621674.2543156,
-    "seen": 1789621682.284712,
-    "ast_hash": "307660d522d9270401050364ed81de89",
+    "mtime": 1789622209.939233,
+    "seen": 1789622597.6680899,
+    "ast_hash": "a8dcd30d405fd1d08d222675c4379d00",
     "semantic_hash": ""
   },
   "asset-path-fix.js": {
@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789621617.3333316,
-    "seen": 1789621682.284712,
-    "ast_hash": "b27f9db7f76507674e3c32197b91cd27",
+    "mtime": 1789622578.1335914,
+    "seen": 1789622597.6680899,
+    "ast_hash": "a1464316e7a49d79d0032148de37f3c7",
     "semantic_hash": ""
   },
   "tests/smoke.js": {

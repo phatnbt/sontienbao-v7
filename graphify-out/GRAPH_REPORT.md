@@ -1,17 +1,17 @@
 # Graph Report - landing page  (2026-09-17)
 
 ## Corpus Check
-- 37 files · ~30,159 words
+- 37 files · ~30,456 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 11 file(s) not represented in the graph (top: .css 5, (none) 4, .bat 2)
 
 ## Summary
-- 539 nodes · 1277 edges · 42 communities (24 shown, 5 thin omitted)
-- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 72 edges (avg confidence: 0.85)
+- 539 nodes · 1292 edges · 42 communities (25 shown, 4 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 87 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `797b08c0`
+- Built from commit: `050c122f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,40 +23,40 @@
 - Calculator
 - admin-v2.js
 - itop-adapter.js
-- Btn
+- app.js
 - itopApi
 - App
 - sync_full_calculator_catalog_resilient.py
 - sync_products.py
-- app.js
+- Btn
 - finalize_calculator_catalog.py
-- isPlain
+- normalizeData
 - Sơn Tiến Bảo V7 — triển khai không cần Supabase
 - Header
 - Q: Kiểm tra toàn bộ chức năng landing page và Admin
 - Sơn Tiến Bảo V7 — GitHub Pages Preview
 - manual-product-overrides.js
-- normalizeData
+- .submit
 - asset-path-fix.js
 - seo-copy-fix.js
 - Colors
+- asset
 - merge
 - AGENTS.md
 - Sơn Tiến Bảo V7
 - smoke.js
-- .render
 
 ## God Nodes (most connected - your core abstractions)
 1. `Calculator` - 28 edges
 2. `clone()` - 25 edges
 3. `Btn()` - 24 edges
 4. `itopApi()` - 18 edges
-5. `fmt_num()` - 17 edges
-6. `Storefront()` - 16 edges
-7. `Admin` - 16 edges
-8. `App` - 15 edges
-9. `norm()` - 15 edges
-10. `build_product()` - 15 edges
+5. `Icon()` - 18 edges
+6. `fmt_num()` - 17 edges
+7. `Storefront()` - 16 edges
+8. `Admin` - 16 edges
+9. `App` - 15 edges
+10. `norm()` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `package_hint_precise()` --calls--> `selected_size()`  [EXTRACTED]
@@ -73,15 +73,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (42 total, 5 thin omitted)
+## Communities (42 total, 4 thin omitted)
 
 ### Community 0 - "sync_full_calculator_catalog.py"
 Cohesion: 0.08
 Nodes (73): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+65 more)
 
 ### Community 1 - "clone"
-Cohesion: 0.09
-Nodes (11): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), change(), MediaManager (+3 more)
+Cohesion: 0.07
+Nodes (13): Admin, clone(), download(), EditModal, ErrorBoundary, fileToData(), getPopupTemplate(), change() (+5 more)
 
 ### Community 2 - "admin-core.js"
 Cohesion: 0.14
@@ -103,17 +103,17 @@ Nodes (27): b64(), bytesText(), changePassword(), clearFails(), createVault(), d
 Cohesion: 0.17
 Nodes (25): createProduct(), csrf(), deleteProduct(), dtParams(), duplicateProduct(), extractPublicProduct(), fetchJson(), fetchText() (+17 more)
 
-### Community 7 - "Btn"
-Cohesion: 0.16
-Nodes (13): ActivityManager(), AdminList(), Btn(), ColorManager, cx(), Dashboard(), ITopConnectionCard(), Leads() (+5 more)
+### Community 7 - "app.js"
+Cohesion: 0.13
+Nodes (19): ActivityManager(), AdminAuthLoading(), AdminGlobalSearch(), AdminList(), AdminLogin(), AdminSidebar(), AdminTop(), ColorManager (+11 more)
 
 ### Community 8 - "itopApi"
 Cohesion: 0.14
 Nodes (5): itopApi(), ITopColorManager, ITopMediaManager, ITopProductManager, ITopQuickEdit
 
 ### Community 9 - "App"
-Cohesion: 0.20
-Nodes (6): App, getTemplatePreset(), goRealAdmin(), isLocalPreview(), setTheme(), shouldUseITopAdmin()
+Cohesion: 0.18
+Nodes (6): activePopup(), App, goRealAdmin(), isLocalPreview(), popupIsActive(), shouldUseITopAdmin()
 
 ### Community 10 - "sync_full_calculator_catalog_resilient.py"
 Cohesion: 0.26
@@ -123,13 +123,17 @@ Nodes (9): canonical(), discover_categories_resilient(), add(), discover_childre
 Cohesion: 0.26
 Nodes (19): card_from_anchor(), clean_image_url(), compact_product_card(), detail_image_and_title(), discover_home_catalog(), fetch_soup(), find_home_product(), image_by_alt() (+11 more)
 
-### Community 12 - "app.js"
-Cohesion: 0.18
-Nodes (23): AnnouncementModal(), asset(), BootOverlay(), BrandStrip(), BuyingJourney(), Categories(), ContactDock(), Faq() (+15 more)
+### Community 12 - "Btn"
+Cohesion: 0.27
+Nodes (18): Btn(), BuyingJourney(), Categories(), ContactDock(), Faq(), FinalCta(), Hero(), Icon() (+10 more)
 
 ### Community 13 - "finalize_calculator_catalog.py"
 Cohesion: 0.33
 Nodes (9): consolidate(), family_key(), fmt_size(), is_legacy(), main(), norm(), package_unit(), parse_assignment() (+1 more)
+
+### Community 14 - "normalizeData"
+Cohesion: 0.39
+Nodes (4): isPlain(), mergeSafe(), normalizeData(), SettingsEditor
 
 ### Community 15 - "Sơn Tiến Bảo V7 — triển khai không cần Supabase"
 Cohesion: 0.22
@@ -147,9 +151,9 @@ Nodes (5): Admin Center, GitHub Pages, Không được làm, Sơn Tiến Bảo V
 Cohesion: 0.70
 Nodes (4): findOverride(), isHidden(), keys(), normUrl()
 
-### Community 20 - "normalizeData"
-Cohesion: 0.11
-Nodes (11): ErrorBoundary, loadData(), loadLeads(), mergeSafe(), normalizeData(), QuoteModal, saveData(), saveLeads() (+3 more)
+### Community 20 - ".submit"
+Cohesion: 0.16
+Nodes (7): loadData(), loadLeads(), QuoteModal, saveData(), saveLeads(), storageGet(), storageSet()
 
 ### Community 21 - "asset-path-fix.js"
 Cohesion: 0.83
@@ -163,33 +167,33 @@ Nodes (3): applyFeaturedSeoCopy(), normalize(), start()
 Cohesion: 0.25
 Nodes (3): Colors, ProductSearch, searchText()
 
+### Community 24 - "asset"
+Cohesion: 0.20
+Nodes (6): AnnouncementModal(), asset(), BootOverlay(), BrandStrip(), Footer(), SmartImage
+
 ### Community 41 - "smoke.js"
 Cohesion: 0.24
 Nodes (13): assert, elementText(), expand(), findElement(), fs, main(), makeContext(), path (+5 more)
 
-### Community 42 - ".render"
-Cohesion: 0.20
-Nodes (7): activePopup(), AdminAuthLoading(), AdminGlobalSearch(), AdminLogin(), AdminSidebar(), AdminTop(), popupIsActive()
-
 ## Knowledge Gaps
 - **20 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+15 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 75 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Calculator` connect `Calculator` to `clone`, `app.js`?**
   _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `clone()` connect `clone` to `Btn`, `App`, `app.js`, `isPlain`, `normalizeData`?**
+- **Why does `clone()` connect `clone` to `App`, `.submit`, `normalizeData`, `app.js`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `App` connect `App` to `.render`, `app.js`, `normalizeData`?**
+- **Why does `App` connect `App` to `asset`, `.submit`, `app.js`?**
   _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Are the 22 inferred relationships involving `Btn()` (e.g. with `ActivityManager()` and `.renderTab()`) actually correct?**
   _`Btn()` has 22 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 16 inferred relationships involving `Icon()` (e.g. with `BuyingJourney()` and `.render()`) actually correct?**
+  _`Icon()` has 16 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `vm` to the rest of the system?**
   _20 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `sync_full_calculator_catalog.py` be split into smaller, more focused modules?**
   _Cohesion score 0.08441558441558442 - nodes in this community are weakly interconnected._
-- **Should `clone` be split into smaller, more focused modules?**
-  _Cohesion score 0.09175377468060394 - nodes in this community are weakly interconnected._
