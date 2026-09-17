@@ -262,25 +262,22 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 }
 .contact-dock>a,.contact-dock>button{
   display:grid;
-  grid-template-columns:34px 0fr;
+  place-items:center;
   align-items:center;
-  gap:0;
-  width:48px;
-  min-height:48px;
-  padding:7px;
-  overflow:hidden;
+  width:52px;
+  height:52px;
+  padding:0;
   border:1px solid rgba(255,255,255,.17);
-  border-radius:14px;
+  border-radius:16px;
   background:#0b1a27;
   color:#fff;
   box-shadow:0 14px 34px rgba(0,0,0,.22);
-  transition:width .25s,grid-template-columns .25s,background .2s;
+  transition:transform .2s,box-shadow .2s,background .2s;
 }
 .contact-dock>a:nth-child(2){background:#0869d7}
 .contact-dock>button{background:var(--lp-red)}
-.contact-dock>a:hover,.contact-dock>button:hover{width:116px;grid-template-columns:34px 1fr}
-.contact-dock span{display:grid;place-items:center;width:34px;font-size:16px;font-weight:900}
-.contact-dock b{white-space:nowrap;font-size:10px}
+.contact-dock>a:hover,.contact-dock>button:hover{transform:translateX(-4px) scale(1.04);box-shadow:0 18px 38px rgba(0,0,0,.28)}
+.contact-dock span{display:grid;place-items:center;width:24px;height:24px;font-size:16px;font-weight:900}
 .mobile-action-bar{display:none}
 
 /* Existing sections: polish and readability */

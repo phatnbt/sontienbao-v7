@@ -1,5 +1,6 @@
 window.STB_V7_CONTENT = {
   "site": {
+    "logo": "assets/logo-tien-bao-compact.png",
     "topbar": "Đại lý phân phối chính thức Jotun & Terraco • Tư vấn màu sắc • Giao hàng toàn quốc",
     "hotline": "0913712195",
     "hotlineDisplay": "0913 712 195",
@@ -29,7 +30,7 @@ window.STB_V7_CONTENT = {
       "id": "interior",
       "name": "Sơn nội thất",
       "description": "Phòng khách, phòng ngủ, căn hộ",
-      "image": "assets/category-interior-photo.webp",
+      "image": "assets/category-interior-2026.webp",
       "url": "https://sontienbao.com/son-jotun-nauy/jotun-gtc-gia-tieu-chuan-nha-thau-nha-dan/jotun-gtc-son-phu-noi-that/",
       "enabled": true
     },
@@ -37,7 +38,7 @@ window.STB_V7_CONTENT = {
       "id": "exterior",
       "name": "Sơn ngoại thất",
       "description": "Bảo vệ tường và mặt tiền ngoài trời",
-      "image": "assets/category-exterior-photo.webp",
+      "image": "assets/category-exterior-2026.webp",
       "url": "https://sontienbao.com/son-jotun-nauy/jotun-gtc-gia-tieu-chuan-nha-thau-nha-dan/jotun-gtc-son-phu-ngoai-that/",
       "enabled": true
     },
@@ -45,7 +46,7 @@ window.STB_V7_CONTENT = {
       "id": "primer",
       "name": "Sơn lót & chống thấm",
       "description": "Tăng độ bám dính và bảo vệ bề mặt",
-      "image": "assets/category-primer.svg",
+      "image": "assets/category-primer-waterproof-2026.webp",
       "url": "https://sontienbao.com/son-jotun-nauy/jotun-gtc-gia-tieu-chuan-nha-thau-nha-dan/jotun-gtc-bot-tret-son-lot-chong-kiem-son-dau-gardex-18/",
       "enabled": true
     },
@@ -53,7 +54,7 @@ window.STB_V7_CONTENT = {
       "id": "industrial",
       "name": "Sơn công nghiệp",
       "description": "Nhà xưởng, kim loại và hệ kỹ thuật",
-      "image": "assets/category-industrial.svg",
+      "image": "assets/category-industrial-2026.webp",
       "url": "https://sontienbao.com/san-pham/",
       "enabled": true
     },
@@ -61,7 +62,7 @@ window.STB_V7_CONTENT = {
       "id": "sport",
       "name": "Sơn sân thể thao",
       "description": "Tennis, pickleball và bề mặt thể thao",
-      "image": "assets/category-sport.svg",
+      "image": "assets/category-sport-2026.webp",
       "url": "https://sontienbao.com/danh-muc-san-pham/son-trang-tri-terraco/terraco-gtc-gia-tieu-chuan-gia-son-keo-ba-chong-tham/son-san-the-thao/",
       "enabled": true
     },
@@ -69,7 +70,7 @@ window.STB_V7_CONTENT = {
       "id": "accessories",
       "name": "Bột trét & phụ kiện",
       "description": "Vật tư hoàn thiện và dụng cụ thi công",
-      "image": "assets/category-tools.svg",
+      "image": "assets/category-tools-2026.webp",
       "url": "https://sontienbao.com/danh-muc-san-pham/son-trang-tri-terraco/terraco-gtc-gia-tieu-chuan-gia-son-keo-ba-chong-tham/ter-gtc-keo-ba-bot-tret-son-lot/",
       "enabled": true
     }

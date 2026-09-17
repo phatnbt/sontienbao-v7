@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1789622209.939233,
-    "seen": 1789622597.6680899,
-    "ast_hash": "a8dcd30d405fd1d08d222675c4379d00",
+    "mtime": 1789625571.9290528,
+    "seen": 1789625893.4650652,
+    "ast_hash": "0715cf0c7d8e54d960baccb8b266d869",
     "semantic_hash": ""
   },
   "asset-path-fix.js": {
@@ -180,9 +180,9 @@
     "semantic_hash": ""
   },
   "v7-content.js": {
-    "mtime": 1789619315.3542225,
-    "seen": 1789620210.3893468,
-    "ast_hash": "a8baf4cf731d6cb8ed57499a04532962",
+    "mtime": 1789625687.6136441,
+    "seen": 1789625893.4650652,
+    "ast_hash": "b1dfc37992de9871d28f5e9ad51305dd",
     "semantic_hash": ""
   },
   ".github/workflows/fix-admin-canonical-routing.yml": {
@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789622578.1335914,
-    "seen": 1789622597.6680899,
-    "ast_hash": "a1464316e7a49d79d0032148de37f3c7",
+    "mtime": 1789625670.8186352,
+    "seen": 1789625893.4650652,
+    "ast_hash": "1a7ddf6e4a7623d0f9d85cbb1a3208a7",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
@@ -279,6 +279,24 @@
     "mtime": 1789619315.3404698,
     "seen": 1789620210.3893468,
     "ast_hash": "fa64656224903dba4e61bdabdc3901ff",
+    "semantic_hash": ""
+  },
+  "desktop-check-2.png": {
+    "mtime": 1789619555.439888,
+    "seen": 1789625893.4650652,
+    "ast_hash": "5075f14da97979153c977ce428bfd826",
+    "semantic_hash": ""
+  },
+  "desktop-check.png": {
+    "mtime": 1789625775.5513067,
+    "seen": 1789625893.4650652,
+    "ast_hash": "92c1491ddfd533e5a636de997eb20701",
+    "semantic_hash": ""
+  },
+  "mobile-check.png": {
+    "mtime": 1789625746.1566644,
+    "seen": 1789625893.4650652,
+    "ast_hash": "9b6539d5861ef8d56530e38be8c72753",
     "semantic_hash": ""
   }
 }

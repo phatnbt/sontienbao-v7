@@ -373,7 +373,7 @@ body{background:var(--ui-paper);text-rendering:optimizeLegibility;-webkit-font-s
 .store .final-actions .btn{min-height:52px;padding-inline:20px}
 .store .contact-dock a span,.store .contact-dock button span,.store .mobile-action-bar span{display:grid;place-items:center}
 .store .contact-dock .ui-icon{width:19px;height:19px}
-.store .contact-dock a,.store .contact-dock button{border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(16px)}
+.store .contact-dock a,.store .contact-dock button{border:1px solid rgba(255,255,255,.12)}
 .store .mobile-action-bar .ui-icon{width:20px;height:20px}
 .store footer{position:relative;overflow:hidden}
 .store footer:before{content:"";position:absolute;top:-210px;left:-130px;width:430px;height:430px;border-radius:50%;background:radial-gradient(circle,rgba(38,104,145,.2),transparent 67%)}
@@ -381,6 +381,11 @@ body{background:var(--ui-paper);text-rendering:optimizeLegibility;-webkit-font-s
 .store .foot-lockup{display:flex;align-items:center;gap:14px}
 .store .foot-lockup img{width:62px;height:62px;border:1px solid rgba(255,255,255,.1);border-radius:17px;background:#fff;object-fit:contain}
 .store .foot-lockup b,.store .foot-lockup span{display:block}
+
+@media(hover:none),(pointer:coarse){
+  .store .mouse-spotlight:before,.store .beam-card:after{display:none!important}
+  .store .mobile-action-bar{backdrop-filter:none;background:#06131e}
+}
 .store .foot-lockup b{font-size:17px}
 .store .foot-lockup span{margin-top:4px;color:#718693;font-size:10px}
 .store .foot-brand>p{max-width:390px;margin:20px 0;color:#8295a0;font-size:12px}
