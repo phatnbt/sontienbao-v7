@@ -171,4 +171,9 @@
   }
 
   window.STB_DEFAULT_DATA.products=base;
+  window.STB_DEFAULT_DATA.meta=window.STB_DEFAULT_DATA.meta||{};
+  var syncMeta=window.STB_SYNC_META||{};
+  if(syncMeta.generatedAt)window.STB_DEFAULT_DATA.meta.catalogGeneratedAt=syncMeta.generatedAt;
+  window.STB_DEFAULT_DATA.meta.catalogFamilies=base.length;
+  window.STB_DEFAULT_DATA.meta.catalogPackages=Number(syncMeta.calculatorPackages||0);
 })();

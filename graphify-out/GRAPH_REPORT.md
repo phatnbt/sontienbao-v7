@@ -1,16 +1,17 @@
-# Graph Report - sontienbao-v7  (2026-08-31)
+# Graph Report - landing page  (2026-09-17)
 
 ## Corpus Check
-- 36 files · ~30,238 words
+- 37 files · ~30,153 words
 - Verdict: corpus is large enough that graph structure adds value.
+- Unclassified: 10 file(s) not represented in the graph (top: (none) 4, .css 4, .bat 2)
 
 ## Summary
-- 528 nodes · 1225 edges · 43 communities (24 shown, 6 thin omitted)
+- 539 nodes · 1277 edges · 42 communities (24 shown, 5 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 72 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e05b59c2`
+- Built from commit: `ab3913f7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -25,63 +26,62 @@
 - Btn
 - itopApi
 - App
-- sync_full_calculator_catalog_fast.py
+- sync_full_calculator_catalog_resilient.py
 - sync_products.py
 - app.js
 - finalize_calculator_catalog.py
-- asset
+- isPlain
 - Sơn Tiến Bảo V7 — triển khai không cần Supabase
 - Header
-- ErrorBoundary
+- Q: Kiểm tra toàn bộ chức năng landing page và Admin
 - Sơn Tiến Bảo V7 — GitHub Pages Preview
 - manual-product-overrides.js
-- Admin
+- normalizeData
 - asset-path-fix.js
 - seo-copy-fix.js
-- .upload
-- QuoteModal
-- v7-content-overrides.js
+- Colors
+- merge
 - AGENTS.md
 - Sơn Tiến Bảo V7
 - smoke.js
 - .render
 
 ## God Nodes (most connected - your core abstractions)
-1. `Calculator` - 27 edges
-2. `clone()` - 24 edges
+1. `Calculator` - 28 edges
+2. `clone()` - 25 edges
 3. `Btn()` - 24 edges
 4. `itopApi()` - 18 edges
-5. `Storefront()` - 16 edges
-6. `Admin` - 16 edges
-7. `fmt_num()` - 16 edges
+5. `fmt_num()` - 17 edges
+6. `Storefront()` - 16 edges
+7. `Admin` - 16 edges
 8. `App` - 15 edges
-9. `build_product()` - 15 edges
-10. `build_page()` - 14 edges
+9. `norm()` - 15 edges
+10. `build_product()` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `package_hint_precise()` --calls--> `selected_size()`  [EXTRACTED]
+  scripts/sync_full_calculator_catalog_resilient.py → scripts/sync_full_calculator_catalog_fast.py
+- `main()` --calls--> `main()`  [EXTRACTED]
+  scripts/sync_full_calculator_catalog_resilient.py → scripts/sync_full_calculator_catalog_fast.py
 - `find_categories()` --calls--> `fetch_page()`  [EXTRACTED]
   scripts/sync_calculator_catalog.py → scripts/sync_technical.py
 - `card_for_anchor()` --calls--> `first_price()`  [EXTRACTED]
   scripts/sync_calculator_catalog.py → scripts/sync_technical.py
 - `discover_urls()` --calls--> `fetch_page()`  [EXTRACTED]
   scripts/sync_calculator_catalog.py → scripts/sync_technical.py
-- `normalize_price_map()` --calls--> `fmt_num()`  [EXTRACTED]
-  scripts/sync_calculator_catalog.py → scripts/sync_technical.py
-- `selected_variant_prices()` --calls--> `first_price()`  [EXTRACTED]
-  scripts/sync_calculator_catalog.py → scripts/sync_technical.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (43 total, 6 thin omitted)
+## Communities (42 total, 5 thin omitted)
 
 ### Community 0 - "sync_full_calculator_catalog.py"
-Cohesion: 0.10
-Nodes (63): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+55 more)
+Cohesion: 0.08
+Nodes (73): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+65 more)
 
 ### Community 1 - "clone"
-Cohesion: 0.16
-Nodes (8): AdminGlobalSearch(), clone(), EditModal, fileToData(), getPopupTemplate(), Leads(), change(), PopupManager
+Cohesion: 0.09
+Nodes (11): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), change(), MediaManager (+3 more)
 
 ### Community 2 - "admin-core.js"
 Cohesion: 0.14
@@ -92,7 +92,7 @@ Cohesion: 0.20
 Nodes (30): api(), bindButtons(), bindStatic(), connect(), decode64(), encode64(), fileBase64(), getPath() (+22 more)
 
 ### Community 4 - "Calculator"
-Cohesion: 0.14
+Cohesion: 0.15
 Nodes (4): Calculator, score(), better(), walk()
 
 ### Community 5 - "admin-v2.js"
@@ -104,20 +104,20 @@ Cohesion: 0.17
 Nodes (25): createProduct(), csrf(), deleteProduct(), dtParams(), duplicateProduct(), extractPublicProduct(), fetchJson(), fetchText() (+17 more)
 
 ### Community 7 - "Btn"
-Cohesion: 0.18
-Nodes (12): ActivityManager(), AdminList(), Btn(), ColorManager, cx(), Dashboard(), ITopConnectionCard(), money() (+4 more)
+Cohesion: 0.16
+Nodes (13): ActivityManager(), AdminList(), Btn(), ColorManager, cx(), Dashboard(), ITopConnectionCard(), Leads() (+5 more)
 
 ### Community 8 - "itopApi"
-Cohesion: 0.12
+Cohesion: 0.14
 Nodes (5): itopApi(), ITopColorManager, ITopMediaManager, ITopProductManager, ITopQuickEdit
 
 ### Community 9 - "App"
-Cohesion: 0.17
-Nodes (4): App, goRealAdmin(), isLocalPreview(), shouldUseITopAdmin()
+Cohesion: 0.20
+Nodes (6): App, getTemplatePreset(), goRealAdmin(), isLocalPreview(), setTheme(), shouldUseITopAdmin()
 
-### Community 10 - "sync_full_calculator_catalog_fast.py"
-Cohesion: 0.16
-Nodes (16): build_precise_product(), dedupe_exact_packages(), exact_product_id(), family_key(), main(), package_hint(), propagate_exact_family_coverage(), selected_size() (+8 more)
+### Community 10 - "sync_full_calculator_catalog_resilient.py"
+Cohesion: 0.26
+Nodes (9): canonical(), discover_categories_resilient(), add(), discover_children(), main(), package_hint_precise(), parse_calc_products(), parse_meta() (+1 more)
 
 ### Community 11 - "sync_products.py"
 Cohesion: 0.26
@@ -125,19 +125,19 @@ Nodes (19): card_from_anchor(), clean_image_url(), compact_product_card(), detai
 
 ### Community 12 - "app.js"
 Cohesion: 0.18
-Nodes (22): AnnouncementModal(), BootOverlay(), BrandStrip(), BuyingJourney(), Categories(), ContactDock(), Faq(), FinalCta() (+14 more)
+Nodes (23): AnnouncementModal(), asset(), BootOverlay(), BrandStrip(), BuyingJourney(), Categories(), ContactDock(), Faq() (+15 more)
 
 ### Community 13 - "finalize_calculator_catalog.py"
 Cohesion: 0.33
 Nodes (9): consolidate(), family_key(), fmt_size(), is_legacy(), main(), norm(), package_unit(), parse_assignment() (+1 more)
 
-### Community 14 - "asset"
-Cohesion: 0.18
-Nodes (7): asset(), getTemplatePreset(), isPlain(), mergeSafe(), setTheme(), SettingsEditor, SmartImage
-
 ### Community 15 - "Sơn Tiến Bảo V7 — triển khai không cần Supabase"
 Cohesion: 0.22
 Nodes (8): A. Test local, B. Test iTop Live, C. Dữ liệu nào đang dùng iTop thật?, D. Dữ liệu Landing chưa map trực tiếp vào module iTop riêng, E. Báo giá, F. Điều kiện bắt buộc, Kiến trúc, Sơn Tiến Bảo V7 — triển khai không cần Supabase
+
+### Community 17 - "Q: Kiểm tra toàn bộ chức năng landing page và Admin"
+Cohesion: 0.40
+Nodes (4): Answer, Outcome, Q: Kiểm tra toàn bộ chức năng landing page và Admin, Source Nodes
 
 ### Community 18 - "Sơn Tiến Bảo V7 — GitHub Pages Preview"
 Cohesion: 0.33
@@ -147,9 +147,9 @@ Nodes (5): Admin Center, GitHub Pages, Không được làm, Sơn Tiến Bảo V
 Cohesion: 0.70
 Nodes (4): findOverride(), isHidden(), keys(), normUrl()
 
-### Community 20 - "Admin"
-Cohesion: 0.20
-Nodes (9): Admin, loadData(), loadLeads(), normalizeData(), saveData(), saveLeads(), storageGet(), storageSet() (+1 more)
+### Community 20 - "normalizeData"
+Cohesion: 0.11
+Nodes (11): ErrorBoundary, loadData(), loadLeads(), mergeSafe(), normalizeData(), QuoteModal, saveData(), saveLeads() (+3 more)
 
 ### Community 21 - "asset-path-fix.js"
 Cohesion: 0.83
@@ -159,37 +159,37 @@ Nodes (3): fixData(), fixObject(), localAsset()
 Cohesion: 0.83
 Nodes (3): applyFeaturedSeoCopy(), normalize(), start()
 
-### Community 23 - ".upload"
-Cohesion: 0.16
-Nodes (4): Colors, download(), MediaManager, nowIso()
+### Community 23 - "Colors"
+Cohesion: 0.25
+Nodes (3): Colors, ProductSearch, searchText()
 
 ### Community 41 - "smoke.js"
-Cohesion: 0.22
+Cohesion: 0.24
 Nodes (13): assert, elementText(), expand(), findElement(), fs, main(), makeContext(), path (+5 more)
 
 ### Community 42 - ".render"
-Cohesion: 0.25
-Nodes (6): activePopup(), AdminAuthLoading(), AdminLogin(), AdminSidebar(), AdminTop(), popupIsActive()
+Cohesion: 0.20
+Nodes (7): activePopup(), AdminAuthLoading(), AdminGlobalSearch(), AdminLogin(), AdminSidebar(), AdminTop(), popupIsActive()
 
 ## Knowledge Gaps
-- **17 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+12 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 71 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **20 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+15 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 75 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Calculator` connect `Calculator` to `app.js`?**
-  _High betweenness centrality (0.036) - this node is a cross-community bridge._
-- **Why does `clone()` connect `clone` to `Calculator`, `Btn`, `App`, `app.js`, `asset`, `Admin`, `.upload`?**
+- **Why does `Calculator` connect `Calculator` to `clone`, `app.js`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+- **Why does `clone()` connect `clone` to `Btn`, `App`, `app.js`, `isPlain`, `normalizeData`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
-- **Why does `App` connect `App` to `.render`, `app.js`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `App` connect `App` to `.render`, `app.js`, `normalizeData`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Are the 22 inferred relationships involving `Btn()` (e.g. with `ActivityManager()` and `.renderTab()`) actually correct?**
   _`Btn()` has 22 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 15 inferred relationships involving `Storefront()` (e.g. with `.render()` and `BrandStrip()`) actually correct?**
-  _`Storefront()` has 15 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `vm` to the rest of the system?**
-  _17 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _20 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `sync_full_calculator_catalog.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.09743589743589744 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08441558441558442 - nodes in this community are weakly interconnected._
+- **Should `clone` be split into smaller, more focused modules?**
+  _Cohesion score 0.09175377468060394 - nodes in this community are weakly interconnected._

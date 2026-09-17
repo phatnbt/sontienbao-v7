@@ -18,3 +18,5 @@ node tests/smoke.js
 ```
 
 Bộ test kiểm tra catalog/giá đồng bộ, form báo giá, tìm kiếm, calculator, copy mã màu, đóng dialog bằng Escape và tính ổn định của lớp SEO.
+
+Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ trợ tìm kiếm tiếng Việt không dấu và chuyển tóm tắt calculator sang luồng nhận báo giá.

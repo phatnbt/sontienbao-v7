@@ -217,7 +217,9 @@ async function main() {
 
   const data = harness.context.STB_DEFAULT_DATA;
   assert(data && Array.isArray(data.products), 'catalog must load');
-  assert.strictEqual(data.products.length, 163, 'full product catalog must remain available');
+  assert.strictEqual(data.products.length, data.meta.catalogFamilies, 'all consolidated catalog families must remain available');
+  assert(data.products.length >= 140, 'full synchronized catalog must remain available');
+  assert(data.meta.catalogPackages >= data.products.length, 'package-level catalog metadata must remain available');
   assert(data.products.some(product => Number(product.price) > 0), 'fresh synchronized prices must be visible');
   assert(data.products.some(product => product.calcEligible), 'calculator must have eligible products');
   assert.strictEqual(
@@ -258,6 +260,10 @@ async function main() {
   headerInstances = [];
   headerTree = expand(header.render(), harness.context.React, headerInstances);
   assert(findElement(headerTree, node => node.props && node.props['aria-label'] === 'Từ khóa tìm sản phẩm'), 'product search must open');
+  const productSearch = headerInstances.find(instance => instance.constructor.name === 'ProductSearch');
+  productSearch.setState({ query: 'son lot' });
+  const normalizedSearchTree = expand(productSearch.render(), harness.context.React, []);
+  assert(findElement(normalizedSearchTree, node => node.props && node.props.className === 'search-product'), 'product search must support Vietnamese queries without diacritics');
 
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
@@ -267,6 +273,13 @@ async function main() {
   calculator.setState({ area: 250 });
   const after = calculator.layer(finish, calculator.state.finishCoats).qty;
   assert(after > before, 'calculator quantity must react to area changes');
+  const quoteContext = calculator.quotePayload('finish', [calculator.layer(finish, calculator.state.finishCoats)]);
+  calculator.props.onQuote(quoteContext);
+  assert.strictEqual(app.state.quoteContext.area, 250, 'calculator result must be carried into the quote flow');
+  instances = [];
+  tree = expand(app.render(), harness.context.React, instances);
+  const calculatorQuote = instances.find(instance => instance.constructor.name === 'QuoteModal');
+  assert(calculatorQuote && calculatorQuote.props.context.items.length === 1, 'quote dialog must receive the selected calculator product');
 
   const colors = instances.find(instance => instance.constructor.name === 'Colors');
   assert(colors, 'color explorer must render');
@@ -279,8 +292,20 @@ async function main() {
   assert.strictEqual(app.state.quote, false, 'Escape must close quote dialog');
   assert.strictEqual(app.state.announcement, null, 'Escape must close announcement dialog');
 
+  const staleHarness = makeContext();
+  staleHarness.context.localStorage.setItem('stb-v7-data', JSON.stringify({
+    meta: { catalogGeneratedAt: '2020-01-01T00:00:00.000Z' },
+    products: [{ id: 'stale-product', name: 'Catalog cũ' }]
+  }));
+  files.forEach(file => runFile(staleHarness.context, file));
+  const staleRoot = staleHarness.getRenderedRoot();
+  const StaleAppClass = staleRoot.props.children.type;
+  const staleApp = new StaleAppClass({});
+  assert.strictEqual(staleApp.state.data.products.length, data.meta.catalogFamilies, 'a newer synchronized catalog must replace stale browser data');
+  assert.strictEqual(staleApp.state.data.meta.catalogGeneratedAt, data.meta.catalogGeneratedAt, 'catalog revision must be persisted after migration');
+
   testSeoObserverIsIdempotent();
-  console.log('Landing smoke tests passed: catalog, prices, quote, search, calculator, colors, dialogs, SEO pass.');
+  console.log('Landing smoke tests passed: catalog refresh, prices, quote context, normalized search, calculator, colors, dialogs, SEO pass.');
 }
 
 main().catch(error => {

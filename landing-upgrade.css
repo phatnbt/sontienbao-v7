@@ -295,6 +295,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 .quote-modal input,.quote-modal textarea{min-height:48px;border-radius:12px}
 .quote-modal textarea{min-height:92px}
 .quote-modal .btn.full{min-height:50px;margin-top:8px}
+.quote-estimate{display:grid;gap:10px;margin:16px 0;padding:14px;border:1px solid #dbe3e8;border-radius:14px;background:#f7fafb;color:#16242e}.quote-estimate>div{display:flex;align-items:center;justify-content:space-between;gap:12px}.quote-estimate span{color:#6d7b85;font-size:11px}.quote-estimate ul{display:grid;gap:7px;margin:0;padding:10px 0;border-top:1px solid #e1e8ec;border-bottom:1px solid #e1e8ec;list-style:none}.quote-estimate li{display:flex;justify-content:space-between;gap:14px;font-size:11px}.quote-estimate li span{max-width:76%;color:#34444f}.quote-estimate-total strong{color:#16854a}
+.color-empty{display:grid;gap:5px;margin-bottom:18px;padding:24px;border:1px dashed #cfd4d8;border-radius:16px;background:#fff;color:#202b33}.color-empty span{font-size:12px;color:#71808a}
 footer{padding-bottom:32px}
 .foot-brand b{display:block;margin-top:12px}
 .footer-grid a{width:max-content}

@@ -74,4 +74,4 @@ Admin live phải chạy cùng origin `sontienbao.com`; không đặt Admin writ
 Frontend public có thể tách CDN sau, nhưng phần Admin writer nên ở cùng hosting/domain với iTop.
 
 
-V7.0.1: Nút “Nhận báo giá” trên Header chuyển trực tiếp tới https://sontienbao.com/lien-he.html, không mở modal nội bộ.
+V7 hiện mở form báo giá nội bộ để kiểm tra thông tin; khi hợp lệ, dữ liệu liên hệ và tóm tắt calculator được chuyển tiếp tới `https://sontienbao.com/lien-he.html`.

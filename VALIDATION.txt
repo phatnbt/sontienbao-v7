@@ -15,11 +15,12 @@ SON TIEN BAO V7 — VALIDATION
 [OK] Color manager reads product category configured in itop-config.js
 [OK] Media manager uses existing iTop Media endpoints
 [OK] Password/account links to native iTop /admin/profile
-[OK] Quote CTA opens the complete form; a validated production submission continues to /lien-he.html
+[OK] Quote CTA opens the complete form; calculator selections travel with a validated submission to /lien-he.html
 [OK] Production price guard recognizes the consolidated calculator catalog by ID and URL
-[OK] Fresh iTop export keeps all 163 synchronized product prices available
+[OK] Fresh iTop export keeps all 146 consolidated product families / 180 package prices available
+[OK] A newer catalog revision replaces stale product data cached in the browser
 [OK] SEO copy pass is idempotent and no longer creates a MutationObserver loop
-[OK] Product search opens and filters the synchronized catalog
+[OK] Product search opens and filters the synchronized catalog with or without Vietnamese diacritics
 [OK] Calculator reacts to area changes and keeps eligible products available
 [OK] Color copy uses Clipboard API with a safe DOM fallback
 [OK] Quote and announcement dialogs close with Escape and cannot overlap
