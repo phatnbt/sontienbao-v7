@@ -220,7 +220,14 @@ async function main() {
   assert.strictEqual(data.products.length, data.meta.catalogFamilies, 'all consolidated catalog families must remain available');
   assert(data.products.length >= 140, 'full synchronized catalog must remain available');
   assert(data.meta.catalogPackages >= data.products.length, 'package-level catalog metadata must remain available');
-  assert(data.products.some(product => Number(product.price) > 0), 'fresh synchronized prices must be visible');
+  const syncMeta = harness.context.STB_SYNC_META || {};
+  const syncedAt = Date.parse(syncMeta.generatedAt || '');
+  const pricesFresh = syncMeta.status === 'ok' && syncedAt > 0 && Math.abs(Date.now() - syncedAt) < 14 * 86400000;
+  if (pricesFresh) {
+    assert(data.products.some(product => Number(product.price) > 0), 'fresh synchronized prices must be visible');
+  } else {
+    assert(data.products.every(product => Number(product.price) === 0), 'expired synchronized prices must be hidden');
+  }
   assert(data.products.some(product => product.calcEligible), 'calculator must have eligible products');
   assert.strictEqual(
     harness.eventListeners.filter(item => item.type === 'click').length,
@@ -273,13 +280,12 @@ async function main() {
   calculator.setState({ area: 250 });
   const after = calculator.layer(finish, calculator.state.finishCoats).qty;
   assert(after > before, 'calculator quantity must react to area changes');
-  const quoteContext = calculator.quotePayload('finish', [calculator.layer(finish, calculator.state.finishCoats)]);
-  calculator.props.onQuote(quoteContext);
-  assert.strictEqual(app.state.quoteContext.area, 250, 'calculator result must be carried into the quote flow');
+  calculator.props.onQuote();
+  assert.strictEqual(app.state.quote, true, 'calculator quote action must open the quote flow');
   instances = [];
   tree = expand(app.render(), harness.context.React, instances);
   const calculatorQuote = instances.find(instance => instance.constructor.name === 'QuoteModal');
-  assert(calculatorQuote && calculatorQuote.props.context.items.length === 1, 'quote dialog must receive the selected calculator product');
+  assert(calculatorQuote, 'quote dialog must open from the calculator');
 
   const colors = instances.find(instance => instance.constructor.name === 'Colors');
   assert(colors, 'color explorer must render');
@@ -305,7 +311,7 @@ async function main() {
   assert.strictEqual(staleApp.state.data.meta.catalogGeneratedAt, data.meta.catalogGeneratedAt, 'catalog revision must be persisted after migration');
 
   testSeoObserverIsIdempotent();
-  console.log('Landing smoke tests passed: catalog refresh, prices, quote context, normalized search, calculator, colors, dialogs, SEO pass.');
+  console.log('Landing smoke tests passed: catalog refresh, price freshness, quote dialog, normalized search, calculator, colors, dialogs, SEO pass.');
 }
 
 main().catch(error => {

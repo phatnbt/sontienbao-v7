@@ -15,11 +15,11 @@ window.STB_V7_CONTENT = {
     "template": "premium-navy"
   },
   "hero": {
-    "eyebrow": "ĐẠI LÝ PHÂN PHỐI SƠN CHÍNH HÃNG",
-    "title": "SƠN CHÍNH HÃNG",
-    "titleAccent": "CHO MỌI KHÔNG GIAN",
-    "lead": "Tìm đúng sơn – chọn đúng màu – tính đúng lượng cần dùng. Sơn Jotun, Terraco và các giải pháp hoàn thiện cho nhà ở, công trình và sân thể thao.",
-    "image": "assets/hero-visual-v64.webp",
+    "eyebrow": "SƠN CHÍNH HÃNG · TƯ VẤN ĐÚNG NHU CẦU",
+    "title": "Sơn cho không gian",
+    "titleAccent": "đẹp bền lâu.",
+    "lead": "Chọn sơn theo bề mặt và phong cách sống. Xem sản phẩm, tìm màu phù hợp, tính lượng cần dùng và nhận tư vấn từ Tiến Bảo.",
+    "image": "assets/category-interior-2026.webp",
     "primaryCta": "Tính lượng sơn ngay",
     "secondaryCta": "Khám phá sản phẩm",
     "tertiaryCta": "Khám phá bảng màu",

@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1789625571.9290528,
-    "seen": 1789625893.4650652,
-    "ast_hash": "0715cf0c7d8e54d960baccb8b266d869",
+    "mtime": 1793210326.751359,
+    "seen": 1793210432.6053019,
+    "ast_hash": "161fdfa821ee6bac68ebb13617f8543b",
     "semantic_hash": ""
   },
   "asset-path-fix.js": {
@@ -168,9 +168,9 @@
     "semantic_hash": ""
   },
   "synced-products.js": {
-    "mtime": 1789621617.3114142,
-    "seen": 1789621682.284712,
-    "ast_hash": "0e4d41a4d1b2f8050e4dd1a11c6c53ed",
+    "mtime": 1793210326.6909971,
+    "seen": 1793210432.6053019,
+    "ast_hash": "6aa6e94bfc5aae83f4d3e470cb87602c",
     "semantic_hash": ""
   },
   "v7-content-overrides.js": {
@@ -180,9 +180,9 @@
     "semantic_hash": ""
   },
   "v7-content.js": {
-    "mtime": 1789625687.6136441,
-    "seen": 1789625893.4650652,
-    "ast_hash": "b1dfc37992de9871d28f5e9ad51305dd",
+    "mtime": 1793210326.7588682,
+    "seen": 1793210432.6053019,
+    "ast_hash": "9ef65c9ec7c7fb5e0470a5d2a660149c",
     "semantic_hash": ""
   },
   ".github/workflows/fix-admin-canonical-routing.yml": {
@@ -264,15 +264,15 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1789625670.8186352,
-    "seen": 1789625893.4650652,
-    "ast_hash": "1a7ddf6e4a7623d0f9d85cbb1a3208a7",
+    "mtime": 1793210326.7573617,
+    "seen": 1793210432.6053019,
+    "ast_hash": "afab733a51eeb4743e3da661e5116276",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
-    "mtime": 1789620109.8533845,
-    "seen": 1789620210.3893468,
-    "ast_hash": "4ace628df4e6745b9700f701caffbe4d",
+    "mtime": 1793210415.9590614,
+    "seen": 1793210432.6053019,
+    "ast_hash": "5abff4e62c5c5b5d7e4ba6bbb2633918",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260831_124237_ki\u1ec3m_tra_to\u00e0n_b\u1ed9_ch\u1ee9c_n\u0103ng_landing_page_v\u00e0_admin.md": {
@@ -281,22 +281,10 @@
     "ast_hash": "fa64656224903dba4e61bdabdc3901ff",
     "semantic_hash": ""
   },
-  "desktop-check-2.png": {
-    "mtime": 1789619555.439888,
-    "seen": 1789625893.4650652,
-    "ast_hash": "5075f14da97979153c977ce428bfd826",
-    "semantic_hash": ""
-  },
-  "desktop-check.png": {
-    "mtime": 1789625775.5513067,
-    "seen": 1789625893.4650652,
-    "ast_hash": "92c1491ddfd533e5a636de997eb20701",
-    "semantic_hash": ""
-  },
-  "mobile-check.png": {
-    "mtime": 1789625746.1566644,
-    "seen": 1789625893.4650652,
-    "ast_hash": "9b6539d5861ef8d56530e38be8c72753",
+  "admin-route.js": {
+    "mtime": 1793210326.7503598,
+    "seen": 1793210432.6053019,
+    "ast_hash": "595d9b4c29d7c06aff80d7e2358070bf",
     "semantic_hash": ""
   }
 }
