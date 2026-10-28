@@ -1,17 +1,17 @@
 # Graph Report - landing page  (2026-10-29)
 
 ## Corpus Check
-- 38 files · ~31,233 words
+- 39 files · ~31,459 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 13 file(s) not represented in the graph (top: .css 7, (none) 4, .bat 2)
 
 ## Summary
-- 555 nodes · 1312 edges · 37 communities (20 shown, 3 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 89 edges (avg confidence: 0.85)
+- 557 nodes · 1312 edges · 38 communities (20 shown, 3 thin omitted)
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 88 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `60cb6065`
+- Built from commit: `b63701de`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -44,8 +44,8 @@
 1. `Calculator` - 27 edges
 2. `clone()` - 25 edges
 3. `Btn()` - 24 edges
-4. `Icon()` - 19 edges
-5. `itopApi()` - 18 edges
+4. `itopApi()` - 18 edges
+5. `Icon()` - 18 edges
 6. `fmt_num()` - 17 edges
 7. `Storefront()` - 16 edges
 8. `Admin` - 16 edges
@@ -67,7 +67,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (37 total, 3 thin omitted)
+## Communities (38 total, 3 thin omitted)
 
 ### Community 0 - "sync_full_calculator_catalog.py"
 Cohesion: 0.08
@@ -151,7 +151,7 @@ Nodes (13): assert, elementText(), expand(), findElement(), fs, main(), makeCont
 
 ## Knowledge Gaps
 - **20 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+15 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 78 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 80 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -165,8 +165,8 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Are the 22 inferred relationships involving `Btn()` (e.g. with `ActivityManager()` and `.renderTab()`) actually correct?**
   _`Btn()` has 22 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 17 inferred relationships involving `Icon()` (e.g. with `.render()` and `BuyingJourney()`) actually correct?**
-  _`Icon()` has 17 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 16 inferred relationships involving `Icon()` (e.g. with `.render()` and `BuyingJourney()`) actually correct?**
+  _`Icon()` has 16 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `vm` to the rest of the system?**
   _20 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `sync_full_calculator_catalog.py` be split into smaller, more focused modules?**

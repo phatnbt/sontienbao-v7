@@ -5328,6 +5328,18 @@
       "source_location": "L120"
     },
     {
+      "id": "tests_cdp_probe_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "cdp-probe.js",
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "tests/cdp-probe.js",
+      "source_location": "L6"
+    },
+    {
       "id": "app_admin_retryauth",
       "label": ".retryAuth()",
       "_callable": true,
@@ -6650,6 +6662,17 @@
       "file_type": "code",
       "norm_label": "itop-adapter.js",
       "source_file": "itop-adapter.js",
+      "source_location": "L1"
+    },
+    {
+      "id": "tests_cdp_probe",
+      "label": "cdp-probe.js",
+      "_origin": "ast",
+      "community": 7,
+      "community_name": "cdp-probe.js",
+      "file_type": "code",
+      "norm_label": "cdp-probe.js",
+      "source_file": "tests/cdp-probe.js",
       "source_location": "L1"
     }
   ],
@@ -14859,7 +14882,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L338",
+      "source_location": "L341",
       "weight": 1.0
     },
     {
@@ -19114,6 +19137,17 @@
       "weight": 1.0
     },
     {
+      "source": "tests_cdp_probe",
+      "target": "tests_cdp_probe_main",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/cdp-probe.js",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "tests_smoke",
       "target": "tests_smoke_storage",
       "relation": "contains",
@@ -21503,18 +21537,6 @@
     },
     {
       "source": "app_productcard",
-      "target": "app_icon",
-      "relation": "indirect_call",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "argument",
-      "source_file": "app.js",
-      "source_location": "L258",
-      "weight": 1.0
-    },
-    {
-      "source": "app_productcard",
       "target": "app_reveal",
       "relation": "indirect_call",
       "_origin": "ast",
@@ -21899,5 +21921,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "60cb6065917339d983937c2d4d31ebb924ec1746"
+  "built_at_commit": "b63701de9576e65eabf81ffe33251ae084522f53"
 }

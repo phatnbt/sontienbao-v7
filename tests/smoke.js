@@ -245,6 +245,9 @@ async function main() {
 
   const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
   assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');
+  assert(elementText(proof).includes('Sản phẩm') && elementText(proof).includes('Thương hiệu'), 'company proof labels must stay concise');
+  const antiFadeImage = findElement(tree, node => node.type === 'img' && node.props && String(node.props.alt || '').includes('Chống Phai Màu'));
+  assert(antiFadeImage && antiFadeImage.props.src === 'assets/jotun-jotashield-chong-phai-mau-official.webp', 'featured product must use the clean official image');
   const stats = instances.filter(instance => instance.constructor.name === 'AnimatedStat');
   assert.strictEqual(stats.length, 3, 'company proof must show three animated statistics');
   assert.strictEqual(stats[0].props.value, new Date().getFullYear() - 2005, 'years must derive from the registration year');

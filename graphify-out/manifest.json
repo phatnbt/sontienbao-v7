@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1793211003.213378,
-    "seen": 1793211258.706603,
-    "ast_hash": "d617cd849cc2e7db7b00c6b4670d3f1b",
+    "mtime": 1793212611.9125175,
+    "seen": 1793212722.1096497,
+    "ast_hash": "4445b9952d5fab9352ac6e2ffc7a3200",
     "semantic_hash": ""
   },
   "asset-path-fix.js": {
@@ -264,15 +264,15 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1793211003.2173765,
-    "seen": 1793211258.706603,
-    "ast_hash": "002fb805a1dea1207fa9a8930adc112a",
+    "mtime": 1793212652.2343955,
+    "seen": 1793212722.1096497,
+    "ast_hash": "ab38062ac65cbc8d4dbfd4c92f0a7bbc",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
-    "mtime": 1793211163.2047703,
-    "seen": 1793211258.706603,
-    "ast_hash": "0d5ec71802a3866c92acabdf3fda2115",
+    "mtime": 1793212621.8881555,
+    "seen": 1793212722.1096497,
+    "ast_hash": "2f067df5cae08a05432375a6d868624a",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260831_124237_ki\u1ec3m_tra_to\u00e0n_b\u1ed9_ch\u1ee9c_n\u0103ng_landing_page_v\u00e0_admin.md": {
@@ -285,6 +285,12 @@
     "mtime": 1793210326.7503598,
     "seen": 1793210432.6053019,
     "ast_hash": "595d9b4c29d7c06aff80d7e2358070bf",
+    "semantic_hash": ""
+  },
+  "tests/cdp-probe.js": {
+    "mtime": 1793212707.0496087,
+    "seen": 1793212722.1096497,
+    "ast_hash": "4f1153ca675af89fb88a149e8a28eace",
     "semantic_hash": ""
   }
 }
