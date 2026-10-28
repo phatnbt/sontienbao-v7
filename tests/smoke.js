@@ -243,6 +243,31 @@ async function main() {
   let tree = expand(app.render(), harness.context.React, instances);
   assert(elementText(tree).includes('SƠN CHÍNH HÃNG'), 'storefront content must render');
 
+  const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
+  assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');
+  const stats = instances.filter(instance => instance.constructor.name === 'AnimatedStat');
+  assert.strictEqual(stats.length, 3, 'company proof must show three animated statistics');
+  assert.strictEqual(stats[0].props.value, new Date().getFullYear() - 2005, 'years must derive from the registration year');
+  assert(stats[1].props.value > 0 && stats[1].props.value <= data.meta.catalogFamilies, 'product count must derive from the catalog');
+  const previousMatchMedia = harness.context.matchMedia;
+  harness.context.matchMedia = () => ({ matches: true });
+  stats[0].componentDidMount();
+  assert.strictEqual(stats[0].state.value, stats[0].props.value, 'reduced motion must show the final statistic');
+  harness.context.matchMedia = previousMatchMedia;
+
+  const backToTop = instances.find(instance => instance.constructor.name === 'BackToTop');
+  assert(backToTop, 'back-to-top control must render');
+  assert.strictEqual(backToTop.render(), false, 'back-to-top control must be hidden near the start');
+  harness.context.scrollY = 3200;
+  backToTop.onScroll();
+  const backButton = backToTop.render();
+  assert(backButton && backButton.props['aria-label'] === 'Cuộn về đầu trang', 'back-to-top control must appear near the footer');
+  let scrollRequest;
+  harness.context.scrollTo = request => { scrollRequest = request; };
+  backButton.props.onClick();
+  assert.strictEqual(scrollRequest.top, 0, 'back-to-top control must scroll to the beginning');
+  harness.context.scrollY = 0;
+
   const quoteButton = findElement(tree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá');
   assert(quoteButton && typeof quoteButton.props.onClick === 'function', 'quote CTA must be interactive');
   quoteButton.props.onClick();

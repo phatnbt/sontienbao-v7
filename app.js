@@ -72,7 +72,7 @@
   function A(props){return h('a',props,props.children);}
   function Btn(props){var p=Object.assign({},props);delete p.children;delete p.kind;return h('button',Object.assign({type:'button'},p,{className:cx('btn','magnetic',props.kind&&'btn-'+props.kind,props.className)}),props.children);}
   var ICONS={
-    arrowRight:['M5 12h14','m13 6 6 6-6 6'],externalLink:['M15 3h6v6','M10 14 21 3','M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'],
+    arrowRight:['M5 12h14','m13 6 6 6-6 6'],arrowUp:['M12 19V5','m5 12 7-7 7 7'],externalLink:['M15 3h6v6','M10 14 21 3','M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'],
     search:['m21 21-4.35-4.35','M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z'],menu:['M4 7h16','M4 12h16','M4 17h16'],close:['M6 6l12 12','M18 6 6 18'],
     home:['M3 11.5 12 4l9 7.5','M5 10v10h14V10','M9 20v-6h6v6'],building:['M4 21V5l8-3v19','M12 8h8v13','M8 7v.01','M8 11v.01','M8 15v.01','M16 12v.01','M16 16v.01','M2 21h20'],refresh:['M20 7h-5V2','M20 7a8 8 0 1 0 2 5'],palette:['M12 3a9 9 0 0 0 0 18h1.5a2 2 0 0 0 0-4H12a2 2 0 0 1 0-4c5 0 5-5 5-5a9 9 0 0 0-9-9Z','M7.5 10.5h.01','M10 7.5h.01','M14 7.5h.01','M16.5 10.5h.01'],
     calculator:['M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z','M8 7h8','M8 12h.01','M12 12h.01','M16 12h.01','M8 16h.01','M12 16h.01','M16 16h.01'],
@@ -153,8 +153,10 @@
     h(Calculator,{data:d,onQuote:props.onQuote}),
     h(Colors,{data:d}),
     h(Faq,{items:(d.faqs||[]).filter(function(x){return x.enabled!==false})}),
+    h(CompanyProof,{data:d,products:products,brands:brands}),
     h(FinalCta,{data:d,onQuote:props.onQuote})),
     h(Footer,{data:d}),
+    h(BackToTop),
     h(ContactDock,{data:d,onQuote:props.onQuote}),
     h(MobileActionBar,{data:d,onQuote:props.onQuote}),
     props.quote&&h(QuoteModal,{data:d,context:props.quoteContext,onClose:props.onCloseQuote})
@@ -695,6 +697,20 @@
         h('div',{className:'faq-list'},p.items.map(function(x){return h('details',{key:x.id},h('summary',null,x.question,h('span',null,h(Icon,{name:'plus'}))),h('p',null,x.answer));}))
       )
     );
+  }
+  class AnimatedStat extends React.Component{
+    constructor(p){super(p);this.state={value:0};this.frame=0;this.observer=null;this.started=false;}
+    componentDidMount(){var self=this,target=Math.max(0,Number(this.props.value)||0);if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){this.setState({value:target});return;}function begin(){if(self.started)return;self.started=true;if(self.observer)self.observer.disconnect();var start=Date.now(),duration=1350;function tick(){var t=Math.min(1,(Date.now()-start)/duration),ease=1-Math.pow(1-t,3);self.setState({value:Math.round(target*ease)});if(t<1)self.frame=nextFrame(tick);}self.frame=nextFrame(tick);}if('IntersectionObserver' in window){this.observer=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;}))begin();},{threshold:.25});if(this.node)this.observer.observe(this.node);else begin();}else begin();}
+    componentWillUnmount(){if(this.observer)this.observer.disconnect();stopFrame(this.frame);}
+    render(){var self=this;return h('strong',{className:'proof-number',ref:function(el){self.node=el;},'aria-label':this.props.finalLabel},h('span',{'aria-hidden':'true'},this.state.value.toLocaleString('vi-VN')+(this.props.suffix||'')));}
+  }
+  function CompanyProof(p){var data=p.data||{},families=Number(data.meta&&data.meta.catalogFamilies)||p.products.length,productFloor=Math.max(0,Math.floor(families/10)*10),years=Math.max(0,new Date().getFullYear()-2005),brandCount=p.brands.length;var stats=[{value:years,suffix:'+',label:'Năm từ mốc đăng ký 2005'},{value:productFloor,suffix:'+',label:'Dòng sản phẩm trong catalog'},{value:brandCount,suffix:'',label:'Thương hiệu trên landing page'}];var features=[{icon:'shieldCheck',title:'Nguồn gốc rõ ràng',body:'Tìm hiểu sản phẩm theo thương hiệu và nhu cầu sử dụng.'},{icon:'calculator',title:'Tính lượng trước khi mua',body:'Ước tính theo diện tích, số lớp và độ phủ đã có dữ liệu.'},{icon:'message',title:'Tư vấn dễ tiếp cận',body:'Kết nối qua điện thoại hoặc gửi yêu cầu báo giá khi cần.'}];return h('section',{className:'company-proof',id:'ve-tien-bao','aria-labelledby':'proof-title'},h('div',{className:'container proof-inner'},h('div',{className:'proof-intro'},h('span',{className:'proof-eyebrow'},'SƠN TIẾN BẢO / TỔNG QUAN'),h('h2',{id:'proof-title'},'Chọn sơn dễ hơn khi ',h('em',null,'mọi thông tin rõ ràng.')),h('p',null,'Từ nhóm sản phẩm, bảng màu đến lượng sơn cần dùng, mọi bước đều được trình bày để bạn chủ động lựa chọn cho công trình.')),h('div',{className:'proof-stats'},stats.map(function(x){return h('div',{className:'proof-stat',key:x.label},h(AnimatedStat,{value:x.value,suffix:x.suffix,finalLabel:x.value.toLocaleString('vi-VN')+x.suffix+' '+x.label}),h('span',null,x.label));})),h('div',{className:'proof-features'},features.map(function(x){return h('div',{className:'proof-feature',key:x.title},h('span',{className:'proof-feature-icon'},h(Icon,{name:x.icon})),h('div',null,h('h3',null,x.title),h('p',null,x.body)));})),h('small',{className:'proof-source'},'Số liệu hiển thị dựa trên catalog và thương hiệu đang cấu hình; số năm tính từ mốc 2005.')));}
+  class BackToTop extends React.Component{
+    constructor(p){super(p);this.state={visible:false};this.onScroll=this.onScroll.bind(this);}
+    componentDidMount(){window.addEventListener('scroll',this.onScroll,{passive:true});this.onScroll();}
+    componentWillUnmount(){window.removeEventListener('scroll',this.onScroll);}
+    onScroll(){var remaining=document.documentElement.scrollHeight-(window.scrollY+window.innerHeight),visible=window.scrollY>600&&remaining<700;if(visible!==this.state.visible)this.setState({visible:visible});}
+    render(){return this.state.visible&&h('button',{type:'button',className:'back-to-top',onClick:function(){window.scrollTo({top:0,behavior:window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});},'aria-label':'Cuộn về đầu trang',title:'Về đầu trang'},h(Icon,{name:'arrowUp'}),h('span',null,'Về đầu trang'));}
   }
   function FinalCta(p){
     return h('section',{className:'final-cta'},
