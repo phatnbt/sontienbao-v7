@@ -579,6 +579,7 @@
   // CALCULATOR_V5_FULL_CATALOG
   // CALCULATOR_V5_FULL_CATALOG
   // CALCULATOR_V5_FULL_CATALOG
+  // CALCULATOR_V5_FULL_CATALOG
   class Calculator extends React.Component{
     constructor(p){
       super(p);
