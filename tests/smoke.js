@@ -261,6 +261,9 @@ async function main() {
   assert(comparisonTable && elementText(comparisonTable).includes('Ưu điểm đã xác minh') && elementText(comparisonTable).includes('Lưu ý sử dụng') && elementText(comparisonTable).includes('Nguồn thông tin'), 'comparison must separate benefits, cautions and sources');
   const majesticProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Jotun Majestic Đẹp nguyên bản' });
   assert(majesticProfile && majesticProfile.strengths.includes('Siêu mờ, không phản quang') && majesticProfile.source.includes('jotun.com'), 'Majestic comparison must have a sourced product benefit');
+  const jotaplastProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Jotun Jotaplast (Sơn phủ nội thất)' });
+  assert(jotaplastProfile && jotaplastProfile.strengths.includes('Dễ thi công') && jotaplastProfile.source.endsWith('/jotaplast'), 'Jotaplast must use its own manufacturer product page');
+  assert(harness.context.STB_SHOPPING.comparisonProfile({ name: 'Jotun Majestic đẹp hoàn hảo hảo mờ' }).source.endsWith('/majestic-true-beauty-matt'), 'matt paint must not borrow the gloss source');
   const unknownProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Sản phẩm chưa có tài liệu' });
   assert.strictEqual(unknownProfile, null, 'unknown products must not receive invented technical benefits');
   assert(harness.context.STB_SHOPPING.comparisonProfile({ name: 'Flexipave Coating Smooth' }).source.includes('terraco.com.vn'), 'sports coating must point to the manufacturer datasheet');
