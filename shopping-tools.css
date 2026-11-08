@@ -1,0 +1,87 @@
+.store .shop-assistant-section{padding:92px 0 104px;background:#eef2ef;color:#10212d}
+.store .shop-assistant-heading{max-width:830px;margin-bottom:32px}
+.store .shop-assistant-heading h2,.store .project-gallery-heading h2{margin:14px 0 14px;font-size:clamp(38px,4.3vw,62px);line-height:1.08;letter-spacing:-.055em}
+.store .shop-assistant-heading p,.store .project-gallery-heading p{max-width:690px;margin:0;color:#5c6c70;font-size:16px;line-height:1.65}
+.store .shop-assistant-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:20px;border:1px solid #dce5df;border-radius:22px;background:#fff;box-shadow:0 12px 36px rgba(16,40,35,.05)}
+.store .shop-assistant-controls label{display:grid;gap:8px;color:#475d60;font-size:13px;font-weight:750}
+.store .shop-assistant-controls select,.store .shop-assistant-controls input{width:100%;min-width:0;height:48px;padding:0 13px;border:1px solid #cad8d0;border-radius:11px;background:#f8faf8;color:#10212d;font:inherit;font-size:15px}
+.store .shop-assistant-controls :is(select,input):focus-visible{outline:3px solid rgba(30,116,99,.23);outline-offset:1px}
+.store .shop-result-count{margin:20px 2px 16px;color:#52666a;font-size:14px;font-weight:700}
+.store .shop-recommendations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.store .shop-recommendation{overflow:hidden;display:grid;grid-template-columns:130px minmax(0,1fr);min-height:242px;border:1px solid #dce5df;border-radius:18px;background:#fff}
+.store .shop-recommendation-image{display:grid;place-items:center;padding:15px;background:#f2f0eb}
+.store .shop-recommendation-image img{display:block;width:100%;height:170px;object-fit:contain}
+.store .shop-recommendation-content{display:flex;flex-direction:column;min-width:0;padding:18px}
+.store .shop-recommendation-content>small{color:#bd322b;font-size:11px;font-weight:900;letter-spacing:.08em}
+.store .shop-recommendation-content h3{margin:7px 0 4px;color:#10212d;font-size:17px;line-height:1.25}
+.store .shop-recommendation-content>p{margin:0 0 12px;color:#738185;font-size:12px}
+.store .shop-recommendation-facts{display:grid;gap:5px;margin-bottom:14px;color:#627276;font-size:12px;line-height:1.35}
+.store .shop-recommendation-facts b{color:#243f43}
+.store .shop-recommendation-actions{display:flex;align-items:center;gap:12px;margin-top:auto}
+.store .shop-recommendation-actions button{min-height:35px;padding:6px 10px;border:1px solid #cad8d0;border-radius:8px;background:#fff;color:#1a5550;font-size:12px;font-weight:800;cursor:pointer}
+.store .shop-recommendation-actions button.is-selected{border-color:#b5d9ce;background:#e3f4ed;color:#12604e}
+.store .shop-recommendation-actions a{color:#be302a;font-size:12px;font-weight:800;text-decoration:none}
+.store .shop-empty{padding:38px;border:1px dashed #b7c9c0;border-radius:16px;background:#fff;color:#53676a}
+.store .shop-compare{margin-top:26px;padding:26px;border:1px solid #cfdcd4;border-radius:22px;background:#fff;box-shadow:0 16px 40px rgba(16,40,35,.05)}
+.store .shop-compare-heading{display:flex;justify-content:space-between;align-items:end;gap:22px;margin-bottom:20px}
+.store .shop-compare-heading h3{margin:8px 0 0;color:#10212d;font-size:28px}
+.store .shop-compare-heading>small{max-width:300px;color:#65787c;line-height:1.5}
+.store .shop-compare-scroll{overflow-x:auto;border:1px solid #e3eae6;border-radius:14px}
+.store .shop-compare table{width:100%;min-width:650px;border-collapse:collapse;text-align:left}
+.store .shop-compare th,.store .shop-compare td{padding:15px 17px;border-bottom:1px solid #e5ece8;vertical-align:top;font-size:13px;line-height:1.5}
+.store .shop-compare tr:last-child th,.store .shop-compare tr:last-child td{border-bottom:0}
+.store .shop-compare thead th{background:#f5f8f6;color:#143b3d;font-size:14px}
+.store .shop-compare tbody th{width:220px;color:#607174;font-weight:700}
+.store .shop-compare tbody td{color:#142e32;font-weight:750}
+.store .shop-compare-actions{display:flex;flex-wrap:wrap;align-items:start;gap:18px;margin-top:20px}
+.store .shop-compare-actions>.btn{min-height:48px}
+.store .shop-data-note{display:block;margin-top:16px;color:#6b7d80;line-height:1.5}
+.store .estimate-actions{flex:1;min-width:260px}
+.store .estimate-actions-row{display:flex;flex-wrap:wrap;gap:8px}
+.store .estimate-actions-row button,.store .estimate-actions-row a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 12px;border:1px solid #cad8d0;border-radius:10px;background:#f8faf8;color:#1a4546;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}
+.store .estimate-actions-row :is(button,a):hover{background:#e8f2ec}
+.store .estimate-status{margin:8px 0 0;color:#196e56;font-size:12px;font-weight:700}
+.store .saved-estimates{margin-top:10px;color:#4a6265;font-size:12px}
+.store .saved-estimates summary{cursor:pointer;font-weight:800}
+.store .saved-estimate{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e8e2}
+.store .saved-estimate button{padding:5px 9px;border:1px solid #cad8d0;border-radius:7px;background:#fff;color:#1a5550;cursor:pointer}
+.store .calc-result .estimate-actions{margin-top:14px}
+.store .calc-result .estimate-actions-row :is(button,a){border-color:#335364;background:#112d3d;color:#e8f5f4}
+.store .calc-result .estimate-actions-row :is(button,a):hover{background:#1c4051}
+.store .calc-result .estimate-status,.store .calc-result .saved-estimates{color:#a7ded0}
+.store .calc-result .saved-estimate{border-color:#2e4e5e}
+.store .project-gallery-section{padding:95px 0 100px;background:#fbf9f5;color:#10212d}
+.store .project-gallery-heading{max-width:840px;margin-bottom:32px}
+.store .project-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.store .project-gallery-card{overflow:hidden;border:1px solid #e2e1dc;border-radius:20px;background:#fff;box-shadow:0 13px 35px rgba(26,35,33,.05)}
+.store .project-gallery-card img{display:block;width:100%;height:280px;object-fit:cover}
+.store .project-gallery-copy{padding:21px 22px 25px}
+.store .project-gallery-copy small{color:#b34238;font-size:11px;font-weight:900;letter-spacing:.08em}
+.store .project-gallery-copy h3{margin:10px 0 7px;color:#10212d;font-size:22px}
+.store .project-gallery-copy p{margin:0;color:#637276;font-size:14px;line-height:1.55}
+.store .project-gallery-footer{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-top:22px}
+.store .project-gallery-footer p{max-width:670px;margin:0;color:#69797c;font-size:13px;line-height:1.55}
+.store .quote-handoff{padding:12px 14px;border:1px solid #b7dfcb;border-radius:10px;background:#effaf3;color:#17573d;font-size:13px;line-height:1.5}
+.store .quote-channel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.store .quote-channel-actions button,.store .quote-channel-actions a{display:inline-flex;align-items:center;min-height:42px;padding:8px 12px;border:1px solid #cdd9d4;border-radius:10px;background:#fff;color:#173a3d;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}
+@media(max-width:1100px){
+  .store .shop-recommendations{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .store .shop-assistant-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .store .project-gallery-card img{height:220px}
+}
+@media(max-width:700px){
+  .store .shop-assistant-section,.store .project-gallery-section{padding:66px 0}
+  .store .shop-assistant-controls{padding:14px;gap:12px}
+  .store .shop-recommendations,.store .project-gallery-grid{grid-template-columns:1fr}
+  .store .shop-recommendation{grid-template-columns:112px minmax(0,1fr)}
+  .store .shop-recommendation-image img{height:158px}
+  .store .shop-recommendation-content{padding:15px}
+  .store .shop-compare{padding:18px}
+  .store .shop-compare-heading,.store .project-gallery-footer{align-items:start;flex-direction:column}
+  .store .project-gallery-card img{height:260px}
+}
+@media(max-width:420px){
+  .store .shop-assistant-controls{grid-template-columns:1fr}
+  .store .shop-recommendation{grid-template-columns:1fr}
+  .store .shop-recommendation-image img{height:170px}
+}

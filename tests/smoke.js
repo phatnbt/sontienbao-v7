@@ -211,6 +211,7 @@ async function main() {
     'manual-product-overrides.js',
     'production-overrides.js',
     'asset-path-fix.js',
+    'shopping-tools.js',
     'app.js'
   ];
   files.forEach(file => runFile(harness.context, file));
@@ -242,6 +243,21 @@ async function main() {
   let instances = [];
   let tree = expand(app.render(), harness.context.React, instances);
   assert(elementText(tree).includes('SƠN CHÍNH HÃNG'), 'storefront content must render');
+
+  const assistantSection = findElement(tree, node => node.props && node.props.id === 'chon-son');
+  assert(assistantSection && elementText(assistantSection).toLowerCase().includes('so sánh'), 'guided product selection and comparison must render');
+  const gallerySection = findElement(tree, node => node.props && node.props.id === 'y-tuong-cong-trinh');
+  assert(gallerySection && elementText(gallerySection).includes('ẢNH MINH HOẠ'), 'generated gallery must identify its images as illustrations');
+  const shoppingAssistant = instances.find(instance => instance.constructor.name === 'ShopAssistant');
+  assert(shoppingAssistant, 'shopping assistant must be mounted');
+  shoppingAssistant.setState({ surface: 'exterior', area: 180 });
+  const exteriorTree = expand(shoppingAssistant.render(), harness.context.React, []);
+  assert(elementText(exteriorTree).includes('Ngoại thất'), 'guided selection must react to surface and area');
+  assert.strictEqual(harness.context.STB_SHOPPING.estimate({ coverage: 12, coverageLabel: '12 m²/L/lớp', unit: '20Kg', price: 100000 }, 100), null, 'mixed coverage and package units must not produce a misleading estimate');
+  const estimateActions = instances.find(instance => instance.constructor.name === 'EstimateActions' && (instance.props.estimate.items || []).length);
+  assert(estimateActions, 'a shopping estimate must be available to save');
+  estimateActions.save();
+  assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 1, 'estimate must persist on this device');
 
   const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
   assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');
@@ -285,6 +301,14 @@ async function main() {
   quote.submit({ preventDefault() {} });
   assert.strictEqual(quote.state.done, true, 'valid local quote must be saved');
   assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-leads')).length === 1, 'saved lead must be readable');
+  const mailQuote = new quote.constructor({ data: quote.props.data, context: { surface: 'Ngoại thất', area: 90, items: [{ id: 'test', name: 'Sơn thử', quantity: 20, unit: 'L' }], total: 0 } });
+  const originalHost = harness.context.location.hostname;
+  harness.context.location.hostname = 'phatnbt.github.io';
+  mailQuote.setState({ name: 'Khách thử', phone: '0913 712 195' });
+  mailQuote.submit({ preventDefault() {} });
+  assert(mailQuote.state.handoff === 'email' && harness.context.location.href.startsWith('mailto:'), 'published quote must prepare an email with customer and estimate details');
+  assert(harness.context.location.href.includes('S%C6%A1n%20th%E1%BB%AD'), 'email request must include selected paint');
+  harness.context.location.hostname = originalHost;
 
   const header = instances.find(instance => instance.constructor.name === 'Header');
   assert(header, 'header must render');
@@ -302,6 +326,11 @@ async function main() {
 
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
+  const calculatorTree = expand(calculator.render(), harness.context.React, []);
+  const calculatorQuoteButton = findElement(calculatorTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');
+  assert(calculatorQuoteButton && calculatorQuoteButton.props.onClick, 'calculator quote action must include a click handler');
+  calculatorQuoteButton.props.onClick();
+  assert(app.state.quoteContext && app.state.quoteContext.items.length > 0, 'calculator must pass selected products into quote request');
   const groups = calculator.groups(data, calculator.state.surface);
   const finish = calculator.find(groups.finishes, calculator.state.productId);
   const before = calculator.layer(finish, calculator.state.finishCoats).qty;
