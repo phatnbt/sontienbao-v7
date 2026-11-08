@@ -10,6 +10,8 @@ Landing Page V7 trên GitHub Pages, chuẩn bị dùng tên miền phụ của `
 
 `admin-v2.html`, `admin-v3.html` và `index.html#admin` chỉ dùng để chuyển hướng về `admin.html`.
 
+Xem [SECURITY.md](SECURITY.md) để biết giới hạn bảo mật của website tĩnh, cách sử dụng GitHub token và các bước HTTPS sau khi cấu hình DNS.
+
 ## Kiểm tra nhanh
 
 Chạy bộ smoke test không cần cài thêm package:

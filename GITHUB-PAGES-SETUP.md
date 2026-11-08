@@ -7,7 +7,7 @@
 - `admin-v2.html`, `admin-v3.html` và `index.html#admin` chỉ chuyển hướng về `admin.html` để giữ tương thích link cũ.
 - `https://sontienbao.com/admin` là backend iTop bên ngoài, không phải Admin Center V7.
 - Form báo giá trên site public chuyển tới `https://sontienbao.com/lien-he.html`.
-- Chatbot Railway hiện không hoạt động. `chatbot-loader.js` chỉ hiển thị widget khi `/health` hoạt động; các nút liên hệ hiện tại là phương án dự phòng. Không kích hoạt Railway nếu chưa có yêu cầu mới.
+- Chatbot Railway hiện không hoạt động và không được tải trên trang public. Các nút liên hệ điện thoại, Zalo và báo giá vẫn hoạt động.
 - Trang chính sẽ cho phép lập chỉ mục khi chuyển sang tên miền mới.
 
 ## GitHub Pages
@@ -28,7 +28,7 @@ Không thêm tên repository vào giá trị CNAME. Không thay bản ghi `@`, `
 
 ## Admin Center
 - Chỉ chỉnh và sử dụng `admin.html` làm giao diện admin.
-- Bảo mật sử dụng lớp khóa/mật khẩu cục bộ và mã hóa GitHub token như Admin V2 trước đây.
+- Mật khẩu cục bộ khóa giao diện Admin trên thiết bị. GitHub token là quyền ghi thực tế, chỉ giữ trong bộ nhớ của lần mở trang và cần nhập lại sau khi tải lại.
 - Dữ liệu chỉnh sửa Landing Page được lưu vào GitHub qua `v7-content.js` và `manual-products.js`.
 - iTop vẫn là nguồn nghiệp vụ cho dữ liệu sản phẩm gốc, giá, tồn kho, biến thể, công thức và đơn hàng.
 

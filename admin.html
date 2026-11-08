@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src https://api.github.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self'; script-src-attr 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Admin Center • Landing Page Sơn Tiến Bảo</title>
   <link rel="stylesheet" href="admin-v2.css">
 </head>
@@ -175,7 +176,7 @@
           <section class="card editor-card">
             <div class="section-head"><div><h2>Kết nối GitHub</h2><p class="muted">Admin chỉ đọc/ghi file nội dung <b>v7-content.js</b>.</p></div></div>
             <div class="connect-box"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_..."><button id="connectBtn" class="btn navy">Kết nối</button></div>
-            <div class="notice" style="margin-top:12px">Token cần <b>Contents: Read and write</b> trên repo <b>phatnbt/sontienbao-v7</b>. Token được lớp bảo mật Admin mã hóa trên thiết bị.</div>
+            <div class="notice" style="margin-top:12px">Token cần <b>Contents: Read and write</b> chỉ cho repo <b>phatnbt/sontienbao-v7</b>. Token chỉ ở bộ nhớ trang đang mở; hãy nhập lại khi tải lại trang.</div>
             <div class="inline-actions"><button id="disconnectBtn" class="btn">Ngắt kết nối</button><button id="reloadBtn" class="btn">Tải nội dung mới nhất</button></div>
           </section>
 
@@ -201,6 +202,6 @@
 <div id="toast" class="toast"></div>
 
 <script src="v7-content.js"></script>
-<script src="admin-v2.js"></script>
+<script src="admin-v2.js?v=20261108-1"></script>
 </body>
 </html>
