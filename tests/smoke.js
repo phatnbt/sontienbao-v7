@@ -270,20 +270,10 @@ async function main() {
   const exteriorTree = expand(shoppingAssistant.render(), harness.context.React, []);
   assert(elementText(exteriorTree).includes('Ngoại thất'), 'guided selection must react to surface and area');
   assert.strictEqual(harness.context.STB_SHOPPING.estimate({ coverage: 12, coverageLabel: '12 m²/L/lớp', unit: '20Kg', price: 100000 }, 100), null, 'mixed coverage and package units must not produce a misleading estimate');
-  const estimateActions = instances.find(instance => instance.constructor.name === 'EstimateActions' && (instance.props.estimate.items || []).length);
-  assert(estimateActions, 'a shopping estimate must be available to save');
-  estimateActions.save();
-  estimateActions.save();
-  assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 2, 'estimates must persist on this device');
-  assert(findElement(expand(estimateActions.render(), harness.context.React, []), node => node.type === 'button' && String(node.props['aria-label'] || '').startsWith('Xóa dự toán')), 'saved estimate must expose a labelled delete button');
-  const savedId = estimateActions.state.saved[0].id;
-  assert(typeof estimateActions.removeSaved === 'function', 'saved estimates must offer a delete action');
-  estimateActions.removeSaved(savedId);
-  assert.strictEqual(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length, 1, 'deleting one estimate must retain other saved estimates');
+  assert(!instances.some(instance => instance.constructor.name === 'EstimateActions'), 'saving and sharing estimates must be removed from the landing page');
+  const compareActions = findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-actions');
+  assert(compareActions && elementText(compareActions).trim() === 'Nhận báo giá', 'comparison must have one clear quote action');
   assert.strictEqual(harness.context.STB_SHOPPING.estimate({ name: 'Flexipave Coating Smooth', coverage: 5, unit: '20Kg', priceBySize: { 20: 100000 } }, 100), null, 'sports systems must not use the wall-paint two-coat estimate');
-  const estimateMenu = findElement(expand(estimateActions.render(), harness.context.React, []), node => node.props && node.props.className === 'estimate-actions-menu');
-  assert(estimateMenu && elementText(estimateMenu).includes('Lưu / chia sẻ dự toán'), 'optional estimate actions must be grouped behind one control');
-  assert(!findElement(estimateMenu, node => node.type === 'button' && elementText(node) === 'Gửi qua email'), 'estimate actions must not duplicate the quote email flow');
 
   const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
   assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');

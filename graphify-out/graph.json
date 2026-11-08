@@ -4,19 +4,6 @@
   "graph": {},
   "nodes": [
     {
-      "id": "app_admin",
-      "label": "Admin",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "admin",
-      "source_file": "app.js",
-      "source_location": "L797"
-    },
-    {
       "id": "app_editmodal",
       "label": "EditModal",
       "_callable": true,
@@ -56,97 +43,6 @@
       "source_location": "L924"
     },
     {
-      "id": "app_settingseditor",
-      "label": "SettingsEditor",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "settingseditor",
-      "source_file": "app.js",
-      "source_location": "L1010"
-    },
-    {
-      "id": "app_colormanager",
-      "label": "ColorManager",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "colormanager",
-      "source_file": "app.js",
-      "source_location": "L883"
-    },
-    {
-      "id": "app_colors",
-      "label": "Colors",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "colors",
-      "source_file": "app.js",
-      "source_location": "L720"
-    },
-    {
-      "id": "app_errorboundary",
-      "label": "ErrorBoundary",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "errorboundary",
-      "source_file": "app.js",
-      "source_location": "L116"
-    },
-    {
-      "id": "app_header",
-      "label": "Header",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "header",
-      "source_file": "app.js",
-      "source_location": "L167"
-    },
-    {
-      "id": "app_productsearch",
-      "label": "ProductSearch",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "productsearch",
-      "source_file": "app.js",
-      "source_location": "L189"
-    },
-    {
-      "id": "app_smartimage",
-      "label": "SmartImage",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "smartimage",
-      "source_file": "app.js",
-      "source_location": "L87"
-    },
-    {
       "id": "shopping_tools_emaildraft",
       "label": "EmailDraft",
       "_callable": true,
@@ -157,20 +53,7 @@
       "file_type": "code",
       "norm_label": "emaildraft",
       "source_file": "shopping-tools.js",
-      "source_location": "L134"
-    },
-    {
-      "id": "shopping_tools_estimateactions",
-      "label": "EstimateActions",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": "estimateactions",
-      "source_file": "shopping-tools.js",
-      "source_location": "L171"
+      "source_location": "L126"
     },
     {
       "id": "shopping_tools_shopassistant",
@@ -183,7 +66,59 @@
       "file_type": "code",
       "norm_label": "shopassistant",
       "source_file": "shopping-tools.js",
-      "source_location": "L237"
+      "source_location": "L163"
+    },
+    {
+      "id": "app_admin",
+      "label": "Admin",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "admin",
+      "source_file": "app.js",
+      "source_location": "L797"
+    },
+    {
+      "id": "app_colormanager",
+      "label": "ColorManager",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "colormanager",
+      "source_file": "app.js",
+      "source_location": "L883"
+    },
+    {
+      "id": "app_settingseditor",
+      "label": "SettingsEditor",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "settingseditor",
+      "source_file": "app.js",
+      "source_location": "L1010"
+    },
+    {
+      "id": "app_smartimage",
+      "label": "SmartImage",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "smartimage",
+      "source_file": "app.js",
+      "source_location": "L87"
     },
     {
       "id": "app_calculator",
@@ -197,6 +132,58 @@
       "norm_label": "calculator",
       "source_file": "app.js",
       "source_location": "L589"
+    },
+    {
+      "id": "app_colors",
+      "label": "Colors",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": "colors",
+      "source_file": "app.js",
+      "source_location": "L720"
+    },
+    {
+      "id": "app_productsearch",
+      "label": "ProductSearch",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": "productsearch",
+      "source_file": "app.js",
+      "source_location": "L189"
+    },
+    {
+      "id": "app_header",
+      "label": "Header",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": "header",
+      "source_file": "app.js",
+      "source_location": "L167"
+    },
+    {
+      "id": "app_errorboundary",
+      "label": "ErrorBoundary",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": "errorboundary",
+      "source_file": "app.js",
+      "source_location": "L116"
     },
     {
       "id": "app_itopcolormanager",
@@ -1167,162 +1154,6 @@
       "source_location": "L58"
     },
     {
-      "id": "app_admin_closeedit",
-      "label": ".closeEdit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".closeedit()",
-      "source_file": "app.js",
-      "source_location": "L805"
-    },
-    {
-      "id": "app_admin_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L798"
-    },
-    {
-      "id": "app_admin_exportdata",
-      "label": ".exportData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".exportdata()",
-      "source_file": "app.js",
-      "source_location": "L808"
-    },
-    {
-      "id": "app_admin_importdata",
-      "label": ".importData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".importdata()",
-      "source_file": "app.js",
-      "source_location": "L809"
-    },
-    {
-      "id": "app_admin_notify",
-      "label": ".notify()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".notify()",
-      "source_file": "app.js",
-      "source_location": "L802"
-    },
-    {
-      "id": "app_admin_openedit",
-      "label": ".openEdit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".openedit()",
-      "source_file": "app.js",
-      "source_location": "L804"
-    },
-    {
-      "id": "app_admin_persist",
-      "label": ".persist()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".persist()",
-      "source_file": "app.js",
-      "source_location": "L803"
-    },
-    {
-      "id": "app_admin_remove",
-      "label": ".remove()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".remove()",
-      "source_file": "app.js",
-      "source_location": "L807"
-    },
-    {
-      "id": "app_admin_rendertab",
-      "label": ".renderTab()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".rendertab()",
-      "source_file": "app.js",
-      "source_location": "L813"
-    },
-    {
-      "id": "app_admin_reset",
-      "label": ".reset()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".reset()",
-      "source_file": "app.js",
-      "source_location": "L810"
-    },
-    {
-      "id": "app_admin_saveedit",
-      "label": ".saveEdit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".saveedit()",
-      "source_file": "app.js",
-      "source_location": "L806"
-    },
-    {
-      "id": "app_app_updatedata",
-      "label": ".updateData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".updatedata()",
-      "source_file": "app.js",
-      "source_location": "L136"
-    },
-    {
-      "id": "app_calculator_find",
-      "label": ".find()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".find()",
-      "source_file": "app.js",
-      "source_location": "L637"
-    },
-    {
       "id": "app_clone",
       "label": "clone()",
       "_callable": true,
@@ -1333,18 +1164,6 @@
       "norm_label": "clone()",
       "source_file": "app.js",
       "source_location": "L17"
-    },
-    {
-      "id": "app_download",
-      "label": "download()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "download()",
-      "source_file": "app.js",
-      "source_location": "L64"
     },
     {
       "id": "app_editmodal_constructor",
@@ -1419,66 +1238,6 @@
       "source_location": "L114"
     },
     {
-      "id": "app_isplain",
-      "label": "isPlain()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "isplain()",
-      "source_file": "app.js",
-      "source_location": "L18"
-    },
-    {
-      "id": "app_leads",
-      "label": "Leads()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "leads()",
-      "source_file": "app.js",
-      "source_location": "L842"
-    },
-    {
-      "id": "app_leads_change",
-      "label": "change()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "change()",
-      "source_file": "app.js",
-      "source_location": "L842"
-    },
-    {
-      "id": "app_leads_del",
-      "label": "del()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "del()",
-      "source_file": "app.js",
-      "source_location": "L842"
-    },
-    {
-      "id": "app_loaddata",
-      "label": "loadData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "loaddata()",
-      "source_file": "app.js",
-      "source_location": "L38"
-    },
-    {
       "id": "app_mediamanager_constructor",
       "label": ".constructor()",
       "_callable": true,
@@ -1537,30 +1296,6 @@
       "norm_label": ".upload()",
       "source_file": "app.js",
       "source_location": "L899"
-    },
-    {
-      "id": "app_mergesafe",
-      "label": "mergeSafe()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "mergesafe()",
-      "source_file": "app.js",
-      "source_location": "L19"
-    },
-    {
-      "id": "app_normalizedata",
-      "label": "normalizeData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "normalizedata()",
-      "source_file": "app.js",
-      "source_location": "L30"
     },
     {
       "id": "app_nowiso",
@@ -1693,102 +1428,6 @@
       "norm_label": ".set()",
       "source_file": "app.js",
       "source_location": "L927"
-    },
-    {
-      "id": "app_savedata",
-      "label": "saveData()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "savedata()",
-      "source_file": "app.js",
-      "source_location": "L56"
-    },
-    {
-      "id": "app_saveleads",
-      "label": "saveLeads()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "saveleads()",
-      "source_file": "app.js",
-      "source_location": "L58"
-    },
-    {
-      "id": "app_settingseditor_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L1011"
-    },
-    {
-      "id": "app_settingseditor_image",
-      "label": ".image()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".image()",
-      "source_file": "app.js",
-      "source_location": "L1018"
-    },
-    {
-      "id": "app_settingseditor_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L1041"
-    },
-    {
-      "id": "app_settingseditor_renderfield",
-      "label": ".renderField()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".renderfield()",
-      "source_file": "app.js",
-      "source_location": "L1019"
-    },
-    {
-      "id": "app_settingseditor_set",
-      "label": ".set()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".set()",
-      "source_file": "app.js",
-      "source_location": "L1017"
-    },
-    {
-      "id": "app_storageset",
-      "label": "storageSet()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "storageset()",
-      "source_file": "app.js",
-      "source_location": "L14"
     },
     {
       "id": "app_uid",
@@ -2175,126 +1814,6 @@
       "source_location": "L72"
     },
     {
-      "id": "app_activepopup",
-      "label": "activePopup()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "activepopup()",
-      "source_file": "app.js",
-      "source_location": "L93"
-    },
-    {
-      "id": "app_activitymanager",
-      "label": "ActivityManager()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "activitymanager()",
-      "source_file": "app.js",
-      "source_location": "L965"
-    },
-    {
-      "id": "app_admin_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L811"
-    },
-    {
-      "id": "app_adminauthloading",
-      "label": "AdminAuthLoading()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "adminauthloading()",
-      "source_file": "app.js",
-      "source_location": "L835"
-    },
-    {
-      "id": "app_adminglobalsearch",
-      "label": "AdminGlobalSearch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "adminglobalsearch()",
-      "source_file": "app.js",
-      "source_location": "L848"
-    },
-    {
-      "id": "app_adminglobalsearch_add",
-      "label": "add()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "add()",
-      "source_file": "app.js",
-      "source_location": "L848"
-    },
-    {
-      "id": "app_adminlist",
-      "label": "AdminList()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "adminlist()",
-      "source_file": "app.js",
-      "source_location": "L841"
-    },
-    {
-      "id": "app_adminlogin",
-      "label": "AdminLogin()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "adminlogin()",
-      "source_file": "app.js",
-      "source_location": "L836"
-    },
-    {
-      "id": "app_adminsidebar",
-      "label": "AdminSidebar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "adminsidebar()",
-      "source_file": "app.js",
-      "source_location": "L837"
-    },
-    {
-      "id": "app_admintop",
-      "label": "AdminTop()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "admintop()",
-      "source_file": "app.js",
-      "source_location": "L838"
-    },
-    {
       "id": "app_announcementmodal",
       "label": "AnnouncementModal()",
       "_callable": true,
@@ -2317,18 +1836,6 @@
       "norm_label": ".render()",
       "source_file": "app.js",
       "source_location": "L137"
-    },
-    {
-      "id": "app_asset",
-      "label": "asset()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "asset()",
-      "source_file": "app.js",
-      "source_location": "L60"
     },
     {
       "id": "app_bootoverlay",
@@ -2355,18 +1862,6 @@
       "source_location": "L243"
     },
     {
-      "id": "app_btn",
-      "label": "Btn()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "btn()",
-      "source_file": "app.js",
-      "source_location": "L73"
-    },
-    {
       "id": "app_buyingjourney",
       "label": "BuyingJourney()",
       "_callable": true,
@@ -2391,66 +1886,6 @@
       "source_location": "L247"
     },
     {
-      "id": "app_colormanager_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L884"
-    },
-    {
-      "id": "app_colormanager_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L885"
-    },
-    {
-      "id": "app_colors_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L721"
-    },
-    {
-      "id": "app_colors_copy",
-      "label": ".copy()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".copy()",
-      "source_file": "app.js",
-      "source_location": "L722"
-    },
-    {
-      "id": "app_colors_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L723"
-    },
-    {
       "id": "app_companyproof",
       "label": "CompanyProof()",
       "_callable": true,
@@ -2473,90 +1908,6 @@
       "norm_label": "contactdock()",
       "source_file": "app.js",
       "source_location": "L215"
-    },
-    {
-      "id": "app_cx",
-      "label": "cx()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "cx()",
-      "source_file": "app.js",
-      "source_location": "L66"
-    },
-    {
-      "id": "app_dashboard",
-      "label": "Dashboard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "dashboard()",
-      "source_file": "app.js",
-      "source_location": "L839"
-    },
-    {
-      "id": "app_editmodal_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L1007"
-    },
-    {
-      "id": "app_errorboundary_componentdidcatch",
-      "label": ".componentDidCatch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".componentdidcatch()",
-      "source_file": "app.js",
-      "source_location": "L118"
-    },
-    {
-      "id": "app_errorboundary_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L117"
-    },
-    {
-      "id": "app_errorboundary_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L120"
-    },
-    {
-      "id": "app_errorboundary_reset",
-      "label": ".reset()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".reset()",
-      "source_file": "app.js",
-      "source_location": "L119"
     },
     {
       "id": "app_faq",
@@ -2595,102 +1946,6 @@
       "source_location": "L756"
     },
     {
-      "id": "app_gettemplatepreset",
-      "label": "getTemplatePreset()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "gettemplatepreset()",
-      "source_file": "app.js",
-      "source_location": "L104"
-    },
-    {
-      "id": "app_header_closeonescape",
-      "label": ".closeOnEscape()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".closeonescape()",
-      "source_file": "app.js",
-      "source_location": "L171"
-    },
-    {
-      "id": "app_header_componentdidmount",
-      "label": ".componentDidMount()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".componentdidmount()",
-      "source_file": "app.js",
-      "source_location": "L169"
-    },
-    {
-      "id": "app_header_componentwillunmount",
-      "label": ".componentWillUnmount()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".componentwillunmount()",
-      "source_file": "app.js",
-      "source_location": "L170"
-    },
-    {
-      "id": "app_header_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L168"
-    },
-    {
-      "id": "app_header_go",
-      "label": ".go()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".go()",
-      "source_file": "app.js",
-      "source_location": "L172"
-    },
-    {
-      "id": "app_header_quote",
-      "label": ".quote()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".quote()",
-      "source_file": "app.js",
-      "source_location": "L173"
-    },
-    {
-      "id": "app_header_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L174"
-    },
-    {
       "id": "app_hero",
       "label": "Hero()",
       "_callable": true,
@@ -2727,18 +1982,6 @@
       "source_location": "L201"
     },
     {
-      "id": "app_itopconnectioncard",
-      "label": "ITopConnectionCard()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "itopconnectioncard()",
-      "source_file": "app.js",
-      "source_location": "L850"
-    },
-    {
       "id": "app_kineticmarquee",
       "label": "KineticMarquee()",
       "_callable": true,
@@ -2763,30 +2006,6 @@
       "source_location": "L217"
     },
     {
-      "id": "app_money",
-      "label": "money()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "money()",
-      "source_file": "app.js",
-      "source_location": "L59"
-    },
-    {
-      "id": "app_popupisactive",
-      "label": "popupIsActive()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "popupisactive()",
-      "source_file": "app.js",
-      "source_location": "L92"
-    },
-    {
       "id": "app_productcard",
       "label": "ProductCard()",
       "_callable": true,
@@ -2809,30 +2028,6 @@
       "norm_label": "products()",
       "source_file": "app.js",
       "source_location": "L259"
-    },
-    {
-      "id": "app_productsearch_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L190"
-    },
-    {
-      "id": "app_productsearch_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L191"
     },
     {
       "id": "app_promobanners",
@@ -2871,18 +2066,6 @@
       "source_location": "L61"
     },
     {
-      "id": "app_searchtext",
-      "label": "searchText()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "searchtext()",
-      "source_file": "app.js",
-      "source_location": "L67"
-    },
-    {
       "id": "app_sectionhead",
       "label": "SectionHead()",
       "_callable": true,
@@ -2893,42 +2076,6 @@
       "norm_label": "sectionhead()",
       "source_file": "app.js",
       "source_location": "L84"
-    },
-    {
-      "id": "app_settheme",
-      "label": "setTheme()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "settheme()",
-      "source_file": "app.js",
-      "source_location": "L63"
-    },
-    {
-      "id": "app_smartimage_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "app.js",
-      "source_location": "L88"
-    },
-    {
-      "id": "app_smartimage_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L89"
     },
     {
       "id": "app_solutions",
@@ -2943,30 +2090,6 @@
       "source_location": "L262"
     },
     {
-      "id": "app_stat",
-      "label": "Stat()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "stat()",
-      "source_file": "app.js",
-      "source_location": "L840"
-    },
-    {
-      "id": "app_storageremove",
-      "label": "storageRemove()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "storageremove()",
-      "source_file": "app.js",
-      "source_location": "L15"
-    },
-    {
       "id": "app_storefront",
       "label": "Storefront()",
       "_callable": true,
@@ -2977,18 +2100,6 @@
       "norm_label": "storefront()",
       "source_file": "app.js",
       "source_location": "L140"
-    },
-    {
-      "id": "app_templatestudio",
-      "label": "TemplateStudio()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 12,
-      "community_name": "app.js",
-      "file_type": "code",
-      "norm_label": "templatestudio()",
-      "source_file": "app.js",
-      "source_location": "L972"
     },
     {
       "id": "scripts_finalize_calculator_catalog_consolidate",
@@ -3120,7 +2231,7 @@
       "file_type": "code",
       "norm_label": "comparisonprofile()",
       "source_file": "shopping-tools.js",
-      "source_location": "L40"
+      "source_location": "L39"
     },
     {
       "id": "shopping_tools_emaildraft_constructor",
@@ -3132,7 +2243,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L135"
+      "source_location": "L127"
     },
     {
       "id": "shopping_tools_emaildraft_copy",
@@ -3144,7 +2255,7 @@
       "file_type": "code",
       "norm_label": ".copy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L136"
+      "source_location": "L128"
     },
     {
       "id": "shopping_tools_emaildraft_fallbackcopy",
@@ -3156,7 +2267,7 @@
       "file_type": "code",
       "norm_label": ".fallbackcopy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L142"
+      "source_location": "L134"
     },
     {
       "id": "shopping_tools_emaildraft_render",
@@ -3168,7 +2279,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L149"
+      "source_location": "L141"
     },
     {
       "id": "shopping_tools_estimate",
@@ -3180,67 +2291,7 @@
       "file_type": "code",
       "norm_label": "estimate()",
       "source_file": "shopping-tools.js",
-      "source_location": "L54"
-    },
-    {
-      "id": "shopping_tools_estimateactions_constructor",
-      "label": ".constructor()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": ".constructor()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L172"
-    },
-    {
-      "id": "shopping_tools_estimateactions_removesaved",
-      "label": ".removeSaved()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": ".removesaved()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L200"
-    },
-    {
-      "id": "shopping_tools_estimateactions_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L207"
-    },
-    {
-      "id": "shopping_tools_estimateactions_save",
-      "label": ".save()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": ".save()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L176"
-    },
-    {
-      "id": "shopping_tools_estimateactions_share",
-      "label": ".share()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": ".share()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L186"
+      "source_location": "L53"
     },
     {
       "id": "shopping_tools_estimatecontext",
@@ -3252,7 +2303,7 @@
       "file_type": "code",
       "norm_label": "estimatecontext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L94"
+      "source_location": "L93"
     },
     {
       "id": "shopping_tools_estimatetext",
@@ -3264,7 +2315,7 @@
       "file_type": "code",
       "norm_label": "estimatetext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L115"
+      "source_location": "L114"
     },
     {
       "id": "shopping_tools_isfinish",
@@ -3276,7 +2327,7 @@
       "file_type": "code",
       "norm_label": "isfinish()",
       "source_file": "shopping-tools.js",
-      "source_location": "L17"
+      "source_location": "L16"
     },
     {
       "id": "shopping_tools_matchessurface",
@@ -3288,7 +2339,7 @@
       "file_type": "code",
       "norm_label": "matchessurface()",
       "source_file": "shopping-tools.js",
-      "source_location": "L44"
+      "source_location": "L43"
     },
     {
       "id": "shopping_tools_money",
@@ -3300,7 +2351,7 @@
       "file_type": "code",
       "norm_label": "money()",
       "source_file": "shopping-tools.js",
-      "source_location": "L11"
+      "source_location": "L10"
     },
     {
       "id": "shopping_tools_projectgallery",
@@ -3312,19 +2363,7 @@
       "file_type": "code",
       "norm_label": "projectgallery()",
       "source_file": "shopping-tools.js",
-      "source_location": "L372"
-    },
-    {
-      "id": "shopping_tools_savedestimates",
-      "label": "savedEstimates()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 14,
-      "community_name": "shopping-tools.js",
-      "file_type": "code",
-      "norm_label": "savedestimates()",
-      "source_file": "shopping-tools.js",
-      "source_location": "L127"
+      "source_location": "L297"
     },
     {
       "id": "shopping_tools_score",
@@ -3336,7 +2375,7 @@
       "file_type": "code",
       "norm_label": "score()",
       "source_file": "shopping-tools.js",
-      "source_location": "L81"
+      "source_location": "L80"
     },
     {
       "id": "shopping_tools_shopassistant_choose",
@@ -3348,7 +2387,7 @@
       "file_type": "code",
       "norm_label": ".choose()",
       "source_file": "shopping-tools.js",
-      "source_location": "L242"
+      "source_location": "L168"
     },
     {
       "id": "shopping_tools_shopassistant_constructor",
@@ -3360,7 +2399,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L238"
+      "source_location": "L164"
     },
     {
       "id": "shopping_tools_shopassistant_render",
@@ -3372,7 +2411,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L253"
+      "source_location": "L179"
     },
     {
       "id": "shopping_tools_text",
@@ -3384,7 +2423,7 @@
       "file_type": "code",
       "norm_label": "text()",
       "source_file": "shopping-tools.js",
-      "source_location": "L6"
+      "source_location": "L5"
     },
     {
       "id": "shopping_tools_unitof",
@@ -3396,6 +2435,234 @@
       "file_type": "code",
       "norm_label": "unitof()",
       "source_file": "shopping-tools.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "app_admin_closeedit",
+      "label": ".closeEdit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".closeedit()",
+      "source_file": "app.js",
+      "source_location": "L805"
+    },
+    {
+      "id": "app_admin_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L798"
+    },
+    {
+      "id": "app_admin_exportdata",
+      "label": ".exportData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".exportdata()",
+      "source_file": "app.js",
+      "source_location": "L808"
+    },
+    {
+      "id": "app_admin_importdata",
+      "label": ".importData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".importdata()",
+      "source_file": "app.js",
+      "source_location": "L809"
+    },
+    {
+      "id": "app_admin_notify",
+      "label": ".notify()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".notify()",
+      "source_file": "app.js",
+      "source_location": "L802"
+    },
+    {
+      "id": "app_admin_persist",
+      "label": ".persist()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".persist()",
+      "source_file": "app.js",
+      "source_location": "L803"
+    },
+    {
+      "id": "app_admin_remove",
+      "label": ".remove()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".remove()",
+      "source_file": "app.js",
+      "source_location": "L807"
+    },
+    {
+      "id": "app_admin_reset",
+      "label": ".reset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".reset()",
+      "source_file": "app.js",
+      "source_location": "L810"
+    },
+    {
+      "id": "app_admin_saveedit",
+      "label": ".saveEdit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".saveedit()",
+      "source_file": "app.js",
+      "source_location": "L806"
+    },
+    {
+      "id": "app_app_updatedata",
+      "label": ".updateData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".updatedata()",
+      "source_file": "app.js",
+      "source_location": "L136"
+    },
+    {
+      "id": "app_download",
+      "label": "download()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "download()",
+      "source_file": "app.js",
+      "source_location": "L64"
+    },
+    {
+      "id": "app_loaddata",
+      "label": "loadData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "loaddata()",
+      "source_file": "app.js",
+      "source_location": "L38"
+    },
+    {
+      "id": "app_loadleads",
+      "label": "loadLeads()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "loadleads()",
+      "source_file": "app.js",
+      "source_location": "L57"
+    },
+    {
+      "id": "app_normalizedata",
+      "label": "normalizeData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "normalizedata()",
+      "source_file": "app.js",
+      "source_location": "L30"
+    },
+    {
+      "id": "app_quotemodal_submit",
+      "label": ".submit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": ".submit()",
+      "source_file": "app.js",
+      "source_location": "L771"
+    },
+    {
+      "id": "app_savedata",
+      "label": "saveData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "savedata()",
+      "source_file": "app.js",
+      "source_location": "L56"
+    },
+    {
+      "id": "app_saveleads",
+      "label": "saveLeads()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "saveleads()",
+      "source_file": "app.js",
+      "source_location": "L58"
+    },
+    {
+      "id": "app_storageget",
+      "label": "storageGet()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "storageget()",
+      "source_file": "app.js",
+      "source_location": "L13"
+    },
+    {
+      "id": "app_storageset",
+      "label": "storageSet()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 16,
+      "community_name": "Admin",
+      "file_type": "code",
+      "norm_label": "storageset()",
+      "source_file": "app.js",
       "source_location": "L14"
     },
     {
@@ -3951,6 +3218,198 @@
       "source_location": "L42"
     },
     {
+      "id": "app_activitymanager",
+      "label": "ActivityManager()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "activitymanager()",
+      "source_file": "app.js",
+      "source_location": "L965"
+    },
+    {
+      "id": "app_admin_openedit",
+      "label": ".openEdit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": ".openedit()",
+      "source_file": "app.js",
+      "source_location": "L804"
+    },
+    {
+      "id": "app_admin_rendertab",
+      "label": ".renderTab()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": ".rendertab()",
+      "source_file": "app.js",
+      "source_location": "L813"
+    },
+    {
+      "id": "app_adminlist",
+      "label": "AdminList()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "adminlist()",
+      "source_file": "app.js",
+      "source_location": "L841"
+    },
+    {
+      "id": "app_btn",
+      "label": "Btn()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "btn()",
+      "source_file": "app.js",
+      "source_location": "L73"
+    },
+    {
+      "id": "app_colormanager_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L884"
+    },
+    {
+      "id": "app_colormanager_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L885"
+    },
+    {
+      "id": "app_cx",
+      "label": "cx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "cx()",
+      "source_file": "app.js",
+      "source_location": "L66"
+    },
+    {
+      "id": "app_dashboard",
+      "label": "Dashboard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "dashboard()",
+      "source_file": "app.js",
+      "source_location": "L839"
+    },
+    {
+      "id": "app_itopconnectioncard",
+      "label": "ITopConnectionCard()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "itopconnectioncard()",
+      "source_file": "app.js",
+      "source_location": "L850"
+    },
+    {
+      "id": "app_leads",
+      "label": "Leads()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "leads()",
+      "source_file": "app.js",
+      "source_location": "L842"
+    },
+    {
+      "id": "app_leads_change",
+      "label": "change()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "change()",
+      "source_file": "app.js",
+      "source_location": "L842"
+    },
+    {
+      "id": "app_leads_del",
+      "label": "del()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "del()",
+      "source_file": "app.js",
+      "source_location": "L842"
+    },
+    {
+      "id": "app_money",
+      "label": "money()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "money()",
+      "source_file": "app.js",
+      "source_location": "L59"
+    },
+    {
+      "id": "app_stat",
+      "label": "Stat()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "stat()",
+      "source_file": "app.js",
+      "source_location": "L840"
+    },
+    {
+      "id": "app_templatestudio",
+      "label": "TemplateStudio()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 20,
+      "community_name": "Btn",
+      "file_type": "code",
+      "norm_label": "templatestudio()",
+      "source_file": "app.js",
+      "source_location": "L972"
+    },
+    {
       "id": "asset_path_fix_fixdata",
       "label": "fixData()",
       "_callable": true,
@@ -4021,6 +3480,270 @@
       "norm_label": "start()",
       "source_file": "seo-copy-fix.js",
       "source_location": "L41"
+    },
+    {
+      "id": "app_asset",
+      "label": "asset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "asset()",
+      "source_file": "app.js",
+      "source_location": "L60"
+    },
+    {
+      "id": "app_editmodal_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L1007"
+    },
+    {
+      "id": "app_gettemplatepreset",
+      "label": "getTemplatePreset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "gettemplatepreset()",
+      "source_file": "app.js",
+      "source_location": "L104"
+    },
+    {
+      "id": "app_isplain",
+      "label": "isPlain()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "isplain()",
+      "source_file": "app.js",
+      "source_location": "L18"
+    },
+    {
+      "id": "app_mergesafe",
+      "label": "mergeSafe()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "mergesafe()",
+      "source_file": "app.js",
+      "source_location": "L19"
+    },
+    {
+      "id": "app_settheme",
+      "label": "setTheme()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": "settheme()",
+      "source_file": "app.js",
+      "source_location": "L63"
+    },
+    {
+      "id": "app_settingseditor_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L1011"
+    },
+    {
+      "id": "app_settingseditor_image",
+      "label": ".image()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".image()",
+      "source_file": "app.js",
+      "source_location": "L1018"
+    },
+    {
+      "id": "app_settingseditor_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L1041"
+    },
+    {
+      "id": "app_settingseditor_renderfield",
+      "label": ".renderField()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".renderfield()",
+      "source_file": "app.js",
+      "source_location": "L1019"
+    },
+    {
+      "id": "app_settingseditor_set",
+      "label": ".set()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".set()",
+      "source_file": "app.js",
+      "source_location": "L1017"
+    },
+    {
+      "id": "app_smartimage_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L88"
+    },
+    {
+      "id": "app_smartimage_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 23,
+      "community_name": "asset",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L89"
+    },
+    {
+      "id": "app_activepopup",
+      "label": "activePopup()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "activepopup()",
+      "source_file": "app.js",
+      "source_location": "L93"
+    },
+    {
+      "id": "app_admin_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L811"
+    },
+    {
+      "id": "app_adminauthloading",
+      "label": "AdminAuthLoading()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "adminauthloading()",
+      "source_file": "app.js",
+      "source_location": "L835"
+    },
+    {
+      "id": "app_adminglobalsearch",
+      "label": "AdminGlobalSearch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "adminglobalsearch()",
+      "source_file": "app.js",
+      "source_location": "L848"
+    },
+    {
+      "id": "app_adminglobalsearch_add",
+      "label": "add()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "add()",
+      "source_file": "app.js",
+      "source_location": "L848"
+    },
+    {
+      "id": "app_adminlogin",
+      "label": "AdminLogin()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "adminlogin()",
+      "source_file": "app.js",
+      "source_location": "L836"
+    },
+    {
+      "id": "app_adminsidebar",
+      "label": "AdminSidebar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "adminsidebar()",
+      "source_file": "app.js",
+      "source_location": "L837"
+    },
+    {
+      "id": "app_admintop",
+      "label": "AdminTop()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "admintop()",
+      "source_file": "app.js",
+      "source_location": "L838"
+    },
+    {
+      "id": "app_popupisactive",
+      "label": "popupIsActive()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 24,
+      "community_name": ".render",
+      "file_type": "code",
+      "norm_label": "popupisactive()",
+      "source_file": "app.js",
+      "source_location": "L92"
     },
     {
       "id": "v7_content_overrides_isplain",
@@ -4551,6 +4274,18 @@
       "source_location": "L633"
     },
     {
+      "id": "app_calculator_find",
+      "label": ".find()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "Calculator",
+      "file_type": "code",
+      "norm_label": ".find()",
+      "source_file": "app.js",
+      "source_location": "L637"
+    },
+    {
       "id": "app_calculator_firstsurface",
       "label": ".firstSurface()",
       "_callable": true,
@@ -4885,6 +4620,222 @@
       "norm_label": "textnode()",
       "source_file": "tests/smoke.js",
       "source_location": "L174"
+    },
+    {
+      "id": "app_colors_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L721"
+    },
+    {
+      "id": "app_colors_copy",
+      "label": ".copy()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": ".copy()",
+      "source_file": "app.js",
+      "source_location": "L722"
+    },
+    {
+      "id": "app_colors_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L723"
+    },
+    {
+      "id": "app_productsearch_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L190"
+    },
+    {
+      "id": "app_productsearch_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L191"
+    },
+    {
+      "id": "app_searchtext",
+      "label": "searchText()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 43,
+      "community_name": "Colors",
+      "file_type": "code",
+      "norm_label": "searchtext()",
+      "source_file": "app.js",
+      "source_location": "L67"
+    },
+    {
+      "id": "app_header_closeonescape",
+      "label": ".closeOnEscape()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".closeonescape()",
+      "source_file": "app.js",
+      "source_location": "L171"
+    },
+    {
+      "id": "app_header_componentdidmount",
+      "label": ".componentDidMount()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".componentdidmount()",
+      "source_file": "app.js",
+      "source_location": "L169"
+    },
+    {
+      "id": "app_header_componentwillunmount",
+      "label": ".componentWillUnmount()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".componentwillunmount()",
+      "source_file": "app.js",
+      "source_location": "L170"
+    },
+    {
+      "id": "app_header_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L168"
+    },
+    {
+      "id": "app_header_go",
+      "label": ".go()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".go()",
+      "source_file": "app.js",
+      "source_location": "L172"
+    },
+    {
+      "id": "app_header_quote",
+      "label": ".quote()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".quote()",
+      "source_file": "app.js",
+      "source_location": "L173"
+    },
+    {
+      "id": "app_header_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 44,
+      "community_name": "Header",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L174"
+    },
+    {
+      "id": "app_errorboundary_componentdidcatch",
+      "label": ".componentDidCatch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": ".componentdidcatch()",
+      "source_file": "app.js",
+      "source_location": "L118"
+    },
+    {
+      "id": "app_errorboundary_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "app.js",
+      "source_location": "L117"
+    },
+    {
+      "id": "app_errorboundary_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L120"
+    },
+    {
+      "id": "app_errorboundary_reset",
+      "label": ".reset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": ".reset()",
+      "source_file": "app.js",
+      "source_location": "L119"
+    },
+    {
+      "id": "app_storageremove",
+      "label": "storageRemove()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 45,
+      "community_name": "ErrorBoundary",
+      "file_type": "code",
+      "norm_label": "storageremove()",
+      "source_file": "app.js",
+      "source_location": "L15"
     },
     {
       "id": "admin_v2_b64",
@@ -6147,18 +6098,6 @@
       "source_location": "L69"
     },
     {
-      "id": "app_loadleads",
-      "label": "loadLeads()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "App",
-      "file_type": "code",
-      "norm_label": "loadleads()",
-      "source_file": "app.js",
-      "source_location": "L57"
-    },
-    {
       "id": "app_nextframe",
       "label": "nextFrame()",
       "_callable": true,
@@ -6219,18 +6158,6 @@
       "source_location": "L773"
     },
     {
-      "id": "app_quotemodal_submit",
-      "label": ".submit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "App",
-      "file_type": "code",
-      "norm_label": ".submit()",
-      "source_file": "app.js",
-      "source_location": "L771"
-    },
-    {
       "id": "app_shoulduseitopadmin",
       "label": "shouldUseITopAdmin()",
       "_callable": true,
@@ -6253,18 +6180,6 @@
       "norm_label": "stopframe()",
       "source_file": "app.js",
       "source_location": "L12"
-    },
-    {
-      "id": "app_storageget",
-      "label": "storageGet()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 9,
-      "community_name": "App",
-      "file_type": "code",
-      "norm_label": "storageget()",
-      "source_file": "app.js",
-      "source_location": "L13"
     },
     {
       "id": "scripts_sync_calculator_catalog",
@@ -15172,7 +15087,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L41",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -15184,7 +15099,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L139",
+      "source_location": "L131",
       "weight": 1.0
     },
     {
@@ -15196,7 +15111,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L164",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -15208,7 +15123,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L55",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -15220,103 +15135,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L58",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_constructor",
-      "target": "shopping_tools_savedestimates",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L174",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_removesaved",
-      "target": "shopping_tools_savedestimates",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L201",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_render",
-      "target": "shopping_tools_estimateactions_save",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L215",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_render",
-      "target": "shopping_tools_estimateactions_share",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L216",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_render",
-      "target": "shopping_tools_estimateactions_removesaved",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L226",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_save",
-      "target": "shopping_tools_savedestimates",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L180",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_share",
-      "target": "shopping_tools_estimatetext",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L187",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions_share",
-      "target": "shopping_tools_estimateactions_share",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L189",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -15328,7 +15147,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L101",
+      "source_location": "L100",
       "weight": 1.0
     },
     {
@@ -15340,7 +15159,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L96",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -15352,7 +15171,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L123",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -15364,7 +15183,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L19",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -15376,7 +15195,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L46",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -15388,7 +15207,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L82",
+      "source_location": "L81",
       "weight": 1.0
     },
     {
@@ -15400,7 +15219,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L88",
+      "source_location": "L87",
       "weight": 1.0
     },
     {
@@ -15412,7 +15231,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L245",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -15424,7 +15243,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L245",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -15436,7 +15255,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L247",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -15448,7 +15267,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L257",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -15460,7 +15279,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L257",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -15472,7 +15291,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L259",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -15484,7 +15303,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L263",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -15496,7 +15315,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L264",
+      "source_location": "L190",
       "weight": 1.0
     },
     {
@@ -15508,7 +15327,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L269",
+      "source_location": "L195",
       "weight": 1.0
     },
     {
@@ -15520,7 +15339,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L272",
+      "source_location": "L198",
       "weight": 1.0
     },
     {
@@ -15532,7 +15351,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L273",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -15544,7 +15363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L322",
+      "source_location": "L248",
       "weight": 1.0
     },
     {
@@ -15652,7 +15471,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L399",
+      "source_location": "L389",
       "weight": 1.0
     },
     {
@@ -19925,7 +19744,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0
     },
     {
@@ -19936,18 +19755,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L115",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_savedestimates",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L127",
+      "source_location": "L114",
       "weight": 1.0
     },
     {
@@ -19958,7 +19766,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L134",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -19969,7 +19777,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L14",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -19980,18 +19788,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L17",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_estimateactions",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L171",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -20002,7 +19799,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L237",
+      "source_location": "L163",
       "weight": 1.0
     },
     {
@@ -20013,7 +19810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L372",
+      "source_location": "L297",
       "weight": 1.0
     },
     {
@@ -20024,7 +19821,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L40",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -20035,18 +19832,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L44",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_estimate",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L54",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
@@ -20057,7 +19843,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L6",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_estimate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -20068,7 +19865,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L81",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -20079,7 +19876,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L94",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -21828,7 +21625,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L135",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -21839,7 +21636,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L136",
+      "source_location": "L128",
       "weight": 1.0
     },
     {
@@ -21850,7 +21647,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L142",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -21861,62 +21658,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L149",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions",
-      "target": "shopping_tools_estimateactions_constructor",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L172",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions",
-      "target": "shopping_tools_estimateactions_save",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L176",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions",
-      "target": "shopping_tools_estimateactions_share",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L186",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions",
-      "target": "shopping_tools_estimateactions_removesaved",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L200",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimateactions",
-      "target": "shopping_tools_estimateactions_render",
-      "relation": "method",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L207",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -21927,7 +21669,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L238",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -21938,7 +21680,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L242",
+      "source_location": "L168",
       "weight": 1.0
     },
     {
@@ -21949,7 +21691,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L253",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
@@ -23044,5 +22786,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "fe5769d133a85d826a1b1009a9125d844bddf685"
+  "built_at_commit": "8ef24ab6c5df9268a06c4fce669577350f39d9f5"
 }

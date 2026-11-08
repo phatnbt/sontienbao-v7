@@ -1,7 +1,6 @@
 (function () {
   'use strict';
   var h = React.createElement;
-  var SAVE_KEY = 'stb-v7-saved-estimates';
 
   function text(value) {
     var result = String(value || '').toLowerCase();
@@ -124,13 +123,6 @@
     lines.push('Vui lòng xác nhận sản phẩm, quy cách, giá và giao hàng.');
     return lines.join('\n');
   }
-  function savedEstimates() {
-    try {
-      var data = JSON.parse(localStorage.getItem(SAVE_KEY) || '[]');
-      return Array.isArray(data) ? data.slice(0, 5) : [];
-    } catch (error) { return []; }
-  }
-
   class EmailDraft extends React.Component {
     constructor(props) { super(props); this.state = { status: '' }; this.field = null; }
     copy() {
@@ -164,72 +156,6 @@
           h('button', { type: 'button', onClick: function () { self.copy(); } }, 'Sao chép nội dung')
         ),
         this.state.status && h('small', { role: 'status' }, this.state.status)
-      );
-    }
-  }
-
-  class EstimateActions extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = { saved: savedEstimates(), status: '' };
-    }
-    save() {
-      var context = this.props.estimate;
-      if (!context) return;
-      var entry = { id: Date.now() + '-' + Math.random().toString(36).slice(2, 8), date: new Date().toLocaleDateString('vi-VN'), estimate: context };
-      var saved = [entry].concat(savedEstimates()).slice(0, 5);
-      try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
-        this.setState({ saved: saved, status: 'Đã lưu trên thiết bị này.' });
-      } catch (error) { this.setState({ status: 'Trình duyệt chưa cho phép lưu.' }); }
-    }
-    share(context) {
-      var self = this, value = estimateText(context || this.props.estimate);
-      if (navigator.share) {
-        navigator.share({ title: 'Dự toán sơn Tiến Bảo', text: value }).then(function () {
-          self.setState({ status: 'Đã mở bảng chia sẻ.' });
-        }).catch(function () {});
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(value).then(function () {
-          self.setState({ status: 'Đã sao chép. Bạn có thể dán vào Zalo hoặc email.' });
-        }).catch(function () { self.setState({ status: 'Không thể sao chép tự động trên trình duyệt này.' }); });
-      } else {
-        self.setState({ status: 'Trình duyệt chưa hỗ trợ chia sẻ nhanh.' });
-      }
-    }
-    removeSaved(id) {
-      var saved = savedEstimates().filter(function (entry) { return entry.id !== id; });
-      try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
-        this.setState({ saved: saved, status: 'Đã xóa dự toán khỏi thiết bị này.' });
-      } catch (error) { this.setState({ status: 'Không thể xóa dự toán trên trình duyệt này.' }); }
-    }
-    render() {
-      var self = this, context = this.props.estimate;
-      if (!context || !(context.items || []).length) return null;
-      return h('div', { className: 'estimate-actions', 'aria-label': 'Lưu và chia sẻ dự toán' },
-        h('details', { className: 'estimate-actions-menu' },
-          h('summary', null, 'Lưu / chia sẻ dự toán'),
-          h('div', { className: 'estimate-actions-panel' },
-            h('div', { className: 'estimate-actions-row' },
-              h('button', { type: 'button', onClick: function () { self.save(); } }, 'Lưu trên thiết bị'),
-              h('button', { type: 'button', onClick: function () { self.share(); } }, 'Chia sẻ / sao chép')
-            ),
-            this.state.status && h('p', { className: 'estimate-status', role: 'status' }, this.state.status),
-            this.state.saved.length > 0 && h('details', { className: 'saved-estimates' },
-              h('summary', null, 'Dự toán đã lưu (' + this.state.saved.length + ')'),
-              this.state.saved.map(function (entry) {
-                return h('div', { className: 'saved-estimate', key: entry.id },
-                  h('span', null, entry.date + ' · ' + entry.estimate.surface + ' · ' + entry.estimate.area + ' m²'),
-                  h('div', { className: 'saved-estimate-actions' },
-                    h('button', { type: 'button', onClick: function () { self.share(entry.estimate); } }, 'Chia sẻ'),
-                    h('button', { type: 'button', className: 'delete-saved-estimate', 'aria-label': 'Xóa dự toán ngày ' + entry.date, onClick: function () { self.removeSaved(entry.id); } }, 'Xóa')
-                  )
-                );
-              })
-            )
-          )
-        )
       );
     }
   }
@@ -359,8 +285,7 @@
               ))
             ),
             h('div', { className: 'shop-compare-actions' },
-              h('button', { type: 'button', className: 'btn btn-red', onClick: function () { props.onQuote(comparison); } }, 'Nhận báo giá'),
-              h(EstimateActions, { estimate: comparison, site: props.site })
+              h('button', { type: 'button', className: 'btn btn-red', onClick: function () { props.onQuote(comparison); } }, 'Nhận báo giá')
             )
           ),
           h('small', { className: 'shop-data-note' }, 'Lượng và chi phí chỉ là dự kiến từ thông số catalog. Giá, màu và quy cách cần được Tiến Bảo xác nhận trước khi đặt hàng.')
@@ -391,7 +316,6 @@
 
   window.STB_SHOPPING = {
     ShopAssistant: ShopAssistant,
-    EstimateActions: EstimateActions,
     EmailDraft: EmailDraft,
     ProjectGallery: ProjectGallery,
     estimate: estimate,
