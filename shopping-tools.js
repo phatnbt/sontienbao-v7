@@ -20,6 +20,7 @@
   }
   var COMPARISON_PROFILES = [
     { match: /essence de lau chui/, fit: 'Tường nội thất cần lau chùi thường xuyên', strengths: ['Dễ lau chùi', 'Nhẹ mùi, VOC thấp', 'Bề mặt mờ'], note: 'Chỉ dùng cho khu vực nội thất.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean' },
+    { match: /essence trang tran chuyen dung/, fit: 'Trần nội thất cần lớp phủ trắng mờ, dễ thi công', strengths: ['Hạn chế văng bắn khi sơn', 'Độ trắng và độ che phủ tốt', 'Mùi nhẹ, VOC thấp'], note: 'Sản phẩm được thiết kế cho bề mặt trần.', source: 'https://www.jotun.com/vn-en/decorative/products/interior/all-interior-products/essence-easy-ceiling-vn' },
     { match: /majestic dep nguyen ban/, fit: 'Không gian cần bề mặt siêu mờ, màu trung thực', strengths: ['Siêu mờ, không phản quang', 'Dễ lau chùi', 'Kháng khuẩn, chống nấm mốc'], note: 'Chọn khi bề mặt siêu mờ là ưu tiên chính.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/majestic-pure-color' },
     { match: /jotashield ben mau toan dien/, fit: 'Mặt tiền cần giữ màu và hạn chế bám bụi', strengths: ['Bền màu', 'Chống bám bụi', 'Dễ thi công'], note: 'Dòng sơn phủ cho tường ngoại thất.', source: 'https://www.jotun.com/vn-vi/decorative/products/exterior/all-exterior-products' },
     { match: /jotashield sach vuot troi/, fit: 'Ngoại thất dễ bám bụi và vệt nước', strengths: ['Chống bám bụi', 'Ngăn vệt bẩn', 'Tự làm sạch khi mưa'], note: 'Tính năng tự làm sạch phụ thuộc điều kiện mưa thực tế.', source: 'https://www.jotun.com/vn-vi/decorative/products/exterior/all-exterior-products/jotashield-ultra-clean' },
@@ -39,6 +40,18 @@
   function comparisonProfile(product) {
     var name = text(product.name || '');
     return COMPARISON_PROFILES.find(function (profile) { return profile.match.test(name) && (!profile.exclude || !profile.exclude.test(name)); }) || null;
+  }
+  function comparisonPurpose(product) {
+    var label = text((product.name || '') + ' ' + (product.category || ''));
+    if (/san the thao|flexipave|san tennis/.test(label)) return 'Sân thể thao';
+    if (/tran chuyen dung|trang tran|son tran/.test(label)) return 'Trần nội thất';
+    if (/chong tham|waterguard|waterproof/.test(label)) return 'Chống thấm';
+    if (/ngoai that|ngoai troi|jotashield|tough shield/.test(label)) return 'Tường ngoại thất';
+    if (/noi that|trong nha|majestic|essence/.test(label)) return 'Tường nội thất';
+    return product.category || 'Cần xác nhận khu vực dùng';
+  }
+  function comparisonSource(url, label) {
+    return url ? h('a', { className: 'shop-compare-source', href: url, target: '_blank', rel: 'noopener noreferrer' }, label + ' ↗') : h('span', { className: 'shop-compare-unverified' }, 'Chưa có nguồn đối chiếu');
   }
   var WALL_CONDITIONS = {
     normal: { label: 'Tường đang tốt', advice: 'Làm sạch bề mặt, kiểm tra độ khô và dùng hệ sơn lót, sơn phủ phù hợp.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
@@ -60,6 +73,9 @@
   }
   function estimate(product, area) {
     if (/flexipave coating/.test(text(product.name || ''))) return null; // Hệ sân có định mức riêng cho từng lớp.
+    if (product.massOnly || (product.measureUnit && unitOf(product) !== product.measureUnit) ||
+        (product.packageUnit && product.measureUnit && product.packageUnit !== product.measureUnit) ||
+        (product.coverageBasis && product.coverageBasis !== 'm2_per_unit')) return null;
     var coverage = Number(product.coverage || 0);
     if (!(coverage > 0) || !(Number(area) > 0)) return null;
     var unit = unitOf(product);
@@ -201,26 +217,25 @@
       var knownCosts = selected.map(function (product) { var plan = estimate(product, state.area); return plan && plan.cost || 0; }).filter(function (cost) { return cost > 0; });
       var lowestCost = knownCosts.length ? Math.min.apply(null, knownCosts) : 0;
       var highestCost = knownCosts.length ? Math.max.apply(null, knownCosts) : 0;
+      var comparisonItems = selected.map(function (product) { return { product: product, plan: estimate(product, state.area), profile: comparisonProfile(product), purpose: comparisonPurpose(product) }; });
+      var samePurpose = comparisonItems.every(function (item) { return item.purpose === comparisonItems[0].purpose; });
+      var mixedPurpose = comparisonItems.length > 1 && !samePurpose;
       var rows = [
-        ['Thương hiệu', function (product) { return product.brand || '—'; }],
-        ['Độ phủ', function (product) { return product.coverageLabel || (Number(product.coverage) > 0 ? product.coverage + ' m²/' + unitOf(product) + '/lớp' : 'Cần xác nhận'); }],
-        ['Lượng cho 2 lớp + 10% hao hụt', function (product) { var plan = estimate(product, state.area); return plan ? plan.quantity + ' ' + plan.unit : 'Cần xác nhận'; }],
-        ['Quy cách gợi ý', function (product) { var plan = estimate(product, state.area); return plan ? plan.packs : 'Cần xác nhận'; }],
-        ['Chi phí vật tư tham khảo', function (product) { var plan = estimate(product, state.area); return plan && plan.cost ? money(plan.cost) : 'Liên hệ'; }],
-        ['Phù hợp khi', function (product) { var profile = comparisonProfile(product); return profile ? profile.fit : 'Cần đối chiếu nhu cầu với Tiến Bảo'; }],
-        ['Ưu điểm đã xác minh', function (product) { var profile = comparisonProfile(product); return profile ? h('ul', { className: 'shop-compare-list' }, profile.strengths.map(function (item) { return h('li', { key: item }, item); })) : 'Chưa có tài liệu tính năng đã đối chiếu'; }],
-        ['Điểm cần cân nhắc', function (product) {
-          var profile = comparisonProfile(product), plan = estimate(product, state.area), notes = [];
-          if (plan && plan.cost > lowestCost && lowestCost > 0) notes.push('Chi phí ước tính cao hơn lựa chọn thấp nhất ' + money(plan.cost - lowestCost));
-          if (!plan || !plan.cost) notes.push('Cần xác nhận định mức hoặc giá theo quy cách');
-          if (profile) notes.push(profile.note);
-          else notes.push('Chưa có tài liệu tính năng đã kiểm chứng để nhận xét chất lượng');
-          return h('ul', { className: 'shop-compare-list' }, notes.map(function (item) { return h('li', { key: item }, item); }));
-        }],
-        ['Nguồn tham khảo', function (product) {
-          var profile = comparisonProfile(product), url = profile ? profile.source : product.url;
-          return url ? h('a', { className: 'shop-compare-source', href: url, target: '_blank', rel: 'noopener noreferrer' }, profile ? (product.brand || 'Hãng') + ' chính hãng ↗' : 'Trang sản phẩm Tiến Bảo ↗') : 'Chưa có liên kết nguồn';
-        }]
+        { group: '01 · Mục đích & tính năng' },
+        { label: 'Khu vực sử dụng', value: function (item) { return h('strong', { className: 'shop-compare-purpose' }, item.purpose); } },
+        { label: 'Phù hợp khi', value: function (item) { return item.profile ? item.profile.fit : 'Cần đối chiếu nhu cầu với Tiến Bảo'; } },
+        { label: 'Ưu điểm đã xác minh', value: function (item) { return item.profile ? h('ul', { className: 'shop-compare-list' }, item.profile.strengths.map(function (point) { return h('li', { key: point }, point); })) : h('span', { className: 'shop-compare-unverified' }, 'Chưa có tài liệu tính năng đã đối chiếu'); } },
+        { label: 'Lưu ý sử dụng', value: function (item) { return item.profile ? item.profile.note : 'Cần xác nhận điều kiện thi công và hệ sơn phù hợp.'; } },
+        { group: '02 · Lượng dùng & chi phí tham khảo' },
+        { label: 'Độ phủ / định mức', value: function (item) { return item.plan ? (item.product.coverageLabel || item.product.coverage + ' m²/' + item.plan.unit + '/lớp') : 'Cần xác nhận định mức đúng quy cách'; } },
+        { label: 'Lượng cho 2 lớp + 10% hao hụt', value: function (item) { return item.plan ? item.plan.quantity + ' ' + item.plan.unit : 'Chưa thể tính'; } },
+        { label: 'Quy cách gợi ý', value: function (item) { return item.plan ? item.plan.packs : 'Cần xác nhận'; } },
+        { label: 'Chi phí vật tư tham khảo', value: function (item) { return item.plan && item.plan.cost ? h('strong', { className: 'shop-compare-cost' }, money(item.plan.cost)) : 'Cần báo giá'; } },
+        { label: 'So với mức thấp nhất', value: function (item) { var cost = item.plan && item.plan.cost; return !cost || knownCosts.length < 2 ? 'Chưa đủ giá để so sánh' : cost === lowestCost ? 'Mức thấp nhất trong các lựa chọn' : 'Cao hơn ' + money(cost - lowestCost); } },
+        { group: '03 · Nguồn thông tin' },
+        { label: 'Tính năng sản phẩm', value: function (item) { return comparisonSource(item.profile && item.profile.source, (item.product.brand || 'Hãng') + ' chính hãng'); } },
+        { label: 'Định mức kỹ thuật', value: function (item) { return item.product.technicalSourceUrl ? comparisonSource(item.product.technicalSourceUrl, 'Tài liệu hãng') : item.plan ? comparisonSource(item.product.url, 'Thông tin Tiến Bảo') : 'Chưa có định mức đối chiếu'; } },
+        { label: 'Giá & quy cách', value: function (item) { return comparisonSource(item.product.url, 'Trang sản phẩm Tiến Bảo'); } }
       ];
       return h('section', { className: 'shop-assistant-section', id: 'chon-son', 'aria-labelledby': 'shop-assistant-title' },
         h('div', { className: 'container' },
@@ -293,12 +308,17 @@
               );
             })),
             h('details', { className: 'shop-compare-details' },
-              h('summary', null, 'Xem bảng thông số chi tiết'),
-              h('p', { className: 'shop-compare-source-note' }, 'Ưu điểm lấy từ tài liệu hãng khi có nguồn. Điểm cần cân nhắc gồm chênh lệch chi phí và điều kiện sử dụng; không phải kết luận sản phẩm kém chất lượng.'),
+              h('summary', null, h('span', null, 'Bảng so sánh chi tiết', h('small', null, 'Mục đích · tính năng · lượng dùng · nguồn')), h('span', { className: 'shop-compare-summary-icon', 'aria-hidden': 'true' }, '⌄')),
+              h('div', { className: 'shop-compare-insight' + (mixedPurpose ? ' is-mixed' : ''), role: 'note' },
+                h('span', { className: 'shop-compare-insight-icon', 'aria-hidden': 'true' }, mixedPurpose ? '!' : '✓'),
+                h('div', null, h('strong', null, comparisonItems.length === 1 ? 'Chọn thêm sản phẩm để đối chiếu' : mixedPurpose ? 'Các sản phẩm phục vụ mục đích khác nhau' : 'Các sản phẩm cùng mục đích sử dụng'), h('p', null, comparisonItems.length === 1 ? 'Bạn có thể chọn tối đa 3 sản phẩm từ danh sách gợi ý.' : mixedPurpose ? 'Hãy chọn theo vị trí thi công trước khi so giá; sơn trần, sơn tường và chống thấm không thay thế trực tiếp cho nhau.' : 'Có thể đối chiếu tính năng và chi phí cho cùng nhu cầu.'))
+              ),
+              h('p', { className: 'shop-compare-source-note' }, 'Tính năng chỉ hiện khi đã đối chiếu tài liệu hãng. Lượng và chi phí là ước tính cho ' + state.area + ' m², 2 lớp và 10% hao hụt; chưa gồm nhân công hay vật tư khác.'),
               h('small', { className: 'shop-compare-swipe-hint' }, 'Vuốt ngang để xem thêm sản phẩm →'),
-              h('div', { className: 'shop-compare-scroll' }, h('table', null,
-                h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), selected.map(function (product) { return h('th', { scope: 'col', key: product.id }, product.name); }))),
-                h('tbody', null, rows.map(function (row) { return h('tr', { key: row[0] }, h('th', { scope: 'row' }, row[0]), selected.map(function (product) { return h('td', { key: product.id }, row[1](product)); })); }))
+              h('div', { className: 'shop-compare-scroll', role: 'region', 'aria-label': 'Bảng so sánh sản phẩm; có thể cuộn ngang' }, h('table', { className: 'shop-comparison-table', style: { minWidth: (220 + comparisonItems.length * 285) + 'px' } },
+                h('caption', null, 'So sánh ' + comparisonItems.length + ' sản phẩm cho ' + state.area + ' m²'),
+                h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), comparisonItems.map(function (item) { return h('th', { scope: 'col', key: item.product.id }, h('div', { className: 'shop-compare-column-head' }, h('div', { className: 'shop-compare-column-photo' }, item.product.image && h('img', { src: props.resolveImage(item.product.image), alt: '', loading: 'lazy', decoding: 'async' })), h('div', null, h('small', null, item.product.brand || 'SƠN TIẾN BẢO'), h('strong', null, item.product.name)))); }))),
+                h('tbody', null, rows.map(function (row) { return row.group ? h('tr', { key: row.group, className: 'shop-compare-section-row' }, h('th', { scope: 'rowgroup', colSpan: comparisonItems.length + 1 }, row.group)) : h('tr', { key: row.label }, h('th', { scope: 'row' }, row.label), comparisonItems.map(function (item) { return h('td', { key: item.product.id }, row.value(item)); })); }))
               ))
             ),
             h('div', { className: 'shop-compare-actions' },

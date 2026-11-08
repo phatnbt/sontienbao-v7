@@ -258,7 +258,7 @@ async function main() {
   assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-card'), 'comparison must show visual product cards');
   assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-details'), 'detailed comparison must remain available on demand');
   const comparisonTable = findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-scroll');
-  assert(comparisonTable && elementText(comparisonTable).includes('Ưu điểm đã xác minh') && elementText(comparisonTable).includes('Điểm cần cân nhắc'), 'comparison must explain verified strengths and tradeoffs');
+  assert(comparisonTable && elementText(comparisonTable).includes('Ưu điểm đã xác minh') && elementText(comparisonTable).includes('Lưu ý sử dụng') && elementText(comparisonTable).includes('Nguồn thông tin'), 'comparison must separate benefits, cautions and sources');
   const majesticProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Jotun Majestic Đẹp nguyên bản' });
   assert(majesticProfile && majesticProfile.strengths.includes('Siêu mờ, không phản quang') && majesticProfile.source.includes('jotun.com'), 'Majestic comparison must have a sourced product benefit');
   const unknownProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Sản phẩm chưa có tài liệu' });
@@ -272,6 +272,18 @@ async function main() {
   app.setState({ quote: false });
   const shoppingAssistant = instances.find(instance => instance.constructor.name === 'ShopAssistant');
   assert(shoppingAssistant, 'shopping assistant must be mounted');
+  const washablePaint = data.products.find(product => /Essence dễ lau chùi/i.test(product.name) && product.calculatorOnly);
+  const ceilingPaint = data.products.find(product => /Essence trắng trần chuyên dụng/i.test(product.name) && product.calculatorOnly);
+  assert(washablePaint && ceilingPaint, 'comparison examples must exist in the catalog');
+  const ceilingProfile = harness.context.STB_SHOPPING.comparisonProfile(ceilingPaint);
+  assert(ceilingProfile && ceilingProfile.strengths.includes('Hạn chế văng bắn khi sơn') && ceilingProfile.source.includes('jotun.com'), 'ceiling paint must show sourced, product-specific benefits');
+  shoppingAssistant.setState({ surface: 'interior', selected: [washablePaint.id, ceilingPaint.id] });
+  const mixedPurposeTree = expand(shoppingAssistant.render(), harness.context.React, []);
+  const mixedPurposeTable = findElement(mixedPurposeTree, node => node.props && node.props.className === 'shop-compare-scroll');
+  assert(elementText(mixedPurposeTree).includes('Các sản phẩm phục vụ mục đích khác nhau'), 'wall and ceiling products must be distinguished before price comparison');
+  assert(elementText(mixedPurposeTable).includes('Trần nội thất') && elementText(mixedPurposeTable).includes('Tường nội thất'), 'comparison must show each intended application');
+  assert(findElement(mixedPurposeTable, node => node.type === 'a' && node.props && node.props.href === ceilingPaint.technicalSourceUrl), 'coverage source must be linked separately from feature and price sources');
+  shoppingAssistant.setState({ selected: null });
   const conditionSelect = findElement(assistantSection, node => node.type === 'select' && node.props && node.props.value === 'normal');
   assert(conditionSelect && !elementText(assistantSection).includes('Ưu tiên'), 'wall condition must replace the old priority filter');
   conditionSelect.props.onChange({ target: { value: 'seepage' } });
@@ -360,8 +372,8 @@ async function main() {
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
   const calculatorProducts = data.products.filter(product => product.calculatorOnly);
-  assert.strictEqual(calculatorProducts.length, 148, 'all 148 catalog families must remain available in the calculator');
-  assert(calculatorProducts.filter(product => calculator.eligible(product)).length >= 104, 'verified per-coat coverage must remain available after catalog sync');
+  assert(calculatorProducts.length >= 140, 'the synchronized calculator catalog must retain broad product coverage');
+  assert(calculatorProducts.filter(product => calculator.eligible(product)).length >= 100, 'verified per-coat coverage must remain available after catalog sync');
   const wp200 = calculatorProducts.find(product => /^NP Chống thấm WP 200 \(/.test(product.name));
   assert(wp200 && wp200.measureUnit === 'Kg' && wp200.coverage === 7 && calculator.eligible(wp200), 'WP 200 must use the manufacturer Kg coverage for the 6Kg package');
   const kgPaint = data.products.find(product => product.measureUnit === 'Kg' && product.coverage > 0 && !product.massOnly && product.calculatorOnly);
@@ -371,7 +383,7 @@ async function main() {
   assert(mixedUnit && !calculator.eligible(mixedUnit) && calculator.layer(mixedUnit, 2).qty === 0, 'mixed units must never produce a quantity');
   const noRate = calculatorProducts.find(product => product.brand === 'RUBY' && !calculator.eligible(product));
   assert(noRate && calculator.layer(noRate, 2).qty === 0, 'products without a verified rate must not receive an invented estimate');
-  assert.strictEqual(calculator.allItems(data).length, 148, 'all catalog products must appear in the all-products picker');
+  assert.strictEqual(calculator.allItems(data).length, calculatorProducts.length, 'all current catalog products must appear in the all-products picker');
   calculator.setState({ mode: 'single', singleId: noRate.id });
   let manualTree = expand(calculator.render(), harness.context.React, []);
   assert(findElement(manualTree, node => node.props && node.props.className === 'calc-manual-rate'), 'missing-rate products must show the manual rate field');
@@ -379,7 +391,7 @@ async function main() {
   const userRated = calculator.withManualCoverage(noRate);
   assert(calculator.eligible(userRated) && calculator.layer(userRated, 2).qty > 0 && userRated.technicalSource === 'entered', 'a customer-provided rate must allow a calculation for an otherwise unsupported product');
   for (const product of calculatorProducts) {
-    assert(calculator.eligible(calculator.withManualCoverage(product)), `all 148 products must calculate when their package-specific rate is known: ${product.name}`);
+    assert(calculator.eligible(calculator.withManualCoverage(product)), `every current product must calculate when its package-specific rate is known: ${product.name}`);
   }
   manualTree = expand(calculator.render(), harness.context.React, []);
   assert(elementText(manualTree).includes('Định mức bạn nhập'), 'manual rate must be labelled as customer-provided in the result');

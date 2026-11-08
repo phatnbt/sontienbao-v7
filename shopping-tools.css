@@ -55,24 +55,46 @@
 .store .shop-compare-facts dt{color:#71817d}
 .store .shop-compare-facts dd{max-width:55%;margin:0;color:#1a3d39;font-weight:800;text-align:right}
 .store .shop-compare-detail-link{align-self:flex-start;margin-top:16px;color:#b52e29;font-size:13px;font-weight:900;text-decoration:none}
-.store .shop-compare-details{margin-top:16px;border:1px solid #e0e9e3;border-radius:13px;background:#fafcfb}
-.store .shop-compare-details summary{padding:13px 16px;color:#1b5c4c;font-size:13px;font-weight:800;cursor:pointer}
-.store .shop-compare-details[open] summary{border-bottom:1px solid #e0e9e3}
+.store .shop-compare-details{overflow:hidden;margin-top:20px;border:1px solid #d7e4db;border-radius:18px;background:#fff}
+.store .shop-compare-details summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;color:#143d39;font-size:17px;font-weight:850;list-style:none;cursor:pointer}
+.store .shop-compare-details summary::-webkit-details-marker{display:none}
+.store .shop-compare-details summary small{display:block;margin-top:4px;color:#738780;font-size:11px;font-weight:600}
+.store .shop-compare-details summary:focus-visible{outline:3px solid #75b7a0;outline-offset:-3px}
+.store .shop-compare-summary-icon{display:grid;flex:none;place-items:center;width:32px;height:32px;border-radius:50%;background:#e6f2eb;color:#13644e;font-size:22px;line-height:1;transition:transform .2s}
+.store .shop-compare-details[open] .shop-compare-summary-icon{transform:rotate(180deg)}
+.store .shop-compare-details[open] summary{border-bottom:1px solid #e5eee8}
 .store .shop-compare-details:not([open])>:not(summary){display:none}
-.store .shop-compare-source-note{margin:0;padding:12px 16px;color:#637775;font-size:12px;line-height:1.5}
-.store .shop-compare-swipe-hint{display:none;padding:0 16px 10px;color:#27715d;font-size:11px;font-weight:800}
+.store .shop-compare-insight{display:flex;align-items:flex-start;gap:12px;margin:18px 20px 0;padding:15px 17px;border:1px solid #dcece2;border-radius:13px;background:#f3faf5;color:#19473d}
+.store .shop-compare-insight.is-mixed{border-color:#f1dfbb;background:#fff9ec;color:#6f501e}
+.store .shop-compare-insight-icon{display:grid;flex:none;place-items:center;width:25px;height:25px;border-radius:50%;background:#1c7657;color:#fff;font-weight:900}
+.store .shop-compare-insight.is-mixed .shop-compare-insight-icon{background:#a97425}
+.store .shop-compare-insight strong{font-size:13px}
+.store .shop-compare-insight p{margin:3px 0 0;color:#4c6c62;font-size:12px;line-height:1.5}
+.store .shop-compare-insight.is-mixed p{color:#765f39}
+.store .shop-compare-source-note{margin:0;padding:12px 21px 16px;color:#637775;font-size:12px;line-height:1.5}
+.store .shop-compare-swipe-hint{display:none;padding:0 20px 10px;color:#27715d;font-size:11px;font-weight:800}
 .store .shop-compare-list{display:grid;gap:5px;margin:0;padding-left:17px}
 .store .shop-compare-source{color:#14604b;font-weight:800;text-decoration:underline;text-underline-offset:2px}
-.store .shop-compare-scroll{overflow-x:auto;border:1px solid #e3eae6;border-radius:14px}
-.store .shop-compare-details .shop-compare-scroll{border:0;border-radius:0 0 13px 13px}
-.store .shop-compare table{width:100%;min-width:650px;border-collapse:collapse;text-align:left}
-.store .shop-compare th,.store .shop-compare td{padding:15px 17px;border-bottom:1px solid #e5ece8;vertical-align:top;font-size:13px;line-height:1.5}
-.store .shop-compare tr:last-child th,.store .shop-compare tr:last-child td{border-bottom:0}
-.store .shop-compare thead th{background:#f5f8f6;color:#143b3d;font-size:14px}
-.store .shop-compare tbody th{width:220px;color:#607174;font-weight:700}
-.store .shop-compare tbody td{color:#142e32;font-weight:750}
-.store .shop-compare th:first-child{position:sticky;left:0;z-index:1;min-width:170px;background:#fafcfb}
-.store .shop-compare thead th:first-child{z-index:2;background:#f5f8f6}
+.store .shop-compare-unverified{color:#7a8985;font-weight:600}
+.store .shop-compare-scroll{overflow-x:auto;overscroll-behavior-inline:contain;touch-action:pan-x;scrollbar-color:#a8c9b7 #edf3ee}
+.store .shop-comparison-table{width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;text-align:left}
+.store .shop-comparison-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.store .shop-comparison-table th,.store .shop-comparison-table td{padding:15px 18px;border-bottom:1px solid #e9efeb;vertical-align:top;font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.store .shop-comparison-table tr:last-child th,.store .shop-comparison-table tr:last-child td{border-bottom:0}
+.store .shop-comparison-table thead th{background:#f3f8f4;color:#173f39;font-size:13px}
+.store .shop-comparison-table thead th:not(:first-child){border-left:1px solid #e6eee8}
+.store .shop-comparison-table tbody th[scope=row]{width:220px;color:#617670;font-weight:750}
+.store .shop-comparison-table tbody td{border-left:1px solid #eef2ef;color:#173532;font-weight:650}
+.store .shop-comparison-table tr:not(.shop-compare-section-row)>th:first-child{position:sticky;left:0;z-index:1;width:220px;min-width:220px;background:#fff}
+.store .shop-comparison-table thead th:first-child{z-index:2;background:#f3f8f4}
+.store .shop-compare-section-row th{padding:10px 18px;background:#eaf3ed;color:#1a6650;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.store .shop-compare-column-head{display:grid;grid-template-columns:68px minmax(0,1fr);align-items:center;gap:12px;min-height:80px}
+.store .shop-compare-column-photo{display:grid;place-items:center;width:68px;height:74px;padding:5px;border-radius:10px;background:#fff}
+.store .shop-compare-column-photo img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+.store .shop-compare-column-head small{display:block;margin-bottom:4px;color:#a03d32;font-size:10px;font-weight:900;letter-spacing:.06em}
+.store .shop-compare-column-head strong{display:block;color:#183631;font-size:13px;line-height:1.4}
+.store .shop-compare-purpose{display:inline-block;padding:4px 9px;border-radius:99px;background:#e6f3ed;color:#186349;font-size:11px}
+.store .shop-compare-cost{color:#bc3029;font-size:15px}
 .store .shop-compare-actions{display:flex;flex-wrap:wrap;align-items:start;gap:18px;margin-top:20px}
 .store .shop-compare-actions>.btn{min-height:48px}
 .store .shop-data-note{display:block;margin-top:16px;color:#6b7d80;line-height:1.5}
@@ -117,6 +139,13 @@
   .store .shop-compare{padding:18px}
   .store .shop-compare-cards{grid-template-columns:1fr}
   .store .shop-compare-swipe-hint{display:block}
+  .store .shop-compare-details summary{padding:15px 16px}
+  .store .shop-compare-insight{margin:14px 14px 0}
+  .store .shop-compare-source-note{padding:12px 15px}
+  .store .shop-comparison-table tr:not(.shop-compare-section-row)>th:first-child{width:132px;min-width:132px}
+  .store .shop-comparison-table th,.store .shop-comparison-table td{padding:12px;font-size:12px}
+  .store .shop-compare-column-head{grid-template-columns:54px minmax(0,1fr);gap:9px}
+  .store .shop-compare-column-photo{width:54px;height:62px}
   .store .shop-compare-heading,.store .project-gallery-footer{align-items:start;flex-direction:column}
   .store .project-gallery-card img{height:260px}
 }

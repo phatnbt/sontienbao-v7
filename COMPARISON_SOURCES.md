@@ -5,6 +5,7 @@
 | Dòng sản phẩm | Nguồn hãng |
 | --- | --- |
 | Essence Dễ Lau Chùi | [Jotun](https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean) |
+| Essence Trắng Trần Chuyên Dụng / Easy Ceiling | [Jotun](https://www.jotun.com/vn-en/decorative/products/interior/all-interior-products/essence-easy-ceiling-vn) |
 | Majestic Đẹp Nguyên Bản | [Jotun](https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/majestic-pure-color) |
 | Jotashield Bền Màu Toàn Diện, Che Phủ Vết Nứt, Tough Shield và Tough Shield Max | [Danh mục ngoại thất Jotun](https://www.jotun.com/vn-vi/decorative/products/exterior/all-exterior-products) |
 | Jotashield Sạch Vượt Trội | [Jotun](https://www.jotun.com/vn-vi/decorative/products/exterior/all-exterior-products/jotashield-ultra-clean) |
@@ -14,4 +15,4 @@
 | Matex Sắc Màu Dịu Mát, Matex | [Nippon Sắc Màu Dịu Mát](https://nipponpaint.com.vn/vi/son-noi-that/nippon-paint-matex-sac-mau-diu-mat), [Nippon Matex](https://nipponpaint.com.vn/vi/son-noi-that/son-nippon-matex) |
 | Odour-less Chùi Rửa Vượt Trội, Spot-less, Spot-less Plus | [Nippon Chùi Rửa Vượt Trội](https://nipponpaint.com.vn/vi/son-noi-that/son-nippon-odour-less-chui-rua-vuot-troi), [Nippon Spot-less](https://nipponpaint.com.vn/vi/son-noi-that/son-nippon-odour-less-spot-less), [Nippon Spot-less Plus](https://nipponpaint.com.vn/vi/son-noi-that/nippon-paint-spot-less-plus) |
 
-Các sản phẩm chưa có hồ sơ đối chiếu vẫn được so sánh theo dữ liệu catalog (thương hiệu, độ phủ, lượng và chi phí nếu đủ dữ liệu), kèm liên kết đến trang sản phẩm Tiến Bảo. Giao diện ghi rõ khi chưa thể kết luận về ưu điểm kỹ thuật. Flexipave cần định mức riêng cho từng lớp của hệ sân, nên không tính theo công thức sơn tường hai lớp.
+Các sản phẩm chưa có hồ sơ đối chiếu vẫn được so sánh theo dữ liệu catalog (mục đích sử dụng, độ phủ, lượng và chi phí nếu đủ dữ liệu), kèm liên kết đến trang sản phẩm Tiến Bảo. Bảng tách riêng nguồn tính năng, nguồn định mức và nguồn giá; mục đích sử dụng được suy ra từ tên và danh mục sản phẩm để nhắc khi các lựa chọn không cùng công năng. Giao diện ghi rõ khi chưa thể kết luận về ưu điểm kỹ thuật. Flexipave cần định mức riêng cho từng lớp của hệ sân, nên không tính theo công thức sơn tường hai lớp.
