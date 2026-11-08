@@ -359,11 +359,34 @@ async function main() {
 
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
+  const calculatorProducts = data.products.filter(product => product.calculatorOnly);
+  assert.strictEqual(calculatorProducts.length, 148, 'all 148 catalog families must remain available in the calculator');
+  assert(calculatorProducts.filter(product => calculator.eligible(product)).length >= 104, 'verified per-coat coverage must remain available after catalog sync');
+  const wp200 = calculatorProducts.find(product => /^NP Chống thấm WP 200 \(/.test(product.name));
+  assert(wp200 && wp200.measureUnit === 'Kg' && wp200.coverage === 7 && calculator.eligible(wp200), 'WP 200 must use the manufacturer Kg coverage for the 6Kg package');
   const kgPaint = data.products.find(product => product.measureUnit === 'Kg' && product.coverage > 0 && !product.massOnly && product.calculatorOnly);
   assert(kgPaint && calculator.eligible(kgPaint), 'matching Kg coverage and package units must be calculable');
   assert(calculator.layer(kgPaint, 2).qty > 0, 'matching Kg products must produce a quantity');
   const mixedUnit = data.products.find(product => product.massOnly && product.coverage > 0 && product.calculatorOnly);
   assert(mixedUnit && !calculator.eligible(mixedUnit) && calculator.layer(mixedUnit, 2).qty === 0, 'mixed units must never produce a quantity');
+  const noRate = calculatorProducts.find(product => product.brand === 'RUBY' && !calculator.eligible(product));
+  assert(noRate && calculator.layer(noRate, 2).qty === 0, 'products without a verified rate must not receive an invented estimate');
+  assert.strictEqual(calculator.allItems(data).length, 148, 'all catalog products must appear in the all-products picker');
+  calculator.setState({ mode: 'single', singleId: noRate.id });
+  let manualTree = expand(calculator.render(), harness.context.React, []);
+  assert(findElement(manualTree, node => node.props && node.props.className === 'calc-manual-rate'), 'missing-rate products must show the manual rate field');
+  calculator.setState({ manualCoverage: '8' });
+  const userRated = calculator.withManualCoverage(noRate);
+  assert(calculator.eligible(userRated) && calculator.layer(userRated, 2).qty > 0 && userRated.technicalSource === 'entered', 'a customer-provided rate must allow a calculation for an otherwise unsupported product');
+  for (const product of calculatorProducts) {
+    assert(calculator.eligible(calculator.withManualCoverage(product)), `all 148 products must calculate when their package-specific rate is known: ${product.name}`);
+  }
+  manualTree = expand(calculator.render(), harness.context.React, []);
+  assert(elementText(manualTree).includes('Định mức bạn nhập'), 'manual rate must be labelled as customer-provided in the result');
+  const manualQuoteButton = findElement(manualTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');
+  manualQuoteButton.props.onClick();
+  assert(app.state.quoteContext.items.some(item => item.id === noRate.id && item.quantity > 0), 'manual estimate must carry the selected product and quantity into the quote');
+  calculator.setState({ manualCoverage: '' });
   const calculatorTree = expand(calculator.render(), harness.context.React, []);
   const calculatorQuoteButton = findElement(calculatorTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');
   assert(calculatorQuoteButton && calculatorQuoteButton.props.onClick, 'calculator quote action must include a click handler');
