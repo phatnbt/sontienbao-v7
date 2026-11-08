@@ -148,7 +148,7 @@
   class EstimateActions extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { saved: savedEstimates(), status: '', emailDraft: false };
+      this.state = { saved: savedEstimates(), status: '' };
     }
     save() {
       var context = this.props.estimate;
@@ -175,24 +175,27 @@
       }
     }
     render() {
-      var self = this, context = this.props.estimate, site = this.props.site || {};
+      var self = this, context = this.props.estimate;
       if (!context || !(context.items || []).length) return null;
       return h('div', { className: 'estimate-actions', 'aria-label': 'Lưu và chia sẻ dự toán' },
-        h('div', { className: 'estimate-actions-row' },
-          h('button', { type: 'button', onClick: function () { self.save(); } }, 'Lưu dự toán'),
-          h('button', { type: 'button', onClick: function () { self.share(); } }, 'Chia sẻ / sao chép'),
-          h('button', { type: 'button', 'aria-expanded': this.state.emailDraft, onClick: function () { self.setState({ emailDraft: !self.state.emailDraft }); } }, 'Gửi qua email')
-        ),
-        this.state.emailDraft && h(EmailDraft, { message: estimateText(context), site: site }),
-        this.state.status && h('p', { className: 'estimate-status', role: 'status' }, this.state.status),
-        this.state.saved.length > 0 && h('details', { className: 'saved-estimates' },
-          h('summary', null, 'Dự toán đã lưu (' + this.state.saved.length + ')'),
-          this.state.saved.map(function (entry) {
-            return h('div', { className: 'saved-estimate', key: entry.id },
-              h('span', null, entry.date + ' · ' + entry.estimate.surface + ' · ' + entry.estimate.area + ' m²'),
-              h('button', { type: 'button', onClick: function () { self.share(entry.estimate); } }, 'Chia sẻ')
-            );
-          })
+        h('details', { className: 'estimate-actions-menu' },
+          h('summary', null, 'Lưu / chia sẻ dự toán'),
+          h('div', { className: 'estimate-actions-panel' },
+            h('div', { className: 'estimate-actions-row' },
+              h('button', { type: 'button', onClick: function () { self.save(); } }, 'Lưu trên thiết bị'),
+              h('button', { type: 'button', onClick: function () { self.share(); } }, 'Chia sẻ / sao chép')
+            ),
+            this.state.status && h('p', { className: 'estimate-status', role: 'status' }, this.state.status),
+            this.state.saved.length > 0 && h('details', { className: 'saved-estimates' },
+              h('summary', null, 'Dự toán đã lưu (' + this.state.saved.length + ')'),
+              this.state.saved.map(function (entry) {
+                return h('div', { className: 'saved-estimate', key: entry.id },
+                  h('span', null, entry.date + ' · ' + entry.estimate.surface + ' · ' + entry.estimate.area + ' m²'),
+                  h('button', { type: 'button', onClick: function () { self.share(entry.estimate); } }, 'Chia sẻ')
+                );
+              })
+            )
+          )
         )
       );
     }
@@ -307,7 +310,7 @@
               ))
             ),
             h('div', { className: 'shop-compare-actions' },
-              h('button', { type: 'button', className: 'btn btn-red', onClick: function () { props.onQuote(comparison); } }, 'Hỏi giá các sản phẩm đã chọn'),
+              h('button', { type: 'button', className: 'btn btn-red', onClick: function () { props.onQuote(comparison); } }, 'Nhận báo giá'),
               h(EstimateActions, { estimate: comparison, site: props.site })
             )
           ),

@@ -264,10 +264,9 @@ async function main() {
   assert(estimateActions, 'a shopping estimate must be available to save');
   estimateActions.save();
   assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 1, 'estimate must persist on this device');
-  const emailAction = findElement(expand(estimateActions.render(), harness.context.React, []), node => node.type === 'button' && elementText(node) === 'Gửi qua email');
-  assert(emailAction && emailAction.props.onClick, 'estimate email must offer an actionable fallback when no mail app is configured');
-  emailAction.props.onClick();
-  assert(findElement(expand(estimateActions.render(), harness.context.React, []), node => node.props && node.props.className === 'email-draft'), 'estimate email must show a copyable draft and webmail choices');
+  const estimateMenu = findElement(expand(estimateActions.render(), harness.context.React, []), node => node.props && node.props.className === 'estimate-actions-menu');
+  assert(estimateMenu && elementText(estimateMenu).includes('Lưu / chia sẻ dự toán'), 'optional estimate actions must be grouped behind one control');
+  assert(!findElement(estimateMenu, node => node.type === 'button' && elementText(node) === 'Gửi qua email'), 'estimate actions must not duplicate the quote email flow');
 
   const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
   assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');

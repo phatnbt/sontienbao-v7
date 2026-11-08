@@ -1,17 +1,17 @@
 # Graph Report - landing page  (2026-11-08)
 
 ## Corpus Check
-- 40 files · ~35,260 words
+- 40 files · ~35,269 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 14 file(s) not represented in the graph (top: .css 8, (none) 4, .bat 2)
 
 ## Summary
-- 585 nodes · 1369 edges · 39 communities (22 shown, 2 thin omitted)
+- 585 nodes · 1368 edges · 39 communities (22 shown, 2 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 89 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e5501350`
+- Built from commit: `435de2dc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -75,7 +75,7 @@ Cohesion: 0.08
 Nodes (73): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+65 more)
 
 ### Community 1 - "clone"
-Cohesion: 0.07
+Cohesion: 0.06
 Nodes (22): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), isPlain(), Leads() (+14 more)
 
 ### Community 2 - "admin-core.js"
@@ -99,7 +99,7 @@ Cohesion: 0.17
 Nodes (25): createProduct(), csrf(), deleteProduct(), dtParams(), duplicateProduct(), extractPublicProduct(), fetchJson(), fetchText() (+17 more)
 
 ### Community 8 - "itopApi"
-Cohesion: 0.11
+Cohesion: 0.12
 Nodes (6): itopApi(), ITopColorManager, ITopMediaManager, ITopProductManager, ITopQuickEdit, SecuritySettings()
 
 ### Community 9 - "App"
@@ -123,7 +123,7 @@ Cohesion: 0.33
 Nodes (9): consolidate(), family_key(), fmt_size(), is_legacy(), main(), norm(), package_unit(), parse_assignment() (+1 more)
 
 ### Community 14 - "shopping-tools.js"
-Cohesion: 0.17
+Cohesion: 0.16
 Nodes (13): EmailDraft, estimate(), EstimateActions, estimateContext(), estimateText(), isFinish(), matchesSurface(), money() (+5 more)
 
 ### Community 15 - "Sơn Tiến Bảo V7 — triển khai không cần Supabase"

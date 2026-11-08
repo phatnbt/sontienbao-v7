@@ -64,6 +64,12 @@
 .store .shop-compare-actions>.btn{min-height:48px}
 .store .shop-data-note{display:block;margin-top:16px;color:#6b7d80;line-height:1.5}
 .store .estimate-actions{flex:1;min-width:260px}
+.store .estimate-actions-menu>summary{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:9px 14px;border:1px solid #cbdad1;border-radius:10px;background:#f8faf8;color:#1a4546;font-size:13px;font-weight:800;list-style:none;cursor:pointer}
+.store .estimate-actions-menu>summary::-webkit-details-marker{display:none}
+.store .estimate-actions-menu>summary:after{content:'⌄';font-size:18px;line-height:1;transition:transform .2s}
+.store .estimate-actions-menu[open]>summary:after{transform:rotate(180deg)}
+.store .estimate-actions-panel{max-width:500px;margin-top:10px;padding:12px;border:1px solid #dce8df;border-radius:12px;background:#f7faf8}
+.store .estimate-actions-menu:not([open])>.estimate-actions-panel{display:none}
 .store .estimate-actions-row{display:flex;flex-wrap:wrap;gap:8px}
 .store .estimate-actions-row button,.store .estimate-actions-row a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:8px 12px;border:1px solid #cad8d0;border-radius:10px;background:#f8faf8;color:#1a4546;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}
 .store .estimate-actions-row :is(button,a):hover{background:#e8f2ec}
@@ -73,6 +79,8 @@
 .store .saved-estimate{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e8e2}
 .store .saved-estimate button{padding:5px 9px;border:1px solid #cad8d0;border-radius:7px;background:#fff;color:#1a5550;cursor:pointer}
 .store .calc-result .estimate-actions{margin-top:14px}
+.store .calc-result .estimate-actions-menu>summary{border-color:#335364;background:#112d3d;color:#e8f5f4}
+.store .calc-result .estimate-actions-panel{border-color:#335364;background:#0f2735}
 .store .calc-result .estimate-actions-row :is(button,a){border-color:#335364;background:#112d3d;color:#e8f5f4}
 .store .calc-result .estimate-actions-row :is(button,a):hover{background:#1c4051}
 .store .calc-result .estimate-status,.store .calc-result .saved-estimates{color:#a7ded0}
