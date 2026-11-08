@@ -19,12 +19,14 @@ function storage() {
 
 function elementText(node) {
   if (node == null || node === false || node === true) return '';
+  if (Array.isArray(node)) return node.map(elementText).join(' ');
   if (typeof node === 'string' || typeof node === 'number') return String(node);
   const children = node.props && node.props.children;
   return (Array.isArray(children) ? children : [children]).map(elementText).join(' ').replace(/\s+/g, ' ').trim();
 }
 
 function findElement(node, predicate) {
+  if (Array.isArray(node)) return node.map(child => findElement(child, predicate)).find(Boolean) || null;
   if (!node || typeof node !== 'object') return null;
   if (predicate(node)) return node;
   const children = node.props && node.props.children;
@@ -151,6 +153,7 @@ function runFile(context, filename) {
 }
 
 function expand(node, React, instances) {
+  if (Array.isArray(node)) return node.map(child => expand(child, React, instances));
   if (node == null || node === false || node === true || typeof node !== 'object') return node;
   if (typeof node.type === 'function') {
     if (node.type.prototype instanceof React.Component) {
@@ -248,6 +251,13 @@ async function main() {
   assert(assistantSection && elementText(assistantSection).toLowerCase().includes('so sánh'), 'guided product selection and comparison must render');
   assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-card'), 'comparison must show visual product cards');
   assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-details'), 'detailed comparison must remain available on demand');
+  const comparisonTable = findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-scroll');
+  assert(comparisonTable && elementText(comparisonTable).includes('Ưu điểm đã xác minh') && elementText(comparisonTable).includes('Điểm cần cân nhắc'), 'comparison must explain verified strengths and tradeoffs');
+  const majesticProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Jotun Majestic Đẹp nguyên bản' });
+  assert(majesticProfile && majesticProfile.strengths.includes('Siêu mờ, không phản quang') && majesticProfile.source.includes('jotun.com'), 'Majestic comparison must have a sourced product benefit');
+  const unknownProfile = harness.context.STB_SHOPPING.comparisonProfile({ name: 'Sản phẩm chưa có tài liệu' });
+  assert.strictEqual(unknownProfile, null, 'unknown products must not receive invented technical benefits');
+  assert(harness.context.STB_SHOPPING.comparisonProfile({ name: 'Flexipave Coating Smooth' }).source.includes('terraco.com.vn'), 'sports coating must point to the manufacturer datasheet');
   const gallerySection = findElement(tree, node => node.props && node.props.id === 'y-tuong-cong-trinh');
   assert(gallerySection && elementText(gallerySection).includes('ẢNH MINH HOẠ'), 'generated gallery must identify its images as illustrations');
   const galleryQuote = findElement(gallerySection, node => node.type === 'button' && elementText(node).includes('Nhờ tư vấn'));
@@ -263,7 +273,14 @@ async function main() {
   const estimateActions = instances.find(instance => instance.constructor.name === 'EstimateActions' && (instance.props.estimate.items || []).length);
   assert(estimateActions, 'a shopping estimate must be available to save');
   estimateActions.save();
-  assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 1, 'estimate must persist on this device');
+  estimateActions.save();
+  assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 2, 'estimates must persist on this device');
+  assert(findElement(expand(estimateActions.render(), harness.context.React, []), node => node.type === 'button' && String(node.props['aria-label'] || '').startsWith('Xóa dự toán')), 'saved estimate must expose a labelled delete button');
+  const savedId = estimateActions.state.saved[0].id;
+  assert(typeof estimateActions.removeSaved === 'function', 'saved estimates must offer a delete action');
+  estimateActions.removeSaved(savedId);
+  assert.strictEqual(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length, 1, 'deleting one estimate must retain other saved estimates');
+  assert.strictEqual(harness.context.STB_SHOPPING.estimate({ name: 'Flexipave Coating Smooth', coverage: 5, unit: '20Kg', priceBySize: { 20: 100000 } }, 100), null, 'sports systems must not use the wall-paint two-coat estimate');
   const estimateMenu = findElement(expand(estimateActions.render(), harness.context.React, []), node => node.props && node.props.className === 'estimate-actions-menu');
   assert(estimateMenu && elementText(estimateMenu).includes('Lưu / chia sẻ dự toán'), 'optional estimate actions must be grouped behind one control');
   assert(!findElement(estimateMenu, node => node.type === 'button' && elementText(node) === 'Gửi qua email'), 'estimate actions must not duplicate the quote email flow');

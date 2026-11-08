@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1794134476.4724672,
-    "seen": 1794134725.4521854,
-    "ast_hash": "b629d14c6c519434163d92620b6e98c6",
+    "mtime": 1794135894.7660458,
+    "seen": 1794136132.660701,
+    "ast_hash": "0f77e59355891ae3df65d3e2357ed8a4",
     "semantic_hash": ""
   },
   "asset-path-fix.js": {
@@ -222,9 +222,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794135090.0124333,
-    "seen": 1794135152.0144005,
-    "ast_hash": "f047050c48d6b734f9e9802b1ebd5a08",
+    "mtime": 1794136003.2490406,
+    "seen": 1794136132.660701,
+    "ast_hash": "a9f02f66984e4991c175ef30b8745eb1",
     "semantic_hash": ""
   },
   "START-HERE.txt": {
@@ -264,15 +264,15 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794135081.7847698,
-    "seen": 1794135152.0144005,
-    "ast_hash": "fdd15d94792c1789c3bb269beedeb8ca",
+    "mtime": 1794136018.0687525,
+    "seen": 1794136132.660701,
+    "ast_hash": "3aa9302ac75b1718d21a59e002d53a0c",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
-    "mtime": 1794135073.9849129,
-    "seen": 1794135152.0144005,
-    "ast_hash": "eafcc740db1e896111e5aec14dbe3d1c",
+    "mtime": 1794136075.134875,
+    "seen": 1794136132.660701,
+    "ast_hash": "5ca67798910acee08a388e1c34fc525b",
     "semantic_hash": ""
   },
   "graphify-out/memory/query_20260831_124237_ki\u1ec3m_tra_to\u00e0n_b\u1ed9_ch\u1ee9c_n\u0103ng_landing_page_v\u00e0_admin.md": {
@@ -294,9 +294,15 @@
     "semantic_hash": ""
   },
   "shopping-tools.js": {
-    "mtime": 1794135065.376356,
-    "seen": 1794135152.0144005,
-    "ast_hash": "a59c24967610e214d2ee1670207d7336",
+    "mtime": 1794136106.4570558,
+    "seen": 1794136132.660701,
+    "ast_hash": "c7107af8126e031a1cba7da120ba5821",
+    "semantic_hash": ""
+  },
+  "COMPARISON_SOURCES.md": {
+    "mtime": 1794135998.4745557,
+    "seen": 1794136132.660701,
+    "ast_hash": "91aac019ba4d3eff71dadbea6df1976c",
     "semantic_hash": ""
   }
 }

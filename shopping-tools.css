@@ -52,6 +52,11 @@
 .store .shop-compare-details{margin-top:16px;border:1px solid #e0e9e3;border-radius:13px;background:#fafcfb}
 .store .shop-compare-details summary{padding:13px 16px;color:#1b5c4c;font-size:13px;font-weight:800;cursor:pointer}
 .store .shop-compare-details[open] summary{border-bottom:1px solid #e0e9e3}
+.store .shop-compare-details:not([open])>:not(summary){display:none}
+.store .shop-compare-source-note{margin:0;padding:12px 16px;color:#637775;font-size:12px;line-height:1.5}
+.store .shop-compare-swipe-hint{display:none;padding:0 16px 10px;color:#27715d;font-size:11px;font-weight:800}
+.store .shop-compare-list{display:grid;gap:5px;margin:0;padding-left:17px}
+.store .shop-compare-source{color:#14604b;font-weight:800;text-decoration:underline;text-underline-offset:2px}
 .store .shop-compare-scroll{overflow-x:auto;border:1px solid #e3eae6;border-radius:14px}
 .store .shop-compare-details .shop-compare-scroll{border:0;border-radius:0 0 13px 13px}
 .store .shop-compare table{width:100%;min-width:650px;border-collapse:collapse;text-align:left}
@@ -60,6 +65,8 @@
 .store .shop-compare thead th{background:#f5f8f6;color:#143b3d;font-size:14px}
 .store .shop-compare tbody th{width:220px;color:#607174;font-weight:700}
 .store .shop-compare tbody td{color:#142e32;font-weight:750}
+.store .shop-compare th:first-child{position:sticky;left:0;z-index:1;min-width:170px;background:#fafcfb}
+.store .shop-compare thead th:first-child{z-index:2;background:#f5f8f6}
 .store .shop-compare-actions{display:flex;flex-wrap:wrap;align-items:start;gap:18px;margin-top:20px}
 .store .shop-compare-actions>.btn{min-height:48px}
 .store .shop-data-note{display:block;margin-top:16px;color:#6b7d80;line-height:1.5}
@@ -76,8 +83,10 @@
 .store .estimate-status{margin:8px 0 0;color:#196e56;font-size:12px;font-weight:700}
 .store .saved-estimates{margin-top:10px;color:#4a6265;font-size:12px}
 .store .saved-estimates summary{cursor:pointer;font-weight:800}
-.store .saved-estimate{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e0e8e2}
+.store .saved-estimate{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0;border-bottom:1px solid #e0e8e2}
+.store .saved-estimate-actions{display:flex;flex-shrink:0;gap:6px}
 .store .saved-estimate button{padding:5px 9px;border:1px solid #cad8d0;border-radius:7px;background:#fff;color:#1a5550;cursor:pointer}
+.store .saved-estimate .delete-saved-estimate{border-color:#edccc9;color:#ad312a}
 .store .calc-result .estimate-actions{margin-top:14px}
 .store .calc-result .estimate-actions-menu>summary{border-color:#335364;background:#112d3d;color:#e8f5f4}
 .store .calc-result .estimate-actions-panel{border-color:#335364;background:#0f2735}
@@ -124,6 +133,7 @@
   .store .shop-recommendation-content{padding:15px}
   .store .shop-compare{padding:18px}
   .store .shop-compare-cards{grid-template-columns:1fr}
+  .store .shop-compare-swipe-hint{display:block}
   .store .shop-compare-heading,.store .project-gallery-footer{align-items:start;flex-direction:column}
   .store .project-gallery-card img{height:260px}
 }

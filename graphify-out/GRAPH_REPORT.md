@@ -1,17 +1,17 @@
 # Graph Report - landing page  (2026-11-08)
 
 ## Corpus Check
-- 40 files · ~35,269 words
+- 41 files · ~36,843 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 14 file(s) not represented in the graph (top: .css 8, (none) 4, .bat 2)
 
 ## Summary
-- 585 nodes · 1368 edges · 39 communities (22 shown, 2 thin omitted)
-- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 89 edges (avg confidence: 0.85)
+- 589 nodes · 1376 edges · 39 communities (22 shown, 2 thin omitted)
+- Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 89 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `435de2dc`
+- Built from commit: `fe5769d1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -75,8 +75,8 @@ Cohesion: 0.08
 Nodes (73): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+65 more)
 
 ### Community 1 - "clone"
-Cohesion: 0.06
-Nodes (22): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), isPlain(), Leads() (+14 more)
+Cohesion: 0.07
+Nodes (20): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), isPlain(), Leads() (+12 more)
 
 ### Community 2 - "admin-core.js"
 Cohesion: 0.14
@@ -99,12 +99,12 @@ Cohesion: 0.17
 Nodes (25): createProduct(), csrf(), deleteProduct(), dtParams(), duplicateProduct(), extractPublicProduct(), fetchJson(), fetchText() (+17 more)
 
 ### Community 8 - "itopApi"
-Cohesion: 0.12
+Cohesion: 0.11
 Nodes (6): itopApi(), ITopColorManager, ITopMediaManager, ITopProductManager, ITopQuickEdit, SecuritySettings()
 
 ### Community 9 - "App"
-Cohesion: 0.08
-Nodes (11): AnimatedStat, begin(), tick(), App, BackToTop, goRealAdmin(), isLocalPreview(), nextFrame() (+3 more)
+Cohesion: 0.07
+Nodes (13): AnimatedStat, begin(), tick(), App, BackToTop, goRealAdmin(), isLocalPreview(), loadLeads() (+5 more)
 
 ### Community 10 - "sync_full_calculator_catalog_resilient.py"
 Cohesion: 0.26
@@ -124,7 +124,7 @@ Nodes (9): consolidate(), family_key(), fmt_size(), is_legacy(), main(), norm(),
 
 ### Community 14 - "shopping-tools.js"
 Cohesion: 0.16
-Nodes (13): EmailDraft, estimate(), EstimateActions, estimateContext(), estimateText(), isFinish(), matchesSurface(), money() (+5 more)
+Nodes (14): comparisonProfile(), EmailDraft, estimate(), EstimateActions, estimateContext(), estimateText(), isFinish(), matchesSurface() (+6 more)
 
 ### Community 15 - "Sơn Tiến Bảo V7 — triển khai không cần Supabase"
 Cohesion: 0.22
@@ -151,15 +151,15 @@ Cohesion: 0.83
 Nodes (3): applyFeaturedSeoCopy(), normalize(), start()
 
 ### Community 27 - "Sơn Tiến Bảo V7"
-Cohesion: 0.50
-Nodes (3): Hỗ trợ chọn mua, Kiểm tra nhanh, Sơn Tiến Bảo V7
+Cohesion: 0.33
+Nodes (4): Nguồn cho bảng so sánh sản phẩm, Hỗ trợ chọn mua, Kiểm tra nhanh, Sơn Tiến Bảo V7
 
 ### Community 41 - "smoke.js"
 Cohesion: 0.24
 Nodes (13): assert, elementText(), expand(), findElement(), fs, main(), makeContext(), path (+5 more)
 
 ## Knowledge Gaps
-- **21 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+16 more)
+- **22 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+17 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 84 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -177,6 +177,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Are the 16 inferred relationships involving `Icon()` (e.g. with `.render()` and `BuyingJourney()`) actually correct?**
   _`Icon()` has 16 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `fs`, `path`, `vm` to the rest of the system?**
-  _21 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _22 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `sync_full_calculator_catalog.py` be split into smaller, more focused modules?**
   _Cohesion score 0.08441558441558442 - nodes in this community are weakly interconnected._

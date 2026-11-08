@@ -25,6 +25,7 @@ Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ tr�
 
 - **Chọn sơn nhanh:** lọc theo khu vực, ưu tiên, diện tích và thương hiệu; gợi ý sản phẩm phù hợp từ catalog hiện có.
 - **So sánh:** chọn tối đa ba sản phẩm để xem độ phủ, lượng cho hai lớp, quy cách và chi phí vật tư tham khảo. Sản phẩm thiếu dữ liệu hoặc không khớp đơn vị được đánh dấu cần xác nhận.
+- **Ưu điểm và điểm cần cân nhắc:** hiển thị khi đã đối chiếu tài liệu hãng; bảng dẫn thẳng tới nguồn. Danh sách nguồn và giới hạn dữ liệu nằm trong [COMPARISON_SOURCES.md](COMPARISON_SOURCES.md).
 - **Dự toán:** nút báo giá là hành động chính; các thao tác lưu tối đa năm bản, chia sẻ và sao chép nằm trong mục phụ. Email hỏi giá kèm sản phẩm đã chọn được soạn từ form báo giá.
 - **Ý tưởng công trình:** ba ảnh AI minh hoạ nội thất, ngoại thất và sân thể thao. Ảnh được ghi rõ là minh hoạ, không đại diện cho công trình đã thi công.
 

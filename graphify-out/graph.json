@@ -157,7 +157,7 @@
       "file_type": "code",
       "norm_label": "emaildraft",
       "source_file": "shopping-tools.js",
-      "source_location": "L111"
+      "source_location": "L134"
     },
     {
       "id": "shopping_tools_estimateactions",
@@ -170,7 +170,7 @@
       "file_type": "code",
       "norm_label": "estimateactions",
       "source_file": "shopping-tools.js",
-      "source_location": "L148"
+      "source_location": "L171"
     },
     {
       "id": "shopping_tools_shopassistant",
@@ -183,7 +183,7 @@
       "file_type": "code",
       "norm_label": "shopassistant",
       "source_file": "shopping-tools.js",
-      "source_location": "L204"
+      "source_location": "L237"
     },
     {
       "id": "app_calculator",
@@ -1299,30 +1299,6 @@
       "source_location": "L806"
     },
     {
-      "id": "app_app_closeannouncement",
-      "label": ".closeAnnouncement()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".closeannouncement()",
-      "source_file": "app.js",
-      "source_location": "L130"
-    },
-    {
-      "id": "app_app_scheduleannouncement",
-      "label": ".scheduleAnnouncement()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".scheduleannouncement()",
-      "source_file": "app.js",
-      "source_location": "L129"
-    },
-    {
       "id": "app_app_updatedata",
       "label": ".updateData()",
       "_callable": true,
@@ -1455,18 +1431,6 @@
       "source_location": "L18"
     },
     {
-      "id": "app_itopmediamanager_render",
-      "label": ".render()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "app.js",
-      "source_location": "L880"
-    },
-    {
       "id": "app_leads",
       "label": "Leads()",
       "_callable": true,
@@ -1513,18 +1477,6 @@
       "norm_label": "loaddata()",
       "source_file": "app.js",
       "source_location": "L38"
-    },
-    {
-      "id": "app_loadleads",
-      "label": "loadLeads()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "loadleads()",
-      "source_file": "app.js",
-      "source_location": "L57"
     },
     {
       "id": "app_mediamanager_constructor",
@@ -1743,18 +1695,6 @@
       "source_location": "L927"
     },
     {
-      "id": "app_quotemodal_submit",
-      "label": ".submit()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": ".submit()",
-      "source_file": "app.js",
-      "source_location": "L771"
-    },
-    {
       "id": "app_savedata",
       "label": "saveData()",
       "_callable": true,
@@ -1837,18 +1777,6 @@
       "norm_label": ".set()",
       "source_file": "app.js",
       "source_location": "L1017"
-    },
-    {
-      "id": "app_storageget",
-      "label": "storageGet()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "clone",
-      "file_type": "code",
-      "norm_label": "storageget()",
-      "source_file": "app.js",
-      "source_location": "L13"
     },
     {
       "id": "app_storageset",
@@ -3183,6 +3111,18 @@
       "source_location": "L9"
     },
     {
+      "id": "shopping_tools_comparisonprofile",
+      "label": "comparisonProfile()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "shopping-tools.js",
+      "file_type": "code",
+      "norm_label": "comparisonprofile()",
+      "source_file": "shopping-tools.js",
+      "source_location": "L40"
+    },
+    {
       "id": "shopping_tools_emaildraft_constructor",
       "label": ".constructor()",
       "_callable": true,
@@ -3192,7 +3132,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L112"
+      "source_location": "L135"
     },
     {
       "id": "shopping_tools_emaildraft_copy",
@@ -3204,7 +3144,7 @@
       "file_type": "code",
       "norm_label": ".copy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L113"
+      "source_location": "L136"
     },
     {
       "id": "shopping_tools_emaildraft_fallbackcopy",
@@ -3216,7 +3156,7 @@
       "file_type": "code",
       "norm_label": ".fallbackcopy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L119"
+      "source_location": "L142"
     },
     {
       "id": "shopping_tools_emaildraft_render",
@@ -3228,7 +3168,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L126"
+      "source_location": "L149"
     },
     {
       "id": "shopping_tools_estimate",
@@ -3240,7 +3180,7 @@
       "file_type": "code",
       "norm_label": "estimate()",
       "source_file": "shopping-tools.js",
-      "source_location": "L32"
+      "source_location": "L54"
     },
     {
       "id": "shopping_tools_estimateactions_constructor",
@@ -3252,7 +3192,19 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L149"
+      "source_location": "L172"
+    },
+    {
+      "id": "shopping_tools_estimateactions_removesaved",
+      "label": ".removeSaved()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 14,
+      "community_name": "shopping-tools.js",
+      "file_type": "code",
+      "norm_label": ".removesaved()",
+      "source_file": "shopping-tools.js",
+      "source_location": "L200"
     },
     {
       "id": "shopping_tools_estimateactions_render",
@@ -3264,7 +3216,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L177"
+      "source_location": "L207"
     },
     {
       "id": "shopping_tools_estimateactions_save",
@@ -3276,7 +3228,7 @@
       "file_type": "code",
       "norm_label": ".save()",
       "source_file": "shopping-tools.js",
-      "source_location": "L153"
+      "source_location": "L176"
     },
     {
       "id": "shopping_tools_estimateactions_share",
@@ -3288,7 +3240,7 @@
       "file_type": "code",
       "norm_label": ".share()",
       "source_file": "shopping-tools.js",
-      "source_location": "L163"
+      "source_location": "L186"
     },
     {
       "id": "shopping_tools_estimatecontext",
@@ -3300,7 +3252,7 @@
       "file_type": "code",
       "norm_label": "estimatecontext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L71"
+      "source_location": "L94"
     },
     {
       "id": "shopping_tools_estimatetext",
@@ -3312,7 +3264,7 @@
       "file_type": "code",
       "norm_label": "estimatetext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L92"
+      "source_location": "L115"
     },
     {
       "id": "shopping_tools_isfinish",
@@ -3336,7 +3288,7 @@
       "file_type": "code",
       "norm_label": "matchessurface()",
       "source_file": "shopping-tools.js",
-      "source_location": "L22"
+      "source_location": "L44"
     },
     {
       "id": "shopping_tools_money",
@@ -3360,7 +3312,7 @@
       "file_type": "code",
       "norm_label": "projectgallery()",
       "source_file": "shopping-tools.js",
-      "source_location": "L323"
+      "source_location": "L372"
     },
     {
       "id": "shopping_tools_savedestimates",
@@ -3372,7 +3324,7 @@
       "file_type": "code",
       "norm_label": "savedestimates()",
       "source_file": "shopping-tools.js",
-      "source_location": "L104"
+      "source_location": "L127"
     },
     {
       "id": "shopping_tools_score",
@@ -3384,7 +3336,7 @@
       "file_type": "code",
       "norm_label": "score()",
       "source_file": "shopping-tools.js",
-      "source_location": "L58"
+      "source_location": "L81"
     },
     {
       "id": "shopping_tools_shopassistant_choose",
@@ -3396,7 +3348,7 @@
       "file_type": "code",
       "norm_label": ".choose()",
       "source_file": "shopping-tools.js",
-      "source_location": "L209"
+      "source_location": "L242"
     },
     {
       "id": "shopping_tools_shopassistant_constructor",
@@ -3408,7 +3360,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L205"
+      "source_location": "L238"
     },
     {
       "id": "shopping_tools_shopassistant_render",
@@ -3420,7 +3372,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L220"
+      "source_location": "L253"
     },
     {
       "id": "shopping_tools_text",
@@ -4848,7 +4800,7 @@
       "file_type": "code",
       "norm_label": "expand()",
       "source_file": "tests/smoke.js",
-      "source_location": "L153"
+      "source_location": "L155"
     },
     {
       "id": "tests_smoke_findelement",
@@ -4860,7 +4812,7 @@
       "file_type": "code",
       "norm_label": "findelement()",
       "source_file": "tests/smoke.js",
-      "source_location": "L27"
+      "source_location": "L28"
     },
     {
       "id": "tests_smoke_main",
@@ -4872,7 +4824,7 @@
       "file_type": "code",
       "norm_label": "main()",
       "source_file": "tests/smoke.js",
-      "source_location": "L202"
+      "source_location": "L205"
     },
     {
       "id": "tests_smoke_makecontext",
@@ -4884,7 +4836,7 @@
       "file_type": "code",
       "norm_label": "makecontext()",
       "source_file": "tests/smoke.js",
-      "source_location": "L39"
+      "source_location": "L41"
     },
     {
       "id": "tests_smoke_runfile",
@@ -4896,7 +4848,7 @@
       "file_type": "code",
       "norm_label": "runfile()",
       "source_file": "tests/smoke.js",
-      "source_location": "L148"
+      "source_location": "L150"
     },
     {
       "id": "tests_smoke_storage",
@@ -4920,7 +4872,7 @@
       "file_type": "code",
       "norm_label": "testseoobserverisidempotent()",
       "source_file": "tests/smoke.js",
-      "source_location": "L169"
+      "source_location": "L172"
     },
     {
       "id": "tests_smoke_testseoobserverisidempotent_textnode",
@@ -4932,7 +4884,7 @@
       "file_type": "code",
       "norm_label": "textnode()",
       "source_file": "tests/smoke.js",
-      "source_location": "L171"
+      "source_location": "L174"
     },
     {
       "id": "admin_v2_b64",
@@ -5739,6 +5691,18 @@
       "source_location": "L878"
     },
     {
+      "id": "app_itopmediamanager_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "itopApi",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "app.js",
+      "source_location": "L880"
+    },
+    {
       "id": "app_itopmediamanager_upload",
       "label": ".upload()",
       "_callable": true,
@@ -5955,6 +5919,18 @@
       "source_location": "L738"
     },
     {
+      "id": "app_app_closeannouncement",
+      "label": ".closeAnnouncement()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": ".closeannouncement()",
+      "source_file": "app.js",
+      "source_location": "L130"
+    },
+    {
       "id": "app_app_componentdidmount",
       "label": ".componentDidMount()",
       "_callable": true,
@@ -6075,6 +6051,18 @@
       "source_location": "L128"
     },
     {
+      "id": "app_app_scheduleannouncement",
+      "label": ".scheduleAnnouncement()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": ".scheduleannouncement()",
+      "source_file": "app.js",
+      "source_location": "L129"
+    },
+    {
       "id": "app_backtotop_componentdidmount",
       "label": ".componentDidMount()",
       "_callable": true,
@@ -6159,6 +6147,18 @@
       "source_location": "L69"
     },
     {
+      "id": "app_loadleads",
+      "label": "loadLeads()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": "loadleads()",
+      "source_file": "app.js",
+      "source_location": "L57"
+    },
+    {
       "id": "app_nextframe",
       "label": "nextFrame()",
       "_callable": true,
@@ -6219,6 +6219,18 @@
       "source_location": "L773"
     },
     {
+      "id": "app_quotemodal_submit",
+      "label": ".submit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": ".submit()",
+      "source_file": "app.js",
+      "source_location": "L771"
+    },
+    {
       "id": "app_shoulduseitopadmin",
       "label": "shouldUseITopAdmin()",
       "_callable": true,
@@ -6241,6 +6253,18 @@
       "norm_label": "stopframe()",
       "source_file": "app.js",
       "source_location": "L12"
+    },
+    {
+      "id": "app_storageget",
+      "label": "storageGet()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "App",
+      "file_type": "code",
+      "norm_label": "storageget()",
+      "source_file": "app.js",
+      "source_location": "L13"
     },
     {
       "id": "scripts_sync_calculator_catalog",
@@ -6699,6 +6723,30 @@
       "node_kind": "heading",
       "norm_label": "graphify",
       "source_file": "AGENTS.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "comparison_sources",
+      "label": "COMPARISON_SOURCES.md",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "S\u01a1n Ti\u1ebfn B\u1ea3o V7",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "comparison_sources.md",
+      "source_file": "COMPARISON_SOURCES.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "comparison_sources_ngu\u1ed3n_cho_b\u1ea3ng_so_s\u00e1nh_s\u1ea3n_ph\u1ea9m",
+      "label": "Ngu\u1ed3n cho b\u1ea3ng so s\u00e1nh s\u1ea3n ph\u1ea9m",
+      "_origin": "ast",
+      "community": 27,
+      "community_name": "S\u01a1n Ti\u1ebfn B\u1ea3o V7",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "nguon cho bang so sanh san pham",
+      "source_file": "COMPARISON_SOURCES.md",
       "source_location": "L1"
     },
     {
@@ -15116,6 +15164,18 @@
       "weight": 1.0
     },
     {
+      "source": "shopping_tools_comparisonprofile",
+      "target": "shopping_tools_text",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
       "source": "shopping_tools_emaildraft_copy",
       "target": "shopping_tools_emaildraft_fallbackcopy",
       "relation": "calls",
@@ -15124,7 +15184,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L116",
+      "source_location": "L139",
       "weight": 1.0
     },
     {
@@ -15136,19 +15196,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L141",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimate",
-      "target": "shopping_tools_unitof",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L35",
+      "source_location": "L164",
       "weight": 1.0
     },
     {
@@ -15160,7 +15208,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L36",
+      "source_location": "L55",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimate",
+      "target": "shopping_tools_unitof",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -15172,7 +15232,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L151",
+      "source_location": "L174",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimateactions_removesaved",
+      "target": "shopping_tools_savedestimates",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L201",
       "weight": 1.0
     },
     {
@@ -15184,7 +15256,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L185",
+      "source_location": "L215",
       "weight": 1.0
     },
     {
@@ -15196,7 +15268,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L186",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimateactions_render",
+      "target": "shopping_tools_estimateactions_removesaved",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
@@ -15208,7 +15292,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L157",
+      "source_location": "L180",
       "weight": 1.0
     },
     {
@@ -15220,7 +15304,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L164",
+      "source_location": "L187",
       "weight": 1.0
     },
     {
@@ -15232,19 +15316,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L166",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimatecontext",
-      "target": "shopping_tools_estimate",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L73",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -15256,7 +15328,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L78",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimatecontext",
+      "target": "shopping_tools_estimate",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -15268,7 +15352,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L100",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -15292,7 +15376,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L24",
+      "source_location": "L46",
       "weight": 1.0
     },
     {
@@ -15304,7 +15388,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L59",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -15316,7 +15400,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L65",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -15328,7 +15412,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L212",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -15340,7 +15424,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L212",
+      "source_location": "L245",
       "weight": 1.0
     },
     {
@@ -15352,7 +15436,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L214",
+      "source_location": "L247",
       "weight": 1.0
     },
     {
@@ -15364,7 +15448,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L224",
+      "source_location": "L257",
       "weight": 1.0
     },
     {
@@ -15376,7 +15460,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L224",
+      "source_location": "L257",
       "weight": 1.0
     },
     {
@@ -15388,7 +15472,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L226",
+      "source_location": "L259",
       "weight": 1.0
     },
     {
@@ -15400,7 +15484,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L230",
+      "source_location": "L263",
       "weight": 1.0
     },
     {
@@ -15412,7 +15496,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L231",
+      "source_location": "L264",
       "weight": 1.0
     },
     {
@@ -15424,7 +15508,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L236",
+      "source_location": "L269",
       "weight": 1.0
     },
     {
@@ -15436,7 +15520,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L239",
+      "source_location": "L272",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_comparisonprofile",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L273",
       "weight": 1.0
     },
     {
@@ -15448,7 +15544,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L275",
+      "source_location": "L322",
       "weight": 1.0
     },
     {
@@ -15460,7 +15556,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L159",
+      "source_location": "L156",
       "weight": 1.0
     },
     {
@@ -15472,7 +15568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L33",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -15484,24 +15580,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L203",
+      "source_location": "L206",
       "weight": 1.0
     },
     {
       "source": "tests_smoke_main",
       "target": "tests_smoke_runfile",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tests/smoke.js",
-      "source_location": "L217",
-      "weight": 1.0
-    },
-    {
-      "source": "tests_smoke_main",
-      "target": "tests_smoke_assert",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15513,31 +15597,19 @@
     },
     {
       "source": "tests_smoke_main",
+      "target": "tests_smoke_assert",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tests/smoke.js",
+      "source_location": "L223",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_smoke_main",
       "target": "tests_smoke_expand",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tests/smoke.js",
-      "source_location": "L244",
-      "weight": 1.0
-    },
-    {
-      "source": "tests_smoke_main",
-      "target": "tests_smoke_elementtext",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "tests/smoke.js",
-      "source_location": "L245",
-      "weight": 1.0
-    },
-    {
-      "source": "tests_smoke_main",
-      "target": "tests_smoke_findelement",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15549,6 +15621,30 @@
     },
     {
       "source": "tests_smoke_main",
+      "target": "tests_smoke_elementtext",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tests/smoke.js",
+      "source_location": "L248",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_smoke_main",
+      "target": "tests_smoke_findelement",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "tests/smoke.js",
+      "source_location": "L250",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_smoke_main",
       "target": "tests_smoke_testseoobserverisidempotent",
       "relation": "calls",
       "_origin": "ast",
@@ -15556,7 +15652,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L382",
+      "source_location": "L399",
       "weight": 1.0
     },
     {
@@ -15568,7 +15664,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L41",
+      "source_location": "L43",
       "weight": 1.0
     },
     {
@@ -15580,7 +15676,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L196",
+      "source_location": "L199",
       "weight": 1.0
     },
     {
@@ -15748,7 +15844,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L171",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -18139,6 +18235,17 @@
       "weight": 1.0
     },
     {
+      "source": "comparison_sources",
+      "target": "comparison_sources_ngu\u1ed3n_cho_b\u1ea3ng_so_s\u00e1nh_s\u1ea3n_ph\u1ea9m",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "COMPARISON_SOURCES.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "github_pages_setup",
       "target": "github_pages_setup_s\u01a1n_ti\u1ebfn_b\u1ea3o_v7_github_pages_preview",
       "relation": "contains",
@@ -19812,17 +19919,6 @@
     },
     {
       "source": "shopping_tools",
-      "target": "shopping_tools_savedestimates",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L104",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
       "target": "shopping_tools_money",
       "relation": "contains",
       "_origin": "ast",
@@ -19834,13 +19930,35 @@
     },
     {
       "source": "shopping_tools",
+      "target": "shopping_tools_estimatetext",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_savedestimates",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L127",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
       "target": "shopping_tools_emaildraft",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L111",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -19856,17 +19974,6 @@
     },
     {
       "source": "shopping_tools",
-      "target": "shopping_tools_estimateactions",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L148",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
       "target": "shopping_tools_isfinish",
       "relation": "contains",
       "_origin": "ast",
@@ -19878,35 +19985,24 @@
     },
     {
       "source": "shopping_tools",
+      "target": "shopping_tools_estimateactions",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L171",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
       "target": "shopping_tools_shopassistant",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L204",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_matchessurface",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L22",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_estimate",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L32",
+      "source_location": "L237",
       "weight": 1.0
     },
     {
@@ -19917,18 +20013,40 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L323",
+      "source_location": "L372",
       "weight": 1.0
     },
     {
       "source": "shopping_tools",
-      "target": "shopping_tools_score",
+      "target": "shopping_tools_comparisonprofile",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L58",
+      "source_location": "L40",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_matchessurface",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_estimate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -19944,24 +20062,24 @@
     },
     {
       "source": "shopping_tools",
+      "target": "shopping_tools_score",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
       "target": "shopping_tools_estimatecontext",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L71",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_estimatetext",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L92",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -20005,7 +20123,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
-      "source_location": "L148",
+      "source_location": "L150",
       "weight": 1.0
     },
     {
@@ -20016,7 +20134,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
-      "source_location": "L153",
+      "source_location": "L155",
       "weight": 1.0
     },
     {
@@ -20027,7 +20145,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
-      "source_location": "L169",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -20049,7 +20167,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
-      "source_location": "L202",
+      "source_location": "L205",
       "weight": 1.0
     },
     {
@@ -20060,18 +20178,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
-      "source_location": "L27",
-      "weight": 1.0
-    },
-    {
-      "source": "tests_smoke",
-      "target": "tests_smoke_makecontext",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "tests/smoke.js",
-      "source_location": "L39",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -20083,6 +20190,17 @@
       "confidence_score": 1.0,
       "source_file": "tests/smoke.js",
       "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "tests_smoke",
+      "target": "tests_smoke_makecontext",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "tests/smoke.js",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -21710,7 +21828,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L112",
+      "source_location": "L135",
       "weight": 1.0
     },
     {
@@ -21721,7 +21839,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L113",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -21732,7 +21850,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L119",
+      "source_location": "L142",
       "weight": 1.0
     },
     {
@@ -21743,7 +21861,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L126",
+      "source_location": "L149",
       "weight": 1.0
     },
     {
@@ -21754,7 +21872,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L149",
+      "source_location": "L172",
       "weight": 1.0
     },
     {
@@ -21765,7 +21883,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L153",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -21776,7 +21894,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L163",
+      "source_location": "L186",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimateactions",
+      "target": "shopping_tools_estimateactions_removesaved",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L200",
       "weight": 1.0
     },
     {
@@ -21787,7 +21916,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L177",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -21798,7 +21927,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L205",
+      "source_location": "L238",
       "weight": 1.0
     },
     {
@@ -21809,7 +21938,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L209",
+      "source_location": "L242",
       "weight": 1.0
     },
     {
@@ -21820,7 +21949,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L220",
+      "source_location": "L253",
       "weight": 1.0
     },
     {
@@ -21832,6 +21961,17 @@
       "confidence_score": 1.0,
       "source_file": "scripts/sync_calculator_catalog.py",
       "source_location": "L177",
+      "weight": 1.0
+    },
+    {
+      "source": "readme",
+      "target": "comparison_sources",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -22904,5 +23044,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "435de2dca4c308c62f0d9883d171cd98464c2a48"
+  "built_at_commit": "fe5769d133a85d826a1b1009a9125d844bddf685"
 }
