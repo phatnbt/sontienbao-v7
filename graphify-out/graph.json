@@ -6601,7 +6601,7 @@
       "node_kind": "heading",
       "norm_label": "admin center",
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L18"
+      "source_location": "L19"
     },
     {
       "id": "github_pages_setup_github_pages",
@@ -6613,7 +6613,7 @@
       "node_kind": "heading",
       "norm_label": "github pages",
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L12"
+      "source_location": "L13"
     },
     {
       "id": "github_pages_setup_kh\u00f4ng_\u0111\u01b0\u1ee3c_l\u00e0m",
@@ -6625,7 +6625,7 @@
       "node_kind": "heading",
       "norm_label": "khong \u0111uoc lam",
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L24"
+      "source_location": "L25"
     },
     {
       "id": "github_pages_setup_s\u01a1n_ti\u1ebfn_b\u1ea3o_v7_github_pages_preview",
@@ -18195,7 +18195,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -18206,7 +18206,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -18217,7 +18217,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "GITHUB-PAGES-SETUP.md",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -22964,5 +22964,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "30e26d6907914bf2922827cbfc6e9a08db387ff7"
+  "built_at_commit": "8e1c528a9d339911f5e3a236615f1f9140fee69d"
 }
