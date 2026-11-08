@@ -225,6 +225,9 @@
       var selectedIds = state.selected === null ? visible.slice(0, 2).map(function (product) { return product.id; }) : state.selected;
       var selected = selectedIds.map(function (id) { return candidates.find(function (product) { return product.id === id; }); }).filter(Boolean);
       var comparison = estimateContext(selected, state.area, state.surface);
+      var knownCosts = selected.map(function (product) { var plan = estimate(product, state.area); return plan && plan.cost || 0; }).filter(function (cost) { return cost > 0; });
+      var lowestCost = knownCosts.length ? Math.min.apply(null, knownCosts) : 0;
+      var highestCost = knownCosts.length ? Math.max.apply(null, knownCosts) : 0;
       var rows = [
         ['Thương hiệu', function (product) { return product.brand || '—'; }],
         ['Độ phủ', function (product) { return product.coverageLabel || (Number(product.coverage) > 0 ? product.coverage + ' m²/' + unitOf(product) + '/lớp' : 'Cần xác nhận'); }],
@@ -274,10 +277,35 @@
           })) : h('div', { className: 'shop-empty' }, 'Chưa có sản phẩm khớp bộ lọc. Hãy thử khu vực hoặc thương hiệu khác.'),
           selected.length > 0 && h('div', { className: 'shop-compare', 'aria-labelledby': 'shop-compare-title' },
             h('div', { className: 'shop-compare-heading' }, h('div', null, h('span', { className: 'section-kicker' }, 'SO SÁNH NHANH'), h('h3', { id: 'shop-compare-title' }, selected.length + ' sản phẩm đã chọn')), h('small', null, 'Chi phí ước tính theo cùng diện tích, 2 lớp và 10% hao hụt.')),
-            h('div', { className: 'shop-compare-scroll' }, h('table', null,
-              h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), selected.map(function (product) { return h('th', { scope: 'col', key: product.id }, product.name); }))),
-              h('tbody', null, rows.map(function (row) { return h('tr', { key: row[0] }, h('th', { scope: 'row' }, row[0]), selected.map(function (product) { return h('td', { key: product.id }, row[1](product)); })); }))
-            )),
+            h('div', { className: 'shop-compare-cards' }, selected.map(function (product, index) {
+              var plan = estimate(product, state.area), cost = plan && plan.cost || 0;
+              return h('article', { className: 'shop-compare-card', key: product.id },
+                h('div', { className: 'shop-compare-card-top' },
+                  h('span', { className: 'shop-compare-number' }, String(index + 1).padStart(2, '0')),
+                  cost > 0 && cost === lowestCost && knownCosts.length > 1 && h('span', { className: 'shop-compare-badge' }, 'Chi phí thấp nhất'),
+                  h('button', { type: 'button', 'aria-label': 'Bỏ so sánh ' + product.name, onClick: function () { self.choose(product.id); } }, '×')
+                ),
+                h('div', { className: 'shop-compare-identity' },
+                  h('div', { className: 'shop-compare-photo' }, product.image && h('img', { src: props.resolveImage(product.image), alt: product.name, loading: 'lazy', decoding: 'async' })),
+                  h('div', null, h('small', null, product.brand || 'SƠN TIẾN BẢO'), h('h4', null, product.name))
+                ),
+                h('div', { className: 'shop-compare-price' }, h('small', null, 'Vật tư cho ' + state.area + ' m²'), h('strong', null, cost ? money(cost) : 'Cần báo giá'), cost > 0 && h('span', null, 'Khoảng ' + money(Math.round(cost / Math.max(1, Number(state.area) || 1))) + '/m²')),
+                highestCost > 0 && cost > 0 && h('div', { className: 'shop-compare-bar', 'aria-hidden': 'true' }, h('span', { style: { width: Math.max(8, Math.round(cost / highestCost * 100)) + '%' } })),
+                h('dl', { className: 'shop-compare-facts' },
+                  h('div', null, h('dt', null, 'Độ phủ'), h('dd', null, product.coverageLabel || 'Cần xác nhận')),
+                  h('div', null, h('dt', null, 'Lượng dự kiến'), h('dd', null, plan ? plan.quantity + ' ' + plan.unit : 'Cần xác nhận')),
+                  h('div', null, h('dt', null, 'Quy cách'), h('dd', null, plan ? plan.packs : 'Cần xác nhận'))
+                ),
+                h('a', { className: 'shop-compare-detail-link', href: product.url || props.site.catalogUrl, target: '_blank', rel: 'noopener' }, 'Xem sản phẩm ↗')
+              );
+            })),
+            h('details', { className: 'shop-compare-details' },
+              h('summary', null, 'Xem bảng thông số chi tiết'),
+              h('div', { className: 'shop-compare-scroll' }, h('table', null,
+                h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), selected.map(function (product) { return h('th', { scope: 'col', key: product.id }, product.name); }))),
+                h('tbody', null, rows.map(function (row) { return h('tr', { key: row[0] }, h('th', { scope: 'row' }, row[0]), selected.map(function (product) { return h('td', { key: product.id }, row[1](product)); })); }))
+              ))
+            ),
             h('div', { className: 'shop-compare-actions' },
               h('button', { type: 'button', className: 'btn btn-red', onClick: function () { props.onQuote(comparison); } }, 'Hỏi giá các sản phẩm đã chọn'),
               h(EstimateActions, { estimate: comparison, site: props.site })
@@ -304,7 +332,7 @@
             h('div', { className: 'project-gallery-copy' }, h('small', null, example.category + ' · ẢNH MINH HOẠ'), h('h3', null, example.name), h('p', null, example.detail))
           );
         })),
-        h('div', { className: 'project-gallery-footer' }, h('p', null, 'Ảnh do AI tạo để minh hoạ ý tưởng, không phải công trình Sơn Tiến Bảo đã thi công.'), h('button', { type: 'button', className: 'btn btn-dark', onClick: props.onQuote }, 'Nhờ tư vấn cho công trình của tôi'))
+        h('div', { className: 'project-gallery-footer' }, h('p', null, 'Ảnh do AI tạo để minh hoạ ý tưởng, không phải công trình Sơn Tiến Bảo đã thi công.'), h('button', { type: 'button', className: 'btn btn-dark', onClick: function () { props.onQuote(); } }, 'Nhờ tư vấn cho công trình của tôi'))
       )
     );
   }

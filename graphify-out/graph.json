@@ -3348,7 +3348,7 @@
       "file_type": "code",
       "norm_label": "projectgallery()",
       "source_file": "shopping-tools.js",
-      "source_location": "L292"
+      "source_location": "L320"
     },
     {
       "id": "shopping_tools_savedestimates",
@@ -15417,18 +15417,6 @@
     },
     {
       "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_unitof",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L230",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_shopassistant_render",
       "target": "shopping_tools_estimate",
       "relation": "calls",
       "_origin": "ast",
@@ -15436,12 +15424,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L231",
+      "source_location": "L228",
       "weight": 1.0
     },
     {
       "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_money",
+      "target": "shopping_tools_unitof",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15453,6 +15441,18 @@
     },
     {
       "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_money",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L236",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
       "target": "shopping_tools_shopassistant_choose",
       "relation": "calls",
       "_origin": "ast",
@@ -15460,7 +15460,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L269",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -15568,7 +15568,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L377",
+      "source_location": "L383",
       "weight": 1.0
     },
     {
@@ -19912,17 +19912,6 @@
     },
     {
       "source": "shopping_tools",
-      "target": "shopping_tools_projectgallery",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L292",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
       "target": "shopping_tools_estimate",
       "relation": "contains",
       "_origin": "ast",
@@ -19930,6 +19919,17 @@
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
       "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_projectgallery",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L320",
       "weight": 1.0
     },
     {
@@ -22916,5 +22916,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5a8b95ee7ea2494f52f460b79a8e1416126082f4"
+  "built_at_commit": "e5501350cf4131d77c0f1cf5fca19f9e7399fb51"
 }

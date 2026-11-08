@@ -2,7 +2,7 @@
 'use strict';
 
 // Run with a local server on :4173 and Edge DevTools on :9223.
-// `node tests/cdp-probe.js --assert` checks the product card regression in a real browser.
+// `node tests/cdp-probe.js --assert` checks key product and modal interactions in a real browser.
 async function main() {
 const assertResult = process.argv[2] === '--assert';
 const mobile = process.argv[2] === '--mobile';
@@ -18,7 +18,15 @@ const cardAssertion = `(()=>{
   return new Promise(resolve=>setTimeout(()=>{
     const close=document.querySelector('.search-close'),rect=close.getBoundingClientRect();
     const hit=document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);
-    resolve(cardsOk&&getComputedStyle(close).pointerEvents!=='none'&&close.contains(hit));
+    const searchOk=getComputedStyle(close).pointerEvents!=='none'&&close.contains(hit);
+    close.click();
+    document.querySelector('.project-gallery-footer button').click();
+    setTimeout(()=>{
+      const modal=document.querySelector('.quote-modal');
+      const summary=modal.querySelector('.quote-estimate');
+      const modalOk=getComputedStyle(modal).overflowY==='auto'&&modal.scrollHeight>modal.clientHeight&&!summary;
+      resolve(cardsOk&&searchOk&&modalOk&&document.querySelectorAll('.shop-compare-card').length>=2);
+    },50);
   },50));
 })()`;
 const expression = process.argv[assertResult || mobile ? 3 : 2] || (assertResult ? cardAssertion : 'document.title');
@@ -40,6 +48,10 @@ const send = (id, method, params) => new Promise((resolve, reject) => {
   socket.send(JSON.stringify({ id, method, params }));
 });
 if (mobile) await send(1, 'Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 1, mobile: true });
+if (assertResult) {
+  await send(1, 'Page.reload', { ignoreCache: true });
+  await new Promise(resolve => setTimeout(resolve, 800));
+}
 const response = await send(2, 'Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
 socket.close();
 if (response.exceptionDetails) throw new Error(response.exceptionDetails.text);

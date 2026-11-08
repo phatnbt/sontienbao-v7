@@ -246,8 +246,14 @@ async function main() {
 
   const assistantSection = findElement(tree, node => node.props && node.props.id === 'chon-son');
   assert(assistantSection && elementText(assistantSection).toLowerCase().includes('so sánh'), 'guided product selection and comparison must render');
+  assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-card'), 'comparison must show visual product cards');
+  assert(findElement(assistantSection, node => node.props && node.props.className === 'shop-compare-details'), 'detailed comparison must remain available on demand');
   const gallerySection = findElement(tree, node => node.props && node.props.id === 'y-tuong-cong-trinh');
   assert(gallerySection && elementText(gallerySection).includes('ẢNH MINH HOẠ'), 'generated gallery must identify its images as illustrations');
+  const galleryQuote = findElement(gallerySection, node => node.type === 'button' && elementText(node).includes('Nhờ tư vấn'));
+  galleryQuote.props.onClick({ type: 'click' });
+  assert.strictEqual(app.state.quoteContext, null, 'gallery quote must not treat a click event as an estimate');
+  app.setState({ quote: false });
   const shoppingAssistant = instances.find(instance => instance.constructor.name === 'ShopAssistant');
   assert(shoppingAssistant, 'shopping assistant must be mounted');
   shoppingAssistant.setState({ surface: 'exterior', area: 180 });
