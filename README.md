@@ -23,7 +23,7 @@ Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ tr�
 
 ## Hỗ trợ chọn mua
 
-- **Chọn sơn nhanh:** lọc theo khu vực, ưu tiên, diện tích và thương hiệu; gợi ý sản phẩm phù hợp từ catalog hiện có.
+- **Chọn sơn nhanh:** chọn khu vực, tình trạng tường, diện tích và thương hiệu; xem hướng xử lý ngắn có nguồn hãng, sản phẩm gợi ý từ catalog và nhận báo giá.
 - **So sánh:** chọn tối đa ba sản phẩm để xem độ phủ, lượng cho hai lớp, quy cách và chi phí vật tư tham khảo. Sản phẩm thiếu dữ liệu hoặc không khớp đơn vị được đánh dấu cần xác nhận.
 - **Ưu điểm và điểm cần cân nhắc:** hiển thị khi đã đối chiếu tài liệu hãng; bảng dẫn thẳng tới nguồn. Danh sách nguồn và giới hạn dữ liệu nằm trong [COMPARISON_SOURCES.md](COMPARISON_SOURCES.md).
 - **Báo giá:** nút nhận báo giá chuyển sản phẩm đã chọn và lượng vật tư dự kiến vào form liên hệ. Email hỏi giá được soạn từ form này.

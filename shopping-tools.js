@@ -40,6 +40,14 @@
     var name = text(product.name || '');
     return COMPARISON_PROFILES.find(function (profile) { return profile.match.test(name) && (!profile.exclude || !profile.exclude.test(name)); }) || null;
   }
+  var WALL_CONDITIONS = {
+    normal: { label: 'Tường đang tốt', advice: 'Làm sạch bề mặt, kiểm tra độ khô và dùng hệ sơn lót, sơn phủ phù hợp.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
+    new: { label: 'Tường mới xây', advice: 'Chờ tường đủ khô, kiểm tra độ ẩm và dùng sơn lót phù hợp trước khi sơn phủ.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/tam-quan-trong-cua-do-am-tuong-khi-son-nha-do-am-tuong-bao-nhieu-thi-son-duoc' },
+    mold: { label: 'Ẩm mốc', advice: 'Tìm và xử lý nguồn ẩm, làm sạch nấm mốc, để tường khô rồi mới sơn lót và sơn phủ. Sơn kháng mốc không thay thế bước xử lý ẩm.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
+    seepage: { label: 'Thấm nước', advice: 'Kiểm tra đường nước hoặc vết nứt, xử lý nguyên nhân thấm và khảo sát bề mặt trước khi chọn hệ chống thấm.', source: 'https://professional.nipponpaint.com.vn/vi/van-de-giai-phap' },
+    peeling: { label: 'Bong tróc', advice: 'Cạo bỏ lớp sơn bong, xử lý nguyên nhân ẩm nếu có, làm sạch và sơn lót trước lớp phủ mới.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
+    stains: { label: 'Dễ bám bẩn', advice: 'Với tường đã khô và ổn định, cân nhắc lớp phủ dễ lau chùi hoặc chống bám bẩn theo khu vực sử dụng.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean' }
+  };
   function matchesSurface(product, surface) {
     var explicit = product.calculatorSurface;
     var label = text((product.name || '') + ' ' + (product.category || '') + ' ' + (product.description || ''));
@@ -77,20 +85,20 @@
       cost: best ? best.count * best.price : 0
     };
   }
-  function score(product, priority, area) {
+  function score(product, condition) {
     var label = text((product.name || '') + ' ' + (product.category || '') + ' ' + (product.description || ''));
+    var profile = comparisonProfile(product);
+    var strengths = text(profile ? profile.strengths.join(' ') : '');
     var value = product.image ? 8 : 0;
     if (Number(product.coverage) > 0) value += 12;
-    if (priority === 'durable' && /ben mau|chong phai|bao ve|jotashield/.test(label)) value += 30;
-    if (priority === 'clean' && /sach|chong bam|de lau|odour/.test(label)) value += 30;
-    if (priority === 'value') {
-      var planned = estimate(product, area);
-      if (planned && planned.cost) value += Math.max(0, 35 - planned.cost / 100000);
-    }
+    if (condition === 'mold' && /chong nam moc|chong rong reu|khang nam moc/.test(strengths)) value += 30;
+    if (condition === 'seepage' && /chong tham/.test(strengths)) value += 30;
+    if (condition === 'stains' && /de lau chui|de chui rua|chong bam ban|tu lam sach/.test(strengths)) value += 30;
+    if (condition === 'seepage' && /waterguard|chong tham/.test(label)) value += 8;
     if (product.featured) value += 4;
     return value;
   }
-  function estimateContext(products, area, surface) {
+  function estimateContext(products, area, surface, condition) {
     var items = products.map(function (product) {
       var planned = estimate(product, area);
       return {
@@ -105,6 +113,7 @@
     return {
       source: 'bo-chon-son',
       surface: surface === 'interior' ? 'Nội thất' : surface === 'exterior' ? 'Ngoại thất' : surface === 'sport' ? 'Sân thể thao' : 'Chống thấm',
+      condition: surface === 'sport' ? '' : (WALL_CONDITIONS[condition] || WALL_CONDITIONS.normal).label,
       area: Math.max(1, Number(area) || 1),
       waste: surface === 'sport' ? null : 10,
       items: items,
@@ -114,6 +123,7 @@
   function estimateText(context) {
     var lines = ['YÊU CẦU TƯ VẤN SƠN TIẾN BẢO'];
     if (context.surface) lines.push('Khu vực: ' + context.surface);
+    if (context.condition) lines.push('Tình trạng tường: ' + context.condition);
     if (context.area) lines.push('Diện tích: ' + context.area + ' m²');
     if (context.waste != null) lines.push('Hao hụt dự kiến: ' + context.waste + '%');
     (context.items || []).forEach(function (item, index) {
@@ -163,14 +173,14 @@
   class ShopAssistant extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { surface: 'interior', priority: 'balanced', area: 100, brand: 'all', selected: null };
+      this.state = { surface: 'interior', condition: 'normal', area: 100, brand: 'all', selected: null };
     }
     choose(id) {
       var state = this.state;
       var current = state.selected ? state.selected.slice() : (this.props.products || []).filter(function (product) {
         return product.enabled !== false && isFinish(product) && matchesSurface(product, state.surface) &&
           (state.brand === 'all' || product.brand === state.brand);
-      }).sort(function (a, b) { return score(b, state.priority, state.area) - score(a, state.priority, state.area); }).slice(0, 2).map(function (product) { return product.id; });
+      }).sort(function (a, b) { return score(b, state.condition) - score(a, state.condition); }).slice(0, 2).map(function (product) { return product.id; });
       var index = current.indexOf(id);
       if (index >= 0) current.splice(index, 1);
       else if (current.length < 3) current.push(id);
@@ -182,11 +192,12 @@
       var candidates = (props.products || []).filter(function (product) {
         return product.enabled !== false && isFinish(product) && matchesSurface(product, state.surface) &&
           (state.brand === 'all' || product.brand === state.brand);
-      }).sort(function (a, b) { return score(b, state.priority, state.area) - score(a, state.priority, state.area); });
+      }).sort(function (a, b) { return score(b, state.condition) - score(a, state.condition); });
       var visible = candidates.slice(0, 6);
       var selectedIds = state.selected === null ? visible.slice(0, 2).map(function (product) { return product.id; }) : state.selected;
       var selected = selectedIds.map(function (id) { return candidates.find(function (product) { return product.id === id; }); }).filter(Boolean);
-      var comparison = estimateContext(selected, state.area, state.surface);
+      var comparison = estimateContext(selected, state.area, state.surface, state.condition);
+      var condition = WALL_CONDITIONS[state.condition] || WALL_CONDITIONS.normal;
       var knownCosts = selected.map(function (product) { var plan = estimate(product, state.area); return plan && plan.cost || 0; }).filter(function (cost) { return cost > 0; });
       var lowestCost = knownCosts.length ? Math.min.apply(null, knownCosts) : 0;
       var highestCost = knownCosts.length ? Math.max.apply(null, knownCosts) : 0;
@@ -216,20 +227,26 @@
           h('div', { className: 'shop-assistant-heading' },
             h('span', { className: 'section-kicker' }, 'CHỌN SƠN NHANH'),
             h('h2', { id: 'shop-assistant-title' }, 'Tìm dòng sơn phù hợp với công trình'),
-            h('p', null, 'Chọn khu vực, ưu tiên và diện tích. Bạn có thể so sánh tối đa ba sản phẩm trước khi yêu cầu báo giá.')
+            h('p', null, 'Cho biết khu vực và tình trạng tường để xem cách xử lý, sản phẩm gợi ý và báo giá tham khảo.')
           ),
           h('div', { className: 'shop-assistant-controls' },
-            h('label', null, 'Khu vực', h('select', { value: state.surface, onChange: function (event) { self.setState({ surface: event.target.value, selected: null }); } },
+            h('label', null, 'Khu vực', h('select', { value: state.surface, onChange: function (event) { self.setState({ surface: event.target.value, condition: event.target.value === 'sport' ? 'normal' : state.condition, selected: null }); } },
               [['interior', 'Nội thất'], ['exterior', 'Ngoại thất'], ['waterproof', 'Chống thấm'], ['sport', 'Sân thể thao']].map(function (option) { return h('option', { key: option[0], value: option[0] }, option[1]); })
             )),
-            h('label', null, 'Ưu tiên', h('select', { value: state.priority, onChange: function (event) { self.setState({ priority: event.target.value, selected: null }); } },
-              [['balanced', 'Phù hợp tổng thể'], ['durable', 'Bền màu / bảo vệ'], ['clean', 'Dễ giữ sạch'], ['value', 'Chi phí hợp lý']].map(function (option) { return h('option', { key: option[0], value: option[0] }, option[1]); })
+            h('label', null, 'Tình trạng tường', h('select', { value: state.condition, disabled: state.surface === 'sport', onChange: function (event) { var next = event.target.value; self.setState({ condition: next, surface: next === 'seepage' ? 'waterproof' : state.surface, selected: null }); } },
+              Object.keys(WALL_CONDITIONS).map(function (key) { return h('option', { key: key, value: key }, WALL_CONDITIONS[key].label); })
             )),
             h('label', null, 'Diện tích (m²)', h('input', { type: 'number', min: 1, max: 100000, value: state.area, onChange: function (event) { self.setState({ area: event.target.value }); } })),
             h('label', null, 'Thương hiệu', h('select', { value: state.brand, onChange: function (event) { self.setState({ brand: event.target.value, selected: null }); } },
               [h('option', { value: 'all', key: 'all' }, 'Tất cả')].concat(brands.map(function (brand) { return h('option', { key: brand, value: brand }, brand); }))
             ))
           ),
+          state.surface === 'sport' ? h('p', { className: 'shop-condition-advice' }, 'Sân thể thao dùng hệ sơn riêng. Liên hệ để xác nhận kết cấu bề mặt và định mức từng lớp.') :
+            h('div', { className: 'shop-condition-advice', role: 'note' },
+              h('span', { className: 'shop-condition-icon', 'aria-hidden': 'true' }, '✓'),
+              h('div', null, h('strong', null, condition.label === 'Tường đang tốt' ? 'Chuẩn bị bề mặt' : 'Gợi ý xử lý · ' + condition.label), h('p', null, condition.advice),
+                h('a', { href: condition.source, target: '_blank', rel: 'noopener noreferrer' }, 'Xem hướng dẫn của hãng ↗'))
+            ),
           h('p', { className: 'shop-result-count', role: 'status' }, candidates.length + ' sản phẩm phù hợp · Hiển thị tối đa 6 gợi ý'),
           visible.length ? h('div', { className: 'shop-recommendations' }, visible.map(function (product) {
             var plan = estimate(product, state.area), active = selected.some(function (item) { return item.id === product.id; });

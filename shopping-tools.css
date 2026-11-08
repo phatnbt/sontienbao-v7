@@ -6,6 +6,12 @@
 .store .shop-assistant-controls label{display:grid;gap:8px;color:#475d60;font-size:13px;font-weight:750}
 .store .shop-assistant-controls select,.store .shop-assistant-controls input{width:100%;min-width:0;height:48px;padding:0 13px;border:1px solid #cad8d0;border-radius:11px;background:#f8faf8;color:#10212d;font:inherit;font-size:15px}
 .store .shop-assistant-controls :is(select,input):focus-visible{outline:3px solid rgba(30,116,99,.23);outline-offset:1px}
+.store .shop-assistant-controls select:disabled{opacity:.62;cursor:not-allowed}
+.store .shop-condition-advice{display:flex;align-items:flex-start;gap:13px;margin:16px 0 0;padding:17px 20px;border:1px solid #cbded2;border-radius:16px;background:#e9f4ed;color:#183c34;font-size:14px;line-height:1.5}
+.store .shop-condition-icon{display:grid;flex:none;place-items:center;width:28px;height:28px;border-radius:50%;background:#1b7554;color:#fff;font-size:15px;font-weight:900}
+.store .shop-condition-advice strong{display:block;font-size:16px}
+.store .shop-condition-advice p{margin:4px 0 5px}
+.store .shop-condition-advice a{color:#175e49;font-size:12px;font-weight:800;text-underline-offset:2px}
 .store .shop-result-count{margin:20px 2px 16px;color:#52666a;font-size:14px;font-weight:700}
 .store .shop-recommendations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .store .shop-recommendation{overflow:hidden;display:grid;grid-template-columns:130px minmax(0,1fr);min-height:242px;border:1px solid #dce5df;border-radius:18px;background:#fff}

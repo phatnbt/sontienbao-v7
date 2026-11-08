@@ -53,7 +53,7 @@
       "file_type": "code",
       "norm_label": "emaildraft",
       "source_file": "shopping-tools.js",
-      "source_location": "L126"
+      "source_location": "L136"
     },
     {
       "id": "shopping_tools_shopassistant",
@@ -66,7 +66,7 @@
       "file_type": "code",
       "norm_label": "shopassistant",
       "source_file": "shopping-tools.js",
-      "source_location": "L163"
+      "source_location": "L173"
     },
     {
       "id": "app_admin",
@@ -2243,7 +2243,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L127"
+      "source_location": "L137"
     },
     {
       "id": "shopping_tools_emaildraft_copy",
@@ -2255,7 +2255,7 @@
       "file_type": "code",
       "norm_label": ".copy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L128"
+      "source_location": "L138"
     },
     {
       "id": "shopping_tools_emaildraft_fallbackcopy",
@@ -2267,7 +2267,7 @@
       "file_type": "code",
       "norm_label": ".fallbackcopy()",
       "source_file": "shopping-tools.js",
-      "source_location": "L134"
+      "source_location": "L144"
     },
     {
       "id": "shopping_tools_emaildraft_render",
@@ -2279,7 +2279,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L141"
+      "source_location": "L151"
     },
     {
       "id": "shopping_tools_estimate",
@@ -2291,7 +2291,7 @@
       "file_type": "code",
       "norm_label": "estimate()",
       "source_file": "shopping-tools.js",
-      "source_location": "L53"
+      "source_location": "L61"
     },
     {
       "id": "shopping_tools_estimatecontext",
@@ -2303,7 +2303,7 @@
       "file_type": "code",
       "norm_label": "estimatecontext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L93"
+      "source_location": "L101"
     },
     {
       "id": "shopping_tools_estimatetext",
@@ -2315,7 +2315,7 @@
       "file_type": "code",
       "norm_label": "estimatetext()",
       "source_file": "shopping-tools.js",
-      "source_location": "L114"
+      "source_location": "L123"
     },
     {
       "id": "shopping_tools_isfinish",
@@ -2339,7 +2339,7 @@
       "file_type": "code",
       "norm_label": "matchessurface()",
       "source_file": "shopping-tools.js",
-      "source_location": "L43"
+      "source_location": "L51"
     },
     {
       "id": "shopping_tools_money",
@@ -2363,7 +2363,7 @@
       "file_type": "code",
       "norm_label": "projectgallery()",
       "source_file": "shopping-tools.js",
-      "source_location": "L297"
+      "source_location": "L314"
     },
     {
       "id": "shopping_tools_score",
@@ -2375,7 +2375,7 @@
       "file_type": "code",
       "norm_label": "score()",
       "source_file": "shopping-tools.js",
-      "source_location": "L80"
+      "source_location": "L88"
     },
     {
       "id": "shopping_tools_shopassistant_choose",
@@ -2387,7 +2387,7 @@
       "file_type": "code",
       "norm_label": ".choose()",
       "source_file": "shopping-tools.js",
-      "source_location": "L168"
+      "source_location": "L178"
     },
     {
       "id": "shopping_tools_shopassistant_constructor",
@@ -2399,7 +2399,7 @@
       "file_type": "code",
       "norm_label": ".constructor()",
       "source_file": "shopping-tools.js",
-      "source_location": "L164"
+      "source_location": "L174"
     },
     {
       "id": "shopping_tools_shopassistant_render",
@@ -2411,7 +2411,7 @@
       "file_type": "code",
       "norm_label": ".render()",
       "source_file": "shopping-tools.js",
-      "source_location": "L179"
+      "source_location": "L189"
     },
     {
       "id": "shopping_tools_text",
@@ -15099,7 +15099,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L131",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
@@ -15111,7 +15111,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L156",
+      "source_location": "L166",
       "weight": 1.0
     },
     {
@@ -15123,7 +15123,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L54",
+      "source_location": "L62",
       "weight": 1.0
     },
     {
@@ -15135,19 +15135,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L57",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_estimatecontext",
-      "target": "shopping_tools_unitof",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L100",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -15159,7 +15147,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L95",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_estimatecontext",
+      "target": "shopping_tools_unitof",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L108",
       "weight": 1.0
     },
     {
@@ -15171,7 +15171,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L122",
+      "source_location": "L132",
       "weight": 1.0
     },
     {
@@ -15195,7 +15195,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L45",
+      "source_location": "L53",
       "weight": 1.0
     },
     {
@@ -15207,19 +15207,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L81",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
       "source": "shopping_tools_score",
-      "target": "shopping_tools_estimate",
+      "target": "shopping_tools_comparisonprofile",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L87",
+      "source_location": "L90",
       "weight": 1.0
     },
     {
@@ -15231,7 +15231,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L171",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -15243,7 +15243,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L171",
+      "source_location": "L181",
       "weight": 1.0
     },
     {
@@ -15255,7 +15255,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L173",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -15267,7 +15267,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L183",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
@@ -15279,48 +15279,12 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L183",
+      "source_location": "L193",
       "weight": 1.0
     },
     {
       "source": "shopping_tools_shopassistant_render",
       "target": "shopping_tools_score",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L185",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_estimatecontext",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L189",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_estimate",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L190",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_unitof",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15332,19 +15296,7 @@
     },
     {
       "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_money",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "shopping-tools.js",
-      "source_location": "L198",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools_shopassistant_render",
-      "target": "shopping_tools_comparisonprofile",
+      "target": "shopping_tools_estimatecontext",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -15356,6 +15308,54 @@
     },
     {
       "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_estimate",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L201",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_unitof",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L206",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_money",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L209",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
+      "target": "shopping_tools_comparisonprofile",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "shopping-tools.js",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools_shopassistant_render",
       "target": "shopping_tools_shopassistant_choose",
       "relation": "calls",
       "_origin": "ast",
@@ -15363,7 +15363,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "shopping-tools.js",
-      "source_location": "L248",
+      "source_location": "L265",
       "weight": 1.0
     },
     {
@@ -15471,7 +15471,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/smoke.js",
-      "source_location": "L389",
+      "source_location": "L397",
       "weight": 1.0
     },
     {
@@ -19749,24 +19749,24 @@
     },
     {
       "source": "shopping_tools",
+      "target": "shopping_tools_estimatecontext",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
       "target": "shopping_tools_estimatetext",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L114",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_emaildraft",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L126",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -19778,6 +19778,17 @@
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
       "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
+      "target": "shopping_tools_emaildraft",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L136",
       "weight": 1.0
     },
     {
@@ -19799,7 +19810,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L163",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -19810,7 +19821,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L297",
+      "source_location": "L314",
       "weight": 1.0
     },
     {
@@ -19826,17 +19837,6 @@
     },
     {
       "source": "shopping_tools",
-      "target": "shopping_tools_matchessurface",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L43",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
       "target": "shopping_tools_text",
       "relation": "contains",
       "_origin": "ast",
@@ -19848,13 +19848,24 @@
     },
     {
       "source": "shopping_tools",
+      "target": "shopping_tools_matchessurface",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "shopping-tools.js",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "shopping_tools",
       "target": "shopping_tools_estimate",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L53",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -19865,18 +19876,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L80",
-      "weight": 1.0
-    },
-    {
-      "source": "shopping_tools",
-      "target": "shopping_tools_estimatecontext",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "shopping-tools.js",
-      "source_location": "L93",
+      "source_location": "L88",
       "weight": 1.0
     },
     {
@@ -21625,7 +21625,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L127",
+      "source_location": "L137",
       "weight": 1.0
     },
     {
@@ -21636,7 +21636,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L128",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -21647,7 +21647,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L134",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -21658,7 +21658,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L141",
+      "source_location": "L151",
       "weight": 1.0
     },
     {
@@ -21669,7 +21669,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L164",
+      "source_location": "L174",
       "weight": 1.0
     },
     {
@@ -21680,7 +21680,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L168",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -21691,7 +21691,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "shopping-tools.js",
-      "source_location": "L179",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -22786,5 +22786,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "8ef24ab6c5df9268a06c4fce669577350f39d9f5"
+  "built_at_commit": "b27ad2d5006b5bd75142c237572c1620d245cf0d"
 }

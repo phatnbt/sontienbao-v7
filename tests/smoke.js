@@ -266,6 +266,14 @@ async function main() {
   app.setState({ quote: false });
   const shoppingAssistant = instances.find(instance => instance.constructor.name === 'ShopAssistant');
   assert(shoppingAssistant, 'shopping assistant must be mounted');
+  const conditionSelect = findElement(assistantSection, node => node.type === 'select' && node.props && node.props.value === 'normal');
+  assert(conditionSelect && !elementText(assistantSection).includes('Ưu tiên'), 'wall condition must replace the old priority filter');
+  conditionSelect.props.onChange({ target: { value: 'seepage' } });
+  assert.strictEqual(shoppingAssistant.state.surface, 'waterproof', 'seepage must switch recommendations to waterproof products');
+  const seepageTree = expand(shoppingAssistant.render(), harness.context.React, []);
+  assert(elementText(seepageTree).includes('xử lý nguyên nhân thấm'), 'seepage guidance must explain surface preparation');
+  assert(findElement(seepageTree, node => node.props && node.props.className === 'shop-condition-advice' && node.props.role === 'note'), 'condition guidance must render');
+  assert(harness.context.STB_SHOPPING.estimateText(harness.context.STB_SHOPPING.estimateContext([], 100, 'waterproof', 'seepage')).includes('Tình trạng tường: Thấm nước'), 'quote draft must include the selected condition');
   shoppingAssistant.setState({ surface: 'exterior', area: 180 });
   const exteriorTree = expand(shoppingAssistant.render(), harness.context.React, []);
   assert(elementText(exteriorTree).includes('Ngoại thất'), 'guided selection must react to surface and area');
