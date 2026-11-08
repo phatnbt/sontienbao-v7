@@ -12,11 +12,6 @@ on:
       - 'scripts/sync_full_calculator_catalog_safe.py'
       - 'scripts/finalize_calculator_catalog.py'
       - 'scripts/finalize_calculator_catalog_safe.py'
-      - 'scripts/patch_calculator.py'
-      - 'scripts/patch_calculator_v5.py'
-      - 'scripts/fix_calculator_v5_syntax.py'
-      - 'scripts/prefer_verified_calculator_catalog.py'
-      - 'scripts/sanitize_public_copy.py'
       - 'sync-products.js'
       - 'default-data.js'
       - '.github/workflows/sync-products.yml'
@@ -60,34 +55,19 @@ jobs:
       - name: Finalize verified product families and package prices
         run: python scripts/finalize_calculator_catalog_safe.py
 
-      - name: Apply Calculator base upgrade
-        run: python scripts/patch_calculator.py
-
-      - name: Apply Calculator V5 full catalog UI
-        run: python scripts/patch_calculator_v5.py
-
-      - name: Normalize Calculator V5 rendering
-        run: python scripts/fix_calculator_v5_syntax.py
-
-      - name: Prefer verified Calculator family catalog
-        run: python scripts/prefer_verified_calculator_catalog.py
-
-      - name: Sanitize customer-facing calculator copy
-        run: python scripts/sanitize_public_copy.py
-
       - name: Validate app JavaScript
         run: node --check app.js
 
       - name: Commit synced data
         shell: bash
         run: |
-          if git diff --quiet -- synced-products.js app.js styles.css; then
+          if git diff --quiet -- synced-products.js; then
             echo "No product or calculator changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin main
-          git add synced-products.js app.js styles.css
+          git add synced-products.js
           git commit -m "Sync resilient verified Calculator V5 catalog"
           git push origin HEAD:main

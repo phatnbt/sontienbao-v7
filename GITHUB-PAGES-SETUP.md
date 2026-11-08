@@ -34,6 +34,12 @@ Không thay nameserver nếu chỉ cần sửa bản ghi. Giữ nguyên các b�
 - Dữ liệu chỉnh sửa Landing Page được lưu vào GitHub qua `v7-content.js` và `manual-products.js`.
 - iTop vẫn là nguồn nghiệp vụ cho dữ liệu sản phẩm gốc, giá, tồn kho, biến thể, công thức và đơn hàng.
 
+## Đo hiệu quả liên hệ
+
+`analytics.js` đã gắn sự kiện `quote_open`, `quote_draft` và `contact_click` (gọi điện, Zalo, Gmail, Outlook, form chính thức). Không gửi họ tên, điện thoại, email, nội dung báo giá hay từ khóa tìm kiếm vào sự kiện.
+
+Hiện chưa có GA4 Measurement ID nên mã đo lường bên ngoài chưa tải và chưa có báo cáo tập trung. Khi chủ website tạo GA4 Web data stream cho `https://nguyenbaolam.com/`, điền mã `G-...` vào `analytics-config.js`, commit/push và kiểm tra Realtime trong Analytics. `quote_draft` chỉ có nghĩa là khách đã chuẩn bị nội dung; không được coi là báo giá đã gửi. Nguồn truy cập và chiến dịch UTM do GA4 ghi nhận sau khi tag hoạt động.
+
 ## Không được làm
 - Không tạo thêm `admin-v4.html`, `admin-v5.html` hoặc một bản admin song song khác.
 - Không đổi DNS của `sontienbao.com` root trong giai đoạn test.

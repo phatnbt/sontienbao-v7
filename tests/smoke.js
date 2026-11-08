@@ -210,11 +210,14 @@ async function main() {
     'v7-content-overrides.js',
     'synced-products.js',
     'sync-products.js',
+    'calculator-coverage.js',
     'manual-products.js',
     'manual-product-overrides.js',
     'production-overrides.js',
     'asset-path-fix.js',
     'shopping-tools.js',
+    'analytics-config.js',
+    'analytics.js',
     'app.js'
   ];
   files.forEach(file => runFile(harness.context, file));
@@ -233,11 +236,10 @@ async function main() {
     assert(data.products.every(product => Number(product.price) === 0), 'expired synchronized prices must be hidden');
   }
   assert(data.products.some(product => product.calcEligible), 'calculator must have eligible products');
-  assert.strictEqual(
-    harness.eventListeners.filter(item => item.type === 'click').length,
-    0,
-    'production layer must not intercept quote buttons'
-  );
+  assert.strictEqual(harness.eventListeners.filter(item => item.type === 'click').length, 1, 'analytics must observe contact clicks without intercepting them');
+  assert.strictEqual(harness.context.STB_ANALYTICS_CONFIG.measurementId, '', 'GA4 must remain disabled until an owner provides a measurement ID');
+  const manufacturerProduct = data.products.find(product => /Jotashield Sạch Vượt Trội/.test(product.name) && product.technicalSource === 'manufacturer');
+  assert(manufacturerProduct && manufacturerProduct.coverage === 11.1 && manufacturerProduct.technicalSourceUrl.includes('jotun.com'), 'missing coverage must use a traceable exact-family manufacturer spec');
 
   const root = harness.getRenderedRoot();
   assert(root, 'React root must render');
@@ -353,6 +355,11 @@ async function main() {
 
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
+  const kgPaint = data.products.find(product => product.measureUnit === 'Kg' && product.coverage > 0 && !product.massOnly && product.calculatorOnly);
+  assert(kgPaint && calculator.eligible(kgPaint), 'matching Kg coverage and package units must be calculable');
+  assert(calculator.layer(kgPaint, 2).qty > 0, 'matching Kg products must produce a quantity');
+  const mixedUnit = data.products.find(product => product.massOnly && product.coverage > 0 && product.calculatorOnly);
+  assert(mixedUnit && !calculator.eligible(mixedUnit) && calculator.layer(mixedUnit, 2).qty === 0, 'mixed units must never produce a quantity');
   const calculatorTree = expand(calculator.render(), harness.context.React, []);
   const calculatorQuoteButton = findElement(calculatorTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');
   assert(calculatorQuoteButton && calculatorQuoteButton.props.onClick, 'calculator quote action must include a click handler');
