@@ -258,6 +258,10 @@ async function main() {
   assert(estimateActions, 'a shopping estimate must be available to save');
   estimateActions.save();
   assert(JSON.parse(harness.context.localStorage.getItem('stb-v7-saved-estimates')).length === 1, 'estimate must persist on this device');
+  const emailAction = findElement(expand(estimateActions.render(), harness.context.React, []), node => node.type === 'button' && elementText(node) === 'Gửi qua email');
+  assert(emailAction && emailAction.props.onClick, 'estimate email must offer an actionable fallback when no mail app is configured');
+  emailAction.props.onClick();
+  assert(findElement(expand(estimateActions.render(), harness.context.React, []), node => node.props && node.props.className === 'email-draft'), 'estimate email must show a copyable draft and webmail choices');
 
   const proof = findElement(tree, node => node.props && node.props.id === 've-tien-bao');
   assert(proof && elementText(proof).includes('Chọn sơn dễ hơn'), 'company proof section must render');
@@ -306,8 +310,11 @@ async function main() {
   harness.context.location.hostname = 'phatnbt.github.io';
   mailQuote.setState({ name: 'Khách thử', phone: '0913 712 195' });
   mailQuote.submit({ preventDefault() {} });
-  assert(mailQuote.state.handoff === 'email' && harness.context.location.href.startsWith('mailto:'), 'published quote must prepare an email with customer and estimate details');
-  assert(harness.context.location.href.includes('S%C6%A1n%20th%E1%BB%AD'), 'email request must include selected paint');
+  assert.strictEqual(mailQuote.state.handoff, 'email', 'published quote must prepare a draft without requiring a local mail app');
+  const mailTree = expand(mailQuote.render(), harness.context.React, []);
+  const mailDraft = findElement(mailTree, node => node.props && node.props.className === 'email-draft');
+  assert(mailDraft && elementText(mailDraft).includes('Mở Gmail') && elementText(mailDraft).includes('Sao chép nội dung'), 'published quote must offer webmail and copy actions');
+  assert(mailQuote.message().includes('Sơn thử'), 'email request must include selected paint');
   harness.context.location.hostname = originalHost;
 
   const header = instances.find(instance => instance.constructor.name === 'Header');

@@ -10,10 +10,16 @@ const cardAssertion = `(()=>{
   const cards=Array.from(document.querySelectorAll('.product-card')).slice(0,6);
   const labels=Array.from(document.querySelectorAll('.proof-stat>span')).map(node=>node.textContent);
   const cleanImage=cards[2]&&cards[2].querySelector('img').getAttribute('src')==='assets/jotun-jotashield-chong-phai-mau-official.webp';
-  return cards.length===6&&cleanImage&&labels.includes('Sản phẩm')&&labels.includes('Thương hiệu')&&cards.every(card=>{
+  const cardsOk=cards.length===6&&cleanImage&&labels.includes('Sản phẩm')&&labels.includes('Thương hiệu')&&cards.every(card=>{
     const media=card.querySelector('.product-img'),image=media.querySelector('img'),title=card.querySelector('.product-body h3');
     return image.getBoundingClientRect().height<=media.getBoundingClientRect().height+1&&getComputedStyle(title).color!=='rgb(255, 255, 255)'&&!card.querySelector('.view-product');
   });
+  document.querySelector('.search-trigger').click();
+  return new Promise(resolve=>setTimeout(()=>{
+    const close=document.querySelector('.search-close'),rect=close.getBoundingClientRect();
+    const hit=document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);
+    resolve(cardsOk&&getComputedStyle(close).pointerEvents!=='none'&&close.contains(hit));
+  },50));
 })()`;
 const expression = process.argv[assertResult || mobile ? 3 : 2] || (assertResult ? cardAssertion : 'document.title');
 const tabs = await fetch('http://127.0.0.1:9223/json').then(response => response.json());

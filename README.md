@@ -28,4 +28,4 @@ Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ tr�
 - **Dự toán:** lưu tối đa năm bản trên thiết bị, chia sẻ hoặc sao chép nội dung, và soạn email hỏi giá kèm sản phẩm đã chọn.
 - **Ý tưởng công trình:** ba ảnh AI minh hoạ nội thất, ngoại thất và sân thể thao. Ảnh được ghi rõ là minh hoạ, không đại diện cho công trình đã thi công.
 
-GitHub Pages chưa có endpoint nhận yêu cầu báo giá. Trên bản xuất bản, form chuẩn bị email chứa thông tin khách và dự toán; khách cần bấm **Gửi** trong ứng dụng email. Nút Zalo sao chép nội dung để khách dán và gửi. Trang liên hệ chính thức là kênh dự phòng. Bản xem trước cục bộ chỉ lưu yêu cầu thử nghiệm trong trình duyệt.
+GitHub Pages chưa có endpoint nhận yêu cầu báo giá. Trên bản xuất bản, form chuẩn bị nội dung kèm thông tin khách và dự toán để mở bằng Gmail, Outlook hoặc ứng dụng email; khách cần bấm **Gửi** trong kênh đã chọn. Có nút sao chép nội dung khi không dùng webmail. Nút Zalo sao chép nội dung để khách dán và gửi. Trang liên hệ chính thức là kênh dự phòng. Bản xem trước cục bộ chỉ lưu yêu cầu thử nghiệm trong trình duyệt.

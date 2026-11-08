@@ -108,10 +108,47 @@
     } catch (error) { return []; }
   }
 
+  class EmailDraft extends React.Component {
+    constructor(props) { super(props); this.state = { status: '' }; this.field = null; }
+    copy() {
+      var self = this, value = this.props.message;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(function () { self.setState({ status: 'Đã sao chép nội dung email.' }); }).catch(function () { self.fallbackCopy(); });
+      } else this.fallbackCopy();
+    }
+    fallbackCopy() {
+      if (!this.field) return;
+      this.field.select();
+      try {
+        this.setState({ status: document.execCommand('copy') ? 'Đã sao chép nội dung email.' : 'Hãy chọn và sao chép nội dung bên dưới.' });
+      } catch (error) { this.setState({ status: 'Hãy chọn và sao chép nội dung bên dưới.' }); }
+    }
+    render() {
+      var self = this, site = this.props.site || {}, recipient = site.email || 'ctytienbao@gmail.com';
+      var subject = 'Yêu cầu báo giá Sơn Tiến Bảo', message = this.props.message || '';
+      var query = 'to=' + encodeURIComponent(recipient) + '&subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(message);
+      var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(recipient) + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(message);
+      var outlook = 'https://outlook.live.com/mail/0/deeplink/compose?' + query;
+      var mail = 'mailto:' + recipient + '?' + query.replace(/^to=[^&]+&/, '');
+      return h('div', { className: 'email-draft', 'aria-label': 'Nội dung email báo giá' },
+        h('strong', null, 'Email gửi tới ' + recipient),
+        h('p', null, 'Chọn webmail hoặc ứng dụng email, kiểm tra nội dung rồi bấm Gửi. Nếu cửa sổ không mở, hãy sao chép nội dung và dán vào email của bạn.'),
+        h('textarea', { readOnly: true, value: message, rows: 6, 'aria-label': 'Nội dung email để sao chép', ref: function (node) { self.field = node; } }),
+        h('div', { className: 'email-draft-actions' },
+          h('a', { href: gmail, target: '_blank', rel: 'noopener noreferrer' }, 'Mở Gmail ↗'),
+          h('a', { href: outlook, target: '_blank', rel: 'noopener noreferrer' }, 'Mở Outlook ↗'),
+          h('a', { href: mail }, 'Ứng dụng email'),
+          h('button', { type: 'button', onClick: function () { self.copy(); } }, 'Sao chép nội dung')
+        ),
+        this.state.status && h('small', { role: 'status' }, this.state.status)
+      );
+    }
+  }
+
   class EstimateActions extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { saved: savedEstimates(), status: '' };
+      this.state = { saved: savedEstimates(), status: '', emailDraft: false };
     }
     save() {
       var context = this.props.estimate;
@@ -140,13 +177,13 @@
     render() {
       var self = this, context = this.props.estimate, site = this.props.site || {};
       if (!context || !(context.items || []).length) return null;
-      var email = 'mailto:' + encodeURIComponent(site.email || 'ctytienbao@gmail.com') + '?subject=' + encodeURIComponent('Yêu cầu báo giá Sơn Tiến Bảo') + '&body=' + encodeURIComponent(estimateText(context));
       return h('div', { className: 'estimate-actions', 'aria-label': 'Lưu và chia sẻ dự toán' },
         h('div', { className: 'estimate-actions-row' },
           h('button', { type: 'button', onClick: function () { self.save(); } }, 'Lưu dự toán'),
           h('button', { type: 'button', onClick: function () { self.share(); } }, 'Chia sẻ / sao chép'),
-          h('a', { href: email }, 'Gửi qua email')
+          h('button', { type: 'button', 'aria-expanded': this.state.emailDraft, onClick: function () { self.setState({ emailDraft: !self.state.emailDraft }); } }, 'Gửi qua email')
         ),
+        this.state.emailDraft && h(EmailDraft, { message: estimateText(context), site: site }),
         this.state.status && h('p', { className: 'estimate-status', role: 'status' }, this.state.status),
         this.state.saved.length > 0 && h('details', { className: 'saved-estimates' },
           h('summary', null, 'Dự toán đã lưu (' + this.state.saved.length + ')'),
@@ -275,6 +312,7 @@
   window.STB_SHOPPING = {
     ShopAssistant: ShopAssistant,
     EstimateActions: EstimateActions,
+    EmailDraft: EmailDraft,
     ProjectGallery: ProjectGallery,
     estimate: estimate,
     estimateContext: estimateContext,
