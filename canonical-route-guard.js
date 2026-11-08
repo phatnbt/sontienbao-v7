@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   var LEGACY_HOSTS = ['new.sontienbao.com'];
-  var SITE = 'https://phatnbt.github.io/sontienbao-v7/';
+  var SITE = 'https://nguyenbaolam.com/';
   var ADMIN = SITE + 'admin.html';
   var host = String(location.hostname || '').toLowerCase();
   if (LEGACY_HOSTS.indexOf(host) < 0) return;

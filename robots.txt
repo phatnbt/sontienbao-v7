@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin-v2.html
+Disallow: /admin-v3.html
+
+Sitemap: https://nguyenbaolam.com/sitemap.xml

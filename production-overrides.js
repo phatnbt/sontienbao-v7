@@ -52,5 +52,7 @@
   // QuoteModal redirects to the real iTop contact flow only after validation.
 
   d.meta = d.meta || {};
-  d.meta.deployment = 'github-pages-preview';
+  d.meta.deployment = 'custom-domain-production';
+  d.seo = d.seo || {};
+  d.seo.canonical = 'https://nguyenbaolam.com/';
 })();
