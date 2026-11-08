@@ -7,6 +7,7 @@
 - `admin-v2.html`, `admin-v3.html` và `index.html#admin` chỉ chuyển hướng về `admin.html` để giữ tương thích link cũ.
 - `https://sontienbao.com/admin` là backend iTop bên ngoài, không phải Admin Center V7.
 - Form báo giá trên site public chuyển tới `https://sontienbao.com/lien-he.html`.
+- Chatbot website dùng widget của dự án `Tphat24/son-tien-bao-chatbot` tại Railway. `chatbot-loader.js` chỉ hiển thị widget khi `/health` hoạt động; các nút liên hệ hiện tại là phương án dự phòng. Backend Railway phải có bản triển khai đang chạy và cho phép origin `https://phatnbt.github.io` trong `ALLOWED_ORIGINS`.
 - Preview được đặt `noindex,nofollow` để tránh trùng SEO với website chính.
 
 ## GitHub Pages

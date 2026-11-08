@@ -24,6 +24,7 @@ Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ tr�
 ## Hỗ trợ chọn mua
 
 - **Chọn sơn nhanh:** chọn khu vực, tình trạng tường, diện tích và thương hiệu; xem hướng xử lý ngắn có nguồn hãng, sản phẩm gợi ý từ catalog và nhận báo giá.
+- **Chatbot tư vấn:** tải widget từ dịch vụ Sơn Tiến Bảo trên Railway khi `/health` xác nhận hoạt động. Trên điện thoại, nút chat nằm trên thanh liên hệ; khi dịch vụ không khả dụng, các nút gọi/Zalo/báo giá cũ vẫn hiển thị.
 - **So sánh:** chọn tối đa ba sản phẩm để xem độ phủ, lượng cho hai lớp, quy cách và chi phí vật tư tham khảo. Sản phẩm thiếu dữ liệu hoặc không khớp đơn vị được đánh dấu cần xác nhận.
 - **Ưu điểm và điểm cần cân nhắc:** hiển thị khi đã đối chiếu tài liệu hãng; bảng dẫn thẳng tới nguồn. Danh sách nguồn và giới hạn dữ liệu nằm trong [COMPARISON_SOURCES.md](COMPARISON_SOURCES.md).
 - **Báo giá:** nút nhận báo giá chuyển sản phẩm đã chọn và lượng vật tư dự kiến vào form liên hệ. Email hỏi giá được soạn từ form này.

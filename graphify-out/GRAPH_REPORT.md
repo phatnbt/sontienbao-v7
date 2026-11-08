@@ -1,17 +1,17 @@
 # Graph Report - landing page  (2026-11-08)
 
 ## Corpus Check
-- 41 files · ~36,716 words
+- 43 files · ~37,150 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 14 file(s) not represented in the graph (top: .css 8, (none) 4, .bat 2)
 
 ## Summary
-- 582 nodes · 1361 edges · 46 communities (27 shown, 4 thin omitted)
+- 591 nodes · 1368 edges · 41 communities (23 shown, 2 thin omitted)
 - Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 89 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b27ad2d5`
+- Built from commit: `30e26d69`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -31,22 +31,16 @@
 - finalize_calculator_catalog.py
 - shopping-tools.js
 - Sơn Tiến Bảo V7 — triển khai không cần Supabase
-- Admin
+- tests/chatbot-loader.js
 - Q: Kiểm tra toàn bộ chức năng landing page và Admin
 - Sơn Tiến Bảo V7 — GitHub Pages Preview
 - manual-product-overrides.js
-- Btn
 - asset-path-fix.js
 - seo-copy-fix.js
-- asset
-- .render
 - merge
 - AGENTS.md
 - Sơn Tiến Bảo V7
 - smoke.js
-- Colors
-- Header
-- ErrorBoundary
 
 ## God Nodes (most connected - your core abstractions)
 1. `Calculator` - 27 edges
@@ -75,15 +69,15 @@
 ## Import Cycles
 - None detected.
 
-## Communities (46 total, 4 thin omitted)
+## Communities (41 total, 2 thin omitted)
 
 ### Community 0 - "sync_full_calculator_catalog.py"
 Cohesion: 0.08
 Nodes (73): build_page(), card_for_anchor(), consolidate(), crawl_category(), discover_urls(), family_name(), find_categories(), infer_surface() (+65 more)
 
 ### Community 1 - "clone"
-Cohesion: 0.14
-Nodes (8): clone(), EditModal, fileToData(), getPopupTemplate(), MediaManager, nowIso(), PopupManager, uid()
+Cohesion: 0.07
+Nodes (22): Admin, clone(), download(), EditModal, fileToData(), getPopupTemplate(), isPlain(), Leads() (+14 more)
 
 ### Community 2 - "admin-core.js"
 Cohesion: 0.14
@@ -94,7 +88,7 @@ Cohesion: 0.20
 Nodes (30): api(), bindButtons(), bindStatic(), connect(), decode64(), encode64(), fileBase64(), getPath() (+22 more)
 
 ### Community 4 - "Calculator"
-Cohesion: 0.15
+Cohesion: 0.16
 Nodes (4): Calculator, score(), better(), walk()
 
 ### Community 5 - "admin-v2.js"
@@ -110,7 +104,7 @@ Cohesion: 0.11
 Nodes (6): itopApi(), ITopColorManager, ITopMediaManager, ITopProductManager, ITopQuickEdit, SecuritySettings()
 
 ### Community 9 - "App"
-Cohesion: 0.07
+Cohesion: 0.08
 Nodes (11): AnimatedStat, begin(), tick(), App, BackToTop, goRealAdmin(), isLocalPreview(), nextFrame() (+3 more)
 
 ### Community 10 - "sync_full_calculator_catalog_resilient.py"
@@ -122,8 +116,8 @@ Cohesion: 0.26
 Nodes (19): card_from_anchor(), clean_image_url(), compact_product_card(), detail_image_and_title(), discover_home_catalog(), fetch_soup(), find_home_product(), image_by_alt() (+11 more)
 
 ### Community 12 - "app.js"
-Cohesion: 0.21
-Nodes (23): AnnouncementModal(), BootOverlay(), BrandStrip(), BuyingJourney(), Categories(), CompanyProof(), ContactDock(), Faq() (+15 more)
+Cohesion: 0.06
+Nodes (50): activePopup(), ActivityManager(), AdminAuthLoading(), AdminGlobalSearch(), AdminList(), AdminLogin(), AdminSidebar(), AdminTop() (+42 more)
 
 ### Community 13 - "finalize_calculator_catalog.py"
 Cohesion: 0.33
@@ -137,9 +131,9 @@ Nodes (12): comparisonProfile(), EmailDraft, estimate(), estimateContext(), esti
 Cohesion: 0.22
 Nodes (8): A. Test local, B. Test iTop Live, C. Dữ liệu nào đang dùng iTop thật?, D. Dữ liệu Landing chưa map trực tiếp vào module iTop riêng, E. Báo giá, F. Điều kiện bắt buộc, Kiến trúc, Sơn Tiến Bảo V7 — triển khai không cần Supabase
 
-### Community 16 - "Admin"
-Cohesion: 0.16
-Nodes (9): Admin, download(), loadData(), loadLeads(), normalizeData(), saveData(), saveLeads(), storageGet() (+1 more)
+### Community 16 - "tests/chatbot-loader.js"
+Cohesion: 0.29
+Nodes (5): assert, fs, path, source, vm
 
 ### Community 17 - "Q: Kiểm tra toàn bộ chức năng landing page và Admin"
 Cohesion: 0.40
@@ -153,10 +147,6 @@ Nodes (5): Admin Center, GitHub Pages, Không được làm, Sơn Tiến Bảo V
 Cohesion: 0.70
 Nodes (4): findOverride(), isHidden(), keys(), normUrl()
 
-### Community 20 - "Btn"
-Cohesion: 0.19
-Nodes (12): ActivityManager(), AdminList(), Btn(), ColorManager, cx(), Dashboard(), ITopConnectionCard(), Leads() (+4 more)
-
 ### Community 21 - "asset-path-fix.js"
 Cohesion: 0.83
 Nodes (3): fixData(), fixObject(), localAsset()
@@ -164,14 +154,6 @@ Nodes (3): fixData(), fixObject(), localAsset()
 ### Community 22 - "seo-copy-fix.js"
 Cohesion: 0.83
 Nodes (3): applyFeaturedSeoCopy(), normalize(), start()
-
-### Community 23 - "asset"
-Cohesion: 0.19
-Nodes (7): asset(), getTemplatePreset(), isPlain(), mergeSafe(), setTheme(), SettingsEditor, SmartImage
-
-### Community 24 - ".render"
-Cohesion: 0.22
-Nodes (7): activePopup(), AdminAuthLoading(), AdminGlobalSearch(), AdminLogin(), AdminSidebar(), AdminTop(), popupIsActive()
 
 ### Community 27 - "Sơn Tiến Bảo V7"
 Cohesion: 0.33
@@ -181,29 +163,25 @@ Nodes (4): Nguồn cho bảng so sánh sản phẩm, Hỗ trợ chọn mua, Ki�
 Cohesion: 0.24
 Nodes (13): assert, elementText(), expand(), findElement(), fs, main(), makeContext(), path (+5 more)
 
-### Community 43 - "Colors"
-Cohesion: 0.25
-Nodes (3): Colors, ProductSearch, searchText()
-
 ## Knowledge Gaps
-- **22 isolated node(s):** `fs`, `path`, `vm`, `projectRoot`, `graphify` (+17 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 84 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **27 isolated node(s):** `assert`, `fs`, `path`, `vm`, `source` (+22 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 92 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Calculator` connect `Calculator` to `app.js`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
-- **Why does `clone()` connect `clone` to `App`, `app.js`, `Admin`, `Btn`, `asset`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Why does `App` connect `App` to `Admin`, `app.js`?**
+- **Why does `Calculator` connect `Calculator` to `clone`, `app.js`?**
+  _High betweenness centrality (0.032) - this node is a cross-community bridge._
+- **Why does `clone()` connect `clone` to `App`, `app.js`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **Why does `App` connect `App` to `clone`, `app.js`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Are the 22 inferred relationships involving `Btn()` (e.g. with `ActivityManager()` and `.renderTab()`) actually correct?**
   _`Btn()` has 22 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 16 inferred relationships involving `Icon()` (e.g. with `.render()` and `BuyingJourney()`) actually correct?**
   _`Icon()` has 16 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `fs`, `path`, `vm` to the rest of the system?**
-  _22 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `assert`, `fs`, `path` to the rest of the system?**
+  _27 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `sync_full_calculator_catalog.py` be split into smaller, more focused modules?**
   _Cohesion score 0.08441558441558442 - nodes in this community are weakly interconnected._

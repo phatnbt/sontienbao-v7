@@ -18,8 +18,8 @@
     "semantic_hash": ""
   },
   "app.js": {
-    "mtime": 1794136446.6236167,
-    "seen": 1794136544.04752,
+    "mtime": 1794137736.2317235,
+    "seen": 1794137988.6301203,
     "ast_hash": "c95bde07a20b1baee9afb15ed0592744",
     "semantic_hash": ""
   },
@@ -216,15 +216,15 @@
     "semantic_hash": ""
   },
   "GITHUB-PAGES-SETUP.md": {
-    "mtime": 1789619315.2848508,
-    "seen": 1789620210.3893468,
+    "mtime": 1794137736.2257247,
+    "seen": 1794137988.6301203,
     "ast_hash": "af9246f4f444431a034ce97a5c039e54",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794136808.4415014,
-    "seen": 1794136817.793101,
-    "ast_hash": "990c5a066236ceda73011ba3ed4632de",
+    "mtime": 1794137958.3086145,
+    "seen": 1794137988.6301203,
+    "ast_hash": "0708d26cd2c2222f42cfadbc51b717fe",
     "semantic_hash": ""
   },
   "START-HERE.txt": {
@@ -264,14 +264,14 @@
     "semantic_hash": ""
   },
   "index.html": {
-    "mtime": 1794136808.4425015,
-    "seen": 1794136817.793101,
-    "ast_hash": "d28ca097b0d4ae1679d8b6d2b6ca8c5b",
+    "mtime": 1794137958.3056195,
+    "seen": 1794137988.6301203,
+    "ast_hash": "d7e10be1850c191c9548865ed1734f02",
     "semantic_hash": ""
   },
   "tests/smoke.js": {
-    "mtime": 1794136808.443503,
-    "seen": 1794136817.793101,
+    "mtime": 1794137736.2527318,
+    "seen": 1794137988.6301203,
     "ast_hash": "fed18229d85185d6240581d2b5052d86",
     "semantic_hash": ""
   },
@@ -303,6 +303,18 @@
     "mtime": 1794135998.4745557,
     "seen": 1794136132.660701,
     "ast_hash": "91aac019ba4d3eff71dadbea6df1976c",
+    "semantic_hash": ""
+  },
+  "chatbot-loader.js": {
+    "mtime": 1794137958.3036149,
+    "seen": 1794137988.6301203,
+    "ast_hash": "2014c97dcd418edb75db1da323f00fe9",
+    "semantic_hash": ""
+  },
+  "tests/chatbot-loader.js": {
+    "mtime": 1794137978.8296244,
+    "seen": 1794137988.6301203,
+    "ast_hash": "f546acdb297d3cb2c89cf5864fe4f962",
     "semantic_hash": ""
   }
 }
