@@ -10,7 +10,7 @@ MUC TIEU
 1) ADMIN CENTER DUY NHAT
 -------------------------
 - File chinh: admin.html
-- GitHub Pages: https://phatnbt.github.io/sontienbao-v7/admin.html
+- GitHub Pages: https://landing.nguyenbaolam.com/admin.html (cho DNS)
 - index.html#admin tu dong chuyen ve admin.html.
 - admin-v2.html va admin-v3.html chi la redirect tuong thich link cu.
 - Khong tao them admin-v4, admin-v5...
@@ -43,8 +43,9 @@ MUC TIEU
 - Repo: phatnbt/sontienbao-v7
 - Branch: main
 - Folder: /(root)
-- Hien tai repo chua gan custom domain GitHub Pages.
-- Site: https://phatnbt.github.io/sontienbao-v7/
+- Custom domain: landing.nguyenbaolam.com
+- Site: https://landing.nguyenbaolam.com/ (cho DNS)
+- Website tai nguyenbaolam.com giu nguyen.
 
 6) NGUYEN TAC SUA DOI
 ----------------------

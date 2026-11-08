@@ -54,5 +54,5 @@
   d.meta = d.meta || {};
   d.meta.deployment = 'custom-domain-production';
   d.seo = d.seo || {};
-  d.seo.canonical = 'https://nguyenbaolam.com/';
+  d.seo.canonical = 'https://landing.nguyenbaolam.com/';
 })();

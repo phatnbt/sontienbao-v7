@@ -1,2 +1,2 @@
 @echo off
-start "" "https://phatnbt.github.io/sontienbao-v7/"
+start "" "https://landing.nguyenbaolam.com/"

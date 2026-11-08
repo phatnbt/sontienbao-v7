@@ -4,4 +4,4 @@ Disallow: /admin.html
 Disallow: /admin-v2.html
 Disallow: /admin-v3.html
 
-Sitemap: https://nguyenbaolam.com/sitemap.xml
+Sitemap: https://landing.nguyenbaolam.com/sitemap.xml

@@ -1,9 +1,10 @@
 # Sơn Tiến Bảo V7
 
-Landing Page V7 preview trên GitHub Pages.
+Landing Page V7 trên GitHub Pages, chuẩn bị dùng tên miền phụ của `nguyenbaolam.com`.
 
-- Website preview: `https://phatnbt.github.io/sontienbao-v7/`
-- Admin Center duy nhất: `https://phatnbt.github.io/sontienbao-v7/admin.html`
+- Landing Page: `https://landing.nguyenbaolam.com/` (chờ cấu hình DNS).
+- Admin Center duy nhất: `https://landing.nguyenbaolam.com/admin.html`
+- Website hiện có tại `https://nguyenbaolam.com/` vẫn hoạt động độc lập.
 - Backend iTop bên ngoài: `https://sontienbao.com/admin`
 - Production website: `https://sontienbao.com`
 

@@ -203,6 +203,10 @@ function testSeoObserverIsIdempotent() {
 }
 
 async function main() {
+  const customDomain = fs.readFileSync(path.join(projectRoot, 'CNAME'), 'utf8').trim();
+  const pageHtml = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
+  assert.strictEqual(customDomain, 'landing.nguyenbaolam.com', 'landing page must use a subdomain and preserve the existing apex website');
+  assert(pageHtml.includes('<link rel="canonical" href="https://landing.nguyenbaolam.com/"'), 'SEO canonical must use the landing subdomain');
   const harness = makeContext();
   const files = [
     'default-data.js',

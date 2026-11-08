@@ -15,7 +15,7 @@ function boot(measurementId) {
     createElement() { return {}; },
     head: { appendChild(node) { scripts.push(node); } }
   };
-  vm.runInNewContext(source, { window, document, location: { hostname: 'nguyenbaolam.com' }, Date, encodeURIComponent });
+  vm.runInNewContext(source, { window, document, location: { hostname: 'landing.nguyenbaolam.com' }, Date, encodeURIComponent });
   return { window, listeners, scripts };
 }
 
