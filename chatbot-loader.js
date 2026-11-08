@@ -25,7 +25,7 @@
       var host = document.getElementById('stb-ai-chatbot');
       if (!host || !host.shadowRoot) return;
       var placement = document.createElement('style');
-      placement.textContent = '@media(max-width:620px){.stb-wrap{bottom:86px!important}.stb-panel{bottom:76px!important;height:min(640px,calc(100dvh - 176px))!important}}';
+      placement.textContent = '@media(max-width:620px){.stb-wrap{bottom:86px!important}}';
       host.shadowRoot.appendChild(placement);
       document.documentElement.classList.add('stb-chat-ready');
     };

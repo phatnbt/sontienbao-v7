@@ -43,7 +43,8 @@ async function run(healthy) {
   assert(online.scripts[0].src.endsWith('/widget.js'));
   online.scripts[0].onload();
   assert(online.classes.has('stb-chat-ready'), 'contact dock must hide only after widget loads');
-  assert(online.styles[0].textContent.includes('bottom:86px'), 'mobile widget must clear the action bar');
+  assert(online.styles[0].textContent.includes('.stb-wrap{bottom:86px'), 'mobile launcher must clear the action bar');
+  assert(!online.styles[0].textContent.includes('.stb-panel'), 'widget must retain its own responsive panel layout');
 
   const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
   assert(html.includes('chatbot-loader.js') && html.includes('connect-src') && html.includes('son-tien-bao-chatbot-production.up.railway.app'), 'page must load the widget and permit the API under CSP');
