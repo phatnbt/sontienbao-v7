@@ -251,7 +251,10 @@ async function main() {
   const app = new AppClass({});
   let instances = [];
   let tree = expand(app.render(), harness.context.React, instances);
-  assert(elementText(tree).includes('SƠN CHÍNH HÃNG'), 'storefront content must render');
+  assert(elementText(tree).includes('Chọn đúng sơn.') && elementText(tree).includes('Tính lượng sơn'), 'storefront must show the clear product and estimate paths');
+  const showcase = findElement(tree, node => node.props && node.props.id === 'products');
+  assert(showcase && ['JOTUN', 'NIPPON', 'TERRACO', 'RUBY'].every(brand => elementText(showcase).includes(brand)), 'featured products must represent all four catalog brands');
+  assert(!findElement(tree, node => node.props && node.props.className === 'intent-section'), 'storefront should not repeat category navigation above the catalog');
 
   const assistantSection = findElement(tree, node => node.props && node.props.id === 'chon-son');
   assert(assistantSection && elementText(assistantSection).toLowerCase().includes('so sánh'), 'guided product selection and comparison must render');
@@ -407,8 +410,10 @@ async function main() {
   assert(calculator.layer(kgPaint, 2).qty > 0, 'matching Kg products must produce a quantity');
   const mixedUnit = data.products.find(product => product.massOnly && product.coverage > 0 && product.calculatorOnly);
   assert(mixedUnit && !calculator.eligible(mixedUnit) && calculator.layer(mixedUnit, 2).qty === 0, 'mixed units must never produce a quantity');
-  const noRate = calculatorProducts.find(product => product.brand === 'RUBY' && !calculator.eligible(product));
+  const noRate = calculatorProducts.find(product => product.brand === 'RUBY' && !calculator.eligible(product) && Array.isArray(product.variants) && product.variants.length);
   assert(noRate && calculator.layer(noRate, 2).qty === 0, 'products without a verified rate must not receive an invented estimate');
+  const noPackage = calculatorProducts.find(product => product.brand === 'RUBY' && (!product.variants || !product.variants.length));
+  assert(noPackage && !calculator.eligible(noPackage), 'products without a known package must remain uncalculable');
   assert.strictEqual(calculator.allItems(data).length, calculatorProducts.length, 'all current catalog products must appear in the all-products picker');
   calculator.setState({ mode: 'single', singleId: noRate.id });
   let manualTree = expand(calculator.render(), harness.context.React, []);
@@ -416,9 +421,13 @@ async function main() {
   calculator.setState({ manualCoverage: '8' });
   const userRated = calculator.withManualCoverage(noRate);
   assert(calculator.eligible(userRated) && calculator.layer(userRated, 2).qty > 0 && userRated.technicalSource === 'entered', 'a customer-provided rate must allow a calculation for an otherwise unsupported product');
-  for (const product of calculatorProducts) {
+  for (const product of calculatorProducts.filter(product => Array.isArray(product.variants) && product.variants.length)) {
     assert(calculator.eligible(calculator.withManualCoverage(product)), `every current product must calculate when its package-specific rate is known: ${product.name}`);
   }
+  calculator.setState({ singleId: noPackage.id });
+  const noPackageTree = expand(calculator.render(), harness.context.React, []);
+  assert(findElement(noPackageTree, node => node.props && node.props.className === 'calc-manual-unavailable'), 'missing package sizes must ask for confirmation instead of offering a misleading estimate');
+  calculator.setState({ singleId: noRate.id });
   manualTree = expand(calculator.render(), harness.context.React, []);
   assert(elementText(manualTree).includes('Định mức bạn nhập'), 'manual rate must be labelled as customer-provided in the result');
   const manualQuoteButton = findElement(manualTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');

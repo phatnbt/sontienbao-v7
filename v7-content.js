@@ -15,13 +15,13 @@ window.STB_V7_CONTENT = {
     "template": "premium-navy"
   },
   "hero": {
-    "eyebrow": "SƠN CHÍNH HÃNG · TƯ VẤN ĐÚNG NHU CẦU",
-    "title": "Sơn cho không gian",
-    "titleAccent": "đẹp bền lâu.",
-    "lead": "Chọn sơn theo bề mặt và phong cách sống. Xem sản phẩm, tìm màu phù hợp, tính lượng cần dùng và nhận tư vấn từ Tiến Bảo.",
+    "eyebrow": "SƠN JOTUN · TERRACO · NIPPON · RUBY",
+    "title": "Chọn đúng sơn.",
+    "titleAccent": "Đẹp bền lâu.",
+    "lead": "Tìm sản phẩm theo không gian và bề mặt, xem giá tham khảo rồi tính lượng sơn cần dùng. Tiến Bảo hỗ trợ bạn chốt loại sơn, màu và quy cách phù hợp.",
     "image": "assets/category-interior-2026.webp",
-    "primaryCta": "Tính lượng sơn ngay",
-    "secondaryCta": "Khám phá sản phẩm",
+    "primaryCta": "Chọn sơn theo nhu cầu",
+    "secondaryCta": "Tính lượng sơn",
     "tertiaryCta": "Khám phá bảng màu",
     "microcopy": "Màu sắc hiển thị trên màn hình chỉ mang tính tham khảo."
   },
