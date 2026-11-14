@@ -203,10 +203,9 @@ function testSeoObserverIsIdempotent() {
 }
 
 async function main() {
-  const customDomain = fs.readFileSync(path.join(projectRoot, 'CNAME'), 'utf8').trim();
   const pageHtml = fs.readFileSync(path.join(projectRoot, 'index.html'), 'utf8');
-  assert.strictEqual(customDomain, 'landing.nguyenbaolam.com', 'landing page must use a subdomain and preserve the existing apex website');
-  assert(pageHtml.includes('<link rel="canonical" href="https://landing.nguyenbaolam.com/"'), 'SEO canonical must use the landing subdomain');
+  assert(!fs.existsSync(path.join(projectRoot, 'CNAME')), 'retired GitHub Pages custom domain must stay removed');
+  assert(pageHtml.includes('<link rel="canonical" href="https://sontienbao-v7.vercel.app/"'), 'SEO canonical must use the live Vercel site');
   const harness = makeContext();
   const files = [
     'default-data.js',
@@ -249,6 +248,25 @@ async function main() {
   assert(root, 'React root must render');
   const AppClass = root.props.children.type;
   const app = new AppClass({});
+  const originalObserver = harness.context.IntersectionObserver;
+  const originalQuery = harness.context.document.querySelectorAll;
+  let revealObservers = 0;
+  let revealDisconnects = 0;
+  const revealNode = { classList: { add() {} } };
+  harness.context.IntersectionObserver = class {
+    constructor() { revealObservers++; }
+    observe() {}
+    unobserve() {}
+    disconnect() { revealDisconnects++; }
+  };
+  harness.context.document.querySelectorAll = () => [revealNode];
+  app.initReveal();
+  app.initReveal();
+  assert.strictEqual(revealObservers, 1, 'repeated renders must reuse the reveal observer');
+  app.componentWillUnmount();
+  assert.strictEqual(revealDisconnects, 1, 'reveal observer must be cleaned up');
+  harness.context.IntersectionObserver = originalObserver;
+  harness.context.document.querySelectorAll = originalQuery;
   let instances = [];
   let tree = expand(app.render(), harness.context.React, instances);
   assert(elementText(tree).includes('Chọn đúng sơn.') && elementText(tree).includes('Tính lượng sơn'), 'storefront must show the clear product and estimate paths');

@@ -14,7 +14,7 @@
   ['site','seo','theme','hero','meta'].forEach(function(k){if(cfg[k])d[k]=merge(d[k],cfg[k]);});
   ['categories','banners','popups','faqs'].forEach(function(k){if(Array.isArray(cfg[k]))d[k]=merge(d[k],cfg[k]);});
 
-  // GitHub Pages public mode must render the repository content source, not an
+  // Public mode must render the repository content source, not an
   // old browser-specific local CMS snapshot from earlier V7 preview builds.
   try{
     ['stb-v7-data','stb-v68-data','stb-v67-data','stb-v66-data','stb-v65-data','stb-v64-data','stb-v62-data'].forEach(function(k){localStorage.removeItem(k);});

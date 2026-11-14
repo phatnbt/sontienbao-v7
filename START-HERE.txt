@@ -10,7 +10,7 @@ MUC TIEU
 1) ADMIN CENTER DUY NHAT
 -------------------------
 - File chinh: admin.html
-- GitHub Pages: https://landing.nguyenbaolam.com/admin.html (cho DNS)
+- Vercel: https://sontienbao-v7.vercel.app/admin.html
 - index.html#admin tu dong chuyen ve admin.html.
 - admin-v2.html va admin-v3.html chi la redirect tuong thich link cu.
 - Khong tao them admin-v4, admin-v5...
@@ -38,13 +38,13 @@ MUC TIEU
 - iTop quan ly du lieu nguon: gia, ton kho, bien the, cong thuc, don hang va cac tac vu import nghiep vu.
 - Link iTop KHONG phai Admin Center V7.
 
-5) GITHUB PAGES
+5) VERCEL
 ----------------
 - Repo: phatnbt/sontienbao-v7
 - Branch: main
 - Folder: /(root)
-- Custom domain: landing.nguyenbaolam.com
-- Site: https://landing.nguyenbaolam.com/ (cho DNS)
+- Custom domain: khong su dung
+- Site: https://sontienbao-v7.vercel.app/
 - Website tai nguyenbaolam.com giu nguyen.
 
 6) NGUYEN TAC SUA DOI

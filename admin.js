@@ -76,7 +76,7 @@
       var body={message:'Update V7 landing content from admin',content:encode64(serialize()),branch:BRANCH,sha:latest.sha};
       var r=await api('/repos/'+OWNER+'/'+REPO+'/contents/'+CONTENT_FILE,{method:'PUT',body:JSON.stringify(body)});
       fileSha=(r.content&&r.content.sha)||latest.sha;dirty=false;renderMeta();setSaveState('idle');
-      notify('Đã lưu thành công ✓ GitHub Pages đang deploy bản mới.','success');
+      notify('Đã lưu thành công ✓ Vercel sẽ cập nhật bản mới.','success');
     }catch(e){setSaveState('idle');notify('Lưu thất bại: '+e.message,'error',true);if(/token|quyền|401|403/i.test(e.message))scrollConnect();}
   }
 

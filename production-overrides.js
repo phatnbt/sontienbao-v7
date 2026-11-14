@@ -2,7 +2,7 @@
   var d = window.STB_DEFAULT_DATA;
   if (!d) return;
 
-  // GitHub Pages is a presentation layer. Only show prices that belong to the
+  // The static storefront is a presentation layer. Only show prices that belong to the
   // latest healthy iTop export. The final catalog is consolidated into
   // `calc-family-*` records, so checking STB_SYNCED_PRODUCTS IDs alone used to
   // hide every valid storefront price after consolidation.
@@ -52,7 +52,7 @@
   // QuoteModal redirects to the real iTop contact flow only after validation.
 
   d.meta = d.meta || {};
-  d.meta.deployment = 'custom-domain-production';
+  d.meta.deployment = 'vercel-production';
   d.seo = d.seo || {};
-  d.seo.canonical = 'https://landing.nguyenbaolam.com/';
+  d.seo.canonical = 'https://sontienbao-v7.vercel.app/';
 })();

@@ -1,16 +1,17 @@
 # Sơn Tiến Bảo V7
 
-Landing Page V7 trên GitHub Pages, chuẩn bị dùng tên miền phụ của `nguyenbaolam.com`.
+Landing Page V7 được xuất bản tại Vercel. Repository GitHub lưu mã nguồn và dữ liệu tĩnh.
 
-- Landing Page: `https://landing.nguyenbaolam.com/` (chờ cấu hình DNS).
-- Admin Center duy nhất: `https://landing.nguyenbaolam.com/admin.html`
+- Landing Page: `https://sontienbao-v7.vercel.app/`.
+- Admin Center duy nhất: `https://sontienbao-v7.vercel.app/admin.html`
 - Website hiện có tại `https://nguyenbaolam.com/` vẫn hoạt động độc lập.
 - Backend iTop bên ngoài: `https://sontienbao.com/admin`
 - Production website: `https://sontienbao.com`
 
 `admin-v2.html`, `admin-v3.html` và `index.html#admin` chỉ dùng để chuyển hướng về `admin.html`.
 
-Xem [SECURITY.md](SECURITY.md) để biết giới hạn bảo mật của website tĩnh, cách sử dụng GitHub token và các bước HTTPS sau khi cấu hình DNS.
+Xem [SECURITY.md](SECURITY.md) để biết giới hạn bảo mật của website tĩnh và cách sử dụng GitHub token.
+Xem [DEPLOYMENT.md](DEPLOYMENT.md) để biết địa chỉ triển khai và cách gỡ bản ghi DNS cũ nếu còn tồn tại.
 
 ## Kiểm tra nhanh
 
@@ -33,4 +34,4 @@ Landing page tự làm mới catalog khi có bản đồng bộ mới, hỗ tr�
 - **Báo giá:** nút nhận báo giá chuyển sản phẩm đã chọn và lượng vật tư dự kiến vào form liên hệ. Email hỏi giá được soạn từ form này.
 - **Ý tưởng công trình:** ba ảnh AI minh hoạ nội thất, ngoại thất và sân thể thao. Ảnh được ghi rõ là minh hoạ, không đại diện cho công trình đã thi công.
 
-GitHub Pages chưa có endpoint nhận yêu cầu báo giá. Trên bản xuất bản, form chuẩn bị nội dung kèm thông tin khách và dự toán để mở bằng Gmail, Outlook hoặc ứng dụng email; khách cần bấm **Gửi** trong kênh đã chọn. Có nút sao chép nội dung khi không dùng webmail. Nút Zalo sao chép nội dung để khách dán và gửi. Trang liên hệ chính thức là kênh dự phòng. Bản xem trước cục bộ chỉ lưu yêu cầu thử nghiệm trong trình duyệt.
+Trang tĩnh chưa có endpoint nhận yêu cầu báo giá. Trên bản xuất bản, form chuẩn bị nội dung kèm thông tin khách và dự toán để mở bằng Gmail, Outlook hoặc ứng dụng email; khách cần bấm **Gửi** trong kênh đã chọn. Có nút sao chép nội dung khi không dùng webmail. Nút Zalo sao chép nội dung để khách dán và gửi. Trang liên hệ chính thức là kênh dự phòng. Bản xem trước cục bộ chỉ lưu yêu cầu thử nghiệm trong trình duyệt.

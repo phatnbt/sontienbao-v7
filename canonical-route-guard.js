@@ -1,7 +1,7 @@
 (function(){
   'use strict';
-  var LEGACY_HOSTS = ['new.sontienbao.com'];
-  var SITE = 'https://landing.nguyenbaolam.com/';
+  var LEGACY_HOSTS = ['new.sontienbao.com', 'landing.nguyenbaolam.com'];
+  var SITE = 'https://sontienbao-v7.vercel.app/';
   var ADMIN = SITE + 'admin.html';
   var host = String(location.hostname || '').toLowerCase();
   if (LEGACY_HOSTS.indexOf(host) < 0) return;

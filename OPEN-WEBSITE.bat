@@ -1,2 +1,2 @@
 @echo off
-start "" "https://landing.nguyenbaolam.com/"
+start "" "https://sontienbao-v7.vercel.app/"

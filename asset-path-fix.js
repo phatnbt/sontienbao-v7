@@ -2,7 +2,7 @@
   'use strict';
 
   // Resolve every repository-local media path from the directory that actually
-  // serves this script. This keeps images working on GitHub Pages, legacy
+  // serves this script. This keeps images working on Vercel, legacy
   // redirects, local previews and nested routes such as #calculator.
   var script = document.currentScript;
   var base = '';
