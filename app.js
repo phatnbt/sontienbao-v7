@@ -224,7 +224,7 @@
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));})),
           h('button',{className:'scroll-cue',onClick:function(){scrollToId('categories')}},h('span',null,'Cuộn để khám phá'),h(Icon,{name:'chevronDown'}))
         ),
-        h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
+        h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-swatch-deck','aria-hidden':'true'},h('i',null),h('i',null),h('i',null),h('span',null,'CẢM HỨNG MÀU SẮC')),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
       )
     );
   }
