@@ -17,6 +17,15 @@
     if (enabled && typeof window.gtag === 'function') window.gtag('event', name, params);
   }
 
+  function recordVital(metric) {
+    if (!enabled || !metric || !/^(LCP|INP|CLS)$/.test(metric.name) || !isFinite(metric.value) || metric.value < 0 || typeof window.gtag !== 'function') return;
+    window.gtag('event', 'web_vital_' + metric.name.toLowerCase(), {
+      metric_value: Math.round(metric.value * (metric.name === 'CLS' ? 1000 : 1)),
+      metric_rating: /^(good|needs-improvement|poor)$/.test(metric.rating) ? metric.rating : 'unknown',
+      non_interaction: true
+    });
+  }
+
   function placement(node) {
     if (!node || !node.closest) return 'page';
     if (node.closest('.contact-dock')) return 'contact_dock';
@@ -40,7 +49,7 @@
     if (channel) track('contact_click', { channel: channel, placement: placement(target) });
   }, true);
 
-  window.STB_ANALYTICS = { track: track };
+  window.STB_ANALYTICS = { track: track, recordVital: recordVital, enabled: enabled };
   if (!enabled) return;
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };

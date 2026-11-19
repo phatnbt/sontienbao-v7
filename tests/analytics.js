@@ -22,6 +22,7 @@ function boot(measurementId) {
 const disabled = boot('');
 assert.strictEqual(disabled.scripts.length, 0, 'tracking must not contact Google without an owner measurement ID');
 disabled.window.STB_ANALYTICS.track('quote_open', { context: 'landing', phone: '0913712195' });
+disabled.window.STB_ANALYTICS.recordVital({ name: 'LCP', value: 3500, rating: 'poor' });
 assert.strictEqual(disabled.window.dataLayer, undefined, 'disabled tracking must not queue visitor data');
 
 const enabled = boot('G-ABC1234567');
@@ -44,4 +45,11 @@ const contact = enabled.window.dataLayer[enabled.window.dataLayer.length - 1];
 assert.strictEqual(contact[1], 'contact_click');
 assert.strictEqual(contact[2].channel, 'phone');
 assert.strictEqual(contact[2].placement, 'page');
+enabled.window.STB_ANALYTICS.recordVital({ name: 'LCP', value: 2549.6, rating: 'needs-improvement', phone: '0913712195' });
+const vital = enabled.window.dataLayer[enabled.window.dataLayer.length - 1];
+assert.strictEqual(vital[1], 'web_vital_lcp');
+assert.strictEqual(vital[2].metric_value, 2550);
+assert.strictEqual(vital[2].phone, undefined, 'Web Vitals must never include personal data');
+enabled.window.STB_ANALYTICS.recordVital({ name: 'BAD', value: 4, rating: 'good' });
+assert.strictEqual(enabled.window.dataLayer[enabled.window.dataLayer.length - 1], vital, 'unexpected metrics must be discarded');
 console.log('Analytics instrumentation tests passed.');

@@ -85,8 +85,10 @@
   function Reveal(props){return h('div',{className:cx('reveal',props.className)},props.children);}
   var FALLBACK_IMAGE='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%230b1721"/><path d="M300 520l150-170 110 110 100-120 240 220H300z" fill="%23263b4a"/><circle cx="760" cy="260" r="62" fill="%23d72620" opacity=".7"/><text x="600" y="680" text-anchor="middle" fill="%23a9bac5" font-size="34" font-family="Arial">Sơn Tiến Bảo</text></svg>');
   class SmartImage extends React.Component{
-    constructor(p){super(p);this.state={failed:false};}
-    render(){var p=this.props,src=(this.state.failed||!p.src)?FALLBACK_IMAGE:asset(p.src);return h('img',{className:cx('smart-image',p.className),src:src,srcSet:src===FALLBACK_IMAGE?undefined:(p.srcSet||undefined),sizes:p.sizes||undefined,alt:p.alt||'',width:p.width||undefined,height:p.height||undefined,loading:p.loading||'lazy',decoding:p.decoding||'async',fetchPriority:p.fetchPriority||undefined,onError:()=>this.setState({failed:true})});}
+    constructor(p){super(p);this.state={failed:false,near:!p.deferUntilNear||!('IntersectionObserver' in window)};this.node=null;this.observer=null;}
+    componentDidMount(){if(this.state.near)return;var self=this;this.observer=new IntersectionObserver(function(entries){if(entries.some(function(entry){return entry.isIntersecting;})){self.observer.disconnect();self.observer=null;self.setState({near:true});}},{rootMargin:'200px 0px'});if(this.node)this.observer.observe(this.node);}
+    componentWillUnmount(){if(this.observer)this.observer.disconnect();}
+    render(){var p=this.props,src=(this.state.failed||!p.src)?FALLBACK_IMAGE:asset(p.src);return h('img',{ref:node=>{this.node=node;},className:cx('smart-image',p.className),src:this.state.near?src:undefined,srcSet:this.state.near&&src!==FALLBACK_IMAGE?(p.srcSet||undefined):undefined,sizes:p.sizes||undefined,alt:p.alt||'',width:p.width||undefined,height:p.height||undefined,loading:p.loading||'lazy',decoding:p.decoding||'async',fetchPriority:p.fetchPriority||undefined,onError:()=>this.setState({failed:true})});}
   }
   function nowIso(){return new Date().toISOString();}
   function popupIsActive(p){if(!p||p.enabled===false||p.status==='draft'||p.status==='expired')return false;var now=Date.now(),start=p.startAt?Date.parse(p.startAt):0,end=p.endAt?Date.parse(p.endAt):0;if(start&&now<start)return false;if(end&&now>end)return false;return true;}
@@ -244,7 +246,7 @@
       h(SectionHead,{eyebrow:'DANH MỤC SẢN PHẨM',title:'Chọn đúng nhóm sơn ngay từ đầu',desc:'Hình ảnh trực quan, nội dung gọn và đường dẫn thẳng tới danh mục phù hợp.'}),
       h('div',{className:'category-grid'},p.items.map(function(c,i){return h(Reveal,{key:c.id},
         h('a',{className:'category-card mouse-spotlight beam-card',href:c.url},
-          h('div',{className:'cat-photo'},h(SmartImage,{src:c.image,alt:c.name,width:1200,height:800,loading:'lazy'}),h('span',{className:'cat-num'},'0'+(i+1))),
+          h('div',{className:'cat-photo'},h(SmartImage,{src:c.image,alt:c.name,width:1200,height:800,loading:'lazy',deferUntilNear:true}),h('span',{className:'cat-num'},'0'+(i+1))),
           h('div',{className:'cat-body'},h('h3',null,c.name),h('p',null,c.description),h('span',{className:'circle-arrow'},h(Icon,{name:'arrowRight'})))
         )
       );}))
