@@ -1,5 +1,13 @@
 (function () {
   'use strict';
+  // Vercel's plain-HTML Speed Insights script reads this queue when it loads.
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  if (/(?:^|\.)vercel\.app$/.test(location.hostname || '')) {
+    var speedScript = document.createElement('script');
+    speedScript.src = '/_vercel/speed-insights/script.js';
+    speedScript.async = true;
+    document.head.appendChild(speedScript);
+  }
   var analytics = window.STB_ANALYTICS;
   var debug = /(?:^|[?&])vitals=1(?:&|$)/.test(location.search || '');
   if ((!analytics || !analytics.enabled) && !debug) return;
