@@ -13,15 +13,21 @@ for (const file of [...pages, 'admin-route.js', 'production-overrides.js', 'robo
 }
 assert(read('index.html').includes(`<link rel="canonical" href="${site}"`), 'public canonical must use Vercel');
 assert(read('production-overrides.js').includes(`d.seo.canonical = '${site}'`), 'runtime canonical must use Vercel');
-assert(read('canonical-route-guard.js').includes(`var SITE = '${site}'`), 'legacy host should redirect to Vercel');
+assert(!fs.existsSync(path.join(root, 'canonical-route-guard.js')), 'retired domain guard must be removed');
 
 const html = read('index.html');
+assert(!html.includes('canonical-route-guard.js'), 'public page must not load the retired domain guard');
+const styles = [...html.matchAll(/<link\s+[^>]*rel="stylesheet"[^>]*>/g)];
+assert.strictEqual(styles.length, 1, 'public page should request one storefront stylesheet');
+assert(styles[0][0].includes('storefront.css'), 'public stylesheet should be the generated bundle');
+assert.strictEqual(read('storefront.css'), require('../scripts/build-storefront-css').build(), 'storefront stylesheet must match its editable sources');
 const bodyScripts = [...html.matchAll(/<script\s+([^>]*src="[^"]+"[^>]*)><\/script>/g)].map(match => match[1]);
 assert(bodyScripts.length >= 15, 'expected storefront script chain');
-assert(bodyScripts.slice(1).every(attrs => /\bdefer\b/.test(attrs)), 'storefront scripts should download without blocking HTML parsing');
+assert(bodyScripts.every(attrs => /\bdefer\b/.test(attrs)), 'storefront scripts should download without blocking HTML parsing');
 
 const vercel = JSON.parse(read('vercel.json'));
 assert(vercel.headers.some(rule => rule.source === '/assets/:path*' && rule.headers.some(header => header.key === 'Cache-Control' && header.value.includes('max-age=86400'))), 'images should be cached on repeat visits');
+assert(vercel.headers.some(rule => rule.source === '/storefront.css' && rule.headers.some(header => header.key === 'Cache-Control' && header.value.includes('max-age=86400'))), 'combined stylesheet should be cached on repeat visits');
 assert(!vercel.headers.some(rule => /synced-products|v7-content|index/.test(rule.source)), 'catalog and content should remain fresh');
 
-console.log('Deployment checks passed: Vercel URLs, no retired custom domain, deferred scripts, asset cache.');
+console.log('Deployment checks passed: Vercel URLs, one current stylesheet, deferred scripts, asset cache.');

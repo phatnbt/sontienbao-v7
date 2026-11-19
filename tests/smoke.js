@@ -430,8 +430,8 @@ async function main() {
   assert(mixedUnit && !calculator.eligible(mixedUnit) && calculator.layer(mixedUnit, 2).qty === 0, 'mixed units must never produce a quantity');
   const noRate = calculatorProducts.find(product => product.brand === 'RUBY' && !calculator.eligible(product) && Array.isArray(product.variants) && product.variants.length);
   assert(noRate && calculator.layer(noRate, 2).qty === 0, 'products without a verified rate must not receive an invented estimate');
-  const noPackage = calculatorProducts.find(product => product.brand === 'RUBY' && (!product.variants || !product.variants.length));
-  assert(noPackage && !calculator.eligible(noPackage), 'products without a known package must remain uncalculable');
+  const noPackage = Object.assign({}, noRate, { id: 'calc-family-missing-package-fixture', variants: [] });
+  assert(!calculator.eligible(noPackage) && calculator.withManualCoverage(noPackage) === noPackage, 'products without a known package must remain uncalculable');
   assert.strictEqual(calculator.allItems(data).length, calculatorProducts.length, 'all current catalog products must appear in the all-products picker');
   calculator.setState({ mode: 'single', singleId: noRate.id });
   let manualTree = expand(calculator.render(), harness.context.React, []);
@@ -442,10 +442,10 @@ async function main() {
   for (const product of calculatorProducts.filter(product => Array.isArray(product.variants) && product.variants.length)) {
     assert(calculator.eligible(calculator.withManualCoverage(product)), `every current product must calculate when its package-specific rate is known: ${product.name}`);
   }
-  calculator.setState({ singleId: noPackage.id });
-  const noPackageTree = expand(calculator.render(), harness.context.React, []);
+  const missingPackageCalculator = new calculator.constructor({ data: Object.assign({}, data, { products: data.products.concat(noPackage) }), onQuote() {} });
+  missingPackageCalculator.setState({ mode: 'single', singleId: noPackage.id, manualCoverage: '8' });
+  const noPackageTree = expand(missingPackageCalculator.render(), harness.context.React, []);
   assert(findElement(noPackageTree, node => node.props && node.props.className === 'calc-manual-unavailable'), 'missing package sizes must ask for confirmation instead of offering a misleading estimate');
-  calculator.setState({ singleId: noRate.id });
   manualTree = expand(calculator.render(), harness.context.React, []);
   assert(elementText(manualTree).includes('Định mức bạn nhập'), 'manual rate must be labelled as customer-provided in the result');
   const manualQuoteButton = findElement(manualTree, node => node.type === 'button' && elementText(node) === 'Nhận báo giá chính xác →');
