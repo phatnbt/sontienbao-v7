@@ -288,6 +288,33 @@ async function main() {
   harness.context.document.querySelectorAll = originalQuery;
   let instances = [];
   let tree = expand(app.render(), harness.context.React, instances);
+  const backToTopProbe = instances.find(instance => instance.constructor.name === 'BackToTop');
+  assert(backToTopProbe, 'back to top control must exist');
+  const oldQuerySelector = harness.context.document.querySelector;
+  const oldIntersectionObserver = harness.context.IntersectionObserver;
+  let layoutReads = 0, endObserver, observedEnd = false;
+  Object.defineProperty(harness.context.document.documentElement, 'scrollHeight', { configurable: true, get() { layoutReads++; return 4000; } });
+  harness.context.document.querySelector = selector => selector === '.final-cta' ? {} : null;
+  harness.context.IntersectionObserver = class {
+    constructor(callback) { endObserver = callback; }
+    observe() { observedEnd = true; }
+    disconnect() {}
+  };
+  backToTopProbe.componentDidMount();
+  assert.strictEqual(layoutReads, 0, 'back to top must not force full-page layout when mounting');
+  assert(observedEnd, 'back to top must watch the end of the page');
+  endObserver([{ isIntersecting: true }]);
+  assert.strictEqual(backToTopProbe.state.visible, true, 'back to top must appear near the end');
+  backToTopProbe.componentWillUnmount();
+  backToTopProbe.setState({ visible: false });
+  const oldRaf = harness.context.requestAnimationFrame;
+  harness.context.requestAnimationFrame = callback => { callback(); return 1; };
+  app.onScroll();
+  assert.strictEqual(layoutReads, 0, 'scroll progress must not force a full-page layout read');
+  harness.context.requestAnimationFrame = oldRaf;
+  harness.context.document.querySelector = oldQuerySelector;
+  harness.context.IntersectionObserver = oldIntersectionObserver;
+  Object.defineProperty(harness.context.document.documentElement, 'scrollHeight', { configurable: true, value: 4000, writable: true });
   assert(elementText(tree).includes('Chọn đúng sơn.') && elementText(tree).includes('Tính lượng sơn'), 'storefront must show the clear product and estimate paths');
   const showcase = findElement(tree, node => node.props && node.props.id === 'products');
   assert(showcase && ['JOTUN', 'NIPPON', 'TERRACO', 'RUBY'].every(brand => elementText(showcase).includes(brand)), 'featured products must represent all four catalog brands');
