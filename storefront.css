@@ -1629,23 +1629,18 @@ html,body,.store{background:var(--studio-paper)}
 @media(max-width:640px){.store .hero-v64{padding:100px 0 44px}.store .hero h1{font-size:clamp(43px,11vw,56px)}.store .hero-visual{height:320px}.store .hero-actions .btn{min-height:52px}.store .brand-wrap,.store .brand-row a{min-height:70px}.store .section{padding-block:64px}.store .section-head{margin-bottom:24px}.store .section-head p{font-size:14px}.store .cat-body{padding:20px}.store .cat-body h3{font-size:21px}.store .product-img{height:232px}.store .product-img img{padding:20px 40px}.store .product-body{min-height:0;padding:20px}.store .product-body .price strong{font-size:19px}}
 @media(prefers-reduced-motion:reduce){.store .category-card,.store .product-card,.store .product-img img,.store .product-view .ui-icon{transition:none!important;transform:none!important}}
 
-/* Tactile color samples: CSS depth without a 3D runtime or continuous animation. */
-.store .hero-swatch-deck{position:absolute;z-index:4;top:24px;right:25px;width:184px;height:157px;perspective:700px;pointer-events:none}
-.store .hero-swatch-deck i{position:absolute;top:8px;left:43px;display:block;width:100px;height:124px;border:5px solid rgba(255,255,255,.9);border-radius:13px;box-shadow:0 14px 28px rgba(16,31,33,.2);backface-visibility:hidden;transition:transform .42s cubic-bezier(.22,.8,.2,1)}
-.store .hero-swatch-deck i:after{content:"";position:absolute;right:10px;bottom:9px;left:10px;height:13px;border-radius:3px;background:rgba(255,255,255,.45)}
-.store .hero-swatch-deck i:nth-child(1){background:#d6bda3;transform:translate3d(-36px,10px,-30px) rotate(-15deg) rotateY(-12deg)}
-.store .hero-swatch-deck i:nth-child(2){background:#b97460;transform:translate3d(4px,4px,-14px) rotate(5deg) rotateY(8deg)}
-.store .hero-swatch-deck i:nth-child(3){background:#25494d;transform:translate3d(42px,13px,12px) rotate(19deg) rotateY(14deg)}
-.store .hero-swatch-deck>span{position:absolute;right:3px;bottom:0;padding:5px 8px;border-radius:6px;background:rgba(255,255,255,.92);color:#294148;font-size:9px;font-weight:850;letter-spacing:.08em;white-space:nowrap}
+/* Quiet editorial hero: let the room image carry the visual identity. */
+.store .hero-v64{background:radial-gradient(circle at 76% 18%,#faf7f1 0%,#f4f1eb 54%,#f5f3ee 100%)}
+.store .hero-visual{border-radius:18px;box-shadow:0 24px 60px rgba(31,42,40,.13)}
+.store .hero-visual>img{border-radius:18px}
+.store .hero-proof-card{right:0;bottom:0;left:0;gap:10px;padding:56px 28px 23px;border:0;border-radius:0;background:linear-gradient(0deg,rgba(11,28,28,.75),rgba(11,28,28,.34) 57%,transparent);color:#fff;box-shadow:none;backdrop-filter:none}
+.store .hero-proof-card b{color:#fff;font-size:13px;letter-spacing:.01em}
+.store .hero-proof-card small{color:rgba(255,255,255,.82);font-size:10px}
+.store .proof-icon{width:34px;height:34px;flex:none;border-color:rgba(255,255,255,.35);border-radius:10px;background:rgba(255,255,255,.13);color:#fff}
 @media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
-  .store .hero-visual:hover .hero-swatch-deck i:nth-child(1){transform:translate3d(-50px,4px,4px) rotate(-24deg) rotateY(-18deg)}
-  .store .hero-visual:hover .hero-swatch-deck i:nth-child(2){transform:translate3d(0,-12px,25px) rotate(0deg) rotateY(0deg)}
-  .store .hero-visual:hover .hero-swatch-deck i:nth-child(3){transform:translate3d(55px,5px,35px) rotate(27deg) rotateY(20deg)}
-  .store .category-card:hover{transform:perspective(1000px) rotateX(2deg) translateY(-5px)}
-  .store .product-card:hover{transform:perspective(1000px) rotateX(1.5deg) translateY(-5px)}
+  .store .category-card:hover,.store .product-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(18,42,38,.1)}
 }
-@media(max-width:900px){.store .hero-swatch-deck{display:none}}
-@media(prefers-reduced-motion:reduce){.store .hero-swatch-deck i{transition:none}}
+@media(max-width:640px){.store .hero-proof-card{padding:38px 17px 17px}.store .hero-proof-card b{font-size:12px}.store .hero-proof-card small{font-size:9px}}
 
 /* shopping-tools.css */
 .store .shop-assistant-section{padding:92px 0 104px;background:#eef2ef;color:#10212d}
