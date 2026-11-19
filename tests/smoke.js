@@ -248,6 +248,25 @@ async function main() {
   assert(root, 'React root must render');
   const AppClass = root.props.children.type;
   const app = new AppClass({});
+  let publicSyncCalls = 0;
+  harness.context.STB_ITOP = {
+    isITopOrigin() { return false; },
+    syncPublicProducts(products) { publicSyncCalls++; return Promise.resolve(products); }
+  };
+  const syncApp = new AppClass({});
+  syncApp.componentDidMount();
+  await Promise.resolve();
+  assert.strictEqual(publicSyncCalls, 0, 'Vercel storefront must not run iTop product sync and render the whole page twice');
+  syncApp.revealObserver = { disconnect() {} };
+  syncApp.componentWillUnmount();
+  harness.context.STB_ITOP.isITopOrigin = () => true;
+  const itopApp = new AppClass({});
+  itopApp.componentDidMount();
+  await Promise.resolve();
+  assert.strictEqual(publicSyncCalls, 1, 'product sync must remain available on the iTop origin');
+  itopApp.revealObserver = { disconnect() {} };
+  itopApp.componentWillUnmount();
+  delete harness.context.STB_ITOP;
   const originalObserver = harness.context.IntersectionObserver;
   const originalQuery = harness.context.document.querySelectorAll;
   let revealObservers = 0;
