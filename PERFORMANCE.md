@@ -2,6 +2,12 @@
 
 ## Kết quả kiểm tra 19/11/2026
 
+### Rà soát độ mượt khi cuộn
+
+Hồ sơ CPU trên bản production cho thấy xử lý cuộn của header chiếm nhiều mẫu CPU. CSS hiện hành hiển thị header như nhau ở hai trạng thái, nên đã bỏ listener cuộn này. Nút “Về đầu trang” dùng `IntersectionObserver` để xuất hiện gần cuối trang; thanh tiến độ cuộn trang trí đã được bỏ. Đồng thời, bản Vercel không còn đồng bộ lại cùng một catalog sản phẩm từ iTop khi khởi động. Hồ sơ CPU sau triển khai không còn ghi nhận hàm xử lý cuộn của `App` trong các tác vụ nổi bật.
+
+Hai lần đo Lighthouse mobile trên production sau thay đổi ghi nhận: điểm **61/62**, LCP **4,1/3,7 giây**, TBT **1.060/1.760 ms**, CLS **0/0**. Các giá trị này dao động lớn theo tải máy đo và không chứng minh tốc độ tải lần đầu đã tốt hơn. Mốc ban đầu của đợt rà soát là điểm **80**, LCP **3,8 giây**, TBT **350 ms**, CLS **0** trong một lần chạy. Vẫn cần ưu tiên giảm chi phí dựng bố cục và theo dõi LCP, INP từ Speed Insights trên thiết bị khách thật.
+
 Chạy Lighthouse 12.8.2 bằng Chrome headless trên URL production `https://sontienbao-v7.vercel.app/`, chế độ mô phỏng tốc độ mạng và CPU. Mỗi cột là một lần chạy, không phải số liệu khách truy cập thực tế.
 
 | Chế độ | Bản trước | Bản sau khi hoãn ảnh danh mục |
