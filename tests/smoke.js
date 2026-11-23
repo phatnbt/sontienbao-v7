@@ -356,6 +356,15 @@ async function main() {
   assert.strictEqual(projectAssistant.state.area, 150, 'ambiguous descriptions must leave filters intact');
   projectAssistant.applyProject('Chống thấm sân thượng 50 m²');
   assert(projectAssistant.state.projectStatus.includes('hệ sơn chuyên dụng'));
+  assert.strictEqual(projectAssistant.candidates().length, 0, 'specialty cases must not display products from a previous filter');
+  projectAssistant.applyProject('Mặt tiền cũ bị phấn hóa');
+  assert.strictEqual(projectAssistant.state.condition, 'chalk');
+  assert.strictEqual(projectAssistant.state.surface, 'exterior');
+  projectAssistant.applyProject('Sơn trần trắng 30 m²');
+  assert.strictEqual(projectAssistant.state.surface, 'ceiling');
+  assert.strictEqual(projectAssistant.state.area, 30);
+  assert(projectAssistant.candidates().length > 0 && projectAssistant.candidates().every(product => /trần/i.test(product.name)),
+    'ceiling selection must link only to ceiling coating products');
   projectAssistant.applyProject('Tường ngoài bị thấm nước');
   assert.strictEqual(projectAssistant.state.surface, 'waterproof');
   assert.strictEqual(projectAssistant.state.area, '', 'missing area must not reuse an earlier estimate');

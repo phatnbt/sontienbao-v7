@@ -1663,6 +1663,11 @@ html,body,.store{background:var(--studio-paper)}
 .store .project-brief :is(button,input):focus-visible{outline:3px solid #285e96;outline-offset:3px}
 .store .project-brief-status{margin:12px 0 0;color:#2f5275;font-size:.9375rem}
 .store .project-brief-status:empty{margin:0}
+.store .project-brief-more{margin-top:12px}
+.store .project-brief-more summary{width:fit-content;min-height:36px;padding-top:6px;color:#245488;font-weight:750;cursor:pointer}
+.store .project-brief-more .project-brief-examples{margin-top:4px}
+.store .project-brief-status + .btn{margin-top:10px}
+.store .paint-rag-answer{white-space:pre-line;line-height:1.55}
 .store .paint-chatbot{--chat-bottom:22px;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:var(--chat-bottom);z-index:985}
 .store .paint-chatbot-launch{min-height:54px;display:flex;align-items:center;gap:9px;padding:0 18px;border:1px solid #275a8a;border-radius:999px;background:#174b79;color:#fff;font:inherit;font-weight:750;box-shadow:0 8px 22px #142e4b35}
 .store .paint-chatbot-launch .ui-icon{width:22px;height:22px}
