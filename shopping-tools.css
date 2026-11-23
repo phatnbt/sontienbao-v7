@@ -44,6 +44,10 @@
 .store .paint-chatbot-turn{padding:clamp(14px,2vw,20px);background:#fff;border:1px solid #c9ddef;border-radius:12px;overflow-wrap:anywhere}
 .store .paint-chatbot-turn h3{margin:0 0 10px;font-size:1.125rem}
 .store .paint-chatbot-turn h4{margin:0 0 6px;font-size:1rem}
+.store .paint-chatbot-context{margin:0 0 12px;padding:10px;border-radius:9px;background:#e9f3ff;line-height:1.5}
+.store .paint-chatbot-steps{margin:8px 0;padding-left:22px;line-height:1.55}
+.store .paint-chatbot-steps li + li{margin-top:5px}
+.store .paint-chatbot-answer .paint-chatbot-note{margin-top:8px}
 .store .paint-chatbot-answer + .paint-chatbot-answer{border-top:1px solid #d8e5ef;padding-top:14px;margin-top:14px}
 .store .paint-chatbot-answer p{margin:0;line-height:1.55}
 .store .paint-chatbot-sources{padding-left:20px;margin:8px 0;font-size:.875rem}

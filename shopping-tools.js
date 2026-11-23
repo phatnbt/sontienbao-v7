@@ -684,10 +684,41 @@
     }).slice(0, limit == null ? products.length : limit);
   }
 
+  function onePaintTypo(a, b) {
+    if (!/^[a-z]{4,}$/.test(a) || !/^[a-z]{4,}$/.test(b) || Math.abs(a.length - b.length) > 1) return false;
+    if (a.length > b.length) return onePaintTypo(b, a);
+    var index = 0;
+    while (index < a.length && a[index] === b[index]) index++;
+    if (a.length !== b.length) return a.slice(index) === b.slice(index + 1);
+    return a.slice(index + 1) === b.slice(index + 1) ||
+      (a[index] === b[index + 1] && a[index + 1] === b[index] && a.slice(index + 2) === b.slice(index + 2));
+  }
+
+  function approximatePaintTopic(normalized, knowledge) {
+    var words = normalized.split(' ');
+    if (/\b(?:khong|chua)\b/.test(normalized)) return [];
+    var candidates = knowledge.topics.filter(function (topic) {
+      return topic.phrases.some(function (phrase) {
+        var terms = normalizeQuestion(phrase).split(' ');
+        if (terms.length < 2) return false;
+        return words.some(function (_, index) {
+          if (index + terms.length > words.length) return false;
+          var mistakes = 0;
+          return terms.every(function (term, offset) {
+            if (term === words[index + offset]) return true;
+            mistakes++;
+            return mistakes === 1 && onePaintTypo(term, words[index + offset]);
+          }) && mistakes === 1;
+        });
+      });
+    });
+    return candidates.length === 1 ? [{ topic: candidates[0] }] : [];
+  }
+
   function findPaintAnswers(question, knowledge) {
     var normalized = normalizeQuestion(question);
     var padded = ' ' + normalized + ' ';
-    return knowledge.topics.map(function (topic) {
+    var matchesByTopic = knowledge.topics.map(function (topic) {
       if (topic.id === 'specialty' && /\b(phoi mau|chon mau|mau tuong|mau son)\b/.test(normalized) &&
           !/\b(son san|son go|chong tham)\b/.test(normalized)) return { topic: topic, match: 0 };
       var matches = topic.phrases.filter(function (phrase) {
@@ -707,13 +738,103 @@
       return result.match > 0;
     }).sort(function (a, b) {
       return b.topic.priority - a.topic.priority || b.match - a.match;
-    }).slice(0, 3).map(function (result) {
+    });
+    if (!matchesByTopic.length) matchesByTopic = approximatePaintTopic(normalized, knowledge);
+    return matchesByTopic.slice(0, 3).map(function (result) {
       var topic = result.topic;
       return {
         id: topic.id, title: topic.title, answer: topic.answer, action: topic.action,
+        steps: topic.steps || [], caution: topic.caution || '', clarify: topic.clarify || '',
         sources: topic.sources.map(function (key) { return knowledge.sources[key]; })
       };
     });
+  }
+
+  function readChatFacts(question) {
+    var normalized = text(question).replace(/²/g, '2').replace(/(\d)\s*(?:-|–|den|toi)\s*(?=\d)/g, '$1-');
+    var facts = {};
+    var number = '(\\d+(?:[.,]\\d+)?)';
+    function readSingle(field, pattern, min, max) {
+      var matches = Array.from(normalized.matchAll(pattern));
+      if (matches.length !== 1) return;
+      var value = Number(matches[0][1].replace(',', '.'));
+      if (value >= min && value <= max) facts[field] = value;
+    }
+    readSingle('area', new RegExp('(?:^|[^\\d.,+\\-–])' + number + '\\s*(?:m2|met vuong)\\b(?!\\s*/)', 'g'), 1, 100000);
+    readSingle('coats', /(?:^|[^\d.,+\-–])(\d+)\s*lop\b/g, 1, 10);
+    readSingle('coverage', new RegExp('(?:^|[^\\d.,+\\-–])' + number + '\\s*m2\\s*/\\s*(?:lit|l)\\s*/\\s*lop\\b', 'g'), 0.1, 100);
+    readSingle('waste', /hao hut\s*(?:la\s*)?(\d+(?:[.,]\d+)?)\s*%/g, 0, 50);
+    if (!facts.coverage && /\d\s*m2\s*\/\s*(?:l|lit)\b/.test(normalized)) facts.coverageUnclear = true;
+    if (!facts.coats && /\d\s*lop\b/.test(normalized)) facts.coatsUnclear = true;
+    if (/\b(san the thao|pickleball|flexipave|chong tham|son epoxy|be nuoc|san thuong)\b/.test(normalized)) {
+      facts.system = 'specialty';
+    }
+    var indoor = /\b(noi that|trong nha)\b/.test(normalized);
+    var outdoor = /\b(ngoai that|ngoai troi|mat tien)\b/.test(normalized);
+    if (indoor !== outdoor) facts.surface = indoor ? 'trong nhà' : 'ngoài trời';
+    if (!facts.area && /\d\s*(?:m2|met vuong)\b(?!\s*\/)/.test(normalized)) facts.areaUnclear = true;
+    // Measurements of floor area do not determine the total wall area.
+    if (/\b(dien tich san|san rong|phong rong|phong dien tich)\b/.test(normalized)) {
+      delete facts.area;
+      facts.floorOnly = true;
+    }
+    return facts;
+  }
+
+  function quantityReply(facts) {
+    if (facts.system === 'specialty') return 'Hệ này cần tính theo định mức từng lớp và đơn vị ghi trong tài liệu của đúng mã. Hãy gửi mã sản phẩm và diện tích để Tiến Bảo đối chiếu.';
+    if (!facts.area) return facts.floorOnly ? 'Bạn có tổng diện tích tường thực cần sơn, sau khi trừ cửa, không? Diện tích sàn chưa đủ để tính sơn tường.' :
+      facts.areaUnclear ? 'Mình thấy nhiều giá trị hoặc một khoảng diện tích. Hãy nhập một diện tích bề mặt để tính từng phần.' :
+      'Bạn cho mình tổng diện tích bề mặt thực cần sơn bao nhiêu m²?';
+    if (!facts.coats) return 'Với ' + facts.area + ' m², bạn dự định thi công mấy lớp cho loại sơn đang tính?';
+    if (!facts.coverage) return 'Mình đã có ' + facts.area + ' m² và ' + facts.coats + ' lớp. Bạn cho mình định mức theo đơn vị m²/lít/lớp, ví dụ “10 m²/lít/lớp”, hoặc mở máy tính để chọn mã sản phẩm có định mức.';
+    var liters = facts.area * facts.coats / facts.coverage;
+    var format = function (number) { return Number(number.toFixed(2)).toLocaleString('vi-VN'); };
+    var summary = format(facts.area) + ' m² × ' + facts.coats + ' lớp ÷ ' + format(facts.coverage) + ' m²/lít/lớp = khoảng ' + format(liters) + ' lít.';
+    return facts.waste != null ? summary + ' Cộng ' + format(facts.waste) + '% hao hụt bạn nhập, dự kiến ' + format(liters * (1 + facts.waste / 100)) + ' lít.' :
+      summary + ' Lượng này chưa cộng hao hụt. Bạn có thể nhập thêm “hao hụt 10%” nếu muốn tính theo tỷ lệ đó.';
+  }
+
+  function paintConversation(question, knowledge, previous) {
+    var normalized = normalizeQuestion(question);
+    var answers = findPaintAnswers(question, knowledge);
+    var current = readChatFacts(question);
+    var fresh = /\b(cau hoi moi|doi chu de|cong trinh khac|phong khac)\b/.test(normalized);
+    var refersBack = /^(?:con |vay |the |loai do\b|loai nay\b|son do\b|tai sao\b|lam sao\b|co can\b)/.test(normalized);
+    var quantity = answers.some(function (answer) { return answer.id === 'quantity'; });
+    var hasMeasurements = Boolean(current.area || current.coats || current.coverage || current.floorOnly ||
+      current.areaUnclear || current.coverageUnclear || current.coatsUnclear || current.waste != null);
+    var onlyMeasurements = hasMeasurements && answers.every(function (answer) {
+      return answer.id === 'interior' || answer.id === 'exterior' || answer.id === 'area-measure';
+    });
+    var previousQuantity = previous && previous.ids.includes('quantity');
+    var surfaceReply = previous && current.surface && answers.length === 1 &&
+      /^(?:tuong )?(?:o )?(?:trong nha|ngoai troi|noi that|ngoai that|mat tien)$/.test(normalized);
+    var quantityContinuation = quantity && !current.area && !current.areaUnclear && !current.floorOnly;
+    var usePrevious = previous && !fresh && (refersBack || surfaceReply ||
+      (previousQuantity && onlyMeasurements) || quantityContinuation);
+    var facts = Object.assign({}, usePrevious ? previous.facts : {}, current);
+    if (current.floorOnly || current.areaUnclear) delete facts.area;
+    if (current.coverageUnclear) delete facts.coverage;
+    if (current.coatsUnclear) delete facts.coats;
+    if (current.coverage) delete facts.coverageUnclear;
+    if (current.coats) delete facts.coatsUnclear;
+    if (current.area) {
+      delete facts.floorOnly;
+      delete facts.areaUnclear;
+    }
+    if (usePrevious && ((!answers.length && refersBack) || surfaceReply || (previousQuantity && onlyMeasurements))) {
+      answers = previous.answers;
+      quantity = previousQuantity;
+    }
+    var response = quantity ? quantityReply(facts) : '';
+    if (!response && surfaceReply && !fresh) {
+      response = 'Mình ghi nhận khu vực ' + current.surface + '. Khi chọn bước lót và phủ, hãy dùng hệ được hãng chỉ định cho khu vực này và tình trạng nền bên dưới.';
+    }
+    return {
+      answers: answers, facts: facts, ids: answers.map(function (answer) { return answer.id; }),
+      response: response
+    };
   }
 
   var chatbotExamples = ['Phòng thiếu sáng chọn màu gì?', 'Chọn màu theo tuổi, mệnh', 'Tường ẩm mốc xử lý thế nào?', 'Cần bao nhiêu lít sơn?'];
@@ -740,7 +861,7 @@
       if (this.controller) this.controller.abort();
     }
     ask(value) {
-      var question = value.trim().slice(0, 240);
+      var question = value.trim().slice(0, 500);
       if (!question || this.pending) return;
       this.pending = true;
       this.setState({ pending: true, error: '', question: question });
@@ -748,13 +869,14 @@
       this.controller = new AbortController();
       var signal = this.controller.signal;
       var load = this.knowledge ? Promise.resolve(this.knowledge) :
-        fetch('paint-chatbot-knowledge.json?v=2', { signal: signal }).then(function (response) {
+        fetch('paint-chatbot-knowledge.json?v=3', { signal: signal }).then(function (response) {
           if (!response.ok) throw new Error('Knowledge request failed');
           return response.json();
         });
       return load.then(function (knowledge) {
         if (signal.aborted) return;
-        var answers = findPaintAnswers(question, knowledge);
+        var conversation = paintConversation(question, knowledge, chatbot.conversation);
+        chatbot.conversation = conversation;
         chatbot.knowledge = knowledge;
         var namedProduct = catalogText(question).match(/\b(?:(?:jotun|nippon|terraco|ruby)\s+.+|(?:wp|ct|ea|hitex)\s+\d+[a-z]*(?:\s+.*)?)/);
         var productQuery = namedProduct && namedProduct[0]
@@ -762,7 +884,7 @@
         var products = productQuery && productQuery.includes(' ') ?
           searchCatalog(chatbot.props && chatbot.props.products || [], productQuery)
             .filter(function (match) { return match.href; }).slice(0, 3) : [];
-        var turn = { id: ++chatbot.sequence, question: question, answers: answers, products: products };
+        var turn = { id: ++chatbot.sequence, question: question, answers: conversation.answers, response: conversation.response, products: products };
         chatbot.setState(function (state) {
           return { pending: false, question: '', turns: [turn].concat(state.turns).slice(0, 5) };
         }, function () {
@@ -804,6 +926,7 @@
               h('div', { className: 'paint-chatbot-turns', 'aria-label': 'Kết quả mới nhất ở trên' }, state.turns.map(function (turn) {
                 return h('article', { key: turn.id, className: 'paint-chatbot-turn' },
                   h('h3', null, turn.question),
+                  turn.response && h('p', { className: 'paint-chatbot-context' }, turn.response),
                   turn.products.length > 0 && h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Sản phẩm khớp trong catalog' }, turn.products.map(function (match) {
                     return h('li', { key: match.href }, h('a', { href: match.href, target: '_blank', rel: 'noopener noreferrer' }, match.product.name));
                   })),
@@ -812,6 +935,11 @@
                     return h('div', { key: answer.id, className: 'paint-chatbot-answer' },
                       h('h4', null, answer.title),
                       h('p', null, answer.answer),
+                      answer.steps.length > 0 && h('ol', { className: 'paint-chatbot-steps' }, answer.steps.map(function (step) {
+                        return h('li', { key: step }, step);
+                      })),
+                      answer.caution && h('p', { className: 'paint-chatbot-note' }, h('strong', null, 'Lưu ý. '), answer.caution),
+                      answer.clarify && answer.id !== 'quantity' && h('p', { className: 'paint-chatbot-note' }, h('strong', null, 'Bạn cho mình biết thêm. '), answer.clarify),
                       h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Nguồn tham khảo' }, answer.sources.map(function (source) {
                         return h('li', { key: source[1] },
                           h('a', { href: source[1], target: '_blank', rel: 'noopener noreferrer' }, source[0]));
@@ -830,13 +958,17 @@
             state.open && h('div', { className: 'paint-chatbot-compose' },
               h('form', { onSubmit: function (event) { event.preventDefault(); chatbot.ask(state.question); } },
                 h('div', { className: 'paint-chatbot-input' },
-                  h('input', { type: 'text', maxLength: 240, required: true, 'aria-label': 'Câu hỏi của bạn',
+                  h('input', { type: 'text', maxLength: 500, required: true, 'aria-label': 'Câu hỏi của bạn',
                     placeholder: 'Nhập câu hỏi hoặc mã sơn…', value: state.question,
                     readOnly: state.pending, onChange: function (event) { chatbot.setState({ question: event.target.value }); } }),
                   h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, 'Gửi')
                 )
               ),
               h('div', { className: 'paint-chatbot-contact' },
+                state.turns.length > 0 && h('button', { type: 'button', disabled: state.pending, onClick: function () {
+                  chatbot.conversation = null;
+                  chatbot.setState({ turns: [], question: '', error: '' });
+                } }, 'Câu hỏi mới'),
                 h('a', { href: 'tel:' + this.props.site.hotline }, 'Gọi'),
                 h('a', { href: 'https://zalo.me/' + this.props.site.zalo, target: '_blank', rel: 'noopener' }, 'Zalo'),
                 h('button', { type: 'button', onClick: function () { chatbot.setState({ open: false }); chatbot.props.onQuote(); } }, 'Nhận báo giá')
@@ -853,6 +985,7 @@
     ProjectGallery: ProjectGallery,
     PaintChatbot: PaintChatbot,
     findPaintAnswers: findPaintAnswers,
+    paintConversation: paintConversation,
     searchCatalog: searchCatalog,
     catalogLink: catalogLink,
     estimate: estimate,

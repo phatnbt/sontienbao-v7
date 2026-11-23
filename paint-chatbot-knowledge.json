@@ -63,6 +63,82 @@
     "floor": [
       "Terraco · Flexicoat 1105F",
       "https://www.terraco.com/vn/products/flexicoat-1105f-chong-tham-1-thanh-phan/"
+    ],
+    "salt": [
+      "Sherwin-Williams · Xử lý muối hóa trên tường xây",
+      "https://www.sherwin-williams.com/property-facility-managers/interior-aerosols/resources/faqs/interior-troubleshooting-faqs"
+    ],
+    "chalk": [
+      "Sherwin-Williams · Nhận biết màng sơn phấn hóa",
+      "https://www.sherwin-williams.com/architects-specifiers-designers/commercial-wallpaper-floorcovering/resources/SW-ARTICLE-PRO-CHALKINGPOWDER"
+    ],
+    "blister": [
+      "Benjamin Moore · Màng sơn phồng rộp",
+      "https://www.benjaminmoore.com/en-us/contractors/job-solutions/troubleshooting/paint-blistering"
+    ],
+    "crack": [
+      "Sika Việt Nam · Chọn giải pháp xử lý vết nứt và rò nước",
+      "https://vnm.sika.com/vi/serp.list.html/knowledge-hub/how-to-select-injection-material-to-seal-leaks.html"
+    ],
+    "terrace": [
+      "Sika Việt Nam · Chống thấm sân thượng",
+      "https://vnm.sika.com/vi/phuong-phap-thi-cong-san-pham-sika/chong-tham-san-thuong-cho-cong-trinh-moi-xay-va-cai-tao-xuong-cap.html"
+    ],
+    "bath": [
+      "Sika Việt Nam · Hệ chống thấm cho nền và tường",
+      "https://vnm.sika.com/vi/xay-d-ng/h-th-ng-ch-ng-thm/v-a-ch-ng-th-m/sikatop-540-sealvn.html"
+    ],
+    "waterproofSystems": [
+      "Terraco · Phân biệt hệ chống thấm mái, tường và sàn",
+      "https://www.terraco.com/vn/product-category/chong-tham-mot-thanh-phan/"
+    ],
+    "roof": [
+      "Terraco · Flexicoat W100",
+      "https://www.terraco.com/vn/products/flexicoat-w100-chong-tham-1-thanh-phan/"
+    ],
+    "metal": [
+      "Jotun · Hướng dẫn chuẩn bị nền kim loại",
+      "https://www.jotun.com/api-b2b/v1/datasheets/download/merged?selectedFiles=7803"
+    ],
+    "gardex": [
+      "Jotun · Gardex cho gỗ và kim loại",
+      "https://www.jotun.com/vn-vi/decorative/products/exterior/all-exterior-products/gardex-premium-gloss"
+    ],
+    "wood": [
+      "Dulux · Hệ sơn gỗ Sadolin",
+      "https://www.dulux.vn/vi/sadolin-son-go-cao-cap"
+    ],
+    "touchup": [
+      "Sherwin-Williams · Dặm vá và sai khác màu",
+      "https://www.sherwin-williams.com/homeowners/how-to/problem-solver/fading-yellowing-uneven-color/obvious-repair-touch-up"
+    ],
+    "flashing": [
+      "Sherwin-Williams · Màng sơn loang độ bóng",
+      "https://www.sherwin-williams.com/painting-contractors/pasteadhesives/resources/sw-article-pro-unevenglssflash"
+    ],
+    "putty": [
+      "Terraco Việt Nam · Tài liệu kỹ thuật Handycoat",
+      "https://www.terraco.com/vn/downloads/"
+    ],
+    "puttyEx": [
+      "Terraco · Handycoat Exterior Coarse",
+      "https://www.terraco.com/vn/products/keo-ba-handycoat-exterior-coarse/"
+    ],
+    "linePaint": [
+      "Terraco · Sơn kẻ vạch Flexipave",
+      "https://www.terraco.com/vn/products/flexipave-line-paint/"
+    ],
+    "essenceTds": [
+      "Jotun · Bảng thông số Essence Dễ Lau Chùi",
+      "https://www.jotun.com/api-b2b/v1/datasheets/download/merged?selectedFiles=4401"
+    ],
+    "calcArea": [
+      "Dulux · Ước lượng diện tích và lượng sơn",
+      "https://www.dulux.vn/vi/meo-va-loi-khuyen-trang-tri-nha/ban-can-bao-nhieu-son"
+    ],
+    "exteriorTds": [
+      "Dulux · Tài liệu kỹ thuật sơn phủ ngoại thất",
+      "https://www.dulux.vn/content/dam/akzonobel-flourish/dulux/vn/vi/son-ngoai-that-dulux-weathershield-royal-shine/castle.final.pdf"
     ]
   },
   "topics": [
@@ -88,7 +164,13 @@
         "palette"
       ],
       "action": "colors",
-      "priority": 6
+      "priority": 6,
+      "steps": [
+        "Đặt hai hoặc ba mẫu cạnh sàn và nội thất.",
+        "Quan sát cùng một mẫu vào buổi sáng và khi bật đèn buổi tối."
+      ],
+      "caution": "Màu trên màn hình chỉ để lọc tông.",
+      "clarify": "Phòng có nắng vào lúc nào và đang dùng đèn vàng hay đèn trắng?"
     },
     {
       "id": "color-room",
@@ -290,7 +372,13 @@
         "leak"
       ],
       "action": "contact",
-      "priority": 9
+      "priority": 9,
+      "steps": [
+        "Xem vệt ẩm xuất hiện sau mưa, khi dùng nước hay ở chân tường.",
+        "Xử lý nguồn nước và kiểm tra lại nền trước khi chọn lớp chống thấm."
+      ],
+      "caution": "Không sơn phủ lên tường còn thấm để che vệt ẩm.",
+      "clarify": "Vị trí có vệt thấm ở đâu, và bạn có thể thi công ở phía nước đi vào không?"
     },
     {
       "id": "mold",
@@ -309,7 +397,13 @@
         "leak"
       ],
       "action": "contact",
-      "priority": 8
+      "priority": 8,
+      "steps": [
+        "Tìm rò rỉ, đọng hơi nước hoặc thông gió kém.",
+        "Vệ sinh theo hướng dẫn hãng, để khô và theo dõi có tái phát trước khi sơn."
+      ],
+      "caution": "Mốc lan rộng hoặc tái phát cần kiểm tra nguồn ẩm tại chỗ.",
+      "clarify": "Mốc ở phòng nào và thường xuất hiện sau mưa hay khi dùng máy lạnh?"
     },
     {
       "id": "peeling",
@@ -328,7 +422,13 @@
         "repaint"
       ],
       "action": "contact",
-      "priority": 7
+      "priority": 7,
+      "steps": [
+        "Kiểm tra nguồn ẩm và phạm vi lớp sơn bám yếu.",
+        "Cạo sạch phần bong, sửa nền và chọn hệ lót/phủ phù hợp."
+      ],
+      "caution": "Nếu lớp nền chưa ổn định, tạm hoãn sơn phủ.",
+      "clarify": "Tường bong thành mảng, có bột phấn hay phồng bọng nước?"
     },
     {
       "id": "new-wall",
@@ -347,7 +447,13 @@
         "outdoor"
       ],
       "action": "choose",
-      "priority": 5
+      "priority": 5,
+      "steps": [
+        "Cho nền mới đủ thời gian ổn định theo hướng dẫn của hệ sơn.",
+        "Kiểm tra độ ẩm và làm sạch bụi, rồi chọn sơn lót theo nền."
+      ],
+      "caution": "Cần đối chiếu điều kiện trong bảng kỹ thuật của đúng sản phẩm.",
+      "clarify": "Tường trong hay ngoài nhà, mới tô bao lâu và đã đo độ ẩm chưa?"
     },
     {
       "id": "repaint",
@@ -382,7 +488,13 @@
         "outdoor"
       ],
       "action": "contact",
-      "priority": 4
+      "priority": 4,
+      "steps": [
+        "Xác định loại nền và sơn phủ dự định mua.",
+        "Xem chỉ định lót tương thích trong bảng kỹ thuật của hãng."
+      ],
+      "caution": "Khi đổi hệ sơn hoặc sơn trên lớp cũ bóng, xác nhận độ bám trước khi thi công.",
+      "clarify": "Nền là tường mới, tường đã sơn, gỗ hay kim loại?"
     },
     {
       "id": "ceiling",
@@ -421,7 +533,13 @@
         "catalog"
       ],
       "action": "choose",
-      "priority": 5
+      "priority": 5,
+      "steps": [
+        "Lọc dòng sơn nội thất trên catalog và đối chiếu khả năng lau chùi của từng mã.",
+        "Thử màu và độ bóng dưới ánh sáng phòng trước khi đặt pha."
+      ],
+      "caution": "Nhẹ mùi và dễ lau là hai tiêu chí riêng. Xem hướng dẫn thông gió và thời gian sử dụng phòng.",
+      "clarify": "Ưu tiên nhẹ mùi, dễ lau, hay cả hai? Sơn phòng nào?"
     },
     {
       "id": "exterior",
@@ -480,7 +598,13 @@
         "sport"
       ],
       "action": "contact",
-      "priority": 7
+      "priority": 7,
+      "steps": [
+        "Xác định vật liệu nền, thoát nước, vết nứt và mức sử dụng.",
+        "Tách các lớp sửa nền, lót, phủ và kẻ vạch để đối chiếu định mức."
+      ],
+      "caution": "Mỗi lớp có định mức riêng theo hệ và quy cách.",
+      "clarify": "Môn chơi, diện tích, nền bê tông hay nhựa đường, và sân mới hay sửa lại?"
     },
     {
       "id": "quantity",
@@ -522,7 +646,466 @@
         "catalog"
       ],
       "action": "contact",
-      "priority": 1
+      "priority": 1,
+      "steps": [
+        "Chuẩn bị tên hoặc mã sản phẩm, mã màu, quy cách và số lượng.",
+        "Gửi khu vực giao và thời điểm cần nhận hàng để Tiến Bảo xác nhận."
+      ],
+      "caution": "Giá, màu pha và tồn kho cần xác nhận khi đặt.",
+      "clarify": "Bạn đã có mã sản phẩm và quy cách muốn mua chưa?"
+    },
+    {
+      "id": "salt",
+      "title": "Tường có muối trắng",
+      "phrases": [
+        "muối hóa",
+        "muối trắng",
+        "tinh thể trắng",
+        "đốm muối",
+        "tường lên muối",
+        "bột trắng kết tinh"
+      ],
+      "answer": "Muối kết tinh trên nền gạch hoặc xi măng có thể liên quan tới nước đi qua nền và mang muối lên mặt.",
+      "steps": [
+        "Tìm đường nước qua tường, chân tường hoặc mối nối.",
+        "Xử lý nguyên nhân ẩm, làm sạch cặn theo hướng dẫn của hệ vật liệu và chờ nền đủ khô trước khi phủ lại."
+      ],
+      "caution": "Nếu cặn trắng quay lại sau khi vệ sinh, cần kiểm tra nguồn ẩm trước khi sơn.",
+      "clarify": "Cặn trắng ở chân tường, trong nhà hay trên mặt ngoài? Có xuất hiện lại sau mưa không?",
+      "sources": [
+        "salt",
+        "leak"
+      ],
+      "action": "contact",
+      "priority": 12
+    },
+    {
+      "id": "chalk",
+      "title": "Màng sơn bị bột phấn",
+      "phrases": [
+        "phấn hóa",
+        "bột phấn",
+        "sơn bị phấn",
+        "sờ ra bột",
+        "tay dính bột",
+        "tường ra bột"
+      ],
+      "answer": "Bột mịn trên lớp sơn cũ có thể do màng sơn phấn hóa. Nếu có tinh thể trắng hoặc vệt ẩm, kiểm tra cả khả năng muối hóa.",
+      "steps": [
+        "Xác định lớp bột nằm trên màng sơn hay chảy từ nền.",
+        "Làm sạch bột và lớp bám yếu, kiểm tra độ khô rồi chọn lót cho nền đã xử lý."
+      ],
+      "caution": "Sơn phủ lên lớp bột còn sót có thể bám kém.",
+      "clarify": "Chỗ bị phấn hóa đã sơn bao lâu và có chịu mưa nắng trực tiếp không?",
+      "sources": [
+        "chalk",
+        "repaint"
+      ],
+      "action": "contact",
+      "priority": 11
+    },
+    {
+      "id": "blister",
+      "title": "Màng sơn nổi bọt hoặc phồng rộp",
+      "phrases": [
+        "phồng rộp",
+        "nổi bọt",
+        "rộp màng sơn",
+        "sơn bị rộp",
+        "bọng sơn"
+      ],
+      "answer": "Nhiệt, ẩm hoặc tình trạng bám dính có thể làm sơn phồng. Vị trí và thời điểm xuất hiện giúp khoanh vùng nguyên nhân.",
+      "steps": [
+        "Kiểm tra tường có ẩm, vệt thấm hoặc nắng gắt khi thi công không.",
+        "Sau khi xử lý nguyên nhân, loại bỏ phần rộp bám yếu và phục hồi hệ sơn theo tình trạng nền."
+      ],
+      "caution": "Nếu mới sơn và xuất hiện phồng hàng loạt, ghi lại mã, lô sơn và điều kiện thi công để được kiểm tra.",
+      "clarify": "Màng sơn phồng ngay khi thi công, sau mưa hay sau vài tuần?",
+      "sources": [
+        "blister",
+        "repaint"
+      ],
+      "action": "contact",
+      "priority": 11
+    },
+    {
+      "id": "cracks",
+      "title": "Vết nứt tường và khe có nước",
+      "phrases": [
+        "nứt chân chim",
+        "tường nứt",
+        "vết nứt",
+        "nứt tường",
+        "nứt chạy dài",
+        "khe nứt"
+      ],
+      "answer": "Cách sửa phụ thuộc độ rộng, chuyển động và nước đi qua khe. Vết nứt lớp hoàn thiện và khe xuyên nền cần được phân biệt trước khi chọn vật liệu.",
+      "steps": [
+        "Chụp ảnh kèm thước và theo dõi xem vết nứt có rộng dần hoặc có nước không.",
+        "Khe ướt, đang chuyển động hoặc nghi ảnh hưởng kết cấu cần thợ chuyên môn kiểm tra."
+      ],
+      "caution": "Không suy rằng lớp sơn phủ che được mọi vết nứt.",
+      "clarify": "Vết nứt khô hay ướt, độ rộng khoảng bao nhiêu và nằm ở đâu?",
+      "sources": [
+        "crack",
+        "leak"
+      ],
+      "action": "contact",
+      "priority": 12
+    },
+    {
+      "id": "terrace",
+      "title": "Chống thấm sân thượng và mái bê tông",
+      "phrases": [
+        "sân thượng",
+        "sàn mái",
+        "mái bê tông",
+        "đọng nước sân thượng",
+        "mái bị thấm"
+      ],
+      "answer": "Kiểm tra điểm thoát nước và các chi tiết dễ rò trước khi chọn hệ phủ cho mái hoặc sàn.",
+      "steps": [
+        "Xem độ dốc, nơi đọng nước, chân tường, cổ ống và khe nứt.",
+        "Chọn hệ theo nền cũ hay mới, bề mặt lộ thiên hay có lớp bảo vệ và mức đi lại."
+      ],
+      "caution": "Định mức và thời gian chờ theo tài liệu của cả hệ, kể cả lớp bảo vệ nếu có.",
+      "clarify": "Sân đang lát gạch hay để bê tông, và có nước đọng sau mưa không?",
+      "sources": [
+        "terrace",
+        "waterproofSystems"
+      ],
+      "action": "contact",
+      "priority": 13
+    },
+    {
+      "id": "bathroom",
+      "title": "Chống thấm nhà tắm và sàn dưới gạch",
+      "phrases": [
+        "nhà tắm",
+        "nhà vệ sinh",
+        "sàn phòng tắm",
+        "sàn dưới gạch",
+        "cổ ống thoát",
+        "nhà tắm tầng trên"
+      ],
+      "answer": "Xác định ẩm do ống rò hay do lớp chống thấm. Hai nguyên nhân cần cách xử lý khác nhau.",
+      "steps": [
+        "Kiểm tra quanh ống thoát, góc sàn–tường và các mối nối.",
+        "Chọn hệ dành cho nền và vị trí ẩm ướt; xác nhận bước kiểm tra kín nước và thời gian trước khi lát gạch theo hệ."
+      ],
+      "caution": "Nếu trần tầng dưới ẩm, xử lý nguồn phía trên trước khi sơn dặm trần.",
+      "clarify": "Hiện đã lát gạch chưa và vết ẩm thấy ở sàn, vách hay trần tầng dưới?",
+      "sources": [
+        "bath",
+        "floor",
+        "leak"
+      ],
+      "action": "contact",
+      "priority": 13
+    },
+    {
+      "id": "roof-metal",
+      "title": "Xử lý mái tôn trước khi sơn",
+      "phrases": [
+        "mái tôn",
+        "tôn tráng kẽm",
+        "sơn tôn",
+        "mái tôn dột",
+        "tôn bị gỉ"
+      ],
+      "answer": "Mái tôn rò ở vít, mối nối hoặc lỗ thủng cần kiểm tra điểm rò trước. Hệ phủ phải tương thích vật liệu và lớp phủ đang có.",
+      "steps": [
+        "Xác định tôn mạ hay tôn đã sơn, tình trạng gỉ và liên kết mái.",
+        "Kiểm tra hệ lót, phủ và cách xử lý mối nối theo tài liệu sản phẩm."
+      ],
+      "caution": "Công việc trên mái cần người có thiết bị và phương án làm việc trên cao.",
+      "clarify": "Tôn là loại mạ kẽm hay đã sơn, và có thủng hoặc gỉ lan rộng không?",
+      "sources": [
+        "roof",
+        "metal"
+      ],
+      "action": "contact",
+      "priority": 13
+    },
+    {
+      "id": "metal",
+      "title": "Sơn sắt, thép và kim loại mạ",
+      "phrases": [
+        "sơn sắt",
+        "sơn kim loại",
+        "sắt thép",
+        "rỉ sét",
+        "gỉ sét",
+        "cửa sắt",
+        "thép mạ kẽm",
+        "nhôm"
+      ],
+      "answer": "Sắt thép thường, thép mạ kẽm và nhôm có yêu cầu chuẩn bị khác nhau. Xác định nền trước khi chọn lớp lót chống ăn mòn và lớp phủ.",
+      "steps": [
+        "Làm sạch dầu mỡ, bụi và xử lý gỉ hoặc lớp sơn cũ bám yếu theo hướng dẫn hệ.",
+        "Kiểm tra độ phù hợp giữa lót, phủ và mức tiếp xúc mưa nắng."
+      ],
+      "caution": "Nếu chi tiết là kim loại mạ hoặc nhôm, xác nhận lót được hãng chỉ định cho nền đó.",
+      "clarify": "Là cửa sắt thường, thép mạ hay nhôm? Có lớp cũ hoặc gỉ không?",
+      "sources": [
+        "metal",
+        "gardex"
+      ],
+      "action": "contact",
+      "priority": 11
+    },
+    {
+      "id": "wood",
+      "title": "Sơn cửa gỗ hoặc đồ nội thất gỗ",
+      "phrases": [
+        "sơn gỗ",
+        "cửa gỗ",
+        "đồ gỗ",
+        "giữ vân gỗ",
+        "phủ pu",
+        "vecni",
+        "sơn bàn gỗ"
+      ],
+      "answer": "Chọn giữa hệ giữ vân và hệ phủ màu, rồi đối chiếu sản phẩm dùng trong nhà hay ngoài trời.",
+      "steps": [
+        "Xem gỗ thô hay từng sơn, có ẩm, bong hoặc dính dầu không.",
+        "Thử trên vùng khuất và đọc hướng dẫn chà nhám, lót, dung môi của đúng mã."
+      ],
+      "caution": "Nếu sơn trong nhà, làm theo hướng dẫn thông gió và bảo hộ trên nhãn.",
+      "clarify": "Bạn muốn giữ vân gỗ hay phủ màu, và đồ đặt trong nhà hay ngoài trời?",
+      "sources": [
+        "wood",
+        "gardex"
+      ],
+      "action": "contact",
+      "priority": 11
+    },
+    {
+      "id": "touchup",
+      "title": "Dặm vá bị lệch màu",
+      "phrases": [
+        "dặm vá",
+        "dặm sơn",
+        "lệch màu",
+        "loang màu",
+        "vá tường",
+        "màu cũ mới khác nhau"
+      ],
+      "answer": "Cùng mã màu vẫn có thể khác do tường cũ, lô sơn, cách lăn hoặc độ bóng.",
+      "steps": [
+        "Thử một vùng nhỏ, ưu tiên sơn còn lại cùng lô và dụng cụ tương tự nếu dùng được.",
+        "Chờ mẫu khô rồi kiểm tra dưới ánh sáng phòng. Nếu vệt vẫn rõ, cân nhắc sơn lại cả mảng đến góc tường."
+      ],
+      "caution": "Đừng so màu khi sơn còn ướt.",
+      "clarify": "Bạn còn nhãn mã màu, độ bóng hoặc sơn cùng lô không?",
+      "sources": [
+        "touchup",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 10
+    },
+    {
+      "id": "flashing",
+      "title": "Màng sơn loang bóng",
+      "phrases": [
+        "loang bóng",
+        "bóng không đều",
+        "chỗ bóng chỗ mờ",
+        "vệt lăn",
+        "độ bóng không đều"
+      ],
+      "answer": "Độ hút nền khác nhau và cách thi công có thể làm xuất hiện vệt bóng.",
+      "steps": [
+        "Phân biệt vệt độ bóng khi nhìn xiên với lệch màu khi nhìn thẳng.",
+        "Kiểm tra các vùng trét vá, lót, thời gian giữa lớp và cách duy trì mép sơn ướt theo hướng dẫn hãng."
+      ],
+      "caution": "Nếu vá cục bộ vẫn hiện vệt, đối chiếu hướng dẫn lót và phủ lại cả mảng.",
+      "clarify": "Vệt chỉ thấy khi có đèn chiếu xiên hay thấy ở mọi góc?",
+      "sources": [
+        "flashing",
+        "touchup"
+      ],
+      "action": "contact",
+      "priority": 10
+    },
+    {
+      "id": "putty",
+      "title": "Khi nào cần bột trét",
+      "phrases": [
+        "bột trét",
+        "bả tường",
+        "bột bả",
+        "trét làm phẳng",
+        "xả nhám",
+        "handycoat"
+      ],
+      "answer": "Bột trét dùng để làm phẳng những khuyết điểm phù hợp với tài liệu của sản phẩm.",
+      "steps": [
+        "Xem nền có bám chắc, khô và đủ sạch không.",
+        "Chọn dòng trét nội hoặc ngoại thất và giữ độ dày, cách trộn, chờ khô theo bảng kỹ thuật."
+      ],
+      "caution": "Tường đang thấm hoặc khe đang chuyển động cần xử lý nguyên nhân riêng.",
+      "clarify": "Bạn cần làm phẳng cả mảng hay chỉ vá điểm, trong hay ngoài nhà?",
+      "sources": [
+        "putty",
+        "puttyEx"
+      ],
+      "action": "contact",
+      "priority": 7
+    },
+    {
+      "id": "dry-time",
+      "title": "Bao lâu sơn được lớp tiếp theo",
+      "phrases": [
+        "bao lâu khô",
+        "thời gian khô",
+        "cách nhau bao lâu",
+        "sơn lớp tiếp theo",
+        "thời gian giữa lớp",
+        "khô bề mặt",
+        "sơn lại sau bao lâu"
+      ],
+      "answer": "Thời gian khô bề mặt, thời gian sơn lớp kế tiếp và thời gian màng ổn định có thể khác nhau.",
+      "steps": [
+        "Tra thời gian sơn lớp kế tiếp trong tài liệu của đúng mã.",
+        "Đối chiếu độ ẩm, nhiệt độ, thông gió và độ dày màng tại công trình."
+      ],
+      "caution": "Không lấy thời gian của một loại sơn áp dụng cho loại khác.",
+      "clarify": "Bạn đang dùng mã nào, và đang hỏi thời gian giữa hai lớp hay trước khi sử dụng phòng?",
+      "sources": [
+        "essenceTds",
+        "moisture"
+      ],
+      "action": "contact",
+      "priority": 8
+    },
+    {
+      "id": "rain",
+      "title": "Thi công khi mưa hoặc nền còn ẩm",
+      "phrases": [
+        "sơn khi mưa",
+        "trời mưa",
+        "sơn xong gặp mưa",
+        "vừa mưa",
+        "mưa vừa tạnh",
+        "sơn lúc nắng gắt",
+        "thi công trời ẩm"
+      ],
+      "answer": "Xem điều kiện nền và dự báo thời tiết trong suốt khoảng thi công và khô của hệ sơn ngoại thất.",
+      "steps": [
+        "Kiểm tra nền không còn ẩm và điều kiện thi công nằm trong phạm vi của hãng.",
+        "Nếu lớp mới gặp mưa, để mặt khô và kiểm tra vệt chảy, phồng hoặc bong trước khi dặm."
+      ],
+      "caution": "Nếu hư hại diện rộng, giữ nhãn lô sơn và ảnh để cửa hàng hoặc hãng đánh giá.",
+      "clarify": "Mưa xảy ra trước khi sơn hay sau lớp mới, và cách bao lâu?",
+      "sources": [
+        "moisture",
+        "exteriorTds",
+        "blister"
+      ],
+      "action": "contact",
+      "priority": 9
+    },
+    {
+      "id": "dilution",
+      "title": "Pha sơn và chọn dụng cụ",
+      "phrases": [
+        "pha sơn",
+        "pha loãng",
+        "pha nước",
+        "pha dung môi",
+        "dùng con lăn",
+        "dùng súng phun",
+        "pha bao nhiêu"
+      ],
+      "answer": "Nước, dung môi, tỷ lệ pha và dụng cụ phụ thuộc loại sản phẩm và hướng dẫn của hãng.",
+      "steps": [
+        "Xem mục pha loãng và cách thi công của đúng mã.",
+        "Nếu hãng có tỷ lệ khác nhau giữa cọ, lăn và phun, dùng tỷ lệ theo dụng cụ bạn chọn."
+      ],
+      "caution": "Tránh lấy tỷ lệ của sơn nước áp vào sơn dầu hoặc hệ hai thành phần.",
+      "clarify": "Cho mình tên hoặc mã sơn và dụng cụ bạn định dùng.",
+      "sources": [
+        "outdoor",
+        "essenceTds"
+      ],
+      "action": "contact",
+      "priority": 8
+    },
+    {
+      "id": "dark-to-light",
+      "title": "Đổi từ màu đậm sang màu sáng",
+      "phrases": [
+        "màu đậm sang màu sáng",
+        "đổi màu đậm",
+        "phủ màu cũ",
+        "sơn màu sáng đè màu",
+        "sơn đổi màu đậm",
+        "màu cũ xuyên qua"
+      ],
+      "answer": "Màu nền và màu mới ảnh hưởng độ che phủ. Thử mẫu hệ sơn trên vùng nhỏ để kiểm tra độ phủ thực tế.",
+      "steps": [
+        "Xác nhận lớp cũ còn bám tốt, rồi chọn lót và phủ tương thích.",
+        "Kiểm tra tài liệu theo mã và màu đã chọn, vì một số sắc độ có thể cần thêm lớp."
+      ],
+      "caution": "Chốt số lớp sau khi thử mẫu, nhất là khi đổi sang màu chênh lệch nhiều.",
+      "clarify": "Màu hiện tại và màu định đổi là gì, tường có bóng hoặc bám yếu không?",
+      "sources": [
+        "palette",
+        "exteriorTds"
+      ],
+      "action": "colors",
+      "priority": 7
+    },
+    {
+      "id": "area-measure",
+      "title": "Đo diện tích tường thực cần sơn",
+      "phrases": [
+        "đo diện tích tường",
+        "tính diện tích tường",
+        "trừ cửa",
+        "diện tích sàn",
+        "sàn rộng",
+        "đo phòng"
+      ],
+      "answer": "Diện tích sàn chưa đủ để tính lượng sơn tường. Cần kích thước các mặt sẽ sơn và phần cửa cần trừ.",
+      "steps": [
+        "Tính rộng × cao cho từng mặt tường, cộng các mặt và trừ cửa không sơn.",
+        "Tách diện tích trần, tường, gỗ hoặc kim loại để tính theo các hệ riêng."
+      ],
+      "caution": "Dùng đơn vị phù hợp với định mức trên tài liệu sản phẩm.",
+      "clarify": "Bạn có tổng bề mặt tường, hay chỉ có diện tích sàn và chiều cao?",
+      "sources": [
+        "calcArea",
+        "coverage"
+      ],
+      "action": "calculate",
+      "priority": 7
+    },
+    {
+      "id": "court-lines",
+      "title": "Sơn kẻ vạch sân thể thao",
+      "phrases": [
+        "sơn kẻ vạch",
+        "kẻ vạch sân",
+        "vạch pickleball",
+        "vạch tennis",
+        "flexipave line paint"
+      ],
+      "answer": "Vạch sân cần vật liệu kẻ vạch phù hợp với nền và hệ phủ hiện có.",
+      "steps": [
+        "Xác nhận môn thi đấu, sơ đồ vạch và bề rộng theo yêu cầu của sân.",
+        "Chọn sản phẩm tương thích; tính từ chiều dài × bề rộng vạch, số lớp và định mức của đúng mã."
+      ],
+      "caution": "Không dùng công thức sơn phủ cả sân để tính phần vạch.",
+      "clarify": "Sân đang dùng hệ phủ gì và cần kẻ cho môn nào?",
+      "sources": [
+        "linePaint",
+        "sport"
+      ],
+      "action": "contact",
+      "priority": 10
     }
   ]
 }
