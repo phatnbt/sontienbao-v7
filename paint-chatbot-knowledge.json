@@ -1,0 +1,326 @@
+{
+  "sources": {
+    "repaint": [
+      "Nippon Paint · Sơn lại tường cũ",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban"
+    ],
+    "moisture": [
+      "Nippon Paint · Độ ẩm tường",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/tam-quan-trong-cua-do-am-tuong-khi-son-nha-do-am-tuong-bao-nhieu-thi-son-duoc"
+    ],
+    "leak": [
+      "Nippon Paint · Xử lý tường thấm",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/tuong-bi-tham-nuoc"
+    ],
+    "essence": [
+      "Jotun · Essence Dễ Lau Chùi",
+      "https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean"
+    ],
+    "outdoor": [
+      "Nippon Paint · Sơn nội và ngoại thất",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-son-nha-noi-ngoai-that"
+    ],
+    "primer": [
+      "Nippon Paint · Sơn lót ngoại thất",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/son-lot-ngoai-that-ngoai-troi"
+    ],
+    "coverage": [
+      "Nippon Paint · Diện tích sơn theo định mức",
+      "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/giai-dap-thac-mac-son-1-lit-son-duoc-bao-nhieu-m2"
+    ],
+    "catalog": [
+      "Danh mục Sơn Tiến Bảo",
+      "https://sontienbao.com/danh-muc-san-pham/"
+    ],
+    "sport": [
+      "Terraco · Flexipave Coating",
+      "https://www.terraco.com/vn/products/flexipave-coating/"
+    ],
+    "ceiling": [
+      "Jotun · Essence Trắng Trần Chuyên Dụng",
+      "https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-ceiling-vn"
+    ],
+    "floor": [
+      "Terraco · Flexicoat 1105F",
+      "https://www.terraco.com/vn/products/flexicoat-1105f-chong-tham-1-thanh-phan/"
+    ]
+  },
+  "topics": [
+    {
+      "id": "specialty",
+      "title": "Bề mặt cần hệ sơn riêng",
+      "phrases": [
+        "gỗ",
+        "kim loại",
+        "sắt thép",
+        "mái tôn",
+        "sân thượng",
+        "nhà vệ sinh",
+        "nhà tắm",
+        "bể nước",
+        "hồ bơi",
+        "sàn epoxy",
+        "sàn nhà xưởng"
+      ],
+      "answer": "Ghi rõ vật liệu nền và mục đích sử dụng. Ví dụ, sân thượng và sàn nhà vệ sinh cần đối chiếu hệ chống thấm dùng cho sàn. Nếu là gỗ, kim loại hoặc sàn công nghiệp, gửi ảnh bề mặt và mã lớp phủ cũ cho Tiến Bảo để chọn hệ phù hợp.",
+      "sources": [
+        "floor",
+        "catalog"
+      ],
+      "action": "contact",
+      "priority": 10
+    },
+    {
+      "id": "seepage",
+      "title": "Tường bị thấm nước",
+      "phrases": [
+        "chống thấm",
+        "thấm nước",
+        "bị thấm",
+        "vệt thấm",
+        "chân tường ướt",
+        "nước ngấm",
+        "dột",
+        "thấm mưa"
+      ],
+      "answer": "Xác định nước đến từ mưa, đường ống hay chân tường và xử lý nguồn thấm trước. Sau khi sửa nền và kiểm tra độ ẩm, mới chọn hệ chống thấm đúng vị trí và hướng nước. Cho Tiến Bảo biết mặt nào có thể thi công.",
+      "sources": [
+        "leak"
+      ],
+      "action": "contact",
+      "priority": 9
+    },
+    {
+      "id": "mold",
+      "title": "Tường ẩm mốc hoặc có rong rêu",
+      "phrases": [
+        "ẩm mốc",
+        "nấm mốc",
+        "bị mốc",
+        "rong rêu",
+        "mốc đen",
+        "tường ẩm"
+      ],
+      "answer": "Tìm nguồn ẩm, làm sạch vùng bị mốc theo hướng dẫn của hãng rồi kiểm tra tường đã khô. Khi nền ổn định, chọn hệ lót và phủ phù hợp. Nếu mốc tái phát, cần kiểm tra nguồn nước hoặc thông gió trước khi mua sơn.",
+      "sources": [
+        "repaint",
+        "leak"
+      ],
+      "action": "contact",
+      "priority": 8
+    },
+    {
+      "id": "peeling",
+      "title": "Lớp sơn cũ bong tróc",
+      "phrases": [
+        "bong tróc",
+        "bong sơn",
+        "tróc sơn",
+        "phồng rộp",
+        "tróc mảng",
+        "bột phấn",
+        "phấn hóa"
+      ],
+      "answer": "Kiểm tra xem tường có thấm hoặc ẩm. Loại bỏ phần lớp cũ bám yếu và bụi phấn, sửa các khuyết điểm rồi kiểm tra độ khô. Chọn sơn lót và sơn phủ sau khi bề mặt đã ổn định.",
+      "sources": [
+        "repaint"
+      ],
+      "action": "contact",
+      "priority": 7
+    },
+    {
+      "id": "new-wall",
+      "title": "Tường mới xây",
+      "phrases": [
+        "tường mới",
+        "mới xây",
+        "nhà mới xây",
+        "mới tô",
+        "mới trát",
+        "tường mới tô"
+      ],
+      "answer": "Chờ bề mặt đủ khô và ổn định theo hướng dẫn cho loại nền. Đo độ ẩm trước khi thi công. Chọn sơn lót tương thích với nền và sơn phủ theo hệ hãng. Thời điểm sơn phụ thuộc điều kiện khô thực tế của công trình.",
+      "sources": [
+        "moisture",
+        "outdoor"
+      ],
+      "action": "choose",
+      "priority": 5
+    },
+    {
+      "id": "repaint",
+      "title": "Sơn lại nhà cũ",
+      "phrases": [
+        "sơn lại",
+        "nhà cũ",
+        "đổi màu tường",
+        "lớp sơn cũ",
+        "sơn sửa"
+      ],
+      "answer": "Kiểm tra độ bám của lớp sơn cũ và dấu hiệu thấm. Làm sạch, sửa nền và cho khô rồi chọn hệ lót, phủ theo tình trạng bề mặt. Hãy cho biết sơn trong nhà hay ngoài trời để lọc sản phẩm.",
+      "sources": [
+        "repaint"
+      ],
+      "action": "choose",
+      "priority": 1
+    },
+    {
+      "id": "primer",
+      "title": "Khi nào cần sơn lót",
+      "phrases": [
+        "sơn lót",
+        "chống kiềm",
+        "lót hay không",
+        "bỏ lót",
+        "primer"
+      ],
+      "answer": "Đối chiếu hệ sơn của hãng với loại nền, vị trí trong hay ngoài nhà, và tình trạng lớp sơn cũ. Sơn lót phù hợp giúp lớp phủ bám và lên màu đều. Hỏi Tiến Bảo mã lót tương thích với mã sơn phủ bạn định mua.",
+      "sources": [
+        "primer",
+        "outdoor"
+      ],
+      "action": "contact",
+      "priority": 4
+    },
+    {
+      "id": "ceiling",
+      "title": "Sơn trần nội thất",
+      "phrases": [
+        "sơn trần",
+        "trần nhà",
+        "trắng trần",
+        "trần thạch cao",
+        "trần nội thất"
+      ],
+      "answer": "Với trần trong nhà, có thể xem dòng trắng trần chuyên dụng để có bề mặt trắng mờ. Xác nhận nền là bê tông hay thạch cao, tình trạng mối nối và độ khô, rồi đối chiếu hệ sơn cho loại nền đó.",
+      "sources": [
+        "ceiling",
+        "catalog"
+      ],
+      "action": "choose",
+      "priority": 5
+    },
+    {
+      "id": "washable",
+      "title": "Nội thất dễ lau chùi hoặc nhẹ mùi",
+      "phrases": [
+        "lau chùi",
+        "chùi rửa",
+        "dễ lau",
+        "nhẹ mùi",
+        "ít mùi",
+        "phòng cho bé",
+        "phòng em bé",
+        "bám bẩn"
+      ],
+      "answer": "Chọn dòng sơn phủ nội thất và kiểm tra tính năng ghi trong tài liệu từng mã. Có thể tham khảo Jotun Essence Dễ Lau Chùi cho tường cần vệ sinh thường xuyên. Nếu ưu tiên nhẹ mùi, đối chiếu thông số và hướng dẫn thông gió của đúng sản phẩm.",
+      "sources": [
+        "essence",
+        "catalog"
+      ],
+      "action": "choose",
+      "priority": 5
+    },
+    {
+      "id": "exterior",
+      "title": "Sơn tường ngoài trời",
+      "phrases": [
+        "ngoại thất",
+        "ngoài trời",
+        "mặt tiền",
+        "tường ngoài",
+        "chịu mưa nắng",
+        "nắng mưa",
+        "bền màu"
+      ],
+      "answer": "Chọn hệ lót và phủ dành cho tường ngoài, theo loại nền và mức tiếp xúc mưa nắng. Kiểm tra vết nứt, thấm và độ ẩm trước khi sơn. Nếu ưu tiên bền màu hoặc dễ vệ sinh, xem tính năng mà hãng công bố cho mã cụ thể.",
+      "sources": [
+        "outdoor",
+        "catalog"
+      ],
+      "action": "choose",
+      "priority": 2
+    },
+    {
+      "id": "interior",
+      "title": "Chọn sơn nội thất",
+      "phrases": [
+        "nội thất",
+        "trong nhà",
+        "phòng khách",
+        "phòng ngủ",
+        "phòng bếp",
+        "tường trong"
+      ],
+      "answer": "Bắt đầu từ loại bề mặt, tình trạng tường và nhu cầu vệ sinh. Lọc sơn nội thất theo ưu tiên như dễ lau, nhẹ mùi hoặc hoàn thiện mờ, rồi đối chiếu tài liệu của từng mã và hệ lót tương thích.",
+      "sources": [
+        "outdoor",
+        "catalog"
+      ],
+      "action": "choose",
+      "priority": 2
+    },
+    {
+      "id": "sport",
+      "title": "Sơn sân thể thao",
+      "phrases": [
+        "sân thể thao",
+        "sân tennis",
+        "sân pickleball",
+        "sân cầu lông",
+        "sân bóng rổ",
+        "sân bóng chuyền",
+        "kẻ vạch",
+        "flexipave"
+      ],
+      "answer": "Cho biết môn chơi, loại nền, diện tích, tình trạng đọng nước và yêu cầu bề mặt. Terraco Flexipave có các vật liệu riêng cho chuẩn bị nền và hoàn thiện. Định mức theo từng lớp của hệ sân; máy tính sơn tường không dùng cho sân thể thao.",
+      "sources": [
+        "sport"
+      ],
+      "action": "contact",
+      "priority": 7
+    },
+    {
+      "id": "quantity",
+      "title": "Tính lượng sơn cần mua",
+      "phrases": [
+        "bao nhiêu lít",
+        "bao nhiêu thùng",
+        "tính sơn",
+        "tính lượng",
+        "tốn bao nhiêu sơn",
+        "sơn được bao nhiêu",
+        "độ phủ",
+        "định mức",
+        "diện tích tường"
+      ],
+      "answer": "Nhập diện tích thực cần sơn, số lớp và mã sản phẩm. Nếu tài liệu ghi m²/lít/lớp, ước tính lít bằng diện tích nhân số lớp, chia độ phủ rồi cộng phần hao hụt dự kiến. Tính riêng sơn lót và sơn phủ. Định mức theo khối lượng hoặc chiều dày cần cách tính theo tài liệu của mã đó.",
+      "sources": [
+        "coverage"
+      ],
+      "action": "calculate",
+      "priority": 3
+    },
+    {
+      "id": "quote",
+      "title": "Hỏi giá và quy cách",
+      "phrases": [
+        "báo giá",
+        "giá bao nhiêu",
+        "giá bán",
+        "giá sơn",
+        "mua ở đâu",
+        "giao hàng",
+        "còn hàng",
+        "giá thùng",
+        "đặt hàng"
+      ],
+      "answer": "Để Tiến Bảo báo giá, gửi tên sản phẩm hoặc nhu cầu, quy cách, số lượng dự kiến, màu và khu vực giao hàng. Cửa hàng sẽ xác nhận giá và tình trạng hàng theo thời điểm.",
+      "sources": [
+        "catalog"
+      ],
+      "action": "contact",
+      "priority": 1
+    }
+  ]
+}

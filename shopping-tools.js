@@ -627,10 +627,140 @@
     );
   }
 
+  function normalizeQuestion(question) {
+    return text(question).replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function findPaintAnswers(question, knowledge) {
+    var normalized = normalizeQuestion(question);
+    var padded = ' ' + normalized + ' ';
+    return knowledge.topics.map(function (topic) {
+      var matches = topic.phrases.filter(function (phrase) {
+        var term = ' ' + normalizeQuestion(phrase) + ' ';
+        var index = padded.indexOf(term);
+        while (index >= 0) {
+          // Skip descriptions such as “không bị thấm”, but keep questions ending in “không?”.
+          var before = padded.slice(0, index + 1);
+          if (!/\b(?:khong|chua)(?: bi| co)? $/.test(before)) return true;
+          index = padded.indexOf(term, index + 1);
+        }
+        return false;
+      });
+      return { topic: topic, match: matches.length };
+    }).filter(function (result) {
+      return result.match > 0;
+    }).sort(function (a, b) {
+      return b.topic.priority - a.topic.priority || b.match - a.match;
+    }).slice(0, 3).map(function (result) {
+      var topic = result.topic;
+      return {
+        id: topic.id, title: topic.title, answer: topic.answer, action: topic.action,
+        sources: topic.sources.map(function (key) { return knowledge.sources[key]; })
+      };
+    });
+  }
+
+  var chatbotExamples = ['Tường ẩm mốc xử lý thế nào?', 'Sơn gì dễ lau chùi?', 'Cần bao nhiêu lít sơn?', 'Sơn sân pickleball chọn loại nào?'];
+  var chatbotActions = {
+    choose: ['Mở bộ chọn sơn', '#chon-son'],
+    calculate: ['Mở máy tính lượng sơn', '#calculator']
+  };
+
+  class PaintChatbot extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { question: '', turns: [], pending: false, error: '' };
+      this.sequence = 0;
+    }
+    componentWillUnmount() {
+      if (this.controller) this.controller.abort();
+    }
+    ask(value) {
+      var question = value.trim().slice(0, 240);
+      if (!question || this.pending) return;
+      this.pending = true;
+      this.setState({ pending: true, error: '', question: question });
+      var chatbot = this;
+      this.controller = new AbortController();
+      var signal = this.controller.signal;
+      var load = this.knowledge ? Promise.resolve(this.knowledge) :
+        fetch('paint-chatbot-knowledge.json?v=1', { signal: signal }).then(function (response) {
+          if (!response.ok) throw new Error('Knowledge request failed');
+          return response.json();
+        });
+      return load.then(function (knowledge) {
+        if (signal.aborted) return;
+        var answers = findPaintAnswers(question, knowledge);
+        chatbot.knowledge = knowledge;
+        var turn = { id: ++chatbot.sequence, question: question, answers: answers };
+        chatbot.setState(function (state) {
+          return { pending: false, question: '', turns: [turn].concat(state.turns).slice(0, 5) };
+        });
+      }).catch(function () {
+        if (signal.aborted) return;
+        chatbot.setState({ pending: false, error: 'Chưa tải được tài liệu. Hãy thử lại hoặc liên hệ Tiến Bảo.' });
+      }).finally(function () {
+        chatbot.pending = false;
+      });
+    }
+    render() {
+      var chatbot = this;
+      var state = this.state;
+      var contact = this.props.site.quoteUrl;
+      return h('section', { id: 'hoi-dap-son', className: 'paint-chatbot', 'aria-label': 'Trợ lý tư vấn sơn' },
+        h('div', { className: 'container' },
+          h('details', { className: 'paint-chatbot-panel', open: location.hash === '#hoi-dap-son' },
+            h('summary', null, 'Hỏi đáp với Trợ lý Sơn Tiến Bảo'),
+            h('div', { className: 'paint-chatbot-body' },
+              h('p', null, 'Hỏi về cách xử lý bề mặt, chọn hệ sơn hoặc tính lượng cần mua. Mỗi câu trả lời có nguồn để bạn đối chiếu.'),
+              h('form', { onSubmit: function (event) { event.preventDefault(); chatbot.ask(state.question); } },
+                h('label', { htmlFor: 'paint-chat-question' }, 'Câu hỏi của bạn'),
+                h('div', { className: 'paint-chatbot-input' },
+                  h('input', { id: 'paint-chat-question', type: 'text', maxLength: 240, required: true,
+                    placeholder: 'Ví dụ: Tường cũ bị bong tróc thì làm gì?', value: state.question,
+                    readOnly: state.pending, onChange: function (event) { chatbot.setState({ question: event.target.value }); } }),
+                  h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, 'Hỏi trợ lý')
+                )
+              ),
+              h('div', { className: 'project-brief-examples paint-chatbot-examples', 'aria-label': 'Câu hỏi mẫu' }, chatbotExamples.map(function (example) {
+                return h('button', { key: example, type: 'button', disabled: state.pending,
+                  onClick: function () { chatbot.ask(example); } }, example);
+              })),
+              h('p', { className: 'paint-chatbot-status', role: 'status' }, state.error ||
+                (state.pending ? 'Đang tra tài liệu…' : state.turns.length ? 'Đã tra cứu xong. Kết quả mới nhất ở bên dưới.' : '')),
+              h('div', { className: 'paint-chatbot-turns', 'aria-label': 'Kết quả mới nhất ở trên' }, state.turns.map(function (turn) {
+                return h('article', { key: turn.id, className: 'paint-chatbot-turn' },
+                  h('h3', null, turn.question),
+                  turn.answers.length ? turn.answers.map(function (answer) {
+                    var action = chatbotActions[answer.action] || ['Nhờ Tiến Bảo tư vấn', contact];
+                    return h('div', { key: answer.id, className: 'paint-chatbot-answer' },
+                      h('h4', null, answer.title),
+                      h('p', null, answer.answer),
+                      h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Nguồn tham khảo' }, answer.sources.map(function (source) {
+                        return h('li', { key: source[1] },
+                          h('a', { href: source[1], target: '_blank', rel: 'noopener noreferrer' }, source[0]));
+                      })),
+                      h('a', { className: 'paint-chatbot-next', href: action[1] }, action[0])
+                    );
+                  }) : h('div', { className: 'paint-chatbot-answer' },
+                    h('p', null, 'Chưa có tài liệu khớp câu hỏi. Hãy thêm khu vực sơn và tình trạng bề mặt hoặc gửi ảnh để cửa hàng xem giúp.'),
+                    h('a', { className: 'paint-chatbot-next', href: contact }, 'Nhờ Tiến Bảo tư vấn')
+                  )
+                );
+              }))
+            )
+          )
+        )
+      );
+    }
+  }
+
   window.STB_SHOPPING = {
     ShopAssistant: ShopAssistant,
     EmailDraft: EmailDraft,
     ProjectGallery: ProjectGallery,
+    PaintChatbot: PaintChatbot,
+    findPaintAnswers: findPaintAnswers,
     estimate: estimate,
     estimateContext: estimateContext,
     estimateText: estimateText,

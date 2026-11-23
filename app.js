@@ -143,6 +143,7 @@
     h('main',{id:'main-content'},
     h(Hero,{data:d,onQuote:props.onQuote}),
     h(BrandStrip,{brands:brands}),
+    h(window.STB_SHOPPING.PaintChatbot,{site:d.site}),
     h(window.STB_SHOPPING.ShopAssistant,{products:products,site:d.site,resolveImage:asset,onQuote:props.onQuote}),
     h(Categories,{items:cats}),
     h(Products,{items:featured.length?featured:products.slice(0,6),url:d.site.catalogUrl}),
@@ -221,6 +222,7 @@
           h('h1',null,d.hero.title,h('br'),h('em',null,d.hero.titleAccent)),
           h('p',{className:'hero-lead'},d.hero.lead),
           h('div',{className:'hero-actions'},h('a',{className:'btn btn-red',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
+          h('a',{className:'hero-chat-link',href:'#hoi-dap-son'},h(Icon,{name:'message'}),'Hỏi trợ lý sơn'),
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));}))
         ),
         h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
