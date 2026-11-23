@@ -123,27 +123,40 @@
   }
 
   class App extends React.Component{
-    constructor(p){super(p);this.state={data:loadData(),quote:false,quoteContext:null,menu:false,admin:location.hash.indexOf('#admin')===0,version:0,boot:false,announcement:null};this.revealObserver=null;this.onHash=this.onHash.bind(this);this.onKeyDown=this.onKeyDown.bind(this);}
+    constructor(p){super(p);this.state={data:loadData(),quote:false,quoteContext:null,menu:false,admin:location.hash.indexOf('#admin')===0,version:0,boot:false,announcement:null};this.revealObserver=null;this.onHash=this.onHash.bind(this);this.onKeyDown=this.onKeyDown.bind(this);this.openQuote=this.openQuote.bind(this);}
     componentDidMount(){if(this.state.admin&&!shouldUseITopAdmin()&&!isLocalPreview()){goRealAdmin();return;}setTheme(this.state.data);window.addEventListener('hashchange',this.onHash);document.addEventListener('keydown',this.onKeyDown);this.initReveal();var self=this,api=itopApi();if(api&&api.syncPublicProducts&&api.isITopOrigin&&api.isITopOrigin()&&!this.state.admin){api.syncPublicProducts(this.state.data.products||[]).then(function(products){if(!products||!products.length)return;var d=clone(self.state.data);d.products=products;self.setState({data:d,version:self.state.version+1});}).catch(function(){})}}
-    componentDidUpdate(){setTheme(this.state.data);this.initReveal();}
+    componentDidUpdate(prevProps,prevState){if(prevState.data!==this.state.data){setTheme(this.state.data);this.initReveal();}else if(prevState.admin!==this.state.admin)this.initReveal();}
     componentWillUnmount(){window.removeEventListener('hashchange',this.onHash);document.removeEventListener('keydown',this.onKeyDown);if(this.revealObserver)this.revealObserver.disconnect();}
     scheduleAnnouncement(){var a=activePopup(this.state.data);if(!a||a.enabled===false||this.state.admin)return;var freq=a.frequency||'session';var key=ANNOUNCE_KEY+'-'+(a.id||'default');if(freq!=='everyVisit'){var seen=freq==='once'?storageGet('local',key):storageGet('session',key);if(seen)return;}var self=this;setTimeout(function(){if(!self.state.quote&&!self.state.admin)self.setState({announcement:a});},Math.max(200,Number(a.delay||900)));}
     closeAnnouncement(){var a=this.state.announcement||{};var freq=(a.frequency||'session'),key=ANNOUNCE_KEY+'-'+(a.id||'default');if(freq==='once')storageSet('local',key,'1');else if(freq==='session')storageSet('session',key,'1');this.setState({announcement:null});}
-    onHash(){var wantsAdmin=location.hash.indexOf('#admin')===0;if(wantsAdmin&&!shouldUseITopAdmin()&&!isLocalPreview()){goRealAdmin();return;}this.setState({admin:wantsAdmin,announcement:null});}
+    onHash(){var wantsAdmin=location.hash.indexOf('#admin')===0;if(wantsAdmin&&!shouldUseITopAdmin()&&!isLocalPreview()){goRealAdmin();return;}if(wantsAdmin!==this.state.admin||this.state.announcement)this.setState({admin:wantsAdmin,announcement:null});}
     onKeyDown(e){if(e.key==='Escape'&&(this.state.quote||this.state.announcement))this.setState({quote:false,quoteContext:null,announcement:null});}
     initReveal(){var els=document.querySelectorAll('.reveal:not(.seen)');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('seen')});return;}if(!this.revealObserver){var self=this;this.revealObserver=new IntersectionObserver(function(entries){entries.forEach(function(x){if(x.isIntersecting){x.target.classList.add('seen');self.revealObserver.unobserve(x.target);}})},{threshold:.08});}els.forEach(this.revealObserver.observe.bind(this.revealObserver));}
     updateData(d){saveData(d);this.setState({data:clone(d),version:this.state.version+1});}
-    render(){var page=this.state.admin?h(Admin,{data:this.state.data,onSave:this.updateData.bind(this)}):h(Storefront,{data:this.state.data,onQuote:context=>{if(window.STB_ANALYTICS)window.STB_ANALYTICS.track('quote_open',{context:context&&Array.isArray(context.items)?'calculator':'landing'});this.setState({quote:true,quoteContext:context&&Array.isArray(context.items)?context:null,announcement:null});},quote:this.state.quote,quoteContext:this.state.quoteContext,onCloseQuote:()=>this.setState({quote:false,quoteContext:null}),version:this.state.version});return h('div',{className:'app-root'},page,this.state.boot&&!this.state.admin&&h(BootOverlay),this.state.announcement&&!this.state.admin&&h(AnnouncementModal,{data:this.state.announcement,onClose:this.closeAnnouncement.bind(this)}));}
+    openQuote(context){
+      var hasItems=context&&Array.isArray(context.items);
+      if(window.STB_ANALYTICS)window.STB_ANALYTICS.track('quote_open',{context:hasItems?'calculator':'landing'});
+      this.setState({quote:true,quoteContext:hasItems?context:null,announcement:null});
+    }
+    render(){var page=this.state.admin?h(Admin,{data:this.state.data,onSave:this.updateData.bind(this)}):h(Storefront,{data:this.state.data,onQuote:this.openQuote,quote:this.state.quote,quoteContext:this.state.quoteContext,onCloseQuote:()=>this.setState({quote:false,quoteContext:null})});return h('div',{className:'app-root'},page,this.state.boot&&!this.state.admin&&h(BootOverlay),this.state.announcement&&!this.state.admin&&h(AnnouncementModal,{data:this.state.announcement,onClose:this.closeAnnouncement.bind(this)}));}
   }
 
   function showcaseProducts(products){var picks=[['JOTUN',/bền màu toàn diện/i],['NIPPON',/easy wash/i],['TERRACO',/flexipave coating texture/i],['RUBY',/water.?proof 300/i],['JOTUN',/chống phai màu/i],['TERRACO',/flexipave coating smooth/i]],chosen=[],used={};picks.forEach(function(pair){var item=products.find(function(x){return !used[x.id]&&x.image&&x.url&&String(x.brand||'').toUpperCase()===pair[0]&&pair[1].test(x.name||'');});if(!item)item=products.find(function(x){return !used[x.id]&&x.image&&x.url&&String(x.brand||'').toUpperCase()===pair[0]&&x.featured;});if(!item)item=products.find(function(x){return !used[x.id]&&x.image&&x.url&&String(x.brand||'').toUpperCase()===pair[0];});if(item){used[item.id]=true;chosen.push(item);}});products.forEach(function(x){if(chosen.length<6&&!used[x.id]&&x.featured&&x.image&&x.url){used[x.id]=true;chosen.push(x);}});return chosen;}
-  function Storefront(props){var d=props.data, products=(d.products||[]).filter(function(x){return x.enabled!==false}), featured=showcaseProducts(products), cats=(d.categories||[]).filter(function(x){return x.enabled!==false}).slice(0,6), brands=(d.brands||[]).filter(function(x){return x.enabled!==false});return h('div',{className:'store'},
+  function Storefront(props){return h('div',{className:'store'},
+    h(StorefrontMain,{data:props.data,onQuote:props.onQuote}),
+    props.quote&&h(QuoteModal,{data:props.data,context:props.quoteContext,onClose:props.onCloseQuote})
+  );}
+  class StorefrontMain extends React.Component{
+    shouldComponentUpdate(next){return next.data!==this.props.data||next.onQuote!==this.props.onQuote;}
+    render(){return renderStorefrontMain(this.props);}
+  }
+  function renderStorefrontMain(props){var d=props.data, products=(d.products||[]).filter(function(x){return x.enabled!==false}), featured=showcaseProducts(products), cats=(d.categories||[]).filter(function(x){return x.enabled!==false}).slice(0,6), brands=(d.brands||[]).filter(function(x){return x.enabled!==false});return h('div',{className:'store-content'},
     h('a',{className:'skip-link',href:'#main-content'},'Bỏ qua điều hướng'),
     h(Header,{data:d,products:products,onQuote:props.onQuote}),
     h('main',{id:'main-content'},
     h(Hero,{data:d,onQuote:props.onQuote}),
     h(BrandStrip,{brands:brands}),
-    h(window.STB_SHOPPING.ShopAssistant,{products:products,site:d.site,resolveImage:asset,onQuote:props.onQuote}),
+    h(window.STB_SHOPPING.ShopAssistant,{products:products,site:d.site,Image:SmartImage,onQuote:props.onQuote}),
     h(Categories,{items:cats}),
     h(Products,{items:featured.length?featured:products.slice(0,6),url:d.site.catalogUrl}),
     h(Calculator,{data:d,onQuote:props.onQuote}),
@@ -155,8 +168,7 @@
     h(Footer,{data:d}),
     h(BackToTop),
     h(MobileActionBar,{data:d,onQuote:props.onQuote}),
-    h(window.STB_SHOPPING.PaintChatbot,{site:d.site,products:products,onQuote:props.onQuote,icon:h(Icon,{name:'message'})}),
-    props.quote&&h(QuoteModal,{data:d,context:props.quoteContext,onClose:props.onCloseQuote})
+    h(window.STB_SHOPPING.PaintChatbot,{site:d.site,products:products,onQuote:props.onQuote,icon:h(Icon,{name:'message'})})
   );}
 
   class Header extends React.Component{
@@ -211,6 +223,8 @@
 
   function Hero(p){
     var d=p.data,trust=d.hero.trust||[];
+    var heroPath='assets/category-interior-2026.webp';
+    var responsive=d.hero.image===heroPath||(window.STB_ASSET_BASE&&d.hero.image===window.STB_ASSET_BASE+heroPath);
     return h('section',{className:'hero hero-v64',id:'top'},
       h('div',{className:'hero-ambient hero-ambient-a'}),h('div',{className:'hero-ambient hero-ambient-b'}),
       h('div',{className:'hero-grid container'},
@@ -221,7 +235,7 @@
           h('div',{className:'hero-actions'},h('a',{className:'btn btn-red',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));}))
         ),
-        h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
+        h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,srcSet:responsive?'assets/category-interior-480.webp 480w, assets/category-interior-960.webp 960w, assets/category-interior-2026.webp 1536w':undefined,sizes:responsive?'(max-width:900px) calc(100vw - 32px), (max-width:1440px) 47vw, 660px':undefined,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
       )
     );
   }
@@ -596,12 +610,22 @@
       return order.map(function(id){return map[id];});
     }
     calcItems(data){
+      if(this.catalogData===data&&this.calculatorItems)return this.calculatorItems;
       var all=this.catalog(data);
       var verified=all.filter(function(p){return !!(p&&p.calculatorOnly===true&&String(p.id||'').indexOf('calc-family-')===0);});
-      return verified.length?verified:all;
+      this.catalogData=data;
+      this.sortedItems=null;
+      this.calculatorItems=verified.length?verified:all;
+      return this.calculatorItems;
     }
     allItems(data){
-      return this.calcItems(data).filter(function(p){return !!(p&&p.enabled!==false&&(p.calculatorOnly===true||p.calcEligible===true||(p.priceBySize&&Object.keys(p.priceBySize).length)));}).sort(function(a,b){return String(a.brand||'').localeCompare(String(b.brand||''),'vi')||String(a.name||'').localeCompare(String(b.name||''),'vi');});
+      var items=this.calcItems(data);
+      if(!this.sortedItems){
+        var compare=new Intl.Collator('vi').compare;
+        this.sortedItems=items.filter(function(p){return !!(p&&p.enabled!==false&&(p.calculatorOnly===true||p.calcEligible===true||(p.priceBySize&&Object.keys(p.priceBySize).length)));})
+          .sort(function(a,b){return compare(String(a.brand||''),String(b.brand||''))||compare(String(a.name||''),String(b.name||''));});
+      }
+      return this.sortedItems;
     }
     unitOf(p){if(!p)return 'L';if(p.measureUnit==='Kg'||p.measureUnit==='L')return p.measureUnit;var u=String(p.unit||'').toLowerCase();return u.indexOf('kg')>=0?'Kg':'L';}
     isPrimer(p){if(!p)return false;if(p.calculatorRole==='primer')return true;if(p.calculatorRole==='finish')return false;var text=((p.name||'')+' '+(p.category||'')).toLowerCase();return text.indexOf('primer')>=0||text.indexOf('sơn lót')>=0||text.indexOf('son lot')>=0;}

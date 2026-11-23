@@ -288,6 +288,12 @@ async function main() {
   harness.context.document.querySelectorAll = originalQuery;
   let instances = [];
   let tree = expand(app.render(), harness.context.React, instances);
+  const heroImage = findElement(tree, node => node.type === 'img' && node.props && node.props.fetchPriority === 'high');
+  assert(heroImage && /category-interior-480\.webp 480w/.test(heroImage.props.srcSet), 'hero must offer a smaller mobile image');
+  const storefrontMain = instances.find(instance => instance.constructor.name === 'StorefrontMain');
+  assert(storefrontMain && !storefrontMain.shouldComponentUpdate(storefrontMain.props), 'opening a quote must not rerender the main storefront when its inputs are unchanged');
+  const recommendationImage = findElement(findElement(tree, node => node.props && node.props.className === 'shop-recommendation-image'), node => node.type === 'img');
+  assert(recommendationImage && !recommendationImage.props.src, 'below-the-fold recommendation photos must wait until near the viewport');
   const backToTopProbe = instances.find(instance => instance.constructor.name === 'BackToTop');
   assert(backToTopProbe, 'back to top control must exist');
   const oldQuerySelector = harness.context.document.querySelector;
@@ -492,6 +498,7 @@ async function main() {
 
   const calculator = instances.find(instance => instance.constructor.name === 'Calculator');
   assert(calculator, 'calculator must render');
+  assert.strictEqual(calculator.allItems(data), calculator.allItems(data), 'changing calculator inputs must reuse the sorted catalog');
   const calculatorProducts = data.products.filter(product => product.calculatorOnly);
   assert(calculatorProducts.length >= 140, 'the synchronized calculator catalog must retain broad product coverage');
   assert(calculatorProducts.filter(product => calculator.eligible(product)).length >= 100, 'verified per-coat coverage must remain available after catalog sync');

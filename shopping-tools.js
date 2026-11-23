@@ -562,7 +562,7 @@
             var profile = comparisonProfile(product);
             var evidence = priorityEvidence(profile, state.priority);
             return h('article', { className: 'shop-recommendation', key: product.id },
-              h('div', { className: 'shop-recommendation-image' }, product.image && h('img', { src: props.resolveImage(product.image), alt: product.name, loading: 'lazy', decoding: 'async' })),
+              h('div', { className: 'shop-recommendation-image' }, product.image && h(props.Image, { src: product.image, alt: product.name, deferUntilNear: true })),
               h('div', { className: 'shop-recommendation-content' },
                 h('small', null, product.brand || 'SƠN TIẾN BẢO'),
                 h('h3', null, product.name),
@@ -598,7 +598,7 @@
                   h('button', { type: 'button', 'aria-label': 'Bỏ so sánh ' + product.name, onClick: function () { self.choose(product.id); } }, '×')
                 ),
                 h('div', { className: 'shop-compare-identity' },
-                  h('div', { className: 'shop-compare-photo' }, product.image && h('img', { src: props.resolveImage(product.image), alt: product.name, loading: 'lazy', decoding: 'async' })),
+                  h('div', { className: 'shop-compare-photo' }, product.image && h(props.Image, { src: product.image, alt: product.name, deferUntilNear: true })),
                   h('div', null, h('small', null, product.brand || 'SƠN TIẾN BẢO'), h('h4', null, product.name))
                 ),
                 h('div', { className: 'shop-compare-price' }, h('small', null, Number(state.area) > 0 ? 'Vật tư cho ' + state.area + ' m²' : 'Chưa nhập diện tích'), h('strong', null, cost ? money(cost) : 'Cần báo giá'), cost > 0 && h('span', null, 'Khoảng ' + money(Math.round(cost / Math.max(1, Number(state.area) || 1))) + '/m²')),
@@ -621,7 +621,7 @@
               h('small', { className: 'shop-compare-swipe-hint' }, 'Vuốt ngang để xem thêm sản phẩm →'),
               h('div', { className: 'shop-compare-scroll', role: 'region', 'aria-label': 'Bảng so sánh sản phẩm; có thể cuộn ngang' }, h('table', { className: 'shop-comparison-table', style: { minWidth: (220 + comparisonItems.length * 285) + 'px' } },
                 h('caption', null, 'So sánh ' + comparisonItems.length + ' sản phẩm cho ' + state.area + ' m²'),
-                h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), comparisonItems.map(function (item) { return h('th', { scope: 'col', key: item.product.id }, h('div', { className: 'shop-compare-column-head' }, h('div', { className: 'shop-compare-column-photo' }, item.product.image && h('img', { src: props.resolveImage(item.product.image), alt: '', loading: 'lazy', decoding: 'async' })), h('div', null, h('small', null, item.product.brand || 'SƠN TIẾN BẢO'), h('strong', null, item.product.name)))); }))),
+                h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), comparisonItems.map(function (item) { return h('th', { scope: 'col', key: item.product.id }, h('div', { className: 'shop-compare-column-head' }, h('div', { className: 'shop-compare-column-photo' }, item.product.image && h(props.Image, { src: item.product.image, alt: '', deferUntilNear: true })), h('div', null, h('small', null, item.product.brand || 'SƠN TIẾN BẢO'), h('strong', null, item.product.name)))); }))),
                 h('tbody', null, rows.map(function (row) { return row.group ? h('tr', { key: row.group, className: 'shop-compare-section-row' }, h('th', { scope: 'rowgroup', colSpan: comparisonItems.length + 1 }, row.group)) : h('tr', { key: row.label }, h('th', { scope: 'row' }, row.label), comparisonItems.map(function (item) { return h('td', { key: item.product.id }, row.value(item)); })); }))
               ))
             ),
