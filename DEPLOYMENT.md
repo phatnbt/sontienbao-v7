@@ -6,7 +6,7 @@
 - `nguyenbaolam.com` là website riêng; landing page không dùng tên miền phụ của website này.
 - iTop tại `sontienbao.com` vẫn là nguồn nghiệp vụ cho sản phẩm, giá và đơn hàng.
 
-Không cần thêm bản ghi DNS để dùng địa chỉ Vercel. GitHub Pages đã tắt và file `CNAME` đã được xóa. Nếu bảng DNS của `nguyenbaolam.com` còn bản ghi `landing`, người quản lý DNS có thể xóa bản ghi riêng đó; không sửa bản ghi `@`, `www`, MX hoặc các bản ghi khác.
+Không cần thêm bản ghi DNS để dùng địa chỉ Vercel. GitHub Pages chỉ xuất bản trang chuyển hướng trong thư mục `docs/` trên nhánh `main`, để địa chỉ cũ `https://phatnbt.github.io/sontienbao-v7/` đưa khách sang Vercel. GitHub Pages không lưu bản landing page thứ hai. File `CNAME` đã được xóa. Nếu bảng DNS của `nguyenbaolam.com` còn bản ghi `landing`, người quản lý DNS có thể xóa bản ghi riêng đó; không sửa bản ghi `@`, `www`, MX hoặc các bản ghi khác.
 
 `admin-v2.html`, `admin-v3.html` và `index.html#admin` chuyển tới Admin Center trên Vercel. Tên miền phụ cũ hiện không phân giải DNS, nên không thể tự chuyển hướng khách truy cập. Hãy dùng địa chỉ Vercel trong mọi liên kết công khai.
 

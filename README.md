@@ -3,6 +3,7 @@
 Landing Page V7 được xuất bản tại Vercel. Repository GitHub lưu mã nguồn và dữ liệu tĩnh.
 
 - Landing Page: `https://sontienbao-v7.vercel.app/`.
+- Địa chỉ GitHub Pages cũ tự chuyển sang Landing Page trên Vercel.
 - Admin Center duy nhất: `https://sontienbao-v7.vercel.app/admin.html`
 - Website hiện có tại `https://nguyenbaolam.com/` vẫn hoạt động độc lập.
 - Backend iTop bên ngoài: `https://sontienbao.com/admin`

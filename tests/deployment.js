@@ -8,6 +8,11 @@ const site = 'https://sontienbao-v7.vercel.app/';
 const pages = ['index.html', 'admin.html', 'admin-v2.html', 'admin-v3.html'];
 
 assert(!fs.existsSync(path.join(root, 'CNAME')), 'retired GitHub Pages custom domain must be removed');
+for (const file of ['docs/index.html', 'docs/404.html']) {
+  const redirect = read(file);
+  assert(redirect.includes('http-equiv="refresh"') && redirect.includes(`url=${site}`), `${file} must redirect old GitHub Pages visits to Vercel`);
+  assert(redirect.includes(`<a href="${site}"`), `${file} must offer a manual Vercel link`);
+}
 for (const file of [...pages, 'admin-route.js', 'production-overrides.js', 'robots.txt', 'sitemap.xml', 'OPEN-ADMIN.bat', 'OPEN-WEBSITE.bat']) {
   assert(!read(file).includes('landing.nguyenbaolam.com'), `${file} still points to the unavailable domain`);
 }
