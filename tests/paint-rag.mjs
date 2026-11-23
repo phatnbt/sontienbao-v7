@@ -15,7 +15,7 @@ const env = {
     generationCalls++;
     assert.match(model, /qwen/);
     assert.match(options.messages[0].content, /phấn hóa/i);
-    assert(options.max_tokens <= 480);
+    assert(options.max_completion_tokens <= 480);
     return { response: 'Làm sạch bột phấn và kiểm tra độ khô trước khi chọn lót [1].' };
   } }
 };

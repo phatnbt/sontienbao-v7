@@ -6,7 +6,7 @@ Worker vận dụng cách chuẩn hóa tiếng Việt, hợp nhất thứ hạng
 
 ## Triển khai trên Workers Free
 
-Cloudflare Workers AI cấp 10.000 Neurons mỗi ngày trên Workers Free theo tài liệu tại thời điểm triển khai. Khi vượt hạn mức, yêu cầu thất bại. Giữ tài khoản ở gói Free để tránh tính tiền vượt hạn mức. Worker dùng AI binding của tài khoản, giới hạn yêu cầu theo IP và không cần khóa API ở trình duyệt. [Bảng hạn mức Cloudflare](https://developers.cloudflare.com/workers-ai/platform/pricing/) · [Mô hình Qwen](https://developers.cloudflare.com/workers-ai/models/qwen3-30b-a3b-fp8/)
+Cloudflare Workers AI cấp 10.000 Neurons mỗi ngày trên Workers Free theo tài liệu tại thời điểm triển khai. Khi vượt hạn mức, yêu cầu thất bại. Giữ tài khoản ở gói Free để tránh tính tiền vượt hạn mức. Worker dùng AI binding của tài khoản, giới hạn yêu cầu theo IP và không cần khóa API ở trình duyệt. [Bảng hạn mức Cloudflare](https://developers.cloudflare.com/workers-ai/platform/pricing/) · [Mô hình Qwen](https://developers.cloudflare.com/workers-ai/models/qwen3.8-27b/)
 
 1. Đăng nhập tài khoản Cloudflare dùng cho website bằng `npx --yes wrangler@4 login`. Xác nhận bằng `npx --yes wrangler@4 whoami`.
 2. Từ gốc repository chạy `npx --yes wrangler@4 deploy --config paint-rag/wrangler.jsonc`. Giữ `SITE_ORIGIN` trùng chính xác với trang công khai.
