@@ -1,5 +1,25 @@
 {
   "sources": {
+    "lighting": [
+      "Dulux · Ánh sáng và màu sơn",
+      "https://www.dulux.vn/vi/y-tuong/anh-sang-anh-huong-nao-den-mau-sac-ua-thich-cua-chung-ta"
+    ],
+    "palette": [
+      "Jotun · Bảng màu nội thất",
+      "https://www.jotun.com/vn-vi/decorative/colours/colour-charts/interior"
+    ],
+    "rooms": [
+      "Dulux · Chọn màu theo căn phòng",
+      "https://www.dulux.vn/vi/y-tuong/huong-dan-chon-mau-son-tuong-dep-cho-tung-phong"
+    ],
+    "decor": [
+      "Dulux · Phối màu giữa các không gian",
+      "https://www.dulux.vn/vi/y-tuong/nhung-cach-ket-noi-cac-phong-voi-mau"
+    ],
+    "feng": [
+      "Dulux · Sắc màu phong thủy",
+      "https://www.dulux.vn/vi/y-tuong/sac-mau-phong-thuy-trong-noi"
+    ],
     "repaint": [
       "Nippon Paint · Sơn lại tường cũ",
       "https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban"
@@ -46,6 +66,188 @@
     ]
   },
   "topics": [
+    {
+      "id": "color-light",
+      "title": "Màu sơn theo ánh sáng",
+      "phrases": [
+        "thiếu sáng",
+        "ít sáng",
+        "ít ánh sáng",
+        "ánh sáng",
+        "phòng tối",
+        "đèn vàng",
+        "đèn trắng",
+        "hướng bắc",
+        "hướng đông",
+        "hướng tây",
+        "hướng nam"
+      ],
+      "answer": "Nếu phòng ít sáng, thử trắng ấm, kem hoặc be sáng và so với một mẫu trung tính. Nếu phòng nắng mạnh hoặc đèn ngả vàng, thử thêm một mẫu trung tính lạnh hơn. Xem mẫu ở vị trí định sơn vào ban ngày và khi bật đèn buổi tối.",
+      "sources": [
+        "lighting",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 6
+    },
+    {
+      "id": "color-room",
+      "title": "Màu theo diện tích và công năng",
+      "phrases": [
+        "phòng nhỏ",
+        "phòng hẹp",
+        "trần thấp",
+        "màu phòng ngủ",
+        "màu phòng khách",
+        "phòng cho bé",
+        "phòng trẻ em",
+        "người lớn tuổi"
+      ],
+      "answer": "Phòng nhỏ có thể bắt đầu với nền sáng và ít mảng tương phản lớn. Phòng ngủ có thể thử gam dịu như be, xanh xám hoặc xanh lá nhạt. Với phòng trẻ em, chọn nền dễ phối để đổi đồ trang trí theo tuổi. Xem mẫu cùng sàn, rèm và ánh sáng thật.",
+      "sources": [
+        "rooms",
+        "lighting"
+      ],
+      "action": "colors",
+      "priority": 5
+    },
+    {
+      "id": "color-finish",
+      "title": "Màu sơn và độ bóng",
+      "phrases": [
+        "độ bóng",
+        "sơn bóng",
+        "sơn mờ",
+        "bóng hay mờ",
+        "ánh bóng",
+        "bóng mờ",
+        "hoàn thiện mờ"
+      ],
+      "answer": "Cùng một màu có thể trông khác khi đổi độ bóng hoặc nền tường. Nếu đèn rọi xiên làm lộ gợn tường, thử mẫu mờ. Ở khu cần lau thường xuyên, so khả năng vệ sinh của đúng dòng sơn. Sơn mẫu với độ bóng định mua rồi chờ khô để xem.",
+      "sources": [
+        "palette",
+        "lighting"
+      ],
+      "action": "colors",
+      "priority": 5
+    },
+    {
+      "id": "color-coordination",
+      "title": "Phối với sàn và nội thất",
+      "phrases": [
+        "phối màu",
+        "màu tường",
+        "màu sơn",
+        "chọn màu",
+        "sàn gỗ",
+        "gạch xám",
+        "nội thất gỗ",
+        "màu nhấn",
+        "rèm cửa"
+      ],
+      "answer": "Lấy một vật khó thay như sàn, gạch hoặc sofa làm mốc. Chọn một màu nền cho phần lớn diện tích và thử thêm màu nhấn trên một mảng nhỏ. So mẫu cạnh vật liệu thật dưới ánh sáng của phòng trước khi chốt mã.",
+      "sources": [
+        "decor",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 1
+    },
+    {
+      "id": "color-feng",
+      "title": "Chọn màu theo tuổi và mệnh",
+      "phrases": [
+        "phong thủy",
+        "theo tuổi",
+        "hợp tuổi",
+        "theo mệnh",
+        "hợp mệnh",
+        "sinh năm",
+        "mệnh gì"
+      ],
+      "answer": "Phong thủy là một cách tham khảo theo quan niệm ngũ hành. Nếu biết mệnh, bạn có thể hỏi “màu sơn mệnh Mộc” hoặc thay bằng mệnh của mình. Nếu chỉ biết tuổi hoặc năm sinh, hãy kiểm tra lại mệnh theo cách tính bạn muốn sử dụng rồi chọn tông cùng ánh sáng và nội thất. Bạn không cần nhập ngày sinh.",
+      "sources": [
+        "feng",
+        "lighting"
+      ],
+      "action": "colors",
+      "priority": 6
+    },
+    {
+      "id": "color-kim",
+      "title": "Gợi ý màu cho mệnh Kim",
+      "phrases": [
+        "mệnh Kim",
+        "mạng Kim"
+      ],
+      "answer": "Theo cách phối màu tham khảo từ quan niệm ngũ hành, bạn có thể thử trắng ngà, xám sáng hoặc điểm nhấn vàng đất. Ưu tiên màu nền dễ phối với đồ trong phòng và thử mẫu dưới ánh sáng thật trước khi chọn mã.",
+      "sources": [
+        "feng",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 8
+    },
+    {
+      "id": "color-moc",
+      "title": "Gợi ý màu cho mệnh Mộc",
+      "phrases": [
+        "mệnh Mộc",
+        "mạng Mộc"
+      ],
+      "answer": "Theo cách phối màu tham khảo từ quan niệm ngũ hành, bạn có thể thử xanh lá dịu, xanh ô liu nhạt hoặc điểm nhấn xanh lam. Ưu tiên màu nền dễ phối với đồ trong phòng và thử mẫu dưới ánh sáng thật trước khi chọn mã.",
+      "sources": [
+        "feng",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 8
+    },
+    {
+      "id": "color-thuy",
+      "title": "Gợi ý màu cho mệnh Thủy",
+      "phrases": [
+        "mệnh Thủy",
+        "mạng Thủy"
+      ],
+      "answer": "Theo cách phối màu tham khảo từ quan niệm ngũ hành, bạn có thể thử xanh lam nhạt, xanh xám hoặc điểm nhấn xanh lam đậm. Ưu tiên màu nền dễ phối với đồ trong phòng và thử mẫu dưới ánh sáng thật trước khi chọn mã.",
+      "sources": [
+        "feng",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 8
+    },
+    {
+      "id": "color-hoa",
+      "title": "Gợi ý màu cho mệnh Hỏa",
+      "phrases": [
+        "mệnh Hỏa",
+        "mạng Hỏa"
+      ],
+      "answer": "Theo cách phối màu tham khảo từ quan niệm ngũ hành, bạn có thể thử hồng đất hoặc cam đất làm điểm nhấn trên nền trung tính. Ưu tiên màu nền dễ phối với đồ trong phòng và thử mẫu dưới ánh sáng thật trước khi chọn mã.",
+      "sources": [
+        "feng",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 8
+    },
+    {
+      "id": "color-tho",
+      "title": "Gợi ý màu cho mệnh Thổ",
+      "phrases": [
+        "mệnh Thổ",
+        "mạng Thổ"
+      ],
+      "answer": "Theo cách phối màu tham khảo từ quan niệm ngũ hành, bạn có thể thử be ấm, vàng đất nhạt hoặc nâu nhạt. Ưu tiên màu nền dễ phối với đồ trong phòng và thử mẫu dưới ánh sáng thật trước khi chọn mã.",
+      "sources": [
+        "feng",
+        "palette"
+      ],
+      "action": "colors",
+      "priority": 8
+    },
     {
       "id": "specialty",
       "title": "Bề mặt cần hệ sơn riêng",

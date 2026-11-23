@@ -10,6 +10,8 @@ Chatbot tải tài liệu công khai khi có câu hỏi đầu tiên và tra c�
 
 ## Tình huống và câu trả lời
 
+Nhóm chọn màu trong tệp dữ liệu bao gồm ánh sáng tự nhiên và ánh đèn, không gian nhỏ, công năng và độ tuổi người dùng phòng, độ bóng, phối với sàn và nội thất, và gợi ý theo năm sinh hoặc mệnh. Phong thủy được trình bày là quan niệm tham khảo. Khi khách chỉ nêu năm sinh, trợ lý hướng dẫn xác nhận mệnh theo cách tính họ muốn dùng. Màu hiển thị được dùng để sàng lọc, sau đó khách nên thử mẫu trên nền thực tế. [Dulux về ánh sáng](https://www.dulux.vn/vi/y-tuong/anh-sang-anh-huong-nao-den-mau-sac-ua-thich-cua-chung-ta) · [Jotun về mẫu màu](https://www.jotun.com/vn-vi/decorative/colours/colour-charts/interior) · [Dulux về phong thủy](https://www.dulux.vn/vi/y-tuong/sac-mau-phong-thuy-trong-noi)
+
 | Tình huống | Nội dung có thể dùng trong câu trả lời | Dữ kiện cần hỏi thêm | Nguồn |
 | --- | --- | --- | --- |
 | Tường xi măng mới tô | Chờ nền đạt điều kiện khô theo hệ sơn, làm sạch bụi và tạp chất. Trét làm phẳng nếu cần và nếu hệ sơn cho phép. Với nhiều hệ sơn tường, trình tự tham khảo là một lớp lót và hai lớp phủ. | Tường đã tô bao lâu, bề mặt trong hay ngoài nhà, đã đo ẩm hay chưa? | [Dulux Việt Nam, sơn lót cao cấp](https://www.dulux.vn/vi/san-pham/son-lot-cao-cap-dulux) · [Jotun, TDS Essence Dễ Lau Chùi](https://www.jotun.com/api-b2b/v1/datasheets/download/merged?selectedFiles=4401) |

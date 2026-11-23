@@ -44,7 +44,7 @@
 
   var QUOTE_URL = 'https://sontienbao.com/lien-he.html';
   d.site.quoteUrl = QUOTE_URL;
-  d.site.catalogUrl = 'https://sontienbao.com/san-pham/';
+  d.site.catalogUrl = 'https://sontienbao.com/danh-muc-san-pham/';
   d.site.colorUrl = 'https://sontienbao.com/bang-mau-son/';
   d.site.priceUrl = 'https://sontienbao.com/bang-gia/';
 

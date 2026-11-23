@@ -427,10 +427,12 @@
     candidates() {
       var state = this.state;
       var query = text(state.query).trim();
-      return (this.props.products || []).filter(function (product) {
-        var matches = query ? text(product.name + ' ' + product.brand).includes(query) :
-          isFinish(product) && matchesSurface(product, state.surface);
-        return product.enabled !== false && matches && (state.brand === 'all' || product.brand === state.brand);
+      var products = (this.props.products || []).filter(function (product) {
+        return product.enabled !== false && (state.brand === 'all' || product.brand === state.brand);
+      });
+      if (query) return searchCatalog(products, query).map(function (result) { return result.product; });
+      return products.filter(function (product) {
+        return isFinish(product) && matchesSurface(product, state.surface);
       }).map(function (product) {
         return { product: product, score: score(product, state.condition, state.priority) };
       }).sort(function (a, b) { return b.score - a.score; }).map(function (entry) { return entry.product; });
@@ -553,7 +555,7 @@
                 ),
                 h('div', { className: 'shop-recommendation-actions' },
                   h('button', { type: 'button', className: active ? 'is-selected' : '', 'aria-pressed': active, onClick: function () { self.choose(product.id); } }, active ? 'Đã chọn so sánh' : 'Thêm so sánh'),
-                  h('a', { href: product.url || props.site.catalogUrl, target: '_blank', rel: 'noopener' }, 'Chi tiết ↗')
+                  catalogLink(product.url) && h('a', { href: catalogLink(product.url), target: '_blank', rel: 'noopener' }, 'Xem đúng sản phẩm')
                 )
               )
             );
@@ -631,10 +633,63 @@
     return text(question).replace(/[^a-z0-9]+/g, ' ').trim();
   }
 
+  function catalogText(value) {
+    return normalizeQuestion(text(value)
+      .replace(/(\d)[,.](\d)/g, '$1d$2')
+      .replace(/([a-z])(\d)/g, '$1 $2')
+      .replace(/(\d)\s+(l|kg|ml)\b/g, '$1$2'));
+  }
+
+  function catalogLink(value) {
+    try {
+      var url = new URL(value);
+      if (url.protocol === 'https:' && /^(?:www\.)?sontienbao\.com$/.test(url.hostname) &&
+          !url.username && !url.password && !url.port && /\.html$/i.test(url.pathname)) return url.href;
+    } catch (error) { /* A missing or malformed product URL has no detail link. */ }
+    return '';
+  }
+
+  function searchCatalog(products, query, limit) {
+    var phrase = catalogText(query);
+    var terms = Array.from(new Set(phrase.split(' ').filter(Boolean)));
+    var seen = new Set();
+    return products.filter(function (product) { return product.enabled !== false; }).map(function (product) {
+      var name = catalogText(product.name);
+      var identity = [product.brand, product.name, product.sku, product.code].map(catalogText).join(' ');
+      var category = catalogText(product.category);
+      var href = catalogLink(product.url);
+      var slug = href ? catalogText(new URL(href).pathname.split('/').pop().replace(/\.html$/i, '')) : '';
+      var nameWords = new Set(name.split(' '));
+      var identityWords = identity.split(' ');
+      var words = new Set(identityWords.concat(category.split(' '), slug.split(' ')));
+      var score = 0;
+      for (var term of terms) {
+        if (words.has(term)) {
+          score += nameWords.has(term) ? 9 : identityWords.includes(term) ? 6 : 3;
+        } else if (/^[a-z]{3,}$/.test(term) && identityWords.some(function (word) { return word.startsWith(term); })) {
+          score += 2;
+        } else return null;
+      }
+      if (phrase && name === phrase) score += 45;
+      else if (phrase && name.includes(phrase)) score += 18;
+      if (href) score += 1;
+      return { product: product, href: href, score: score };
+    }).filter(Boolean).sort(function (a, b) {
+      return b.score - a.score;
+    }).filter(function (result) {
+      var key = result.href || result.product.id;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, limit == null ? products.length : limit);
+  }
+
   function findPaintAnswers(question, knowledge) {
     var normalized = normalizeQuestion(question);
     var padded = ' ' + normalized + ' ';
     return knowledge.topics.map(function (topic) {
+      if (topic.id === 'specialty' && /\b(phoi mau|chon mau|mau tuong|mau son)\b/.test(normalized) &&
+          !/\b(son san|son go|chong tham)\b/.test(normalized)) return { topic: topic, match: 0 };
       var matches = topic.phrases.filter(function (phrase) {
         var term = ' ' + normalizeQuestion(phrase) + ' ';
         var index = padded.indexOf(term);
@@ -646,7 +701,8 @@
         }
         return false;
       });
-      return { topic: topic, match: matches.length };
+      var yearQuery = topic.id === 'color-feng' && /\btuoi (?:19|20)\d{2}\b/.test(normalized);
+      return { topic: topic, match: matches.length + Number(yearQuery) };
     }).filter(function (result) {
       return result.match > 0;
     }).sort(function (a, b) {
@@ -660,17 +716,25 @@
     });
   }
 
-  var chatbotExamples = ['Tường ẩm mốc xử lý thế nào?', 'Sơn gì dễ lau chùi?', 'Cần bao nhiêu lít sơn?', 'Sơn sân pickleball chọn loại nào?'];
+  var chatbotExamples = ['Phòng thiếu sáng chọn màu gì?', 'Chọn màu theo tuổi, mệnh', 'Tường ẩm mốc xử lý thế nào?', 'Cần bao nhiêu lít sơn?'];
   var chatbotActions = {
     choose: ['Mở bộ chọn sơn', '#chon-son'],
-    calculate: ['Mở máy tính lượng sơn', '#calculator']
+    calculate: ['Mở máy tính lượng sơn', '#calculator'],
+    colors: ['Mở bảng màu', '#colors']
   };
 
   class PaintChatbot extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { question: '', turns: [], pending: false, error: '' };
+      this.state = { question: '', turns: [], pending: false, error: '', open: typeof location !== 'undefined' && location.hash === '#hoi-dap-son' };
       this.sequence = 0;
+    }
+    toggle(open) {
+      var chatbot = this;
+      this.setState({ open: open }, function () {
+        var target = open ? chatbot.closeButton : chatbot.launcher;
+        if (target) target.focus();
+      });
     }
     componentWillUnmount() {
       if (this.controller) this.controller.abort();
@@ -684,7 +748,7 @@
       this.controller = new AbortController();
       var signal = this.controller.signal;
       var load = this.knowledge ? Promise.resolve(this.knowledge) :
-        fetch('paint-chatbot-knowledge.json?v=1', { signal: signal }).then(function (response) {
+        fetch('paint-chatbot-knowledge.json?v=2', { signal: signal }).then(function (response) {
           if (!response.ok) throw new Error('Knowledge request failed');
           return response.json();
         });
@@ -692,9 +756,17 @@
         if (signal.aborted) return;
         var answers = findPaintAnswers(question, knowledge);
         chatbot.knowledge = knowledge;
-        var turn = { id: ++chatbot.sequence, question: question, answers: answers };
+        var namedProduct = catalogText(question).match(/\b(?:(?:jotun|nippon|terraco|ruby)\s+.+|(?:wp|ct|ea|hitex)\s+\d+[a-z]*(?:\s+.*)?)/);
+        var productQuery = namedProduct && namedProduct[0]
+          .replace(/\b(?:gia bao nhieu|bao gia|co tot khong|mua o dau|cho minh hoi|la gi)\b.*$/, '').trim();
+        var products = productQuery && productQuery.includes(' ') ?
+          searchCatalog(chatbot.props && chatbot.props.products || [], productQuery)
+            .filter(function (match) { return match.href; }).slice(0, 3) : [];
+        var turn = { id: ++chatbot.sequence, question: question, answers: answers, products: products };
         chatbot.setState(function (state) {
           return { pending: false, question: '', turns: [turn].concat(state.turns).slice(0, 5) };
+        }, function () {
+          if (chatbot.body) chatbot.body.scrollTop = 0;
         });
       }).catch(function () {
         if (signal.aborted) return;
@@ -707,22 +779,23 @@
       var chatbot = this;
       var state = this.state;
       var contact = this.props.site.quoteUrl;
-      return h('section', { id: 'hoi-dap-son', className: 'paint-chatbot', 'aria-label': 'Trợ lý tư vấn sơn' },
-        h('div', { className: 'container' },
-          h('details', { className: 'paint-chatbot-panel', open: location.hash === '#hoi-dap-son' },
-            h('summary', null, 'Hỏi đáp với Trợ lý Sơn Tiến Bảo'),
-            h('div', { className: 'paint-chatbot-body' },
-              h('p', null, 'Hỏi về cách xử lý bề mặt, chọn hệ sơn hoặc tính lượng cần mua. Mỗi câu trả lời có nguồn để bạn đối chiếu.'),
-              h('form', { onSubmit: function (event) { event.preventDefault(); chatbot.ask(state.question); } },
-                h('label', { htmlFor: 'paint-chat-question' }, 'Câu hỏi của bạn'),
-                h('div', { className: 'paint-chatbot-input' },
-                  h('input', { id: 'paint-chat-question', type: 'text', maxLength: 240, required: true,
-                    placeholder: 'Ví dụ: Tường cũ bị bong tróc thì làm gì?', value: state.question,
-                    readOnly: state.pending, onChange: function (event) { chatbot.setState({ question: event.target.value }); } }),
-                  h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, 'Hỏi trợ lý')
-                )
-              ),
-              h('div', { className: 'project-brief-examples paint-chatbot-examples', 'aria-label': 'Câu hỏi mẫu' }, chatbotExamples.map(function (example) {
+      return h('div', { id: 'hoi-dap-son', className: 'paint-chatbot' },
+          h('button', { type: 'button', className: 'paint-chatbot-launch', 'aria-label': state.open ? 'Thu gọn trợ lý sơn' : 'Mở trợ lý sơn',
+            'aria-expanded': state.open, 'aria-controls': 'paint-chatbot-panel',
+            ref: function (node) { chatbot.launcher = node; }, onClick: function () { chatbot.toggle(!state.open); } },
+            this.props.icon, h('span', null, 'Tư vấn sơn')),
+          h('section', { id: 'paint-chatbot-panel', className: 'paint-chatbot-panel', role: 'region',
+            'aria-labelledby': 'paint-chatbot-title', hidden: !state.open, onKeyDown: function (event) {
+              if (event.key === 'Escape') { event.stopPropagation(); chatbot.toggle(false); }
+            } },
+            h('div', { className: 'paint-chatbot-header' },
+              h('h2', { id: 'paint-chatbot-title' }, 'Trợ lý Sơn Tiến Bảo'),
+              h('button', { type: 'button', 'aria-label': 'Đóng trợ lý sơn',
+                ref: function (node) { chatbot.closeButton = node; }, onClick: function () { chatbot.toggle(false); } }, '×')
+            ),
+            state.open && h('div', { className: 'paint-chatbot-body', ref: function (node) { chatbot.body = node; } },
+              !state.turns.length && h('p', null, 'Hỏi về màu sơn, cách xử lý tường hoặc nhập tên sản phẩm cần tìm.'),
+              !state.turns.length && h('div', { className: 'project-brief-examples paint-chatbot-examples', 'aria-label': 'Câu hỏi mẫu' }, chatbotExamples.map(function (example) {
                 return h('button', { key: example, type: 'button', disabled: state.pending,
                   onClick: function () { chatbot.ask(example); } }, example);
               })),
@@ -731,6 +804,9 @@
               h('div', { className: 'paint-chatbot-turns', 'aria-label': 'Kết quả mới nhất ở trên' }, state.turns.map(function (turn) {
                 return h('article', { key: turn.id, className: 'paint-chatbot-turn' },
                   h('h3', null, turn.question),
+                  turn.products.length > 0 && h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Sản phẩm khớp trong catalog' }, turn.products.map(function (match) {
+                    return h('li', { key: match.href }, h('a', { href: match.href, target: '_blank', rel: 'noopener noreferrer' }, match.product.name));
+                  })),
                   turn.answers.length ? turn.answers.map(function (answer) {
                     var action = chatbotActions[answer.action] || ['Nhờ Tiến Bảo tư vấn', contact];
                     return h('div', { key: answer.id, className: 'paint-chatbot-answer' },
@@ -740,17 +816,33 @@
                         return h('li', { key: source[1] },
                           h('a', { href: source[1], target: '_blank', rel: 'noopener noreferrer' }, source[0]));
                       })),
-                      h('a', { className: 'paint-chatbot-next', href: action[1] }, action[0])
+                      h('a', { className: 'paint-chatbot-next', href: action[1], onClick: function () {
+                        if (action[1].startsWith('#')) chatbot.setState({ open: false });
+                      } }, action[0])
                     );
-                  }) : h('div', { className: 'paint-chatbot-answer' },
+                  }) : !turn.products.length && h('div', { className: 'paint-chatbot-answer' },
                     h('p', null, 'Chưa có tài liệu khớp câu hỏi. Hãy thêm khu vực sơn và tình trạng bề mặt hoặc gửi ảnh để cửa hàng xem giúp.'),
                     h('a', { className: 'paint-chatbot-next', href: contact }, 'Nhờ Tiến Bảo tư vấn')
                   )
                 );
               }))
+            ),
+            state.open && h('div', { className: 'paint-chatbot-compose' },
+              h('form', { onSubmit: function (event) { event.preventDefault(); chatbot.ask(state.question); } },
+                h('div', { className: 'paint-chatbot-input' },
+                  h('input', { type: 'text', maxLength: 240, required: true, 'aria-label': 'Câu hỏi của bạn',
+                    placeholder: 'Nhập câu hỏi hoặc mã sơn…', value: state.question,
+                    readOnly: state.pending, onChange: function (event) { chatbot.setState({ question: event.target.value }); } }),
+                  h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, 'Gửi')
+                )
+              ),
+              h('div', { className: 'paint-chatbot-contact' },
+                h('a', { href: 'tel:' + this.props.site.hotline }, 'Gọi'),
+                h('a', { href: 'https://zalo.me/' + this.props.site.zalo, target: '_blank', rel: 'noopener' }, 'Zalo'),
+                h('button', { type: 'button', onClick: function () { chatbot.setState({ open: false }); chatbot.props.onQuote(); } }, 'Nhận báo giá')
+              )
             )
           )
-        )
       );
     }
   }
@@ -761,6 +853,8 @@
     ProjectGallery: ProjectGallery,
     PaintChatbot: PaintChatbot,
     findPaintAnswers: findPaintAnswers,
+    searchCatalog: searchCatalog,
+    catalogLink: catalogLink,
     estimate: estimate,
     estimateContext: estimateContext,
     estimateText: estimateText,

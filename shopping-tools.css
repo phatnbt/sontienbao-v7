@@ -19,19 +19,26 @@
 .store .project-brief :is(button,input):focus-visible{outline:3px solid #285e96;outline-offset:3px}
 .store .project-brief-status{margin:12px 0 0;color:#2f5275;font-size:.9375rem}
 .store .project-brief-status:empty{margin:0}
-.store .hero-chat-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;min-height:40px;color:#245488;font-weight:750;text-decoration:underline;text-underline-offset:4px}
-.store .paint-chatbot{background:#f4f8fc;padding:28px 0 0}
-.store .paint-chatbot-panel{border:1px solid #bcd3ea;border-radius:18px;background:#e9f3ff;color:#173a60}
-.store .paint-chatbot-panel summary{padding:19px clamp(16px,3vw,26px);font-size:clamp(1rem,2vw,1.25rem);font-weight:800;cursor:pointer}
-.store .paint-chatbot-panel summary:focus-visible{outline:3px solid #285e96;outline-offset:3px;border-radius:18px}
-.store .paint-chatbot-body{padding:0 clamp(16px,3vw,26px) 24px}
+.store .paint-chatbot{--chat-bottom:22px;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:var(--chat-bottom);z-index:985}
+.store .paint-chatbot-launch{min-height:54px;display:flex;align-items:center;gap:9px;padding:0 18px;border:1px solid #275a8a;border-radius:999px;background:#174b79;color:#fff;font:inherit;font-weight:750;box-shadow:0 8px 22px #142e4b35}
+.store .paint-chatbot-launch .ui-icon{width:22px;height:22px}
+.store .paint-chatbot-panel{position:absolute;right:0;bottom:66px;width:min(400px,calc(100vw - 36px));height:min(550px,calc(100vh - var(--chat-bottom) - 78px));height:min(550px,calc(100dvh - var(--chat-bottom) - 78px));display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;border:1px solid #bcd3ea;border-radius:20px;background:#f1f7ff;color:#173a60;box-shadow:0 14px 48px #142e4b40}
+.store .paint-chatbot-panel[hidden]{display:none}
+.store .paint-chatbot-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 13px 8px 16px;background:#174b79;color:#fff}
+.store .paint-chatbot-header h2{margin:0;color:inherit;font-size:1.0625rem;letter-spacing:normal}
+.store .paint-chatbot-header button{width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:inherit;font-size:1.5rem;line-height:1}
+.store .paint-chatbot-header button:hover{background:#ffffff24}
+.store .paint-chatbot :is(button,input,a):focus-visible{outline:3px solid #4679b3;outline-offset:2px}
+.store .paint-chatbot-body{min-height:0;overflow:auto;overscroll-behavior:contain;padding:14px}
 .store .paint-chatbot-body>p{margin:0 0 14px;line-height:1.6}
-.store .paint-chatbot-body label{display:block;font-weight:750;margin-bottom:8px}
+.store .paint-chatbot-compose{padding:10px 12px 4px;border-top:1px solid #c9ddef;background:#fff}
+.store .paint-chatbot-contact{display:flex;flex-wrap:wrap;justify-content:space-evenly;gap:4px}
+.store .paint-chatbot-contact :is(a,button){display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 8px;background:none;border:0;color:#245488;font:inherit;font-size:.875rem;font-weight:700}
 .store .paint-chatbot-input{display:flex;gap:8px}
 .store .paint-chatbot-input input{flex:1;min-width:0;min-height:48px;padding:10px 12px;border:1px solid #89abca;border-radius:10px;background:#fff;color:#173a60;font:inherit}
 .store .paint-chatbot-input .btn{justify-content:center}
 .store .paint-chatbot-status{font-size:.9375rem;margin-top:12px!important}
-.store .paint-chatbot-status:empty{display:none}
+.store .paint-chatbot-status:empty{margin:0!important}
 .store .paint-chatbot-turns{display:grid;gap:12px;margin-top:14px}
 .store .paint-chatbot-turns:empty{display:none}
 .store .paint-chatbot-turn{padding:clamp(14px,2vw,20px);background:#fff;border:1px solid #c9ddef;border-radius:12px;overflow-wrap:anywhere}
@@ -44,7 +51,13 @@
 .store .paint-chatbot-next{display:inline-block;margin-top:6px;font-weight:750}
 @media(max-width:640px){
   .store .hero.hero-v64 h1{font-size:clamp(2.375rem,10vw,3.5rem)}
-  .store .project-brief-input,.store .paint-chatbot-input{display:grid;grid-template-columns:minmax(0,1fr)}
+  .store .project-brief-input{display:grid;grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:760px){
+  .store .paint-chatbot{--chat-bottom:calc(84px + env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right))}
+  .store .paint-chatbot-launch{width:54px;padding:0;justify-content:center}
+  .store .paint-chatbot-launch span{display:none}
+  .store .paint-chatbot-panel{width:min(400px,calc(100vw - 24px))}
 }
 .store .shop-assistant-heading{max-width:830px;margin-bottom:32px}
 .store .shop-assistant-heading h2,.store .project-gallery-heading h2{margin:14px 0 14px;font-size:clamp(38px,4.3vw,62px);line-height:1.08;letter-spacing:-.055em}
