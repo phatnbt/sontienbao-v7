@@ -18,7 +18,7 @@ window.STB_V7_CONTENT = {
     "eyebrow": "SƠN JOTUN · TERRACO · NIPPON · RUBY",
     "title": "Chọn đúng sơn.",
     "titleAccent": "Đẹp bền lâu.",
-    "lead": "Tìm sản phẩm theo không gian và bề mặt, xem giá tham khảo rồi tính lượng sơn cần dùng. Tiến Bảo hỗ trợ bạn chốt loại sơn, màu và quy cách phù hợp.",
+    "lead": "Bạn đang sơn phòng khách, sửa mặt tiền hay xử lý tường thấm? Xem dòng sơn phù hợp, ước tính lượng cần dùng và gửi lựa chọn cho Tiến Bảo để hỏi giá.",
     "image": "assets/category-interior-2026.webp",
     "primaryCta": "Chọn sơn theo nhu cầu",
     "secondaryCta": "Tính lượng sơn",

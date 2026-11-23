@@ -338,6 +338,17 @@ async function main() {
   assert.strictEqual(app.state.quoteContext, null, 'gallery quote must not treat a click event as an estimate');
   app.setState({ quote: false });
   const shoppingAssistant = instances.find(instance => instance.constructor.name === 'ShopAssistant');
+  const projectAssistant = new shoppingAssistant.constructor(shoppingAssistant.props);
+  projectAssistant.applyProject('Sơn phòng khách 60,5 m² dễ lau chùi');
+  assert.strictEqual(projectAssistant.state.surface, 'interior');
+  assert.strictEqual(projectAssistant.state.condition, 'stains');
+  assert.strictEqual(projectAssistant.state.area, 60.5);
+  projectAssistant.applyProject('Sơn nội thất và mặt tiền 85 m²');
+  assert.strictEqual(projectAssistant.state.area, 60.5, 'ambiguous descriptions must leave filters intact');
+  projectAssistant.applyProject('Tường ngoài bị thấm nước');
+  assert.strictEqual(projectAssistant.state.surface, 'waterproof');
+  assert.strictEqual(projectAssistant.state.area, '', 'missing area must not reuse an earlier estimate');
+  assert.strictEqual(harness.context.STB_SHOPPING.estimateContext([], '', 'waterproof', 'seepage').area, null);
   assert(shoppingAssistant, 'shopping assistant must be mounted');
   const auditedCatalog = harness.context.STB_CALCULATOR_PRODUCTS;
   const profiledCatalog = auditedCatalog.filter(product => harness.context.STB_SHOPPING.comparisonProfile(product));

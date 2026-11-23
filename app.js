@@ -143,9 +143,9 @@
     h('main',{id:'main-content'},
     h(Hero,{data:d,onQuote:props.onQuote}),
     h(BrandStrip,{brands:brands}),
+    h(window.STB_SHOPPING.ShopAssistant,{products:products,site:d.site,resolveImage:asset,onQuote:props.onQuote}),
     h(Categories,{items:cats}),
     h(Products,{items:featured.length?featured:products.slice(0,6),url:d.site.catalogUrl}),
-    h(window.STB_SHOPPING.ShopAssistant,{products:products,site:d.site,resolveImage:asset,onQuote:props.onQuote}),
     h(Calculator,{data:d,onQuote:props.onQuote}),
     h(Colors,{data:d}),
     h(window.STB_SHOPPING.ProjectGallery,{onQuote:props.onQuote}),
@@ -220,9 +220,8 @@
           h('div',{className:'eyebrow'},h('i',null),d.hero.eyebrow),
           h('h1',null,d.hero.title,h('br'),h('em',null,d.hero.titleAccent)),
           h('p',{className:'hero-lead'},d.hero.lead),
-          h('div',{className:'hero-actions'},h(Btn,{kind:'red',onClick:function(){scrollToId('categories')}},d.hero.primaryCta||'Chọn sơn theo nhu cầu',h(Icon,{name:'arrowRight',className:'btn-tail'})),h(Btn,{kind:'glass',onClick:function(){scrollToId('calculator')}},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
-          h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));})),
-          h('button',{className:'scroll-cue',onClick:function(){scrollToId('categories')}},h('span',null,'Cuộn để khám phá'),h(Icon,{name:'chevronDown'}))
+          h('div',{className:'hero-actions'},h('a',{className:'btn btn-red',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
+          h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));}))
         ),
         h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
       )
@@ -785,7 +784,7 @@
         content=h('form',{onSubmit:this.submit.bind(this)},
           h('span',{className:'section-kicker'},'BÁO GIÁ'),h('h2',null,'Nhận báo giá nhanh'),h('p',null,isLocalPreview()?'Bản xem trước lưu yêu cầu trên trình duyệt này.':'Điền thông tin để soạn sẵn yêu cầu gửi tới email Tiến Bảo, hoặc mở Zalo để trao đổi.'),
           this.state.handoff&&h('p',{className:'quote-handoff',role:'status'},this.state.handoff==='email'?'Nội dung báo giá đã sẵn sàng bên dưới. Chọn cách mở email, kiểm tra rồi bấm Gửi.':this.state.handoff==='zalo'?'Đã sao chép nội dung và mở Zalo. Hãy dán tin nhắn rồi bấm Gửi.':'Đã mở Zalo. Hãy sao chép thông tin trong form và gửi tin nhắn.'),
-          estimate&&h('aside',{className:'quote-estimate','aria-label':'Tóm tắt kết quả tính sơn'},h('div',null,h('b',null,estimate.surface+' · '+estimate.area+' m²'),estimate.waste!=null&&h('span',null,'Hao hụt '+estimate.waste+'%')),h('ul',null,(estimate.items||[]).map(function(x){return h('li',{key:x.id},h('span',null,x.name),h('strong',null,x.quantity>0?x.quantity+' '+x.unit:'Cần xác nhận'));})),h('div',{className:'quote-estimate-total'},h('span',null,'Chi phí dự kiến'),h('strong',null,Number(estimate.total)>0?money(estimate.total):'Cần xác nhận'))),
+          estimate&&h('aside',{className:'quote-estimate','aria-label':'Tóm tắt kết quả tính sơn'},h('div',null,h('b',null,estimate.surface+(estimate.area?' · '+estimate.area+' m²':'')),estimate.waste!=null&&h('span',null,'Hao hụt '+estimate.waste+'%')),h('ul',null,(estimate.items||[]).map(function(x){return h('li',{key:x.id},h('span',null,x.name),h('strong',null,x.quantity>0?x.quantity+' '+x.unit:'Cần xác nhận'));})),h('div',{className:'quote-estimate-total'},h('span',null,'Chi phí dự kiến'),h('strong',null,Number(estimate.total)>0?money(estimate.total):'Cần xác nhận'))),
           h('label',null,'Họ tên *',h('input',{name:'name',autoComplete:'name',required:true,value:this.state.name,onChange:e=>this.setState({name:e.target.value})})),
           h('label',null,'Số điện thoại *',h('input',{name:'phone',type:'tel',inputMode:'tel',autoComplete:'tel',required:true,value:this.state.phone,onChange:e=>this.setState({phone:e.target.value})})),
           h('label',null,'Email (nếu muốn nhận phản hồi qua email)',h('input',{name:'email',type:'email',autoComplete:'email',value:this.state.email,onChange:e=>this.setState({email:e.target.value})})),

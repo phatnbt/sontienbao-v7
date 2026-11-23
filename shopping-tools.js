@@ -231,22 +231,27 @@
       source: 'bo-chon-son',
       surface: surface === 'interior' ? 'Nội thất' : surface === 'exterior' ? 'Ngoại thất' : surface === 'sport' ? 'Sân thể thao' : 'Chống thấm',
       condition: surface === 'sport' ? '' : (WALL_CONDITIONS[condition] || WALL_CONDITIONS.normal).label,
-      area: Math.max(1, Number(area) || 1),
-      waste: surface === 'sport' ? null : 10,
+      area: Number(area) > 0 ? Number(area) : null,
+      waste: items.some(function (item) { return item.quantity > 0; }) ? 10 : null,
       items: items,
-      total: items.every(function (item) { return item.cost > 0; }) ? items.reduce(function (sum, item) { return sum + item.cost; }, 0) : 0
+      total: items.length === 1 ? items[0].cost : 0
     };
   }
   function estimateText(context) {
     var lines = ['YÊU CẦU TƯ VẤN SƠN TIẾN BẢO'];
+    var alternatives = context.source === 'bo-chon-son' && (context.items || []).length > 1;
     if (context.surface) lines.push('Khu vực: ' + context.surface);
     if (context.condition) lines.push('Tình trạng tường: ' + context.condition);
     if (context.area) lines.push('Diện tích: ' + context.area + ' m²');
     if (context.waste != null) lines.push('Hao hụt dự kiến: ' + context.waste + '%');
+    if (alternatives) lines.push('Vui lòng báo giá riêng cho từng lựa chọn:');
     (context.items || []).forEach(function (item, index) {
-      lines.push((index + 1) + '. ' + item.name + ' — ' + (item.quantity ? item.quantity + ' ' + item.unit : 'cần xác nhận lượng') + (item.packs ? ', ' + item.packs : ''));
+      var quantity = item.quantity ? item.quantity + ' ' + item.unit : 'cần xác nhận lượng';
+      var packs = item.packs ? ', ' + item.packs : '';
+      var price = alternatives && item.cost > 0 ? ' · Tham khảo: ' + money(item.cost) : '';
+      lines.push((index + 1) + '. ' + item.name + ' — ' + quantity + packs + price);
     });
-    lines.push('Chi phí vật tư tham khảo: ' + (Number(context.total) > 0 ? money(context.total) : 'cần báo giá'));
+    if (!alternatives) lines.push('Chi phí vật tư tham khảo: ' + (Number(context.total) > 0 ? money(context.total) : 'cần báo giá'));
     lines.push('Vui lòng xác nhận sản phẩm, quy cách, giá và giao hàng.');
     return lines.join('\n');
   }
@@ -287,10 +292,56 @@
     }
   }
 
+  var projectExamples = ['Sơn phòng khách 60 m² dễ lau chùi', 'Sơn mặt tiền 85 m²', 'Tường ngoài bị thấm nước'];
+
+  function readProject(description) {
+    var phrase = text(description);
+    if (/\b(khong|chua|ngoai tru)\b/.test(phrase)) {
+      return { message: 'Mô tả khu vực và tình trạng hiện tại, hoặc chọn trực tiếp trong bộ lọc bên dưới.' };
+    }
+    var surfaces = [
+      ['interior', /\b(noi that|trong nha|phong khach|phong ngu|phong bep|tran nha)\b/],
+      ['exterior', /\b(ngoai that|ngoai troi|mat tien|tuong ngoai)\b/],
+      ['sport', /\b(san the thao|san tennis|san pickleball|san bong ro)\b/]
+    ].filter(function (entry) { return entry[1].test(phrase); });
+    var seepage = /\b(chong tham|tham nuoc|tuong bi tham)\b/.test(phrase);
+    if (surfaces.length > 1 || (seepage && surfaces.some(function (entry) { return entry[0] === 'sport'; }))) {
+      return { message: 'Mỗi lần hãy mô tả một khu vực. Bạn cũng có thể chọn khu vực trực tiếp bên dưới.' };
+    }
+    if (!seepage && !surfaces.length) {
+      return { message: 'Chưa nhận ra khu vực. Hãy thêm “nội thất”, “mặt tiền”, “chống thấm” hoặc “sân thể thao”.' };
+    }
+    var surface = seepage ? 'waterproof' : surfaces[0][0];
+    var conditions = [
+      ['mold', /\b(am moc|nam moc|rong reu)\b/],
+      ['peeling', /\b(bong troc|troc son)\b/],
+      ['new', /\b(tuong moi|moi xay)\b/],
+      ['stains', /\b(lau chui|chui rua|bam ban)\b/]
+    ];
+    var found = conditions.find(function (entry) { return entry[1].test(phrase); });
+    var condition = seepage ? 'seepage' : surface !== 'sport' && found ? found[0] : 'normal';
+    var areas = Array.from(phrase.matchAll(/(?:^|[^\d.,+-])(\d+(?:[.,]\d+)?)\s*(?:m²|m2\b|met vuong\b)/g));
+    var area = areas.length === 1 ? Number(areas[0][1].replace(',', '.')) : 0;
+    return { surface: surface, condition: condition, area: area >= 1 && area <= 100000 ? area : '' };
+  }
+
   class ShopAssistant extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { surface: 'interior', condition: 'normal', area: 100, brand: 'all', query: '', limit: 24, selected: null };
+      this.state = { surface: 'interior', condition: 'normal', area: 100, brand: 'all', query: '', limit: 24, selected: null, project: '', projectStatus: '' };
+    }
+    applyProject(description) {
+      var result = readProject(description);
+      if (result.message) {
+        this.setState({ projectStatus: result.message });
+        return;
+      }
+      this.setState({
+        project: description, surface: result.surface, condition: result.condition,
+        area: result.area, brand: 'all', query: '', limit: 24, selected: null,
+        projectStatus: result.area ? 'Đã cập nhật bộ lọc. Kiểm tra thông tin bên dưới trước khi dùng dự toán.' :
+          'Đã cập nhật khu vực. Nhập diện tích bề mặt cần sơn để xem lượng và chi phí dự kiến.'
+      });
     }
     choose(id) {
       var state = this.state;
@@ -343,9 +394,22 @@
       return h('section', { className: 'shop-assistant-section', id: 'chon-son', 'aria-labelledby': 'shop-assistant-title' },
         h('div', { className: 'container' },
           h('div', { className: 'shop-assistant-heading' },
-            h('span', { className: 'section-kicker' }, 'CHỌN SƠN NHANH'),
-            h('h2', { id: 'shop-assistant-title' }, 'Tìm dòng sơn phù hợp với công trình'),
-            h('p', null, 'Cho biết khu vực và tình trạng tường để xem cách xử lý, sản phẩm gợi ý và báo giá tham khảo.')
+            h('h2', { id: 'shop-assistant-title' }, 'Chọn sơn theo công trình'),
+            h('p', null, 'Mô tả nhu cầu hoặc chỉnh bộ lọc để xem sản phẩm, so sánh định mức và hỏi giá.')
+          ),
+          h('div', { className: 'project-brief' },
+            h('form', { onSubmit: function (event) { event.preventDefault(); self.applyProject(state.project); } },
+              h('label', { htmlFor: 'project-description' }, 'Bạn muốn sơn khu vực nào?'),
+              h('div', { className: 'project-brief-input' },
+                h('input', { id: 'project-description', value: state.project, required: true, maxLength: 200,
+                  placeholder: 'Ví dụ: sơn mặt tiền 85 m²', onChange: function (event) { self.setState({ project: event.target.value, projectStatus: '' }); } }),
+                h('button', { type: 'submit', className: 'btn btn-red' }, 'Gợi ý sản phẩm')
+              )
+            ),
+            h('div', { className: 'project-brief-examples', 'aria-label': 'Nhu cầu mẫu' }, projectExamples.map(function (example) {
+              return h('button', { type: 'button', key: example, onClick: function () { self.applyProject(example); } }, example);
+            })),
+            h('p', { className: 'project-brief-status', role: 'status' }, state.projectStatus)
           ),
           h('div', { className: 'shop-assistant-controls' },
             h('label', null, 'Khu vực', h('select', { value: state.surface, onChange: function (event) { self.setState({ surface: event.target.value, condition: event.target.value === 'sport' ? 'normal' : state.condition, selected: null }); } },
@@ -354,7 +418,7 @@
             h('label', null, 'Tình trạng tường', h('select', { value: state.condition, disabled: state.surface === 'sport', onChange: function (event) { var next = event.target.value; self.setState({ condition: next, surface: next === 'seepage' ? 'waterproof' : state.surface, selected: null }); } },
               Object.keys(WALL_CONDITIONS).map(function (key) { return h('option', { key: key, value: key }, WALL_CONDITIONS[key].label); })
             )),
-            h('label', null, 'Diện tích (m²)', h('input', { type: 'number', min: 1, max: 100000, value: state.area, onChange: function (event) { self.setState({ area: event.target.value }); } })),
+            h('label', null, 'Diện tích bề mặt (m²)', h('input', { type: 'number', min: 1, max: 100000, step: 'any', value: state.area, onChange: function (event) { self.setState({ area: event.target.value }); } })),
             h('label', null, 'Thương hiệu', h('select', { value: state.brand, onChange: function (event) { self.setState({ brand: event.target.value, selected: null }); } },
               [h('option', { value: 'all', key: 'all' }, 'Tất cả')].concat(brands.map(function (brand) { return h('option', { key: brand, value: brand }, brand); }))
             ))

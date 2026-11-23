@@ -1,4 +1,28 @@
 .store .shop-assistant-section{padding:92px 0 104px;background:#eef2ef;color:#10212d}
+.store .hero.hero-v64{background:#123731;color:#f9f7ef}
+.store .hero.hero-v64 h1{color:#f9f7ef;font-size:clamp(46px,5.7vw,82px)}
+.store .hero.hero-v64 h1 em{color:#c3e5aa}
+.store .hero.hero-v64 .hero-lead{color:#e0eae1;font-size:clamp(1rem,1.35vw,1.125rem)}
+.store .hero.hero-v64 .eyebrow{background:#254a42;border-color:#52776a;color:#f0f5eb}
+.store .hero.hero-v64 .trust-item :is(b,small){color:#e0eae1}
+.store .hero.hero-v64 .hero-actions .btn-glass{background:#254a42;border-color:#709386;color:#fff}
+.store .hero.hero-v64 .hero-actions .btn-glass:hover{background:#345b50}
+.store .hero.hero-v64 .hero-visual{box-shadow:none}
+.store .project-brief{padding:clamp(17px,3vw,32px);margin-bottom:18px;background:#183c35;color:#fff;border-radius:20px}
+.store .project-brief label{display:block;font-size:1.125rem;font-weight:750;margin-bottom:12px}
+.store .project-brief-input{display:flex;gap:10px}
+.store .project-brief-input input{flex:1;min-width:0;min-height:52px;padding:0 15px;border:1px solid #a9c6b6;border-radius:11px;background:#fff;color:#123731;font:inherit;font-size:1rem}
+.store .project-brief-input .btn{min-height:52px;justify-content:center}
+.store .project-brief-examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.store .project-brief-examples button{min-height:44px;padding:8px 12px;border:1px solid #709386;border-radius:9px;background:#254a42;color:#fff;font:inherit;font-size:.875rem;text-align:left}
+.store .project-brief-examples button:hover{background:#345b50}
+.store .project-brief :is(button,input):focus-visible{outline:3px solid #c3e5aa;outline-offset:3px}
+.store .project-brief-status{margin:12px 0 0;color:#e0eae1;font-size:.9375rem}
+.store .project-brief-status:empty{margin:0}
+@media(max-width:640px){
+  .store .hero.hero-v64 h1{font-size:clamp(2.375rem,10vw,3.5rem)}
+  .store .project-brief-input{display:grid;grid-template-columns:minmax(0,1fr)}
+}
 .store .shop-assistant-heading{max-width:830px;margin-bottom:32px}
 .store .shop-assistant-heading h2,.store .project-gallery-heading h2{margin:14px 0 14px;font-size:clamp(38px,4.3vw,62px);line-height:1.08;letter-spacing:-.055em}
 .store .shop-assistant-heading p,.store .project-gallery-heading p{max-width:690px;margin:0;color:#5c6c70;font-size:16px;line-height:1.65}
