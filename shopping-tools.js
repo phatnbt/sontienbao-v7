@@ -19,7 +19,7 @@
     return !/son lot|primer|bot tret|bot ba|dung cu|keo ba|putty|skimcoat|handycoat|terramix|filler|patching/.test(label);
   }
   var COMPARISON_PROFILES = [
-    { match: /essence de lau chui/, fit: 'Tường nội thất cần lau chùi thường xuyên', strengths: ['Dễ lau chùi', 'Nhẹ mùi, VOC thấp', 'Bề mặt mờ'], note: 'Chỉ dùng cho khu vực nội thất.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean' },
+    { match: /essence de lau chui/, fit: 'Tường nội thất cần lau chùi thường xuyên', strengths: ['Dễ lau chùi', 'Nhẹ mùi, VOC thấp', 'Bề mặt mờ'], note: 'Hệ tham khảo của hãng gồm một lớp Essence Sơn Lót Chống Kiềm và hai lớp Essence Dễ Lau Chùi.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean' },
     { match: /essence trang tran chuyen dung/, fit: 'Trần nội thất cần lớp phủ trắng mờ, dễ thi công', strengths: ['Hạn chế văng bắn khi sơn', 'Độ trắng và độ che phủ tốt', 'Mùi nhẹ, VOC thấp'], note: 'Sản phẩm được thiết kế cho bề mặt trần.', source: 'https://www.jotun.com/vn-en/decorative/products/interior/all-interior-products/essence-easy-ceiling-vn' },
     { match: /jotaplast/, fit: 'Tường nội thất cần lớp phủ mờ với chi phí hợp lý', strengths: ['Dễ thi công', 'Chống nấm mốc', 'Che phủ khuyết điểm bề mặt'], note: 'Dùng cho tường nội thất; cần xử lý vết nứt hoặc ẩm trước khi sơn.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/jotaplast' },
     { match: /majestic dep nguyen ban/, fit: 'Không gian cần bề mặt siêu mờ, màu trung thực', strengths: ['Siêu mờ, không phản quang', 'Dễ lau chùi', 'Kháng khuẩn, chống nấm mốc'], note: 'Chọn khi bề mặt siêu mờ là ưu tiên chính.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/majestic-pure-color' },
@@ -156,7 +156,7 @@
     normal: { label: 'Tường đang tốt', advice: 'Làm sạch bề mặt, kiểm tra độ khô và dùng hệ sơn lót, sơn phủ phù hợp.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
     new: { label: 'Tường mới xây', advice: 'Chờ tường đủ khô, kiểm tra độ ẩm và dùng sơn lót phù hợp trước khi sơn phủ.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/tam-quan-trong-cua-do-am-tuong-khi-son-nha-do-am-tuong-bao-nhieu-thi-son-duoc' },
     mold: { label: 'Ẩm mốc', advice: 'Tìm và xử lý nguồn ẩm, làm sạch nấm mốc, để tường khô rồi mới sơn lót và sơn phủ. Sơn kháng mốc không thay thế bước xử lý ẩm.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
-    seepage: { label: 'Thấm nước', advice: 'Kiểm tra đường nước hoặc vết nứt, xử lý nguyên nhân thấm và khảo sát bề mặt trước khi chọn hệ chống thấm.', source: 'https://professional.nipponpaint.com.vn/vi/van-de-giai-phap' },
+    seepage: { label: 'Thấm nước', advice: 'Xác định nước đến từ đâu, xử lý nguồn thấm và kiểm tra mặt tường có thể thi công. Chỉ chọn hệ chống thấm sau khi xác định hướng nước thấm và tình trạng nền.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/tuong-bi-tham-nuoc' },
     peeling: { label: 'Bong tróc', advice: 'Cạo bỏ lớp sơn bong, xử lý nguyên nhân ẩm nếu có, làm sạch và sơn lót trước lớp phủ mới.', source: 'https://nipponpaint.com.vn/vi/tin-tuc/meo-son-nha/huong-dan-cach-son-tuong-nha-cu-thay-ao-moi-cho-ngoi-nha-cua-ban' },
     stains: { label: 'Dễ bám bẩn', advice: 'Với tường đã khô và ổn định, cân nhắc lớp phủ dễ lau chùi hoặc chống bám bẩn theo khu vực sử dụng.', source: 'https://www.jotun.com/vn-vi/decorative/products/interior/all-interior-products/essence-easy-clean' }
   };
@@ -202,11 +202,23 @@
       cost: best ? best.count * best.price : 0
     };
   }
-  function score(product, condition) {
+  var PAINT_PRIORITIES = {
+    washable: { label: 'Dễ lau chùi', evidence: /de lau chui|de chui rua|chong bam ban|tu lam sach/ },
+    odor: { label: 'Nhẹ mùi', evidence: /nhe mui|mui nhe|mui rat nhe|mui thap|it mui/ },
+    matte: { label: 'Bề mặt mờ', evidence: /\b(sieu mo|be mat mo|manh son mo|mang son mo|phu mo)\b/ },
+    weather: { label: 'Chịu mưa nắng', evidence: /chiu thoi tiet|ben voi thoi tiet|khang tia cuc tim|chong phai mau/ }
+  };
+  function priorityEvidence(profile, priority) {
+    return profile && PAINT_PRIORITIES[priority] && profile.strengths.find(function (point) {
+      return PAINT_PRIORITIES[priority].evidence.test(text(point));
+    });
+  }
+  function score(product, condition, priority) {
     var label = text((product.name || '') + ' ' + (product.category || '') + ' ' + (product.description || ''));
     var profile = comparisonProfile(product);
     var strengths = text(profile ? profile.strengths.join(' ') : '');
     var value = product.image ? 8 : 0;
+    if (priorityEvidence(profile, priority)) value += 40;
     if (Number(product.coverage) > 0) value += 12;
     if (condition === 'mold' && /chong nam moc|chong rong reu|khang nam moc/.test(strengths)) value += 30;
     if (condition === 'seepage' && /chong tham/.test(strengths)) value += 30;
@@ -292,12 +304,70 @@
     }
   }
 
-  var projectExamples = ['Sơn phòng khách 60 m² dễ lau chùi', 'Sơn mặt tiền 85 m²', 'Tường ngoài bị thấm nước'];
+  var projectExamples = ['Sơn phòng khách 60 m² dễ lau chùi', 'Sơn phòng cho bé, ưu tiên ít mùi', 'Tường ngoài bị thấm nước'];
+
+  var SURFACE_EXAMPLES = {
+    interior: [
+      'phòng cho bé', 'phòng của con', 'phòng em bé', 'phòng trẻ nhỏ',
+      'tường hành lang', 'vách cầu thang', 'phòng làm việc', 'tường căn hộ',
+      'trong phòng', 'trần phòng', 'phòng sinh hoạt'
+    ],
+    exterior: [
+      'tường hứng mưa', 'tường đón nắng', 'mặt ngoài ngôi nhà', 'tường bao sân',
+      'vách ban công', 'sơn hàng rào bê tông', 'tường cổng nhà', 'mảng tường phơi nắng',
+      'tường tiếp xúc mưa', 'vách ngoài nhà', 'tường sân trước'
+    ],
+    sport: [
+      'sân cầu lông', 'sân bóng chuyền', 'sân bóng rổ', 'sân bóng ném',
+      'sân tập luyện', 'kẻ vạch sân thi đấu', 'sân chơi tennis', 'sân chơi pickleball',
+      'mặt sân thi đấu', 'sân tập thể dục', 'mặt sân cầu lông'
+    ]
+  };
+  function wordPairs(phrase) {
+    var words = text(phrase).match(/[a-z]+/g) || [];
+    return words.slice(1).map(function (word, index) { return words[index] + ' ' + word; });
+  }
+  var surfaceModel;
+  function predictSurface(phrase) {
+    if (!surfaceModel) {
+      var vocabulary = new Set();
+      var classes = Object.keys(SURFACE_EXAMPLES).map(function (surface) {
+        var counts = new Map();
+        var total = 0;
+        SURFACE_EXAMPLES[surface].forEach(function (example) {
+          wordPairs(example).forEach(function (pair) {
+            vocabulary.add(pair);
+            counts.set(pair, (counts.get(pair) || 0) + 1);
+            total++;
+          });
+        });
+        return { surface: surface, counts: counts, total: total };
+      });
+      surfaceModel = { classes: classes, vocabulary: vocabulary };
+    }
+    var features = Array.from(new Set(wordPairs(phrase))).filter(function (pair) {
+      return surfaceModel.vocabulary.has(pair);
+    });
+    if (features.length < 2) return '';
+    var ranked = surfaceModel.classes.map(function (entry) {
+      // Multinomial Naive Bayes with uniform class priors and Laplace smoothing.
+      var denominator = entry.total + surfaceModel.vocabulary.size;
+      var evidence = features.filter(function (pair) { return entry.counts.has(pair); }).length;
+      var likelihood = features.reduce(function (sum, pair) {
+        return sum + Math.log(((entry.counts.get(pair) || 0) + 1) / denominator);
+      }, 0);
+      return { surface: entry.surface, likelihood: likelihood, evidence: evidence };
+    }).sort(function (a, b) { return b.likelihood - a.likelihood; });
+    return ranked[0].evidence >= 2 && !ranked[1].evidence && ranked[0].likelihood - ranked[1].likelihood >= 0.8 ? ranked[0].surface : '';
+  }
 
   function readProject(description) {
     var phrase = text(description);
     if (/\b(khong|chua|ngoai tru)\b/.test(phrase)) {
       return { message: 'Mô tả khu vực và tình trạng hiện tại, hoặc chọn trực tiếp trong bộ lọc bên dưới.' };
+    }
+    if (/\b(mai ton|san thuong|nha tam|nha ve sinh|be nuoc|ho boi|son go|cua go|sat thep|kim loai|san epoxy)\b/.test(phrase)) {
+      return { message: 'Bề mặt này cần hệ sơn chuyên dụng. Hãy nhờ Tiến Bảo kiểm tra nền và điều kiện thi công.' };
     }
     var surfaces = [
       ['interior', /\b(noi that|trong nha|phong khach|phong ngu|phong bep|tran nha)\b/],
@@ -305,13 +375,14 @@
       ['sport', /\b(san the thao|san tennis|san pickleball|san bong ro)\b/]
     ].filter(function (entry) { return entry[1].test(phrase); });
     var seepage = /\b(chong tham|tham nuoc|tuong bi tham)\b/.test(phrase);
-    if (surfaces.length > 1 || (seepage && surfaces.some(function (entry) { return entry[0] === 'sport'; }))) {
+    var predicted = surfaces.length ? '' : predictSurface(phrase);
+    if (surfaces.length > 1 || (seepage && (predicted === 'sport' || surfaces.some(function (entry) { return entry[0] === 'sport'; })))) {
       return { message: 'Mỗi lần hãy mô tả một khu vực. Bạn cũng có thể chọn khu vực trực tiếp bên dưới.' };
     }
-    if (!seepage && !surfaces.length) {
+    if (!seepage && !surfaces.length && !predicted) {
       return { message: 'Chưa nhận ra khu vực. Hãy thêm “nội thất”, “mặt tiền”, “chống thấm” hoặc “sân thể thao”.' };
     }
-    var surface = seepage ? 'waterproof' : surfaces[0][0];
+    var surface = seepage ? 'waterproof' : predicted || surfaces[0][0];
     var conditions = [
       ['mold', /\b(am moc|nam moc|rong reu)\b/],
       ['peeling', /\b(bong troc|troc son)\b/],
@@ -322,13 +393,23 @@
     var condition = seepage ? 'seepage' : surface !== 'sport' && found ? found[0] : 'normal';
     var areas = Array.from(phrase.matchAll(/(?:^|[^\d.,+-])(\d+(?:[.,]\d+)?)\s*(?:m²|m2\b|met vuong\b)/g));
     var area = areas.length === 1 ? Number(areas[0][1].replace(',', '.')) : 0;
-    return { surface: surface, condition: condition, area: area >= 1 && area <= 100000 ? area : '' };
+    var priority = [
+      ['washable', /\b(lau chui|chui rua|bam ban)\b/],
+      ['odor', /\b(it mui|nhe mui|mui nhe)\b/],
+      ['matte', /\b(sieu mo|be mat mo|son mo)\b/],
+      ['weather', /\b(chiu mua nang|chiu thoi tiet|ben mau)\b/]
+    ].find(function (entry) { return entry[1].test(phrase); });
+    return {
+      surface: surface, condition: condition, area: area >= 1 && area <= 100000 ? area : '',
+      priority: priority && surface !== 'sport' && surface !== 'waterproof' ? priority[0] : '',
+      predicted: Boolean(predicted && !seepage)
+    };
   }
 
   class ShopAssistant extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { surface: 'interior', condition: 'normal', area: 100, brand: 'all', query: '', limit: 24, selected: null, project: '', projectStatus: '' };
+      this.state = { surface: 'interior', condition: 'normal', priority: '', area: 100, brand: 'all', query: '', limit: 24, selected: null, project: '', projectStatus: '' };
     }
     applyProject(description) {
       var result = readProject(description);
@@ -337,18 +418,26 @@
         return;
       }
       this.setState({
-        project: description, surface: result.surface, condition: result.condition,
+        project: description, surface: result.surface, condition: result.condition, priority: result.priority,
         area: result.area, brand: 'all', query: '', limit: 24, selected: null,
-        projectStatus: result.area ? 'Đã cập nhật bộ lọc. Kiểm tra thông tin bên dưới trước khi dùng dự toán.' :
-          'Đã cập nhật khu vực. Nhập diện tích bề mặt cần sơn để xem lượng và chi phí dự kiến.'
+        projectStatus: (result.predicted ? 'Mô hình đã gợi ý khu vực. Bạn có thể sửa bộ lọc bên dưới. ' : 'Đã cập nhật bộ lọc. ') +
+          (result.area ? 'Kiểm tra diện tích bề mặt trước khi dùng dự toán.' : 'Nhập diện tích bề mặt để xem lượng và chi phí dự kiến.')
       });
+    }
+    candidates() {
+      var state = this.state;
+      var query = text(state.query).trim();
+      return (this.props.products || []).filter(function (product) {
+        var matches = query ? text(product.name + ' ' + product.brand).includes(query) :
+          isFinish(product) && matchesSurface(product, state.surface);
+        return product.enabled !== false && matches && (state.brand === 'all' || product.brand === state.brand);
+      }).map(function (product) {
+        return { product: product, score: score(product, state.condition, state.priority) };
+      }).sort(function (a, b) { return b.score - a.score; }).map(function (entry) { return entry.product; });
     }
     choose(id) {
       var state = this.state;
-      var current = state.selected ? state.selected.slice() : (this.props.products || []).filter(function (product) {
-        return product.enabled !== false && isFinish(product) && matchesSurface(product, state.surface) &&
-          (state.brand === 'all' || product.brand === state.brand);
-      }).sort(function (a, b) { return score(b, state.condition) - score(a, state.condition); }).slice(0, 2).map(function (product) { return product.id; });
+      var current = state.selected ? state.selected.slice() : this.candidates().slice(0, 2).map(function (product) { return product.id; });
       var index = current.indexOf(id);
       if (index >= 0) current.splice(index, 1);
       else if (current.length < 3) current.push(id);
@@ -358,11 +447,11 @@
       var self = this, props = this.props, state = this.state;
       var brands = Array.from(new Set((props.products || []).map(function (product) { return product.brand; }).filter(Boolean))).sort();
       var query = text(state.query).trim();
-      var candidates = (props.products || []).filter(function (product) {
-        return product.enabled !== false && (query ? text(product.name + ' ' + product.brand).includes(query) : isFinish(product) && matchesSurface(product, state.surface)) &&
-          (state.brand === 'all' || product.brand === state.brand);
-      }).sort(function (a, b) { return score(b, state.condition) - score(a, state.condition); });
+      var candidates = this.candidates();
       var visible = candidates.slice(0, query ? state.limit : 6);
+      var hasPriorityMatch = state.priority && candidates.some(function (product) {
+        return priorityEvidence(comparisonProfile(product), state.priority);
+      });
       var selectedIds = state.selected === null ? visible.slice(0, 2).map(function (product) { return product.id; }) : state.selected;
       var selected = selectedIds.map(function (id) { return (props.products || []).find(function (product) { return product.id === id; }); }).filter(Boolean);
       var comparison = estimateContext(selected, state.area, state.surface, state.condition);
@@ -419,6 +508,12 @@
               Object.keys(WALL_CONDITIONS).map(function (key) { return h('option', { key: key, value: key }, WALL_CONDITIONS[key].label); })
             )),
             h('label', null, 'Diện tích bề mặt (m²)', h('input', { type: 'number', min: 1, max: 100000, step: 'any', value: state.area, onChange: function (event) { self.setState({ area: event.target.value }); } })),
+            h('label', null, 'Ưu tiên', h('select', { value: state.priority, onChange: function (event) { self.setState({ priority: event.target.value, selected: null }); } },
+              h('option', { value: '' }, 'Mọi tính năng'),
+              Object.keys(PAINT_PRIORITIES).map(function (key) {
+                return h('option', { key: key, value: key }, PAINT_PRIORITIES[key].label);
+              })
+            )),
             h('label', null, 'Thương hiệu', h('select', { value: state.brand, onChange: function (event) { self.setState({ brand: event.target.value, selected: null }); } },
               [h('option', { value: 'all', key: 'all' }, 'Tất cả')].concat(brands.map(function (brand) { return h('option', { key: brand, value: brand }, brand); }))
             ))
@@ -432,15 +527,25 @@
           h('label', { className: 'shop-product-search' }, 'Tìm trong toàn bộ catalog để so sánh',
             h('input', { type: 'search', value: state.query, placeholder: 'Nhập tên sản phẩm hoặc thương hiệu…', onChange: function (event) { self.setState({ query: event.target.value, limit: 24, selected: state.selected === null ? [] : state.selected }); } })
           ),
-          h('p', { className: 'shop-result-count', role: 'status' }, candidates.length + ' sản phẩm ' + (query ? 'khớp tìm kiếm · Đang hiển thị ' + visible.length : 'phù hợp · Hiển thị tối đa 6 gợi ý')),
+          state.priority && !hasPriorityMatch && h('p', { className: 'shop-evidence-note' }, 'Chưa tìm thấy tài liệu xác nhận ưu tiên này trong kết quả. Bạn có thể hỏi Tiến Bảo để kiểm tra thêm.'),
+          h('p', { className: 'shop-result-count', role: 'status' }, candidates.length + ' sản phẩm ' + (query ? 'khớp tìm kiếm · Đang hiển thị ' + visible.length : 'theo khu vực · Hiển thị tối đa 6 gợi ý')),
           visible.length ? h('div', { className: 'shop-recommendations' }, visible.map(function (product) {
             var plan = estimate(product, state.area), active = selected.some(function (item) { return item.id === product.id; });
+            var profile = comparisonProfile(product);
+            var evidence = priorityEvidence(profile, state.priority);
             return h('article', { className: 'shop-recommendation', key: product.id },
               h('div', { className: 'shop-recommendation-image' }, product.image && h('img', { src: props.resolveImage(product.image), alt: product.name, loading: 'lazy', decoding: 'async' })),
               h('div', { className: 'shop-recommendation-content' },
                 h('small', null, product.brand || 'SƠN TIẾN BẢO'),
                 h('h3', null, product.name),
                 h('p', null, product.category || 'Sản phẩm sơn'),
+                profile && h('div', { className: 'shop-product-evidence' },
+                  h('p', null, profile.fit),
+                  evidence && h('strong', null, evidence),
+                  comparisonSource(profile.sourceType === 'retailer' ? product.url : profile.source,
+                    profile.sourceType === 'retailer' ? 'Mô tả Tiến Bảo' :
+                      profile.sourceType === 'manufacturerArchive' ? 'Tài liệu hãng (bản lưu)' : 'Tài liệu hãng')
+                ),
                 h('div', { className: 'shop-recommendation-facts' },
                   h('span', null, 'Độ phủ: ', h('b', null, plan ? (product.coverageLabel || product.coverage + ' m²/' + unitOf(product) + '/lớp') : 'cần đối chiếu hệ thi công')),
                   h('span', null, 'Vật tư dự kiến: ', h('b', null, plan ? plan.quantity + ' ' + plan.unit : 'cần xác nhận')),
@@ -468,7 +573,7 @@
                   h('div', { className: 'shop-compare-photo' }, product.image && h('img', { src: props.resolveImage(product.image), alt: product.name, loading: 'lazy', decoding: 'async' })),
                   h('div', null, h('small', null, product.brand || 'SƠN TIẾN BẢO'), h('h4', null, product.name))
                 ),
-                h('div', { className: 'shop-compare-price' }, h('small', null, 'Vật tư cho ' + state.area + ' m²'), h('strong', null, cost ? money(cost) : 'Cần báo giá'), cost > 0 && h('span', null, 'Khoảng ' + money(Math.round(cost / Math.max(1, Number(state.area) || 1))) + '/m²')),
+                h('div', { className: 'shop-compare-price' }, h('small', null, Number(state.area) > 0 ? 'Vật tư cho ' + state.area + ' m²' : 'Chưa nhập diện tích'), h('strong', null, cost ? money(cost) : 'Cần báo giá'), cost > 0 && h('span', null, 'Khoảng ' + money(Math.round(cost / Math.max(1, Number(state.area) || 1))) + '/m²')),
                 highestCost > 0 && cost > 0 && h('div', { className: 'shop-compare-bar', 'aria-hidden': 'true' }, h('span', { style: { width: Math.max(8, Math.round(cost / highestCost * 100)) + '%' } })),
                 h('dl', { className: 'shop-compare-facts' },
                   h('div', null, h('dt', null, 'Độ phủ'), h('dd', null, plan ? (product.coverageLabel || product.coverage + ' m²/' + unitOf(product) + '/lớp') : 'Cần đối chiếu hệ thi công')),
