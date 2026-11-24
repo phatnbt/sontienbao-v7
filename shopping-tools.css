@@ -5,24 +5,10 @@
 .store .hero.hero-v64 .hero-lead{color:#3b536a;font-size:clamp(1rem,1.35vw,1.125rem)}
 .store .hero.hero-v64 .eyebrow{background:#f5faff;border-color:#b9d1e8;color:#274d73}
 .store .hero.hero-v64 .trust-item :is(b,small){color:#3b536a}
-.store .hero.hero-v64 .hero-actions .btn-glass{background:#f7fbff;border-color:#8faecb;color:#183f68}
-.store .hero.hero-v64 .hero-actions .btn-glass:hover{background:#dcecff}
 .store .hero.hero-v64 .hero-visual{box-shadow:none}
-.store .project-brief{padding:clamp(17px,3vw,32px);margin-bottom:18px;background:#e3effc;color:#173a60;border:1px solid #c5daee;border-radius:20px}
-.store .project-brief label{display:block;font-size:1.125rem;font-weight:750;margin-bottom:12px}
-.store .project-brief-input{display:flex;gap:10px}
-.store .project-brief-input input{flex:1;min-width:0;min-height:52px;padding:0 15px;border:1px solid #89abca;border-radius:11px;background:#fff;color:#173a60;font:inherit;font-size:1rem}
-.store .project-brief-input .btn{min-height:52px;justify-content:center}
-.store .project-brief-examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.store .project-brief-examples button{min-height:44px;padding:8px 12px;border:1px solid #a3c0dc;border-radius:9px;background:#f7fbff;color:#21476c;font:inherit;font-size:.875rem;text-align:left}
-.store .project-brief-examples button:hover{background:#d4e7fa}
-.store .project-brief :is(button,input):focus-visible{outline:3px solid #285e96;outline-offset:3px}
-.store .project-brief-status{margin:12px 0 0;color:#2f5275;font-size:.9375rem}
-.store .project-brief-status:empty{margin:0}
-.store .project-brief-more{margin-top:12px}
-.store .project-brief-more summary{width:fit-content;min-height:36px;padding-top:6px;color:#245488;font-weight:750;cursor:pointer}
-.store .project-brief-more .project-brief-examples{margin-top:4px}
-.store .project-brief-status + .btn{margin-top:10px}
+.store .paint-chatbot-examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.store .paint-chatbot-examples button{min-height:44px;padding:8px 12px;border:1px solid #a3c0dc;border-radius:9px;background:#f7fbff;color:#21476c;font:inherit;font-size:.875rem;text-align:left}
+.store .paint-chatbot-examples button:hover{background:#d4e7fa}
 .store .paint-rag-answer{white-space:pre-line;line-height:1.55}
 .store .paint-chatbot{--chat-bottom:22px;position:fixed;right:max(18px,env(safe-area-inset-right));bottom:var(--chat-bottom);z-index:985}
 .store .paint-chatbot-launch{min-height:54px;display:flex;align-items:center;gap:9px;padding:0 18px;border:1px solid #275a8a;border-radius:999px;background:#174b79;color:#fff;font:inherit;font-weight:750;box-shadow:0 8px 22px #142e4b35}
@@ -46,7 +32,9 @@
 .store .hero-paint-advice label{font-size:.9375rem;font-weight:750;color:#183f68}
 .store .hero-paint-advice .paint-chatbot-input{min-width:0}
 .store .hero-paint-advice .btn{padding-inline:clamp(10px,2vw,18px);white-space:nowrap}
-.store .faq-paint-advice{margin-top:18px}
+.store .paint-ai-notice{display:block;color:#395d78;font-size:.775rem;line-height:1.35}
+.store .paint-chatbot-compose .paint-ai-notice{margin-top:6px}
+.store .shop-compare-heading h3{scroll-margin-top:105px}
 .store .paint-advice-cards{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}
 .store .paint-advice-cards>li{display:grid;gap:6px;padding:12px;border:1px solid #c9ddef;border-radius:12px;background:#f7fbff}
 .store .paint-advice-cards p,.store .paint-advice-product h4{margin:0}
@@ -75,7 +63,6 @@
 }
 @media(max-width:640px){
   .store .hero.hero-v64 h1{font-size:clamp(2.375rem,10vw,3.5rem)}
-  .store .project-brief-input{display:grid;grid-template-columns:minmax(0,1fr)}
 }
 @media(max-width:760px){
   .store .paint-chatbot{--chat-bottom:calc(84px + env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right))}

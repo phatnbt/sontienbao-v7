@@ -310,13 +310,6 @@
     }
   }
 
-  var projectExamples = ['Sơn phòng khách 60 m² dễ lau chùi', 'Sơn phòng cho bé, ưu tiên ít mùi', 'Tường ngoài bị thấm nước'];
-  var extraProjectExamples = [
-    'Tường nội thất mới tô 50 m²', 'Mặt tiền cũ bị phấn hóa', 'Tường ngoài có muối trắng',
-    'Tường ngoài bị nứt chân chim', 'Đổi màu tường nội thất từ đậm sang sáng',
-    'Sơn trần trắng 30 m²', 'Sơn lại sân pickleball', 'Chống thấm sân thượng'
-  ];
-
   var SURFACE_EXAMPLES = {
     interior: [
       'phòng cho bé', 'phòng của con', 'phòng em bé', 'phòng trẻ nhỏ',
@@ -425,25 +418,32 @@
   class ShopAssistant extends React.Component {
     constructor(props) {
       super(props);
-      this.state = { surface: 'interior', condition: 'normal', priority: '', area: 100, brand: 'all', query: '', limit: 24, selected: null, project: '', projectStatus: '' };
+      this.state = { surface: 'interior', condition: 'normal', priority: '', area: 100, brand: 'all', query: '', limit: 24, selected: null };
+      this.openComparison = this.openComparison.bind(this);
     }
-    applyProject(description) {
-      var result = readProject(description);
-      if (result.message) {
-        this.setState({ project: description, projectStatus: result.message, projectNeedsHelp: true, selected: [] });
-        return;
-      }
-      this.setState({
-        project: description, surface: result.surface, condition: result.condition, priority: result.priority,
-        area: result.area, brand: 'all', query: '', limit: 24, selected: null, projectNeedsHelp: false,
-        projectStatus: (result.predicted ? 'Mô hình đã gợi ý khu vực. Bạn có thể sửa bộ lọc bên dưới. ' : 'Đã cập nhật bộ lọc. ') +
-          (result.area ? 'Kiểm tra diện tích bề mặt trước khi dùng dự toán.' : 'Nhập diện tích bề mặt để xem lượng và chi phí dự kiến.')
+    componentDidMount() { window.addEventListener('stb:compare-paints', this.openComparison); }
+    componentWillUnmount() { window.removeEventListener('stb:compare-paints', this.openComparison); }
+    openComparison(event) {
+      var detail = event.detail;
+      if (!detail || !Array.isArray(detail.ids)) return;
+      var products = this.props.products || [];
+      var selected = [...new Set(detail.ids)].slice(0, 3).filter(function (id) {
+        return products.some(function (product) { return product.id === id && product.enabled !== false; });
+      });
+      if (selected.length < 2) return;
+      var area = Number(detail.area);
+      var purposes = selected.map(id => comparisonPurpose(products.find(product => product.id === id)));
+      var surfaces = { 'Tường nội thất': 'interior', 'Tường ngoại thất': 'exterior',
+        'Trần nội thất': 'ceiling', 'Chống thấm': 'waterproof', 'Sân thể thao': 'sport' };
+      var surface = purposes.every(purpose => purpose === purposes[0]) ? surfaces[purposes[0]] : '';
+      this.setState({ selected: selected, brand: 'all', query: '', priority: '', condition: 'normal',
+        surface: surface || this.state.surface, area: area >= 1 && area <= 100000 ? area : '' }, () => {
+        if (this.compareTitle) this.compareTitle.focus();
       });
     }
     candidates() {
       var state = this.state;
       var query = text(state.query).trim();
-      if (state.projectNeedsHelp && !query) return [];
       var products = (this.props.products || []).filter(function (product) {
         return product.enabled !== false && (state.brand === 'all' || product.brand === state.brand);
       });
@@ -502,37 +502,14 @@
       return h('section', { className: 'shop-assistant-section', id: 'chon-son', 'aria-labelledby': 'shop-assistant-title' },
         h('div', { className: 'container' },
           h('div', { className: 'shop-assistant-heading' },
-            h('h2', { id: 'shop-assistant-title' }, 'Chọn sơn theo công trình'),
-            h('p', null, 'Mô tả nhu cầu hoặc chỉnh bộ lọc để xem sản phẩm, so sánh định mức và hỏi giá.')
-          ),
-          h('div', { className: 'project-brief' },
-            h('form', { onSubmit: function (event) { event.preventDefault(); self.applyProject(state.project); } },
-              h('label', { htmlFor: 'project-description' }, 'Bạn muốn sơn khu vực nào?'),
-              h('div', { className: 'project-brief-input' },
-                h('input', { id: 'project-description', value: state.project, required: true, maxLength: 200,
-                  placeholder: 'Ví dụ: sơn mặt tiền 85 m²', onChange: function (event) { self.setState({ project: event.target.value, projectStatus: '', projectNeedsHelp: false }); } }),
-                h('button', { type: 'submit', className: 'btn btn-red' }, 'Gợi ý sản phẩm')
-              )
-            ),
-            h('div', { className: 'project-brief-examples', 'aria-label': 'Nhu cầu mẫu' }, projectExamples.map(function (example) {
-              return h('button', { type: 'button', key: example, onClick: function () { self.applyProject(example); } }, example);
-            })),
-            h('details', { className: 'project-brief-more' },
-              h('summary', null, 'Xem thêm tình huống'),
-              h('div', { className: 'project-brief-examples' }, extraProjectExamples.map(function (example) {
-                return h('button', { type: 'button', key: example, onClick: function () { self.applyProject(example); } }, example);
-              }))
-            ),
-            h('p', { className: 'project-brief-status', role: 'status' }, state.projectStatus),
-            state.projectNeedsHelp && h('button', { type: 'button', className: 'btn btn-outline', onClick: function () {
-              window.dispatchEvent(new CustomEvent('stb:open-paint-chat', { detail: state.project }));
-            } }, 'Hỏi trợ lý về tình huống này')
+            h('h2', { id: 'shop-assistant-title' }, 'So sánh sản phẩm'),
+            h('p', null, 'Chọn tối đa 3 sản phẩm để xem tính năng, độ phủ và chi phí vật tư.')
           ),
           h('div', { className: 'shop-assistant-controls' },
-            h('label', null, 'Khu vực', h('select', { value: state.surface, onChange: function (event) { self.setState({ surface: event.target.value, condition: event.target.value === 'sport' ? 'normal' : state.condition, selected: null, projectStatus: '', projectNeedsHelp: false }); } },
+            h('label', null, 'Khu vực', h('select', { value: state.surface, onChange: function (event) { self.setState({ surface: event.target.value, condition: event.target.value === 'sport' ? 'normal' : state.condition, selected: null }); } },
               [['interior', 'Tường nội thất'], ['ceiling', 'Trần nội thất'], ['exterior', 'Ngoại thất'], ['waterproof', 'Chống thấm'], ['sport', 'Sân thể thao']].map(function (option) { return h('option', { key: option[0], value: option[0] }, option[1]); })
             )),
-            h('label', null, 'Tình trạng tường', h('select', { value: state.condition, disabled: state.surface === 'sport', onChange: function (event) { var next = event.target.value; self.setState({ condition: next, surface: next === 'seepage' ? 'waterproof' : state.surface, selected: null, projectStatus: '', projectNeedsHelp: false }); } },
+            h('label', null, 'Tình trạng tường', h('select', { value: state.condition, disabled: state.surface === 'sport', onChange: function (event) { var next = event.target.value; self.setState({ condition: next, surface: next === 'seepage' ? 'waterproof' : state.surface, selected: null }); } },
               Object.keys(WALL_CONDITIONS).map(function (key) { return h('option', { key: key, value: key }, WALL_CONDITIONS[key].label); })
             )),
             h('label', null, 'Diện tích bề mặt (m²)', h('input', { type: 'number', min: 1, max: 100000, step: 'any', value: state.area, onChange: function (event) { self.setState({ area: event.target.value }); } })),
@@ -588,7 +565,8 @@
           })) : h('div', { className: 'shop-empty' }, 'Chưa có sản phẩm khớp bộ lọc. Hãy thử khu vực hoặc thương hiệu khác.'),
           query && visible.length < candidates.length && h('button', { type: 'button', className: 'btn btn-outline shop-show-more', onClick: function () { self.setState({ limit: state.limit + 24 }); } }, 'Xem thêm sản phẩm (' + (candidates.length - visible.length) + ')'),
           selected.length > 0 && h('div', { className: 'shop-compare', 'aria-labelledby': 'shop-compare-title' },
-            h('div', { className: 'shop-compare-heading' }, h('div', null, h('span', { className: 'section-kicker' }, 'SO SÁNH NHANH'), h('h3', { id: 'shop-compare-title' }, selected.length + ' sản phẩm đã chọn')), h('small', null, 'Lượng và chi phí chỉ tính khi có định mức phù hợp cho sơn tường.')),
+            h('div', { className: 'shop-compare-heading' }, h('div', null, h('h3', { id: 'shop-compare-title', tabIndex: -1,
+              ref: function (node) { self.compareTitle = node; } }, selected.length + ' sản phẩm đã chọn')), h('small', null, 'Lượng và chi phí chỉ tính khi có định mức phù hợp cho sơn tường.')),
             h('div', { className: 'shop-compare-cards' }, selected.map(function (product, index) {
               var plan = estimate(product, state.area), cost = plan && plan.cost || 0;
               return h('article', { className: 'shop-compare-card', key: product.id },
@@ -620,7 +598,7 @@
               h('p', { className: 'shop-compare-source-note' }, 'Ưu điểm từ tài liệu hãng được phân biệt với mô tả cửa hàng. Lượng và chi phí chỉ được ước tính cho sơn tường đủ định mức; hệ chống thấm, sân, gỗ, kim loại và vật liệu xử lý nền cần tính riêng.'),
               h('small', { className: 'shop-compare-swipe-hint' }, 'Vuốt ngang để xem thêm sản phẩm →'),
               h('div', { className: 'shop-compare-scroll', role: 'region', 'aria-label': 'Bảng so sánh sản phẩm; có thể cuộn ngang' }, h('table', { className: 'shop-comparison-table', style: { minWidth: (220 + comparisonItems.length * 285) + 'px' } },
-                h('caption', null, 'So sánh ' + comparisonItems.length + ' sản phẩm cho ' + state.area + ' m²'),
+                h('caption', null, 'So sánh ' + comparisonItems.length + ' sản phẩm' + (Number(state.area) > 0 ? ' cho ' + state.area + ' m²' : '')),
                 h('thead', null, h('tr', null, h('th', { scope: 'col' }, 'Tiêu chí'), comparisonItems.map(function (item) { return h('th', { scope: 'col', key: item.product.id }, h('div', { className: 'shop-compare-column-head' }, h('div', { className: 'shop-compare-column-photo' }, item.product.image && h(props.Image, { src: item.product.image, alt: '', deferUntilNear: true })), h('div', null, h('small', null, item.product.brand || 'SƠN TIẾN BẢO'), h('strong', null, item.product.name)))); }))),
                 h('tbody', null, rows.map(function (row) { return row.group ? h('tr', { key: row.group, className: 'shop-compare-section-row' }, h('th', { scope: 'rowgroup', colSpan: comparisonItems.length + 1 }, row.group)) : h('tr', { key: row.label }, h('th', { scope: 'row' }, row.label), comparisonItems.map(function (item) { return h('td', { key: item.product.id }, row.value(item)); })); }))
               ))
@@ -854,7 +832,8 @@
     var detailOnly = /^(?:(?:tuong |son )?(?:noi that|ngoai that|ngoai troi|mat tien|tran nha)|(?:dien tich |tuong rong )?\d+(?:[.,]\d+)? (?:m2|met vuong)|(?:uu tien )?(?:it mui|nhe mui|de lau chui|be mat mo|chiu mua nang))$/.test(phrase);
     var followup = previous && !resets && (budget || cancelBudget || budgetMention || detailOnly ||
       /^(?:doi sang|con neu|neu|uu tien|bat buoc|chi can)\b/.test(phrase));
-    if (productQuestion || (!startsAdvice && !followup && !budgetMention && !(budget && project.surface))) return null;
+    if (productQuestion || (!startsAdvice && !followup && !budgetMention &&
+        !(project.surface && (facts.area || priorities.length)))) return null;
     if (/\b(?:chon mau|phoi mau|mau gi|mau nao|may lit|bao nhieu lit|tinh luong|so sanh|son lot)\b/.test(phrase)) return null;
 
     var brief = Object.assign({}, followup ? previous : {});
@@ -966,28 +945,29 @@
     }
     return {
       answers: answers, facts: facts, ids: answers.map(function (answer) { return answer.id; }),
-      response: response
+      response: response,
+      contextTopic: usePrevious && refersBack && previous.ids[0] || ''
     };
   }
 
-  var chatbotExamples = ['Phòng thiếu sáng chọn màu gì?', 'Chọn màu theo tuổi, mệnh', 'Tường ẩm mốc xử lý thế nào?', 'Cần bao nhiêu lít sơn?'];
-  function openPaintChat(question, submit) {
-    window.dispatchEvent(new CustomEvent('stb:open-paint-chat', { detail: { question: question, submit: submit } }));
-  }
+  var chatbotExamples = ['Gợi ý sơn nội thất 40 m² dưới 2 triệu', 'Phòng thiếu sáng chọn màu gì?', 'Tường ẩm mốc xử lý thế nào?'];
+  var aiNotice = 'Câu hỏi tư vấn kỹ thuật có thể được gửi tới Cloudflare AI. Hãy tránh nhập thông tin cá nhân.';
 
   function PaintChatEntry() {
+    var aiEnabled = Boolean(paintRagEndpoint());
     return h('form', { className: 'hero-paint-advice', onSubmit: function (event) {
       event.preventDefault();
       var input = event.currentTarget.elements.namedItem('paint-need');
       var question = input.value.trim();
-      if (question) openPaintChat(question, true);
+      if (question) window.dispatchEvent(new CustomEvent('stb:ask-paint', { detail: question }));
     } },
       h('label', { htmlFor: 'hero-paint-need' }, 'Bạn cần sơn gì?'),
       h('div', { className: 'paint-chatbot-input' },
         h('input', { id: 'hero-paint-need', name: 'paint-need', type: 'text', maxLength: 500, required: true,
-          placeholder: 'Ví dụ: Tư vấn sơn nội thất 40 m², dưới 2 triệu' }),
-        h('button', { type: 'submit', className: 'btn btn-dark' }, 'Hỏi trợ lý')
-      )
+          'aria-describedby': aiEnabled ? 'hero-paint-privacy' : undefined, placeholder: 'Ví dụ: Sơn nội thất 40 m² dưới 2 triệu' }),
+        h('button', { type: 'submit', className: 'btn btn-dark' }, aiEnabled ? 'Hỏi AI' : 'Hỏi trợ lý')
+      ),
+      aiEnabled && h('small', { id: 'hero-paint-privacy', className: 'paint-ai-notice' }, aiNotice)
     );
   }
 
@@ -1020,7 +1000,9 @@
             )
           );
         })
-      )
+      ),
+      advice.results.length > 1 && h('button', { type: 'button', className: 'btn btn-outline',
+        onClick: function () { props.compare(advice.results, advice.brief.area); } }, 'So sánh các gợi ý')
     );
   }
 
@@ -1036,33 +1018,14 @@
     return items.every(Boolean) && new Set(items.map(function (item) { return item.href; })).size === items.length ? items : [];
   }
 
-  function ChatComparison(props) {
-    var items = props.items;
-    if (!items.length) return h('p', { className: 'paint-chatbot-context' },
-      'Bạn ghi tên hoặc mã của 2–3 loại sơn, cách nhau bằng “và”. Ví dụ “So sánh Jotaplast và Essence Dễ Lau Chùi”.');
-    return h('div', null,
-      h('p', { className: 'paint-chatbot-context' }, 'So sánh công dụng và điểm cần lưu ý theo từng mã sơn.'),
-      h('ul', { className: 'paint-advice-cards', 'aria-label': 'Sản phẩm đang so sánh' }, items.map(function (item) {
-        var profile = comparisonProfile(item.product);
-        return h('li', { key: item.href },
-          h('h4', null, h('a', { href: item.href, target: '_blank', rel: 'noopener noreferrer' }, item.product.name)),
-          h('p', null, profile ? profile.fit : comparisonPurpose(item.product)),
-          profile && h('p', null, profile.strengths.join(' · ')),
-          h('p', null, profile ? profile.note : comparisonMissingNote(item.product)),
-          profile && comparisonSource(profile.sourceType === 'retailer' ? item.href : profile.source,
-            profile.sourceType === 'retailer' ? 'Thông tin Tiến Bảo' : 'Tài liệu kỹ thuật')
-        );
-      })),
-      h('a', { href: '#chon-son', onClick: props.close }, 'Mở bảng so sánh và tính chi phí theo diện tích')
-    );
-  }
   var chatbotActions = {
-    choose: ['Mở bộ chọn sơn', '#chon-son'],
+    choose: ['Mở bảng so sánh', '#chon-son'],
     calculate: ['Mở máy tính lượng sơn', '#calculator'],
     colors: ['Mở bảng màu', '#colors']
   };
 
   function paintRagEndpoint() {
+    if (typeof document === 'undefined') return '';
     var meta = document.querySelector('meta[name="stb-paint-rag"]');
     try {
       var url = new URL(meta && meta.content);
@@ -1078,17 +1041,19 @@
       this.state = { question: '', turns: [], pending: false, error: '', open: typeof location !== 'undefined' && location.hash === '#hoi-dap-son' };
       this.sequence = 0;
       this.openProject = event => {
-        var question = typeof event.detail === 'string' ? event.detail : event.detail && event.detail.question;
-        var submit = event.detail && event.detail.submit;
         this.toggle(true);
-        if (typeof question === 'string') {
-          if (submit) this.ask(question);
-          else this.setState({ question: question.slice(0, 500) });
-        }
+        if (typeof event.detail === 'string') this.ask(event.detail);
+      };
+      this.compare = (items, area) => {
+        this.setState({ open: false }, function () {
+          window.dispatchEvent(new CustomEvent('stb:compare-paints', {
+            detail: { ids: items.map(item => item.product.id), area: area }
+          }));
+        });
       };
     }
     componentDidMount() {
-      window.addEventListener('stb:open-paint-chat', this.openProject);
+      window.addEventListener('stb:ask-paint', this.openProject);
     }
     toggle(open) {
       var chatbot = this;
@@ -1098,7 +1063,7 @@
       });
     }
     componentWillUnmount() {
-      window.removeEventListener('stb:open-paint-chat', this.openProject);
+      window.removeEventListener('stb:ask-paint', this.openProject);
       if (this.controller) this.controller.abort();
       var ragController = this.ragController;
       this.ragController = null;
@@ -1110,10 +1075,11 @@
       var controller = new AbortController();
       this.ragController = controller;
       var timeout = setTimeout(function () { controller.abort(); }, 14000);
-      this.setState({ ragPending: turn.id, ragError: null });
+      this.setState({ ragPending: turn.id });
       return fetch(endpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: turn.question }), credentials: 'omit', signal: controller.signal
+        body: JSON.stringify({ question: turn.question, topic: turn.contextTopic || undefined }),
+        credentials: 'omit', signal: controller.signal
       }).then(response => {
         if (!response.ok) throw new Error('Advice unavailable');
         return response.json();
@@ -1131,9 +1097,7 @@
         this.setState(state => ({
           turns: state.turns.map(item => item.id === turn.id ? Object.assign({}, item, { rag: rag }) : item)
         }));
-      }).catch(() => {
-        if (this.ragController === controller) this.setState({ ragError: turn.id });
-      }).finally(() => {
+      }).catch(() => { /* The verified local answer is already in the turn. */ }).finally(() => {
         clearTimeout(timeout);
         if (this.ragController === controller) {
           this.ragController = null;
@@ -1151,6 +1115,7 @@
     ask(value) {
       var question = value.trim().slice(0, 500);
       if (!question || this.pending) return;
+      this.stopExplanation();
       this.pending = true;
       this.setState({ pending: true, error: '', question: question });
       var chatbot = this;
@@ -1173,18 +1138,27 @@
         var products = productQuery && productQuery.includes(' ') ?
           searchCatalog(catalog, productQuery)
             .filter(function (match) { return match.href; }).slice(0, 3) : [];
-        var advice = adviseProject(question, catalog, chatbot.adviceBrief);
+        var previousBrief = chatbot.adviceBrief;
+        var advice = adviseProject(question, catalog, previousBrief);
         var comparison = namedComparison(question, catalog);
-        var handoff = /\b(?:ton kho|bao hanh|doi tra|khieu nai|don hang cua toi|bao gia chinh thuc)\b/.test(normalizeQuestion(question));
+        var handoff = /@|(?:\d[ .()-]*){9,}/.test(question) ||
+          /\b(?:ton kho|bao hanh|doi tra|khieu nai|ma don hang|don hang cua toi|bao gia chinh thuc|so dien thoai|dia chi cu the)\b/.test(normalizeQuestion(question));
         if (handoff) advice = null;
         chatbot.adviceBrief = advice ? advice.brief : null;
-        var turn = { id: ++chatbot.sequence, question: question, answers: conversation.answers,
-          response: conversation.response, products: products, advice: advice, comparison: comparison, handoff: handoff };
+        var turn = { id: ++chatbot.sequence, question: handoff ? 'Yêu cầu hỗ trợ' : question, answers: conversation.answers,
+          response: handoff ? '' : conversation.response, products: handoff ? [] : products, advice: advice,
+          comparison: comparison, comparisonArea: previousBrief && previousBrief.area,
+          contextTopic: conversation.contextTopic, handoff: handoff };
         chatbot.setState(function (state) {
           return { pending: false, question: '', turns: [turn].concat(state.turns).slice(0, 5) };
         }, function () {
           if (chatbot.body) chatbot.body.scrollTop = 0;
         });
+        if (!handoff && !comparison && !products.length && !turn.response && conversation.answers.length &&
+            !conversation.ids.some(id => id === 'quantity' || id === 'quote') &&
+            (!advice || (!advice.results.length && conversation.ids.some(id => !['interior', 'exterior', 'ceiling', 'washable'].includes(id))))) {
+          chatbot.explain(turn);
+        }
       }).catch(function () {
         if (signal.aborted) return;
         chatbot.setState({ pending: false, error: 'Chưa tải được tài liệu. Hãy thử lại hoặc liên hệ Tiến Bảo.' });
@@ -1196,7 +1170,7 @@
       var chatbot = this;
       var state = this.state;
       var contact = this.props.site.quoteUrl;
-      var canSendToAi = state.open && Boolean(paintRagEndpoint());
+      var aiEnabled = state.open && Boolean(paintRagEndpoint());
       return h('div', { id: 'hoi-dap-son', className: 'paint-chatbot' },
           h('button', { type: 'button', className: 'paint-chatbot-launch', 'aria-label': state.open ? 'Thu gọn trợ lý sơn' : 'Mở trợ lý sơn',
             'aria-expanded': state.open, 'aria-controls': 'paint-chatbot-panel',
@@ -1213,17 +1187,20 @@
             ),
             state.open && h('div', { className: 'paint-chatbot-body', ref: function (node) { chatbot.body = node; } },
               !state.turns.length && h('p', null, 'Hỏi về màu sơn, cách xử lý tường hoặc nhập tên sản phẩm cần tìm.'),
-              !state.turns.length && h('div', { className: 'project-brief-examples paint-chatbot-examples', 'aria-label': 'Câu hỏi mẫu' }, chatbotExamples.map(function (example) {
+              !state.turns.length && h('div', { className: 'paint-chatbot-examples', 'aria-label': 'Câu hỏi mẫu' }, chatbotExamples.map(function (example) {
                 return h('button', { key: example, type: 'button', disabled: state.pending,
-                  onClick: function () { chatbot.ask(example); } }, example);
+                  onClick: function () {
+                    chatbot.setState({ question: example });
+                    if (chatbot.input) chatbot.input.focus();
+                  } }, example);
               })),
               h('p', { className: 'paint-chatbot-status', role: 'status' }, state.error ||
-                (state.pending ? 'Đang tra tài liệu…' : state.turns.length ? 'Đã tra cứu xong. Kết quả mới nhất ở bên dưới.' : '')),
+                (state.pending || state.ragPending ? 'Đang đối chiếu tài liệu…' : '')),
               h('div', { className: 'paint-chatbot-turns', 'aria-label': 'Kết quả mới nhất ở trên' }, state.turns.map(function (turn) {
                 return h('article', { key: turn.id, className: 'paint-chatbot-turn' },
                   h('h3', null, turn.question),
                   turn.rag && h('div', { className: 'paint-chatbot-context' },
-                    h('h4', null, 'Giải thích thêm từ AI'),
+                    h('h4', null, 'Tư vấn từ AI'),
                     h('p', { className: 'paint-rag-answer' }, turn.rag.answer),
                     h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Nguồn AI đối chiếu' }, turn.rag.sources.flatMap(function (source) {
                       return source.links.map(function (link) {
@@ -1237,12 +1214,16 @@
                     h('p', null, 'Thông tin này cần Tiến Bảo xác nhận theo sản phẩm hoặc đơn hàng của bạn.'),
                     h('a', { href: contact }, 'Liên hệ Tiến Bảo')
                   ),
-                  turn.advice && h(AdviceCards, { advice: turn.advice, Image: chatbot.props.Image }),
-                  !turn.handoff && turn.comparison && h(ChatComparison, { items: turn.comparison, close: function () { chatbot.setState({ open: false }); } }),
+                  !turn.rag && turn.advice && h(AdviceCards, { advice: turn.advice, Image: chatbot.props.Image, compare: chatbot.compare }),
+                  !turn.handoff && turn.comparison && (turn.comparison.length ?
+                    h('button', { type: 'button', className: 'btn btn-outline',
+                      onClick: function () { chatbot.compare(turn.comparison, turn.comparisonArea); } }, 'Mở bảng so sánh ' + turn.comparison.length + ' sản phẩm') :
+                    h('p', { className: 'paint-chatbot-context' }, 'Hãy ghi tên hoặc mã của 2–3 loại sơn. Ví dụ “So sánh Jotaplast và Essence Dễ Lau Chùi”.')
+                  ),
                   !turn.comparison && turn.products.length > 0 && h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Sản phẩm khớp trong catalog' }, turn.products.map(function (match) {
                     return h('li', { key: match.href }, h('a', { href: match.href, target: '_blank', rel: 'noopener noreferrer' }, match.product.name));
                   })),
-                  !turn.handoff && !turn.comparison && (!turn.advice || !turn.advice.results.length) && turn.answers.length ? turn.answers.map(function (answer) {
+                  !turn.rag && !turn.handoff && !turn.comparison && (!turn.advice || !turn.advice.results.length) && turn.answers.length ? turn.answers.map(function (answer) {
                     var action = chatbotActions[answer.action] || ['Nhờ Tiến Bảo tư vấn', contact];
                     return h('div', { key: answer.id, className: 'paint-chatbot-answer' },
                       h('h4', null, answer.title),
@@ -1260,21 +1241,10 @@
                         if (action[1].startsWith('#')) chatbot.setState({ open: false });
                       } }, action[0])
                     );
-                  }) : !turn.handoff && !turn.comparison && !turn.products.length && !turn.advice && h('div', { className: 'paint-chatbot-answer' },
+                  }) : !turn.rag && !turn.handoff && !turn.comparison && !turn.products.length && !turn.advice && h('div', { className: 'paint-chatbot-answer' },
                     h('p', null, 'Chưa có tài liệu khớp câu hỏi. Hãy thêm khu vực sơn và tình trạng bề mặt hoặc gửi ảnh để cửa hàng xem giúp.'),
                     h('a', { className: 'paint-chatbot-next', href: contact }, 'Nhờ Tiến Bảo tư vấn')
-                  ),
-                  canSendToAi && turn === state.turns[0] && !turn.rag && !turn.advice && !turn.comparison && !turn.handoff && turn.answers.length > 0 &&
-                    !turn.answers.some(function (answer) { return answer.id === 'quantity' || answer.id === 'quote'; }) &&
-                    h('div', { className: 'paint-chatbot-note' },
-                      state.ragPending === turn.id ?
-                        h('button', { type: 'button', className: 'btn btn-outline', onClick: function () { chatbot.stopExplanation(); } }, 'Dừng chờ AI') :
-                        h('button', { type: 'button', className: 'btn btn-outline', disabled: Boolean(state.ragPending),
-                          onClick: function () { chatbot.explain(turn); } }, 'Gửi câu này tới AI'),
-                      state.ragPending === turn.id && h('p', { role: 'status' }, 'Đang đối chiếu tài liệu kỹ thuật…'),
-                      h('p', null, 'Chỉ câu hỏi này được gửi tới Cloudflare. Bạn không cần nhập thông tin liên hệ.'),
-                      state.ragError === turn.id && h('p', { role: 'status' }, 'AI chưa trả lời được. Bạn vẫn có thể dùng hướng dẫn và nguồn ở trên.')
-                    )
+                  )
                 );
               }))
             ),
@@ -1282,21 +1252,21 @@
               h('form', { onSubmit: function (event) { event.preventDefault(); chatbot.ask(state.question); } },
                 h('div', { className: 'paint-chatbot-input' },
                   h('input', { type: 'text', maxLength: 500, required: true, 'aria-label': 'Câu hỏi của bạn',
-                    placeholder: 'Nhập câu hỏi hoặc mã sơn…', value: state.question,
+                    ref: function (node) { chatbot.input = node; },
+                    placeholder: 'Nhập câu hỏi hoặc mã sơn…', value: state.question, 'aria-describedby': aiEnabled ? 'chat-paint-privacy' : undefined,
                     readOnly: state.pending, onChange: function (event) { chatbot.setState({ question: event.target.value }); } }),
-                  h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, 'Gửi')
+                  h('button', { type: 'submit', className: 'btn btn-red', disabled: state.pending }, aiEnabled ? 'Gửi AI' : 'Gửi')
                 )
               ),
+              aiEnabled && h('small', { className: 'paint-ai-notice', id: 'chat-paint-privacy' }, aiNotice),
               h('div', { className: 'paint-chatbot-contact' },
                 state.turns.length > 0 && h('button', { type: 'button', disabled: state.pending, onClick: function () {
                   chatbot.conversation = null;
                   chatbot.adviceBrief = null;
-                  if (chatbot.ragController) chatbot.ragController.abort();
-                  chatbot.ragController = null;
-                  chatbot.setState({ turns: [], question: '', error: '', ragPending: null, ragError: null });
+                  chatbot.stopExplanation();
+                  chatbot.setState({ turns: [], question: '', error: '' });
                 } }, 'Câu hỏi mới'),
-                h('a', { href: 'tel:' + this.props.site.hotline }, 'Gọi'),
-                h('a', { href: 'https://zalo.me/' + this.props.site.zalo, target: '_blank', rel: 'noopener' }, 'Zalo'),
+                state.ragPending && h('button', { type: 'button', onClick: function () { chatbot.stopExplanation(); } }, 'Dừng chờ AI'),
                 h('button', { type: 'button', onClick: function () { chatbot.setState({ open: false }); chatbot.props.onQuote(); } }, 'Nhận báo giá')
               )
             )
@@ -1311,7 +1281,7 @@
     ProjectGallery: ProjectGallery,
     PaintChatbot: PaintChatbot,
     PaintChatEntry: PaintChatEntry,
-    openPaintChat: openPaintChat,
+    readProject: readProject,
     findPaintAnswers: findPaintAnswers,
     paintConversation: paintConversation,
     searchCatalog: searchCatalog,

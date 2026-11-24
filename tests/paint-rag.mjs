@@ -27,6 +27,8 @@ assert(chalk.some(topic => topic.id === 'repaint' && topic.sources.includes('rep
 assert.equal(relatedAdvice({ id: 'salt' }, ['salt', 'seepage', 'repaint']).id, 'primer');
 assert(!retrieve('Tường bị phấn hóa nhưng không bị thấm').some(topic => topic.id === 'seepage'));
 assert.equal(retrieve('Kết quả bóng đá tối nay').length, 0);
+assert.equal(retrieve('Kết quả bóng đá tối nay', 'chalk').length, 0);
+assert(retrieve('Vậy phải làm gì tiếp theo?', 'chalk').some(topic => topic.id === 'chalk'));
 const success = await worker.fetch(request('Tường mặt tiền bị phấn hóa'), env);
 assert.equal(success.status, 200);
 assert.equal(success.headers.get('Access-Control-Allow-Origin'), origin);
@@ -38,6 +40,13 @@ assert.equal((await worker.fetch(request('x'.repeat(5000)), env)).status, 400);
 assert.equal((await worker.fetch(request('phấn hóa', { headers: { ...headers, Origin: 'https://example.org' } }), env)).status, 403);
 assert.equal((await worker.fetch(request('phấn hóa'), { ...env, PAINT_RATE: { limit: async () => ({ success: false }) } })).status, 429);
 assert.equal(generationCalls, 1, 'invalid or rate limited requests must not reach the model');
+const followUp = request('', { body: JSON.stringify({ question: 'Vậy phải làm gì tiếp theo?', topic: 'chalk' }) });
+const contextEnv = { ...env, AI: { run: async (_model, options) => {
+  assert.match(options.messages[1].content, /Chủ đề trước đó: Màng sơn bị bột phấn/);
+  return { response: 'Kiểm tra phấn hóa [1].' };
+} } };
+assert.equal((await worker.fetch(followUp, contextEnv)).status, 200);
+assert.equal((await worker.fetch(request('', { body: JSON.stringify({ question: 'Vậy thì sao?', topic: 'unknown-topic' }) }), env)).status, 400);
 
 const noSources = { ...env, AI: { run: async () => ({ response: 'Tham khảo ở [9].' }) } };
 assert.equal((await worker.fetch(request('phấn hóa'), noSources)).status, 422);

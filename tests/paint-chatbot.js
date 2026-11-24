@@ -18,7 +18,7 @@ async function main() {
     window: {},
     React: { Component, createElement() {} },
     AbortController,
-    URL,
+    URL, setTimeout, clearTimeout,
     async fetch(url, options) {
       requests.push({ url, options });
       if (requests.length === 1) return { ok: false };
@@ -122,7 +122,35 @@ async function main() {
   assert.equal((await latest('Sơn Essence có đổi trả không?')).handoff, true);
   assert.equal(requests.length, 2, 'successful knowledge load must be reused');
   assert(requests.every(request => request.url === 'paint-chatbot-knowledge.json?v=3' && !request.options.body),
-    'chat text must not be sent to a server');
+    'the local fallback must work without an AI endpoint');
+
+  const remote = [];
+  const endpoint = 'https://paint.test/ask';
+  context.document = { querySelector: () => ({ content: endpoint }) };
+  context.fetch = async (url, options) => {
+    assert.equal(url, endpoint);
+    const body = JSON.parse(options.body);
+    remote.push(body);
+    if (body.topic) return { ok: false, status: 429 };
+    return { ok: true, json: async () => ({
+      answer: 'Kiểm tra nền tường theo nguồn [1].',
+      sources: [{ number: 1, links: [knowledge.sources.chalk] }]
+    }) };
+  };
+  await chatbot.ask('Tường bị phấn hóa thì xử lý thế nào?');
+  await new Promise(setImmediate);
+  assert.equal(remote.length, 1, 'the first submit should reach AI without a second click');
+  assert.match(chatbot.state.turns[0].rag.answer, /\[1\]/);
+  await chatbot.ask('Vậy có cần sơn lót không?');
+  await new Promise(setImmediate);
+  assert.deepEqual(remote[1], { question: 'Vậy có cần sơn lót không?', topic: 'chalk' });
+  assert(chatbot.state.turns[0].answers.length > 0 && !chatbot.state.turns[0].rag, 'rate limits keep the sourced answer');
+  assert(!chatbot.state.ragPending);
+  assert.equal((await latest('Tường bị phấn hóa, liên hệ 0913 712 195')).question, 'Yêu cầu hỗ trợ');
+  await latest('Sơn nội thất 40 m² dưới 2 triệu');
+  await latest('So sánh Jotaplast và Essence Dễ Lau Chùi');
+  await latest('80 m² cần bao nhiêu lít?');
+  assert.equal(remote.length, 2, 'contact details, budgets, comparisons and calculations stay in the browser');
   console.log('Paint chatbot checks passed: sources, retrieval, fallback, retry and local queries.');
 }
 

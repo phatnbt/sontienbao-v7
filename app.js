@@ -178,7 +178,7 @@
     closeOnEscape(e){if(e.key==='Escape')this.setState({menu:false,search:false});}
     go(id){this.setState({menu:false});scrollToId(id);}
     quote(){this.setState({menu:false});this.props.onQuote();}
-    render(){var d=this.props.data,nav=[['Sản phẩm','products'],['Chọn sơn','chon-son'],['Bảng màu','colors'],['Tính lượng sơn','calculator']];return h('div',{className:'header-layer'},
+    render(){var d=this.props.data,nav=[['Sản phẩm','products'],['So sánh','chon-son'],['Bảng màu','colors'],['Tính lượng sơn','calculator']];return h('div',{className:'header-layer'},
       h('header',{className:'site-header'},h('div',{className:'header-inner'},
         h('a',{className:'brand-lockup',href:'#top','aria-label':'Sơn Tiến Bảo - Trang chủ'},h('img',{src:asset(d.site.logo),alt:'Logo Sơn Tiến Bảo'}),h('span',null,h('b',null,'SƠN TIẾN BẢO'),h('small',null,'Sơn chính hãng'))),
         h('nav',{className:'desktop-nav','aria-label':'Điều hướng chính'},nav.map(x=>h('button',{key:x[0],onClick:()=>this.go(x[1])},x[0])),h('a',{href:d.site.priceUrl},'Bảng giá')),
@@ -233,7 +233,6 @@
           h('h1',null,d.hero.title,h('br'),h('em',null,d.hero.titleAccent)),
           h('p',{className:'hero-lead'},d.hero.lead),
           h(window.STB_SHOPPING.PaintChatEntry),
-          h('div',{className:'hero-actions'},h('a',{className:'btn btn-glass',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));}))
         ),
         h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,srcSet:responsive?'assets/category-interior-480.webp 480w, assets/category-interior-960.webp 960w, assets/category-interior-2026.webp 1536w':undefined,sizes:responsive?'(max-width:900px) calc(100vw - 32px), (max-width:1440px) 47vw, 660px':undefined,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
@@ -755,8 +754,7 @@
     return h('section',{className:'section faq-section',id:'faq'},
       h('div',{className:'container'},
         h(SectionHead,{eyebrow:'FAQ',title:'Câu hỏi thường gặp'}),
-        h('div',{className:'faq-list'},p.items.map(function(x){return h('details',{key:x.id},h('summary',null,x.question,h('span',null,h(Icon,{name:'plus'}))),h('p',null,x.answer));})),
-        h('button',{type:'button',className:'btn btn-outline faq-paint-advice',onClick:function(){window.STB_SHOPPING.openPaintChat();}},'Hỏi thêm về sơn',h(Icon,{name:'message'}))
+        h('div',{className:'faq-list'},p.items.map(function(x){return h('details',{key:x.id},h('summary',null,x.question,h('span',null,h(Icon,{name:'plus'}))),h('p',null,x.answer));}))
       )
     );
   }
@@ -778,7 +776,7 @@
     return h('section',{className:'final-cta'},
       h('div',{className:'container final-inner'},
         h('div',null,h('span',{className:'section-kicker light'},'CẦN TƯ VẤN?'),h('h2',null,'Chưa chắc nên chọn loại sơn nào?'),h('p',null,'Cho Tiến Bảo biết diện tích và nhu cầu, hệ thống sẽ giúp bạn đi từ lựa chọn đến báo giá.')),
-        h('div',{className:'final-actions'},h(Btn,{kind:'red',onClick:function(){scrollToId('calculator')}},h(Icon,{name:'calculator'}),'Tính lượng sơn'),h(Btn,{kind:'white',onClick:p.onQuote},h(Icon,{name:'fileText'}),'Nhận báo giá'))
+        h('div',{className:'final-actions'},h(Btn,{kind:'white',onClick:p.onQuote},h(Icon,{name:'fileText'}),'Nhận báo giá'))
       )
     );
   }

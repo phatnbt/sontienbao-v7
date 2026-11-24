@@ -1,6 +1,6 @@
 # API tư vấn sơn theo lượt hỏi
 
-Landing page có hai chế độ. Trợ lý mặc định tra cứu bản kiến thức công khai trong trình duyệt. Khi kết nối Worker, khách có thể chủ động gửi câu hỏi cần giải thích thêm. Hướng dẫn có nguồn và phép tính định mức tiếp tục có sẵn khi Worker hết hạn mức hoặc không phản hồi.
+Khi khách bấm **Hỏi AI** hoặc **Gửi AI**, trợ lý phân loại câu hỏi. Câu hỏi kỹ thuật khớp tài liệu được gửi tới Qwen qua Worker ngay sau khi tra cứu tại chỗ. Kết quả AI kèm nguồn thay cho phần hướng dẫn cùng nội dung. Phần hướng dẫn có nguồn vẫn dùng được nếu Worker hết hạn mức, lỗi hoặc khách bấm **Dừng chờ AI**. Tra giá, dự toán và so sánh sản phẩm do trình duyệt xử lý trực tiếp từ catalog.
 
 Worker vận dụng cách chuẩn hóa tiếng Việt, hợp nhất thứ hạng và chuyển ca thiếu nguồn sang nhân viên từ repo nội bộ `son-tien-bao-chatbot` (`retrieval-ranking.ts` và `advisor-context.service.ts`). Bản public tìm tối đa ba chủ đề trong `paint-chatbot-knowledge.json`. Sau khi khớp chủ đề chính, Worker có thể đi theo quan hệ đã biên tập trong `worker.mjs` để tìm thêm một chủ đề có nguồn, ví dụ từ phấn hóa đến chuẩn bị tường cũ. Qwen tổng hợp dựa trên các đoạn được truy xuất. Worker đối chiếu số trích dẫn với tài liệu đã biên tập trước khi trả về.
 
@@ -17,6 +17,6 @@ Cloudflare Workers AI cấp 10.000 Neurons mỗi ngày trên Workers Free theo t
 3. Đặt URL HTTPS của Worker kèm `/ask` vào thẻ `stb-paint-rag` trong `index.html`. Thêm **origin chính xác** của Worker vào `connect-src` của CSP rồi triển khai landing page. Để trống thẻ này để tắt gửi câu hỏi ra ngoài.
 4. Thử gửi một câu có nguồn, chẳng hạn “Mặt tiền cũ bị phấn hóa thì làm gì?”. Kiểm tra nguồn đi kèm, sau đó thử lại khi tắt Worker để xác nhận hướng dẫn cục bộ vẫn dùng được.
 
-Chỉ đưa tài liệu được phép công khai vào tệp dữ liệu. Khi khách bấm **Gửi câu này tới AI**, chỉ câu hỏi đó được gửi. Worker từ chối một số dấu hiệu thông tin liên hệ hoặc yêu cầu kiểm tra đơn. Nội dung gửi tới Cloudflare cần tránh dữ liệu cá nhân. Giới hạn theo IP của Cloudflare là tương đối theo từng điểm mạng; hạn mức Free của nhà cung cấp là giới hạn chi phí cho mô hình.
+Chỉ đưa tài liệu được phép công khai vào tệp dữ liệu. Worker nhận câu hỏi hiện tại và có thể nhận thêm mã chủ đề kỹ thuật ở lượt trước để hiểu câu hỏi nối tiếp. Lịch sử chat, diện tích, ngân sách đã lưu và dữ liệu báo giá không được gửi kèm. Trình duyệt chuyển các câu hỏi có dấu hiệu thông tin liên hệ hoặc yêu cầu kiểm tra đơn sang kênh hỗ trợ. Worker kiểm tra lại trước khi gọi Qwen. Giới hạn theo IP của Cloudflare là tương đối theo từng điểm mạng; hạn mức Free của nhà cung cấp là giới hạn chi phí cho mô hình.
 
 Chạy `node tests/paint-rag.mjs` để kiểm tra API bằng binding giả lập. Chạy `npx --yes wrangler@4 deploy --dry-run --config paint-rag/wrangler.jsonc` để kiểm tra đóng gói mà không xuất bản.
