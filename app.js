@@ -168,7 +168,7 @@
     h(Footer,{data:d}),
     h(BackToTop),
     h(MobileActionBar,{data:d,onQuote:props.onQuote}),
-    h(window.STB_SHOPPING.PaintChatbot,{site:d.site,products:products,onQuote:props.onQuote,icon:h(Icon,{name:'message'})})
+    h(window.STB_SHOPPING.PaintChatbot,{site:d.site,products:products,Image:SmartImage,onQuote:props.onQuote,icon:h(Icon,{name:'message'})})
   );}
 
   class Header extends React.Component{
@@ -232,7 +232,8 @@
           h('div',{className:'eyebrow'},h('i',null),d.hero.eyebrow),
           h('h1',null,d.hero.title,h('br'),h('em',null,d.hero.titleAccent)),
           h('p',{className:'hero-lead'},d.hero.lead),
-          h('div',{className:'hero-actions'},h('a',{className:'btn btn-red',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
+          h(window.STB_SHOPPING.PaintChatEntry),
+          h('div',{className:'hero-actions'},h('a',{className:'btn btn-glass',href:'#chon-son'},d.hero.primaryCta||'Chọn sơn theo nhu cầu'),h('a',{className:'btn btn-glass',href:'#calculator'},h(Icon,{name:'calculator'}),d.hero.secondaryCta||'Tính lượng sơn')),
           h('div',{className:'trust-row'},trust.map(function(x,i){return h('div',{className:'trust-item',key:i},h('span',{className:'trust-mark'},h(Icon,{name:i%2?'shieldCheck':'check'})),h('b',null,x.value),h('small',null,x.label));}))
         ),
         h('div',{className:'hero-visual hero-sequence-stage'},h(SmartImage,{src:d.hero.image,srcSet:responsive?'assets/category-interior-480.webp 480w, assets/category-interior-960.webp 960w, assets/category-interior-2026.webp 1536w':undefined,sizes:responsive?'(max-width:900px) calc(100vw - 32px), (max-width:1440px) 47vw, 660px':undefined,alt:'Không gian phòng khách hiện đại với tường sơn màu kem',width:1536,height:1024,loading:'eager',fetchPriority:'high'}),h('div',{className:'hero-proof-card'},h('span',{className:'proof-icon'},h(Icon,{name:'shieldCheck'})),h('div',null,h('b',null,'Chọn sơn có cơ sở'),h('small',null,'Theo bề mặt · độ phủ · quy cách'))))
@@ -754,7 +755,8 @@
     return h('section',{className:'section faq-section',id:'faq'},
       h('div',{className:'container'},
         h(SectionHead,{eyebrow:'FAQ',title:'Câu hỏi thường gặp'}),
-        h('div',{className:'faq-list'},p.items.map(function(x){return h('details',{key:x.id},h('summary',null,x.question,h('span',null,h(Icon,{name:'plus'}))),h('p',null,x.answer));}))
+        h('div',{className:'faq-list'},p.items.map(function(x){return h('details',{key:x.id},h('summary',null,x.question,h('span',null,h(Icon,{name:'plus'}))),h('p',null,x.answer));})),
+        h('button',{type:'button',className:'btn btn-outline faq-paint-advice',onClick:function(){window.STB_SHOPPING.openPaintChat();}},'Hỏi thêm về sơn',h(Icon,{name:'message'}))
       )
     );
   }

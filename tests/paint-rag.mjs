@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import worker, { retrieve } from '../paint-rag/worker.mjs';
+import worker, { relatedAdvice, retrieve } from '../paint-rag/worker.mjs';
 
 const origin = 'https://sontienbao-v7.vercel.app';
 const headers = { Origin: origin, 'Content-Type': 'application/json', 'CF-Connecting-IP': '192.0.2.1' };
@@ -21,6 +21,11 @@ const env = {
 };
 
 assert.equal(retrieve('Mat tien bi phan hoa')[0].id, 'chalk');
+const chalk = retrieve('Tường bị phấn hóa');
+assert.equal(chalk[0].id, 'chalk');
+assert(chalk.some(topic => topic.id === 'repaint' && topic.sources.includes('repaint')));
+assert.equal(relatedAdvice({ id: 'salt' }, ['salt', 'seepage', 'repaint']).id, 'primer');
+assert(!retrieve('Tường bị phấn hóa nhưng không bị thấm').some(topic => topic.id === 'seepage'));
 assert.equal(retrieve('Kết quả bóng đá tối nay').length, 0);
 const success = await worker.fetch(request('Tường mặt tiền bị phấn hóa'), env);
 assert.equal(success.status, 200);

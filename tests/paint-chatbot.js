@@ -71,7 +71,17 @@ async function main() {
   const products = [
     { id: 'p100', name: 'Sơn Nippon WP 100', brand: 'NIPPON', url: 'https://sontienbao.com/wp-100-5l.html' },
     { id: 'p200', name: 'Sơn Nippon WP 200', brand: 'NIPPON', url: 'https://sontienbao.com/wp-200-5l.html' },
-    { id: 'p200-other', name: 'Nippon WP 200', brand: 'NIPPON', url: 'https://sontienbao.com/wp-200-5l.html' }
+    { id: 'p200-other', name: 'Nippon WP 200', brand: 'NIPPON', url: 'https://sontienbao.com/wp-200-5l.html' },
+    ...[
+      ['essence', 'Jotun Essence dễ lau chùi', 'interior', 550000],
+      ['jotaplast', 'Jotun Jotaplast', 'interior', 430000],
+      ['ceiling', 'Jotun Essence trắng trần chuyên dụng', 'interior', 470000],
+      ['facade', 'Jotun Tough Shield', 'exterior', 750000],
+      ['unknown', 'Sơn phủ nội thất chưa có giá', 'interior', 0]
+    ].map(([id, name, calculatorSurface, price]) => ({
+      id, name, calculatorSurface, price, coverage: 10, variants: [5], calculatorRole: 'finish',
+      url: 'https://sontienbao.com/' + id + '.html'
+    }))
   ];
   const matches = context.window.STB_SHOPPING.searchCatalog(products, 'WP200 Nippon 5 L');
   assert.equal(matches.length, 1, 'search must preserve exact numeric and pack tokens and deduplicate the link');
@@ -88,6 +98,28 @@ async function main() {
   assert.equal(chatbot.state.turns[0].answers[0].id, 'ceiling');
   await chatbot.ask('WP200 5 L giá bao nhiêu?');
   assert.equal(chatbot.state.turns[0].products[0].href, products[1].url);
+  const latest = async (question) => {
+    await chatbot.ask(question);
+    return chatbot.state.turns[0];
+  };
+  assert.match((await latest('Tư vấn chọn sơn nội thất, ngân sách 2 triệu')).advice.message, /diện tích/);
+  const suggested = (await latest('40 m²')).advice;
+  assert.equal(suggested.brief.budget, 2000000);
+  assert.equal(suggested.brief.area, 40);
+  assert.deepEqual(Array.from(suggested.results, row => row.product.id), ['jotaplast', 'essence']);
+  assert.equal(suggested.results[0].plan.cost, 860000);
+  const mandatory = (await latest('Bắt buộc dễ lau chùi và ít mùi')).advice;
+  assert.deepEqual(Array.from(mandatory.results, row => row.product.id), ['essence']);
+  assert.deepEqual(Array.from(mandatory.results[0].evidence), ['Dễ lau chùi', 'Nhẹ mùi, VOC thấp']);
+  const cheaper = (await latest('Ngân sách tối đa 1.000.000đ')).advice;
+  assert.equal(cheaper.brief.budget, 1000000);
+  assert.match(cheaper.message, /Chưa có sản phẩm đủ dữ liệu/);
+  assert.equal((await latest('Đổi sang mặt tiền')).advice.brief.area, undefined);
+  assert.match((await latest('Tư vấn nội thất 40 m² dưới 2–3 triệu')).advice.message, /tối đa bao nhiêu/);
+  const comparison = await latest('So sánh Jotaplast và Essence Dễ Lau Chùi');
+  assert.deepEqual(Array.from(comparison.comparison, item => item.product.id), ['jotaplast', 'essence']);
+  assert.equal((await latest('So sánh Jotaplast và mã không tồn tại')).comparison.length, 0);
+  assert.equal((await latest('Sơn Essence có đổi trả không?')).handoff, true);
   assert.equal(requests.length, 2, 'successful knowledge load must be reused');
   assert(requests.every(request => request.url === 'paint-chatbot-knowledge.json?v=3' && !request.options.body),
     'chat text must not be sent to a server');

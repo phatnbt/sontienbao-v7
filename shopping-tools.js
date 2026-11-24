@@ -821,6 +821,113 @@
       summary + ' Lượng này chưa cộng hao hụt. Bạn có thể nhập thêm “hao hụt 10%” nếu muốn tính theo tỷ lệ đó.';
   }
 
+  var adviceBudgetPattern = '(\\d+(?:[.,]\\d+)*)\\s*(trieu(?: dong)?|tr\\b|k\\b|nghin(?: dong)?|ngan(?: dong)?|dong\\b|vnd\\b|d\\b|₫)';
+
+  function readAdviceBudget(question) {
+    var phrase = text(question);
+    var matches = Array.from(phrase.matchAll(new RegExp(adviceBudgetPattern, 'g')));
+    if (matches.length !== 1 || /\d\s*(?:-|–|den|toi)\s*\d/.test(phrase) ||
+        /\b(?:moi|mot)\s*(?:thung|lit|m2)\b|\/\s*(?:thung|lit|m2)\b/.test(phrase)) return null;
+    if (/^\s+\d+(?:\s|$)/.test(phrase.slice(matches[0].index + matches[0][0].length))) return null;
+    var value = matches[0][1];
+    var unit = matches[0][2];
+    var multiplier = /^(?:trieu|tr)/.test(unit) ? 1000000 : /^(?:nghin|ngan|k)/.test(unit) ? 1000 : 1;
+    if (multiplier === 1 && /^\d{1,3}(?:[.,]\d{3})+$/.test(value)) value = value.replace(/[.,]/g, '');
+    var budget = Number(value.replace(',', '.')) * multiplier;
+    return Number.isSafeInteger(budget) && budget >= 1000 && budget <= 1000000000 ? budget : null;
+  }
+
+  function adviseProject(question, products, previous) {
+    var phrase = normalizeQuestion(question.replace(/²/g, '2'));
+    var startsAdvice = /\b(?:chon|tu van|goi y|nen dung|nen mua|can mua|nen son|muon son|can son)\b/.test(phrase);
+    var budget = readAdviceBudget(question);
+    var facts = readChatFacts(question);
+    var project = readProject(question);
+    var resets = /\b(?:cau hoi moi|doi chu de|cong trinh khac|phong khac)\b/.test(phrase);
+    var cancelBudget = /\b(?:bo gioi han gia|bo ngan sach|khong gioi han ngan sach)\b/.test(phrase);
+    var budgetMention = /\b(?:ngan sach|ngan quy|toi da|tam tien)\b/.test(phrase) ||
+      new RegExp(adviceBudgetPattern).test(text(question));
+    var productQuestion = /\b(?:jotun|nippon|terraco|ruby|wp\s*\d|majestic|essence|jotaplast)\b/.test(phrase);
+    var priorities = Object.keys(PAINT_PRIORITIES).filter(function (key) {
+      return PAINT_PRIORITIES[key].evidence.test(phrase);
+    });
+    var detailOnly = /^(?:(?:tuong |son )?(?:noi that|ngoai that|ngoai troi|mat tien|tran nha)|(?:dien tich |tuong rong )?\d+(?:[.,]\d+)? (?:m2|met vuong)|(?:uu tien )?(?:it mui|nhe mui|de lau chui|be mat mo|chiu mua nang))$/.test(phrase);
+    var followup = previous && !resets && (budget || cancelBudget || budgetMention || detailOnly ||
+      /^(?:doi sang|con neu|neu|uu tien|bat buoc|chi can)\b/.test(phrase));
+    if (productQuestion || (!startsAdvice && !followup && !budgetMention && !(budget && project.surface))) return null;
+    if (/\b(?:chon mau|phoi mau|mau gi|mau nao|may lit|bao nhieu lit|tinh luong|so sanh|son lot)\b/.test(phrase)) return null;
+
+    var brief = Object.assign({}, followup ? previous : {});
+    var priorSurface = brief.surface;
+    if (project.surface) {
+      brief.surface = project.surface;
+      if (priorSurface && priorSurface !== brief.surface) {
+        delete brief.area;
+        delete brief.priorities;
+        delete brief.required;
+      }
+    } else if (startsAdvice || /\b(?:doi sang|son go|kim loai|son san|nha tam|san thuong|be nuoc|son epoxy)\b/.test(phrase)) {
+      delete brief.surface;
+    }
+    if (facts.area) brief.area = facts.area;
+    else if (facts.areaUnclear || facts.floorOnly) delete brief.area;
+    if (cancelBudget) delete brief.budget;
+    else if (budget) brief.budget = budget;
+    if (priorities.length && !/\b(?:khong|chua)\b/.test(phrase)) {
+      brief.priorities = priorities;
+      brief.required = /\b(?:bat buoc|nhat dinh|phai)\b/.test(phrase);
+    }
+
+    function reply(message, results) {
+      return { brief: brief, message: message, results: results || [] };
+    }
+    if (/\b(?:tinh ca nhan cong|gom nhan cong|tron goi|ca tien tho)\b/.test(phrase)) {
+      return reply('Bạn cho mình ngân sách riêng cho sơn phủ hoặc nhờ Tiến Bảo báo giá trọn gói gồm công thợ.');
+    }
+    if (budgetMention && !budget && !cancelBudget) {
+      delete brief.budget;
+      return reply('Bạn định chi tối đa bao nhiêu cho sơn phủ? Ví dụ “ngân sách 2,5 triệu”.');
+    }
+    if (!brief.surface) return reply('Bạn muốn chọn sơn cho tường nội thất, mặt tiền hay trần nhà? Nếu có nhiều khu vực, mình sẽ xem từng khu vực.');
+    if (['waterproof', 'sport'].includes(brief.surface) ||
+        ['mold', 'cracks', 'salt', 'seepage', 'peeling', 'chalk'].includes(project.condition)) {
+      brief.surface = '';
+      return reply('Bề mặt này cần kiểm tra nền hoặc chọn hệ sơn chuyên dụng trước khi dự toán. Xem hướng dẫn bên dưới hoặc gửi ảnh cho Tiến Bảo.');
+    }
+    if (!brief.area && brief.budget) {
+      return reply('Với ngân sách ' + money(brief.budget) + ', bạn cho mình diện tích bề mặt thực cần sơn để tính số thùng. Ví dụ “40 m²”.');
+    }
+
+    var requested = brief.priorities || [];
+    var candidates = products.filter(function (product) {
+      return product.enabled !== false && isFinish(product) && matchesSurface(product, brief.surface);
+    }).map(function (product) {
+      var profile = comparisonProfile(product);
+      var points = requested.map(function (priority) { return priorityEvidence(profile, priority); });
+      var evidence = points.filter(Boolean);
+      var unknown = requested.filter(function (priority, index) { return !points[index]; });
+      var plan = estimate(product, brief.area);
+      return { product: product, href: catalogLink(product.url), profile: profile, evidence: evidence, unknown: unknown, plan: plan };
+    }).filter(function (item) {
+      return item.href && (!brief.required || !item.unknown.length) &&
+        (!brief.budget || (item.plan && item.plan.cost > 0 && item.plan.cost <= brief.budget));
+    }).sort(function (a, b) {
+      return b.evidence.length - a.evidence.length ||
+        (a.plan && a.plan.cost || Infinity) - (b.plan && b.plan.cost || Infinity) ||
+        Number(Boolean(b.profile)) - Number(Boolean(a.profile));
+    });
+    var results = candidates.filter(function (item, index) {
+      return candidates.findIndex(function (candidate) { return candidate.href === item.href; }) === index;
+    }).slice(0, 3);
+    var surface = { interior: 'tường nội thất', exterior: 'tường ngoại thất', ceiling: 'trần nội thất' }[brief.surface];
+    var summary = 'Gợi ý cho ' + surface + (brief.area ? ' · ' + brief.area + ' m²' : '') +
+      (brief.budget ? ' · tối đa ' + money(brief.budget) : '') +
+      (requested.length ? ' · ' + requested.map(function (key) { return PAINT_PRIORITIES[key].label.toLowerCase(); }).join(', ') : '') + '.';
+    if (!results.length) return reply(summary + ' Chưa có sản phẩm đủ dữ liệu để xác nhận đáp ứng các tiêu chí này. Bạn có thể điều chỉnh yêu cầu hoặc nhờ Tiến Bảo kiểm tra.');
+    return reply(summary + (brief.area ?
+      ' Chi phí tham khảo cho sơn phủ 2 lớp, cộng 10% hao hụt, theo một quy cách thùng.' : ' Nhập diện tích để xem lượng và chi phí sơn phủ.'), results);
+  }
+
   function paintConversation(question, knowledge, previous) {
     var normalized = normalizeQuestion(question);
     var answers = findPaintAnswers(question, knowledge);
@@ -864,6 +971,91 @@
   }
 
   var chatbotExamples = ['Phòng thiếu sáng chọn màu gì?', 'Chọn màu theo tuổi, mệnh', 'Tường ẩm mốc xử lý thế nào?', 'Cần bao nhiêu lít sơn?'];
+  function openPaintChat(question, submit) {
+    window.dispatchEvent(new CustomEvent('stb:open-paint-chat', { detail: { question: question, submit: submit } }));
+  }
+
+  function PaintChatEntry() {
+    return h('form', { className: 'hero-paint-advice', onSubmit: function (event) {
+      event.preventDefault();
+      var input = event.currentTarget.elements.namedItem('paint-need');
+      var question = input.value.trim();
+      if (question) openPaintChat(question, true);
+    } },
+      h('label', { htmlFor: 'hero-paint-need' }, 'Bạn cần sơn gì?'),
+      h('div', { className: 'paint-chatbot-input' },
+        h('input', { id: 'hero-paint-need', name: 'paint-need', type: 'text', maxLength: 500, required: true,
+          placeholder: 'Ví dụ: Tư vấn sơn nội thất 40 m², dưới 2 triệu' }),
+        h('button', { type: 'submit', className: 'btn btn-dark' }, 'Hỏi trợ lý')
+      )
+    );
+  }
+
+  function AdviceCards(props) {
+    var advice = props.advice;
+    return h('div', { className: 'paint-advice' },
+      h('p', { className: 'paint-chatbot-context' }, advice.message),
+      advice.results.length > 0 && h('ul', { className: 'paint-advice-cards', 'aria-label': 'Sơn phù hợp với nhu cầu' },
+        advice.results.map(function (item) {
+          var product = item.product;
+          return h('li', { key: item.href },
+            h('div', { className: 'paint-advice-product' },
+              product.image && props.Image && h(props.Image, { src: product.image, alt: '', loading: 'lazy', width: 48, height: 48 }),
+              h('div', null, h('small', null, product.brand), h('h4', null, h('a', { href: item.href,
+                target: '_blank', rel: 'noopener noreferrer' }, product.name)))
+            ),
+            h('p', null, item.evidence.length ? item.evidence.join(' · ') :
+              item.profile && item.profile.fit || comparisonPurpose(product)),
+            item.unknown.length > 0 && h('p', null, 'Cần xác nhận ' + item.unknown.map(function (key) {
+              return PAINT_PRIORITIES[key].label.toLowerCase();
+            }).join(', ')),
+            item.plan && item.plan.cost > 0 ?
+              h('p', null, h('strong', null, money(item.plan.cost)), ' · ', item.plan.packs) :
+              h('p', null, advice.brief.area ? 'Cần xác nhận giá cho diện tích này' : 'Xem giá theo quy cách trên trang sản phẩm'),
+            item.profile && h('details', null,
+              h('summary', null, 'Lưu ý và nguồn'),
+              h('p', null, item.profile.note),
+              comparisonSource(item.profile.sourceType === 'retailer' ? item.href : item.profile.source,
+                item.profile.sourceType === 'retailer' ? 'Thông tin Tiến Bảo' : 'Tài liệu kỹ thuật')
+            )
+          );
+        })
+      )
+    );
+  }
+
+  function namedComparison(question, catalog) {
+    var phrase = catalogText(question).replace(/^(?:hay |giup minh )?so sanh\s+/, '');
+    if (phrase === catalogText(question)) return null;
+    var names = phrase.replace(/\s+(?:giup minh|cho minh|loai nao).*$/, '').split(/\s+(?:va|voi|vs)\s+/);
+    if (names.length < 2 || names.length > 3 || names.some(function (name) { return name.length < 3; })) return [];
+    var items = names.map(function (name) {
+      var matches = searchCatalog(catalog, name, 2);
+      return matches.length && matches[0].href && (!matches[1] || matches[0].score > matches[1].score) ? matches[0] : null;
+    });
+    return items.every(Boolean) && new Set(items.map(function (item) { return item.href; })).size === items.length ? items : [];
+  }
+
+  function ChatComparison(props) {
+    var items = props.items;
+    if (!items.length) return h('p', { className: 'paint-chatbot-context' },
+      'Bạn ghi tên hoặc mã của 2–3 loại sơn, cách nhau bằng “và”. Ví dụ “So sánh Jotaplast và Essence Dễ Lau Chùi”.');
+    return h('div', null,
+      h('p', { className: 'paint-chatbot-context' }, 'So sánh công dụng và điểm cần lưu ý theo từng mã sơn.'),
+      h('ul', { className: 'paint-advice-cards', 'aria-label': 'Sản phẩm đang so sánh' }, items.map(function (item) {
+        var profile = comparisonProfile(item.product);
+        return h('li', { key: item.href },
+          h('h4', null, h('a', { href: item.href, target: '_blank', rel: 'noopener noreferrer' }, item.product.name)),
+          h('p', null, profile ? profile.fit : comparisonPurpose(item.product)),
+          profile && h('p', null, profile.strengths.join(' · ')),
+          h('p', null, profile ? profile.note : comparisonMissingNote(item.product)),
+          profile && comparisonSource(profile.sourceType === 'retailer' ? item.href : profile.source,
+            profile.sourceType === 'retailer' ? 'Thông tin Tiến Bảo' : 'Tài liệu kỹ thuật')
+        );
+      })),
+      h('a', { href: '#chon-son', onClick: props.close }, 'Mở bảng so sánh và tính chi phí theo diện tích')
+    );
+  }
   var chatbotActions = {
     choose: ['Mở bộ chọn sơn', '#chon-son'],
     calculate: ['Mở máy tính lượng sơn', '#calculator'],
@@ -886,8 +1078,13 @@
       this.state = { question: '', turns: [], pending: false, error: '', open: typeof location !== 'undefined' && location.hash === '#hoi-dap-son' };
       this.sequence = 0;
       this.openProject = event => {
-        if (typeof event.detail === 'string') this.setState({ question: event.detail.slice(0, 500) });
+        var question = typeof event.detail === 'string' ? event.detail : event.detail && event.detail.question;
+        var submit = event.detail && event.detail.submit;
         this.toggle(true);
+        if (typeof question === 'string') {
+          if (submit) this.ask(question);
+          else this.setState({ question: question.slice(0, 500) });
+        }
       };
     }
     componentDidMount() {
@@ -944,6 +1141,13 @@
         }
       });
     }
+    stopExplanation() {
+      if (!this.ragController) return;
+      var controller = this.ragController;
+      this.ragController = null;
+      controller.abort();
+      this.setState({ ragPending: null });
+    }
     ask(value) {
       var question = value.trim().slice(0, 500);
       if (!question || this.pending) return;
@@ -965,10 +1169,17 @@
         var namedProduct = catalogText(question).match(/\b(?:(?:jotun|nippon|terraco|ruby)\s+.+|(?:wp|ct|ea|hitex)\s+\d+[a-z]*(?:\s+.*)?)/);
         var productQuery = namedProduct && namedProduct[0]
           .replace(/\b(?:gia bao nhieu|bao gia|co tot khong|mua o dau|cho minh hoi|la gi)\b.*$/, '').trim();
+        var catalog = chatbot.props.products || [];
         var products = productQuery && productQuery.includes(' ') ?
-          searchCatalog(chatbot.props && chatbot.props.products || [], productQuery)
+          searchCatalog(catalog, productQuery)
             .filter(function (match) { return match.href; }).slice(0, 3) : [];
-        var turn = { id: ++chatbot.sequence, question: question, answers: conversation.answers, response: conversation.response, products: products };
+        var advice = adviseProject(question, catalog, chatbot.adviceBrief);
+        var comparison = namedComparison(question, catalog);
+        var handoff = /\b(?:ton kho|bao hanh|doi tra|khieu nai|don hang cua toi|bao gia chinh thuc)\b/.test(normalizeQuestion(question));
+        if (handoff) advice = null;
+        chatbot.adviceBrief = advice ? advice.brief : null;
+        var turn = { id: ++chatbot.sequence, question: question, answers: conversation.answers,
+          response: conversation.response, products: products, advice: advice, comparison: comparison, handoff: handoff };
         chatbot.setState(function (state) {
           return { pending: false, question: '', turns: [turn].concat(state.turns).slice(0, 5) };
         }, function () {
@@ -1022,10 +1233,16 @@
                     }))
                   ),
                   turn.response && h('p', { className: 'paint-chatbot-context' }, turn.response),
-                  turn.products.length > 0 && h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Sản phẩm khớp trong catalog' }, turn.products.map(function (match) {
+                  turn.handoff && h('div', { className: 'paint-chatbot-context' },
+                    h('p', null, 'Thông tin này cần Tiến Bảo xác nhận theo sản phẩm hoặc đơn hàng của bạn.'),
+                    h('a', { href: contact }, 'Liên hệ Tiến Bảo')
+                  ),
+                  turn.advice && h(AdviceCards, { advice: turn.advice, Image: chatbot.props.Image }),
+                  !turn.handoff && turn.comparison && h(ChatComparison, { items: turn.comparison, close: function () { chatbot.setState({ open: false }); } }),
+                  !turn.comparison && turn.products.length > 0 && h('ul', { className: 'paint-chatbot-sources', 'aria-label': 'Sản phẩm khớp trong catalog' }, turn.products.map(function (match) {
                     return h('li', { key: match.href }, h('a', { href: match.href, target: '_blank', rel: 'noopener noreferrer' }, match.product.name));
                   })),
-                  turn.answers.length ? turn.answers.map(function (answer) {
+                  !turn.handoff && !turn.comparison && (!turn.advice || !turn.advice.results.length) && turn.answers.length ? turn.answers.map(function (answer) {
                     var action = chatbotActions[answer.action] || ['Nhờ Tiến Bảo tư vấn', contact];
                     return h('div', { key: answer.id, className: 'paint-chatbot-answer' },
                       h('h4', null, answer.title),
@@ -1043,15 +1260,18 @@
                         if (action[1].startsWith('#')) chatbot.setState({ open: false });
                       } }, action[0])
                     );
-                  }) : !turn.products.length && h('div', { className: 'paint-chatbot-answer' },
+                  }) : !turn.handoff && !turn.comparison && !turn.products.length && !turn.advice && h('div', { className: 'paint-chatbot-answer' },
                     h('p', null, 'Chưa có tài liệu khớp câu hỏi. Hãy thêm khu vực sơn và tình trạng bề mặt hoặc gửi ảnh để cửa hàng xem giúp.'),
                     h('a', { className: 'paint-chatbot-next', href: contact }, 'Nhờ Tiến Bảo tư vấn')
                   ),
-                  canSendToAi && turn === state.turns[0] && !turn.rag && turn.answers.length > 0 &&
+                  canSendToAi && turn === state.turns[0] && !turn.rag && !turn.advice && !turn.comparison && !turn.handoff && turn.answers.length > 0 &&
                     !turn.answers.some(function (answer) { return answer.id === 'quantity' || answer.id === 'quote'; }) &&
                     h('div', { className: 'paint-chatbot-note' },
-                      h('button', { type: 'button', className: 'btn btn-outline', disabled: Boolean(state.ragPending),
-                        onClick: function () { chatbot.explain(turn); } }, state.ragPending ? 'AI đang đối chiếu…' : 'Gửi câu này tới AI'),
+                      state.ragPending === turn.id ?
+                        h('button', { type: 'button', className: 'btn btn-outline', onClick: function () { chatbot.stopExplanation(); } }, 'Dừng chờ AI') :
+                        h('button', { type: 'button', className: 'btn btn-outline', disabled: Boolean(state.ragPending),
+                          onClick: function () { chatbot.explain(turn); } }, 'Gửi câu này tới AI'),
+                      state.ragPending === turn.id && h('p', { role: 'status' }, 'Đang đối chiếu tài liệu kỹ thuật…'),
                       h('p', null, 'Chỉ câu hỏi này được gửi tới Cloudflare. Bạn không cần nhập thông tin liên hệ.'),
                       state.ragError === turn.id && h('p', { role: 'status' }, 'AI chưa trả lời được. Bạn vẫn có thể dùng hướng dẫn và nguồn ở trên.')
                     )
@@ -1070,6 +1290,7 @@
               h('div', { className: 'paint-chatbot-contact' },
                 state.turns.length > 0 && h('button', { type: 'button', disabled: state.pending, onClick: function () {
                   chatbot.conversation = null;
+                  chatbot.adviceBrief = null;
                   if (chatbot.ragController) chatbot.ragController.abort();
                   chatbot.ragController = null;
                   chatbot.setState({ turns: [], question: '', error: '', ragPending: null, ragError: null });
@@ -1089,6 +1310,8 @@
     EmailDraft: EmailDraft,
     ProjectGallery: ProjectGallery,
     PaintChatbot: PaintChatbot,
+    PaintChatEntry: PaintChatEntry,
+    openPaintChat: openPaintChat,
     findPaintAnswers: findPaintAnswers,
     paintConversation: paintConversation,
     searchCatalog: searchCatalog,
