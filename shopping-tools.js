@@ -951,7 +951,7 @@
   }
 
   var chatbotExamples = ['Gợi ý sơn nội thất 40 m² dưới 2 triệu', 'Phòng thiếu sáng chọn màu gì?', 'Tường ẩm mốc xử lý thế nào?'];
-  var aiNotice = 'Câu hỏi tư vấn kỹ thuật có thể được gửi tới Cloudflare AI. Hãy tránh nhập thông tin cá nhân.';
+  var aiNotice = 'Vui lòng tránh nhập thông tin cá nhân.';
 
   function PaintChatEntry() {
     var aiEnabled = Boolean(paintRagEndpoint());
@@ -1267,6 +1267,8 @@
                   chatbot.setState({ turns: [], question: '', error: '' });
                 } }, 'Câu hỏi mới'),
                 state.ragPending && h('button', { type: 'button', onClick: function () { chatbot.stopExplanation(); } }, 'Dừng chờ AI'),
+                h('a', { href: 'tel:' + this.props.site.hotline }, 'Gọi điện'),
+                h('a', { href: 'https://zalo.me/' + this.props.site.zalo, target: '_blank', rel: 'noopener noreferrer' }, 'Zalo'),
                 h('button', { type: 'button', onClick: function () { chatbot.setState({ open: false }); chatbot.props.onQuote(); } }, 'Nhận báo giá')
               )
             )
